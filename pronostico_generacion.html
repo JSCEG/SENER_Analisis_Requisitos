@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecciones de Generación Limpia 2025-2039 - SENER</title>
+
+    <!-- Fuentes Institucionales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Librerías -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            /* Colores Institucionales */
+            --color-gobmx-guinda: #9B2247;
+            --color-gobmx-verde: #1E5B4F;
+            --color-gobmx-dorado: #A57F2C;
+            --color-gobmx-gris: #98989A;
+            --color-gobmx-gris-claro: #E5E5E5;
+
+            /* Tipografía */
+            --font-family-headings: 'Merriweather', serif;
+            --font-family-body: 'Noto Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .main-wrapper {
+            max-width: 1400px;
+            /* Más ancho para acomodar la tabla */
+            margin: 0 auto;
+        }
+
+        .controls-area {
+            text-align: right;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .btn-export-full {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-family: var(--font-family-body);
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        .btn-export-full:hover {
+            background-color: #7a1b38;
+        }
+
+        /* Contenedor que será capturado por html2canvas */
+        #report-capture-area {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            border-bottom: 4px solid var(--color-gobmx-dorado);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logos img {
+            height: 60px;
+            margin-left: 20px;
+            /* Soporte para que html2canvas no falle con imágenes */
+            object-fit: contain;
+        }
+
+        h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+
+        h2 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-verde);
+            margin: 0;
+            font-size: 16px;
+        }
+
+        #container-chart {
+            width: 100%;
+            height: 500px;
+            /* Un poco menos alto para dar espacio a la tabla */
+            margin-bottom: 20px;
+        }
+
+        /* Estilos Tabla de Datos */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            /* Fuente pequeña para que quepan todos los años */
+            font-family: 'Noto Sans', sans-serif;
+            text-align: right;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 6px 4px;
+            border: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Primera columna (Tecnología) alineada a la izquierda */
+        .data-table td:first-child,
+        .data-table th:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background-color: white;
+            /* Para Sticky */
+            z-index: 1;
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .data-table th:first-child {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            z-index: 2;
+        }
+
+        .data-table tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        .data-table tr:hover td {
+            background-color: #f1f1f1;
+        }
+
+        /* Estilos específicos para la fila TOTAL */
+        .row-total td {
+            background-color: #e0e0e0 !important;
+            font-weight: bold;
+            border-top: 2px solid #999;
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <div class="controls-area">
+            <label for="end-year-select" style="font-size: 14px; font-weight: bold; margin-right: 10px;">Hasta el
+                año:</label>
+            <select id="end-year-select"
+                style="padding: 8px; border-radius: 4px; border: 1px solid #ddd; margin-right: 10px; font-family: var(--font-family-body);">
+                <!-- Se llena dinámicamente -->
+            </select>
+
+            <a href="index.html" class="btn-nav"
+                style="text-decoration: none; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px; color: var(--color-gobmx-guinda); font-weight: bold; font-family: var(--font-family-body); font-size: 14px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                    <path fill-rule="evenodd"
+                        d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+                </svg>
+                Inicio
+            </a>
+
+            <button id="btn-download" class="btn-export-full" onclick="downloadFullReport()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                    <path
+                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                </svg>
+                Descargar Imagen (Gráfica + Tabla)
+            </button>
+        </div>
+
+        <!-- Área de Captura -->
+        <div id="report-capture-area">
+            <header>
+                <div>
+                    <h1>Pronóstico de la Generación 2025-2039</h1>
+                    <h2 style="margin-bottom: 2px;">Subsecretaría de Planeación y Transición Energética</h2>
+                    <h3 style="margin: 0; color: var(--color-gobmx-gris); font-weight: normal; font-size: 14px;">
+                        Dirección General de Transición Energética</h3>
+                </div>
+                <div class="header-logos">
+                    <img src="img/logo_sener.png" alt="SENER">
+                    <!-- <img src="img/logo_gob.png" alt="Gobierno de México"> -->
+                </div>
+            </header>
+
+            <div id="container-chart"></div>
+
+            <!-- Contenedor de la Tabla -->
+            <div class="table-container" id="data-table-container">
+                <!-- La tabla se generará aquí con JS -->
+            </div>
+
+            <div class="footer-note">
+                <p><strong>1/</strong> Considera la proporción de 25% de H2 de los Ciclos Combinados con mezcla de CH4.
+                </p>
+                <p><strong>Nota:</strong> Generación Limpia (GWh) sin GD = Fotovoltaica + Hidroeléctrica + Eoloeléctrica
+                    + Cogeneración Eficiente + Nucleoeléctrica + Geotermoeléctrica + Bioenergía + CC-Hidrógeno /1.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos globales para acceso
+        const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039];
+        const seriesData = [
+            {
+                name: 'Fotovoltaica',
+                data: [19848.32, 20948.85, 23559.81, 35218.13, 42101.98, 50582.06, 60436.37, 65290.37, 74214.48, 70580.57, 73390.09, 79160.80, 78998.07, 88097.75, 85600.78],
+                color: '#FFD700'
+            },
+            {
+                name: 'Hidroeléctrica',
+                data: [28018.07, 31815.51, 33119.80, 33454.29, 33578.52, 33688.02, 24134.72, 36734.94, 29827.31, 33642.27, 31668.28, 29651.87, 28877.32, 35276.57, 31913.66],
+                color: '#1E5B4F'
+            },
+            {
+                name: 'Eoloeléctrica',
+                data: [22768.50, 23771.58, 25186.75, 31501.47, 39997.25, 42033.86, 44242.34, 44240.46, 49026.47, 54332.21, 57666.95, 68062.02, 71052.07, 72320.30, 89301.20],
+                color: '#17a2b8'
+            },
+            {
+                name: 'Cogeneración Eficiente',
+                data: [4045.29, 4148.40, 4148.40, 4157.73, 7237.59, 10394.90, 11019.30, 11013.31, 11013.73, 11020.60, 11020.52, 11018.62, 11020.44, 10947.12, 11018.84],
+                color: '#fd7e14'
+            },
+            {
+                name: 'Nucleoeléctrica',
+                data: [10543.81, 11182.23, 11182.27, 11209.95, 11174.68, 11158.55, 11182.29, 11175.30, 11174.13, 11182.29, 11171.44, 11171.00, 11181.56, 11170.93, 11179.97],
+                color: '#6f42c1'
+            },
+            {
+                name: 'Geotermoeléctrica',
+                data: [3632.99, 4206.80, 4206.80, 4545.47, 4648.25, 4648.28, 5221.87, 5224.34, 5220.91, 5218.78, 5218.09, 5229.14, 5227.46, 5225.32, 5222.05],
+                color: '#9B2247'
+            },
+            {
+                name: 'Bioenergía',
+                data: [544.63, 573.33, 605.63, 603.70, 597.18, 597.06, 485.63, 469.11, 467.60, 466.50, 460.79, 460.22, 459.42, 458.96, 459.00],
+                color: '#28a745'
+            },
+            {
+                name: 'CC-Hidrógeno /1',
+                data: [0.00, 0.00, 0.00, 0.00, 63.07, 63.07, 63.07, 63.07, 63.07, 63.07, 63.07, 5348.23, 6328.27, 6801.10, 7028.78],
+                color: '#007bff'
+            }
+        ];
+
+        function downloadFullReport() {
+            const element = document.getElementById('report-capture-area');
+            const btn = document.getElementById('btn-download');
+
+            // Obtener el título actual para el nombre del archivo
+            const currentTitleElement = document.querySelector('#report-capture-area h1');
+            const cleanTitle = currentTitleElement.innerText.replace(/ /g, '_').replace(/ó/g, 'o').replace(/á/g, 'a');
+
+            // Feedback visual
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Generando imagen...';
+            btn.disabled = true;
+
+            // Hacer fondo transparente temporalmente
+            const originalBg = element.style.backgroundColor;
+            element.style.backgroundColor = 'transparent';
+
+            html2canvas(element, {
+                scale: 2, // Mayor calidad
+                backgroundColor: null, // Transparente en el canvas
+                useCORS: true // Importante para imágenes externas/locales si el servidor lo permite
+            }).then(canvas => {
+                // Restaurar fondo
+                element.style.backgroundColor = originalBg;
+
+                // Crear link de descarga
+                const link = document.createElement('a');
+                link.download = `${cleanTitle}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                // Restaurar botón
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                // Restaurar fondo en caso de error
+                element.style.backgroundColor = originalBg;
+                alert('Error al generar la imagen. Por favor verifique que las imágenes (logos) sean accesibles.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        // Variable global para el gráfico
+        let currentChart = null;
+
+        function updateDashboard(endYear) {
+            const startYear = 2025;
+            const endIndex = years.indexOf(parseInt(endYear));
+
+            if (endIndex === -1) return;
+
+            // Filtrar años
+            const filteredYears = years.slice(0, endIndex + 1);
+
+            // Filtrar datos de series
+            const filteredSeries = seriesData.map(series => ({
+                ...series,
+                data: series.data.slice(0, endIndex + 1)
+            }));
+
+            // Actualizar Título
+            const titleElement = document.querySelector('#report-capture-area h1');
+            titleElement.innerText = `Pronóstico de la Generación ${startYear}-${endYear}`;
+
+            // Actualizar Gráfica
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            currentChart = Highcharts.chart('container-chart', {
+                chart: {
+                    type: 'area', // Área apilada
+                    style: { fontFamily: "'Noto Sans', sans-serif" },
+                    backgroundColor: null, // Transparente por defecto para permitir que el padre controle el fondo
+                    zoomType: 'x',
+                    marginBottom: 80, // Espacio para la leyenda
+                    events: {
+                        fullscreenOpen: function () {
+                            this.update({ chart: { backgroundColor: '#FFFFFF' } });
+                        },
+                        fullscreenClose: function () {
+                            this.update({ chart: { backgroundColor: null } });
+                        }
+                    }
+                },
+                title: { text: null },
+                subtitle: { text: null },
+                xAxis: {
+                    categories: filteredYears,
+                    tickmarkPlacement: 'on',
+                    title: { enabled: false },
+                    lineColor: '#A57F2C',
+                    lineWidth: 2,
+                    labels: { style: { fontSize: '11px' } }
+                },
+                yAxis: {
+                    title: { text: 'Generación (GWh)', style: { color: '#1E5B4F' } },
+                    labels: {
+                        formatter: function () { return this.value / 1000 + 'k'; }
+                    },
+                    gridLineColor: '#E5E5E5'
+                },
+                tooltip: {
+                    split: true,
+                    valueSuffix: ' GWh',
+                    valueDecimals: 2
+                },
+                plotOptions: {
+                    area: {
+                        stacking: 'normal',
+                        lineColor: '#666666',
+                        lineWidth: 1,
+                        marker: {
+                            lineWidth: 1,
+                            lineColor: '#666666',
+                            enabled: true,
+                            symbol: 'circle',
+                            radius: 4,
+                            states: {
+                                hover: { enabled: true }
+                            }
+                        }
+                    }
+                },
+                series: filteredSeries,
+                exporting: {
+                    enabled: true,
+                    buttons: { contextButton: { menuItems: ["viewFullscreen", "printChart", "separator", "downloadPNG", "downloadJPEG", "downloadPDF", "downloadSVG"] } }
+                },
+                credits: { enabled: false },
+                legend: {
+                    itemStyle: { fontSize: '12px', fontWeight: 'normal' }
+                }
+            });
+
+            // Actualizar Tabla
+            renderTable(filteredYears, filteredSeries);
+        }
+
+        function renderTable(displayYears, displaySeries) {
+            const container = document.getElementById('data-table-container');
+            let html = '<table class="data-table">';
+
+            // Header Row
+            html += '<thead><tr><th>Tecnología</th>';
+            displayYears.forEach(year => {
+                html += `<th>${year}</th>`;
+            });
+            html += '</tr></thead>';
+
+            // Body Rows
+            html += '<tbody>';
+
+            let totals = new Array(displayYears.length).fill(0);
+
+            displaySeries.forEach(series => {
+                html += `<tr>`;
+                // Color marker
+                html += `<td><span style="color:${series.color}; margin-right:5px;">●</span>${series.name}</td>`;
+                series.data.forEach((val, index) => {
+                    html += `<td>${val.toLocaleString('es-MX', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</td>`;
+                    totals[index] += val;
+                });
+                html += `</tr>`;
+            });
+
+            // Totals Row
+            html += '<tr class="row-total"><td>TOTAL</td>';
+            totals.forEach(total => {
+                html += `<td>${total.toLocaleString('es-MX', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</td>`;
+            });
+            html += '</tr>';
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inicializar con el último año disponible (o 2039 como era la petición original)
+            const maxYear = years[years.length - 1]; // 2039 normalmente
+            // Ojo: years = [2025... 2039]
+
+            // Poblar el selector
+            const selectInfo = document.getElementById('end-year-select');
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.text = year;
+                if (year === maxYear) option.selected = true;
+                selectInfo.appendChild(option);
+            });
+
+            // Event listener para cambios
+            selectInfo.addEventListener('change', function (e) {
+                updateDashboard(e.target.value);
+            });
+
+            // Renderizar inicial
+            updateDashboard(maxYear);
+        });
+    </script>
+</body>
+
+</html>

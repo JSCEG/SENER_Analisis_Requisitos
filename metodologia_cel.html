@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metodología de Cálculo de Requisito CEL - SENER</title>
+
+    <!-- Fuentes Institucionales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Librerías Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/treegraph.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            /* Colores Institucionales */
+            --color-gobmx-guinda: #9B2247;
+            --color-gobmx-verde: #1E5B4F;
+            --color-gobmx-dorado: #A57F2C;
+            --color-gobmx-gris: #98989A;
+            --color-gobmx-gris-claro: #E5E5E5;
+
+            /* Tipografía */
+            --font-family-headings: 'Merriweather', serif;
+            --font-family-body: 'Noto Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .main-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .controls-area {
+            text-align: right;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .btn-export-full {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-family: var(--font-family-body);
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        .btn-export-full:hover {
+            background-color: #7a1b38;
+        }
+
+        #report-capture-area {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            border-bottom: 4px solid var(--color-gobmx-dorado);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logos img {
+            height: 60px;
+            margin-left: 20px;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+
+        h2 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-verde);
+            margin: 0;
+            font-size: 16px;
+        }
+
+        #container-chart {
+            width: 100%;
+            height: 600px;
+            /* Altura para el organigrama */
+            margin-bottom: 20px;
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <div class="controls-area">
+            <a href="index.html" class="btn-nav"
+                style="text-decoration: none; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px; color: var(--color-gobmx-guinda); font-weight: bold; font-family: var(--font-family-body); font-size: 14px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                    <path fill-rule="evenodd"
+                        d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+                </svg>
+                Inicio
+            </a>
+
+            <button id="btn-download" class="btn-export-full" onclick="downloadFullReport()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                    <path
+                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                </svg>
+                Descargar Imagen
+            </button>
+        </div>
+
+        <!-- Área de Captura -->
+        <div id="report-capture-area">
+            <header>
+                <div>
+                    <h1>Metodología de Determinación del Requisito de CEL (2026-2039)</h1>
+                    <h2 style="margin-bottom: 2px;">Subsecretaría de Planeación y Transición Energética</h2>
+                    <h3 style="margin: 0; color: var(--color-gobmx-gris); font-weight: normal; font-size: 14px;">
+                        Dirección General de Transición Energética</h3>
+                </div>
+                <div class="header-logos">
+                    <img src="img/logo_sener.png" alt="SENER">
+                </div>
+            </header>
+
+            <div id="container-chart"></div>
+
+            <div class="footer-note">
+                <p><strong>Fuente:</strong> Análisis Requisitos de CEL, Puntos 2 y 3. Basado en LSE Art. 143, 188 RLSE y
+                    Transitorios.</p>
+                <p><strong>CIL:</strong> Contratos de Interconexión Legados. <strong>GD:</strong> Generación Distribuida
+                    (se excluye por incertidumbre en certificación). <strong>Almacenamiento:</strong> Excluido por Art.
+                    195 RLSE.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        Highcharts.chart('container-chart', {
+            chart: {
+                spacingBottom: 30,
+                marginRight: 100, // Espacio para tooltips
+                backgroundColor: null,
+                style: { fontFamily: "'Noto Sans', sans-serif" },
+                events: {
+                    fullscreenOpen: function () { this.update({ chart: { backgroundColor: '#FFFFFF' } }); },
+                    fullscreenClose: function () { this.update({ chart: { backgroundColor: null } }); }
+                }
+            },
+            title: { text: null },
+            credits: { enabled: false },
+            series: [{
+                type: 'treegraph',
+                keys: ['parent', 'id', 'name', 'title', 'description', 'color'],
+                clip: false,
+                data: [
+                    [undefined, 'Requisito', 'REQUISITO ANUAL (%)', 'Fórmula General', 'R = Oferta Acreditable / Demanda Obligada', '#9B2247'], // Guinda Root
+
+                    /* RAMA 1: DENOMINADOR (ABAJO - DORADO) */
+                    // Se define PRIMERO para que aparezca ABAJO (según comportamiento observado)
+                    ['Requisito', 'Denominador', 'DENOMINADOR', 'Demanda Obligada (GWh)', 'Base de consumo sujeta a obligación.', '#A57F2C'], // Dorado Institucional
+
+                    ['Denominador', 'Consumo_Total', 'Consumo Nacional', 'BASE', 'Demanda total del SEN.', '#d4a017'], // Dorado claro
+                    ['Denominador', 'Menos_CIL', '(-) Contratos Legados', 'DEDUCCIÓN', 'Energía exenta por Derechos Adquiridos.', '#9B2247'], // Guinda
+
+                    /* RAMA 2: NUMERADOR (ARRIBA - VERDE) */
+                    // Se define SEGUNDO para que aparezca ARRIBA
+                    ['Requisito', 'Numerador', 'NUMERADOR', 'Oferta Acreditable (CELs)', 'Total de Certificados disponibles en el mercado.', '#1E5B4F'],
+
+                    ['Numerador', 'Renovables', 'Renovables Nuevas', 'INCLUIDO', 'Solar, Eólica, Geotermia (Proyectos a partir de 2014).', '#28a745'], // Verde Claro
+                    ['Numerador', 'Legadas', 'Centrales Legadas', 'INCLUIDO (100%)', 'Hidroeléctrica y Nuclear de CFE (Sin restricción de fecha).', '#28a745'],
+                    ['Numerador', 'Hidrogeno', 'Hidrógeno Verde', 'PARCIAL (25%)', 'Solo la porción de H2 en mezcla con gas en Ciclos Combinados.', '#28a745'],
+
+                    ['Numerador', 'Excluidos_Num', 'Exclusiones', 'NO COMPUTAN', 'Tecnologías que no generan CELs.', '#6c757d'], // Gris
+                    ['Excluidos_Num', 'Gen_Distribuida', 'Gen. Distribuida (GD)', 'EXCLUIDO', 'Autoconsumo difícil de certificar masivamente.', '#dc3545'], // Rojo Bootstrap
+                    ['Excluidos_Num', 'Almacenamiento', 'Baterías (SAE)', 'EXCLUIDO', 'No generan energía, solo la desplazan.', '#dc3545']
+                ],
+                marker: {
+                    symbol: 'rect',
+                    width: 190, // Match the HTML content width
+                    height: 70
+                },
+                dataLabels: {
+                    align: 'center',
+                    style: {
+                        fontFamily: "'Noto Sans', sans-serif",
+                        color: 'white',
+                        textOutline: 'none',
+                        width: 180, // Allow more width
+                        textOverflow: 'none', // Prevent ellipsis
+                        whiteSpace: 'normal' // Allow wrapping
+                    },
+                    useHTML: true,
+                    nodeFormatter: function () {
+                        const width = 190;
+                        const height = 70;
+                        const bgColor = this.point.color;
+                        return `
+                            <div style="
+                                width: ${width}px;
+                                height: ${height}px;
+                                background-color: ${bgColor};
+                                border-radius: 20px; /* Bordes más redondos */
+                                padding: 8px;
+                                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                                color: white;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                text-align: center;
+                                font-family: 'Noto Sans', sans-serif;
+                                box-sizing: border-box;
+                            ">
+                                ${this.point.title ? `<span style="font-size: 10px; text-transform: uppercase; margin-bottom: 4px; opacity: 0.9; letter-spacing: 0.5px;">${this.point.title}</span>` : ''}
+                                <span style="font-size: 12px; font-weight: bold; line-height: 1.2;">${this.point.name}</span>
+                            </div>
+                        `;
+                    }
+                }
+            }],
+            tooltip: {
+                useHTML: true,
+                formatter: function () {
+                    return `<b>${this.point.name}</b><br/><span style="font-size:10px">${this.point.description}</span>`;
+                }
+            },
+            exporting: { enabled: true }
+        });
+
+        function downloadFullReport() {
+            const element = document.getElementById('report-capture-area');
+            const btn = document.getElementById('btn-download');
+
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Generando imagen...';
+            btn.disabled = true;
+
+            const originalBg = element.style.backgroundColor;
+            element.style.backgroundColor = 'transparent';
+
+            html2canvas(element, { scale: 2, backgroundColor: null, useCORS: true }).then(canvas => {
+                element.style.backgroundColor = originalBg;
+                const link = document.createElement('a');
+                link.download = 'Metodologia_CEL_Treegraph.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                element.style.backgroundColor = originalBg;
+                alert('Error al generar la imagen.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+
+</html>

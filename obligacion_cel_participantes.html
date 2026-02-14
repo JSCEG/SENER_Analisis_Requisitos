@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obligación de CEL por Participante Obligado 2025-2039 - SENER</title>
+
+    <!-- Fuentes Institucionales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Librerías -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            /* Colores Institucionales */
+            --color-gobmx-guinda: #9B2247;
+            --color-gobmx-verde: #1E5B4F;
+            --color-gobmx-dorado: #A57F2C;
+            --color-gobmx-gris: #98989A;
+            --color-gobmx-gris-claro: #E5E5E5;
+
+            /* Tipografía */
+            --font-family-headings: 'Merriweather', serif;
+            --font-family-body: 'Noto Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .main-wrapper {
+            max-width: 1600px;
+            /* Wider for detailed table */
+            margin: 0 auto;
+        }
+
+        .controls-area {
+            text-align: right;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .btn-export-full {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-family: var(--font-family-body);
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        .btn-export-full:hover {
+            background-color: #7a1b38;
+        }
+
+        #report-capture-area {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            border-bottom: 4px solid var(--color-gobmx-dorado);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logos img {
+            height: 60px;
+            margin-left: 20px;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+
+        h2 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-verde);
+            margin: 0;
+            font-size: 16px;
+        }
+
+        #container-chart {
+            width: 100%;
+            height: 600px;
+            margin-bottom: 20px;
+        }
+
+        .table-section-title {
+            background-color: #004d73;
+            /* Azul oscuro corporativo */
+            color: white;
+            padding: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 20px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+            /* Smaller font for many columns */
+            font-family: 'Noto Sans', sans-serif;
+            text-align: right;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 4px 2px;
+            border: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #004d73;
+            /* Azul oscuro para headers */
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .data-table td:first-child,
+        .data-table th:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background-color: white;
+            z-index: 1;
+            font-weight: bold;
+            min-width: 200px;
+        }
+
+        /* Sticky header fix for first col */
+        .data-table th:first-child {
+            background-color: #004d73;
+            z-index: 2;
+        }
+
+
+        .data-table tr:nth-child(even) td {
+            background-color: #f0f8ff;
+            /* Azul muy claro */
+        }
+
+        .data-table tr.total-row td {
+            background-color: #e0e0e0;
+            font-weight: bold;
+            border-top: 2px solid #666;
+        }
+
+        .requisito-row td {
+            background-color: #fffae6 !important;
+            /* Amarillo claro para destacar */
+            font-weight: bold;
+            color: #A57F2C;
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: #666;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .formula-box {
+            background-color: #f1f8e9;
+            border: 1px solid #c8e6c9;
+            padding: 10px;
+            border-radius: 4px;
+            flex: 1;
+            min-width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <div class="controls-area">
+            <label for="end-year-select" style="font-size: 14px; font-weight: bold; margin-right: 10px;">Hasta el
+                año:</label>
+            <select id="end-year-select"
+                style="padding: 8px; border-radius: 4px; border: 1px solid #ddd; margin-right: 10px; font-family: var(--font-family-body);">
+                <!-- Se llena dinámicamente -->
+            </select>
+
+            <a href="index.html" class="btn-nav"
+                style="text-decoration: none; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px; color: var(--color-gobmx-guinda); font-weight: bold; font-family: var(--font-family-body); font-size: 14px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                    <path fill-rule="evenodd"
+                        d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+                </svg>
+                Inicio
+            </a>
+
+            <button id="btn-download" class="btn-export-full" onclick="downloadFullReport()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                    <path
+                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                </svg>
+                Descargar Imagen (Gráfica + Tablas)
+            </button>
+        </div>
+
+        <!-- Área de Captura -->
+        <div id="report-capture-area">
+            <header>
+                <div>
+                    <h1>Obligación de CEL por Participante Obligado 2025-2039</h1>
+                    <h2 style="margin-bottom: 2px;">Subsecretaría de Planeación y Transición Energética</h2>
+                    <h3 style="margin: 0; color: var(--color-gobmx-gris); font-weight: normal; font-size: 14px;">
+                        Dirección General de Transición Energética</h3>
+                    <h4 style="margin: 5px 0 0 0; font-size: 14px; font-weight: normal; color: #555;">Comparativo de
+                        Consumo y Obligación según el Requisito Oficial</h4>
+                </div>
+                <div class="header-logos">
+                    <img src="img/logo_sener.png" alt="SENER">
+                </div>
+            </header>
+
+            <div id="container-chart"></div>
+
+            <!-- Tabla 1: Consumo -->
+            <div class="table-section-title">Consumo de Participantes Obligados (GWh)</div>
+            <div class="table-container" id="consumption-table-container"></div>
+
+            <!-- Tabla 2: Requisito -->
+            <div class="table-container" id="requisito-table-container"></div>
+
+            <!-- Tabla 3: Obligación -->
+            <div class="table-section-title">Obligación de CEL de Participantes Obligados de Acuerdo al Requisito (Total
+                de Certificados)</div>
+            <div class="table-container" id="obligation-table-container"></div>
+
+            <div class="footer-note">
+                <div class="formula-box">
+                    <strong>Consideraciones:</strong><br>
+                    1 CEL = 1 MWh de Energía Limpia<br>
+                    1 GWh = 1,000 MWh = 1,000 CELs
+                </div>
+                <div class="formula-box">
+                    <strong>Fórmula de Cálculo:</strong><br>
+                    Obligación (CELs) = Consumo (GWh) × 1,000 × % Requisito
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Configuration
+        const startYearBase = 2025;
+        const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039];
+
+        // 1. Consumption Data (GWh) - Transcribed from Image
+        const consumptionData = {
+            basico: [236971.9539, 246631.4562, 255970.1241, 265091.4955, 273201.2106, 281540.9495, 286526.7572, 291734.9936, 296639.7966, 302127.8068, 307776.7671, 313537.8932, 319765.9039, 326207.0753, 332581.4944],
+            cfeCalificado: [13000.0000, 13800.6214, 14721.3977, 15610.5045, 16739.1393, 17929.9918, 18620.9126, 19659.2191, 20482.0180, 21739.2073, 22807.9925, 23820.9329, 25202.7817, 26510.3603, 27633.6400],
+            suministradores: [29500.0000, 30432.1395, 31311.7408, 32012.2612, 33081.2299, 34646.0465, 35174.1834, 36573.1802, 37238.0790, 38917.1938, 40200.4326, 41334.2478, 43049.5185, 44572.2013, 45007.9537]
+        };
+
+        // 2. Requisito Data (%) - Precise
+        const requisitoData = [31.9894, 33.2268, 33.7789, 38.5946, 43.1793, 45.8414, 46.0704, 50.0653, 51.0802, 51.4097, 52.4992, 55.4803, 55.2154, 57.9673, 59.6517];
+
+        // 3. Meta PRODESEN (%)
+        const metaProdesenData = [24.32, 24.32, 24.32, 24.32, 24.32, 38, null, null, null, null, null, null, null, null, null];
+
+        let currentChart = null;
+
+        function getFilteredData(endYear) {
+            const endIndex = years.indexOf(parseInt(endYear));
+            if (endIndex === -1) return null;
+
+            const filteredYears = years.slice(0, endIndex + 1);
+            const filteredRequisito = requisitoData.slice(0, endIndex + 1);
+            const filteredMeta = metaProdesenData.slice(0, endIndex + 1);
+
+            // Filter Consumption
+            const filteredCons = {
+                basico: consumptionData.basico.slice(0, endIndex + 1),
+                cfeCalificado: consumptionData.cfeCalificado.slice(0, endIndex + 1),
+                suministradores: consumptionData.suministradores.slice(0, endIndex + 1)
+            };
+
+            // Calculate Obligations (Multiply by 1000 to correct unit to CELs, GWh * 1000 = MWh = CEL)
+            const filteredObl = {
+                basico: [],
+                cfeCalificado: [],
+                suministradores: [],
+                total: []
+            };
+
+            const filteredTotalCons = [];
+
+            filteredYears.forEach((y, i) => {
+                const reqPercent = filteredRequisito[i] / 100;
+
+                const cBasico = filteredCons.basico[i];
+                const cCFE = filteredCons.cfeCalificado[i];
+                const cSum = filteredCons.suministradores[i];
+                const cTotal = cBasico + cCFE + cSum;
+                filteredTotalCons.push(cTotal);
+
+                // Obligation in CELs (not GWh)
+                const obBasico = cBasico * 1000 * reqPercent;
+                const obCFE = cCFE * 1000 * reqPercent;
+                const obSum = cSum * 1000 * reqPercent;
+                const obTotal = obBasico + obCFE + obSum;
+
+                filteredObl.basico.push(obBasico);
+                filteredObl.cfeCalificado.push(obCFE);
+                filteredObl.suministradores.push(obSum);
+                filteredObl.total.push(obTotal);
+            });
+
+            return {
+                years: filteredYears,
+                requisito: filteredRequisito,
+                meta: filteredMeta,
+                consumption: filteredCons,
+                totalConsumption: filteredTotalCons,
+                obligation: filteredObl
+            };
+        }
+
+        function formatNumber(num, fractionDigits = 2) {
+            return num.toLocaleString('es-MX', { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits });
+        }
+
+        function renderRow(label, dataArray, isPercentage = false, cssClass = '', isObligation = false) {
+            // isObligation just controls format (maybe 0 decimals for large CEL numbers)
+            let html = `<tr class="${cssClass}"><td>${label}</td>`;
+            dataArray.forEach(val => {
+                const suffix = isPercentage ? '%' : '';
+                // If displaying CELs (large numbers), maybe use less decimals
+                const decimals = isObligation ? 0 : 2;
+                html += `<td>${formatNumber(val, isPercentage ? 4 : decimals)}${suffix}</td>`;
+            });
+            html += '</tr>';
+            return html;
+        }
+
+        function renderTables(data) {
+            // Table 1: Consumption
+            let htmlCons = '<table class="data-table"><thead><tr><th>Consumo de Participantes Obligados (GWh)</th>';
+            data.years.forEach(y => htmlCons += `<th>${y}</th>`);
+            htmlCons += '</tr></thead><tbody>';
+            htmlCons += renderRow('Básico', data.consumption.basico);
+            htmlCons += renderRow('CFE Calificado', data.consumption.cfeCalificado);
+            htmlCons += renderRow('Suministradores Calificados', data.consumption.suministradores);
+            htmlCons += renderRow('Total Consumo', data.totalConsumption, false, 'total-row');
+            htmlCons += '</tbody></table>';
+            document.getElementById('consumption-table-container').innerHTML = htmlCons;
+
+            // Table 2: Requisito & Meta
+            let htmlReq = '<table class="data-table"><thead><tr><th>Requisito y Meta de Energías Limpias</th>';
+            data.years.forEach(y => htmlReq += `<th>${y}</th>`);
+            htmlReq += '</tr></thead><tbody>';
+            htmlReq += renderRow('Requisito CEL', data.requisito, true, 'requisito-row');
+            htmlReq += renderRow('Meta PRODESEN', data.meta, true);
+            htmlReq += '</tbody></table>';
+            document.getElementById('requisito-table-container').innerHTML = htmlReq;
+
+            // Table 3: Obligation
+            let htmlObl = '<table class="data-table"><thead><tr><th>Obligación de CEL de Participantes Obligados (Número de CELs)</th>';
+            data.years.forEach(y => htmlObl += `<th>${y}</th>`);
+            htmlObl += '</tr></thead><tbody>';
+            htmlObl += renderRow('Básico', data.obligation.basico, false, '', true);
+            htmlObl += renderRow('CFE Calificado', data.obligation.cfeCalificado, false, '', true);
+            htmlObl += renderRow('Suministradores Calificados', data.obligation.suministradores, false, '', true);
+            htmlObl += renderRow('Total de CELs', data.obligation.total, false, 'total-row', true);
+            htmlObl += '</tbody></table>';
+            document.getElementById('obligation-table-container').innerHTML = htmlObl;
+        }
+
+        function updateDashboard(endYear) {
+            const data = getFilteredData(endYear);
+            if (!data) return;
+
+            // Update Title
+            document.querySelector('#report-capture-area h1').innerText = `Obligación de CEL por Participante Obligado (${startYearBase}-${endYear})`;
+
+            // Draw Chart
+            if (currentChart) currentChart.destroy();
+
+            currentChart = Highcharts.chart('container-chart', {
+                chart: {
+                    zoomType: 'xy',
+                    style: { fontFamily: "'Noto Sans', sans-serif" },
+                    backgroundColor: null,
+                    events: {
+                        fullscreenOpen: function () {
+                            this.update({ chart: { backgroundColor: '#FFFFFF' } });
+                        },
+                        fullscreenClose: function () {
+                            this.update({ chart: { backgroundColor: null } });
+                        }
+                    }
+                },
+                title: { text: null },
+                xAxis: {
+                    categories: data.years,
+                    crosshair: true
+                },
+                yAxis: [{ // Primary yAxis (Obligation CELs)
+                    labels: {
+                        format: '{value:,.0f}',
+                        style: { color: 'black' } // Black labels requested
+                    },
+                    title: {
+                        text: 'Obligación de CELs (Unidades)',
+                        style: { color: 'black' }
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'black' // Black labels requested
+                        },
+                        format: '{total:,.0f}' // Compact numbers for chart? Or full? Let's use full with commas
+                    }
+                }, { // Secondary yAxis (Requisito %)
+                    title: {
+                        text: 'Porcentaje (%)',
+                        style: { color: '#333' }
+                    },
+                    labels: {
+                        format: '{value}%',
+                        style: { color: 'black' } // Black labels requested
+                    },
+                    opposite: true,
+                    min: 0,
+                    // max: 70
+                }],
+                tooltip: {
+                    shared: true
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Suministradores Calificados',
+                    type: 'column',
+                    yAxis: 0,
+                    data: data.obligation.suministradores,
+                    color: '#A57F2C', // Dorado Institucional
+                    tooltip: { valueSuffix: ' CELs' },
+                    dataLabels: { color: 'black' }
+                }, {
+                    name: 'CFE Calificado',
+                    type: 'column',
+                    yAxis: 0,
+                    data: data.obligation.cfeCalificado,
+                    color: '#1E5B4F', // Verde Institucional
+                    tooltip: { valueSuffix: ' CELs' },
+                    dataLabels: { color: 'black' }
+                }, {
+                    name: 'Suministro Básico',
+                    type: 'column',
+                    yAxis: 0,
+                    data: data.obligation.basico,
+                    color: '#9B2247', // Guinda Institucional
+                    tooltip: { valueSuffix: ' CELs' },
+                    dataLabels: { color: 'black' }
+                }, {
+                    name: 'Meta PRODESEN',
+                    type: 'spline',
+                    yAxis: 1,
+                    data: data.meta,
+                    dashStyle: 'ShortDash',
+                    color: '#545454', // Gris Oscuro Institucional
+                    tooltip: { valueSuffix: ' %' },
+                    marker: {
+                        enabled: true,
+                        symbol: 'diamond',
+                        fillColor: '#545454'
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        format: '{y}%',
+                        y: 35, // Empujar más abajo y con fondo para legibilidad
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        borderColor: '#545454',
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        padding: 2,
+                        style: { color: '#545454', textOutline: 'none', fontWeight: 'bold' }
+                    }
+                }, {
+                    name: 'Requisito CEL',
+                    type: 'spline',
+                    yAxis: 1,
+                    data: data.requisito,
+                    color: '#BC955C', // Dorado Tenue
+                    tooltip: { valueSuffix: ' %' },
+                    marker: {
+                        enabled: true,
+                        lineWidth: 2,
+                        lineColor: '#BC955C',
+                        fillColor: 'white'
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        format: '{y:.2f}%',
+                        y: -15, // Empujar hacia arriba
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        borderColor: '#BC955C',
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        padding: 2,
+                        style: { color: 'black', textOutline: 'none', fontWeight: 'bold' }
+                    }
+                }],
+                exporting: { enabled: true },
+                credits: { enabled: false }
+            });
+
+            renderTables(data);
+        }
+
+        // Set Highcharts global options for MX locale
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: '.',
+                thousandsSep: ','
+            }
+        });
+
+        function downloadFullReport() {
+            const element = document.getElementById('report-capture-area');
+            const btn = document.getElementById('btn-download');
+            const originalText = btn.innerHTML;
+
+            btn.innerHTML = 'Generando imagen...';
+            btn.disabled = true;
+
+            // Remove background color for transparency, but ensure text is readable if it was white on dark
+            // element.style.backgroundColor = 'transparent'; // Already default, just dont force white
+
+            html2canvas(element, {
+                scale: 2,
+                backgroundColor: null, // Transparent background
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'obligacion_cel_participantes.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                alert('Error al generar la imagen.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const maxYear = years[years.length - 1];
+            const selectInfo = document.getElementById('end-year-select');
+
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.text = year;
+                if (year === maxYear) option.selected = true;
+                selectInfo.appendChild(option);
+            });
+
+            selectInfo.addEventListener('change', (e) => updateDashboard(e.target.value));
+            updateDashboard(maxYear);
+        });
+    </script>
+</body>
+
+</html>

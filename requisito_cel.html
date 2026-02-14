@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porcentaje de Requisito de Energía Limpia 2025-2039 - SENER</title>
+
+    <!-- Fuentes Institucionales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Librerías -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            /* Colores Institucionales */
+            --color-gobmx-guinda: #9B2247;
+            --color-gobmx-verde: #1E5B4F;
+            --color-gobmx-dorado: #A57F2C;
+            --color-gobmx-gris: #98989A;
+            --color-gobmx-gris-claro: #E5E5E5;
+
+            /* Tipografía */
+            --font-family-headings: 'Merriweather', serif;
+            --font-family-body: 'Noto Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .main-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .controls-area {
+            text-align: right;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .btn-export-full {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-family: var(--font-family-body);
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        .btn-export-full:hover {
+            background-color: #7a1b38;
+        }
+
+        #report-capture-area {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            border-bottom: 4px solid var(--color-gobmx-dorado);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logos img {
+            height: 60px;
+            margin-left: 20px;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+
+        h2 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-verde);
+            margin: 0;
+            font-size: 16px;
+        }
+
+        #container-chart {
+            width: 100%;
+            height: 500px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            font-family: 'Noto Sans', sans-serif;
+            text-align: right;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 6px 4px;
+            border: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .data-table td:first-child,
+        .data-table th:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background-color: white;
+            z-index: 1;
+            font-weight: bold;
+            min-width: 250px;
+            /* Más ancho para los nombres largos */
+        }
+
+        .data-table th:first-child {
+            background-color: var(--color-gobmx-guinda);
+            color: white;
+            z-index: 2;
+        }
+
+        .data-table tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        .data-table tr:hover td {
+            background-color: #f1f1f1;
+        }
+
+        /* Fila de Porcentaje (Negrita y destacado) */
+        .row-highlight td {
+            background-color: #e8f5e9 !important;
+            /* Verde muy claro */
+            font-weight: bold;
+            border-top: 2px solid #1E5B4F;
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <div class="controls-area">
+            <label for="end-year-select" style="font-size: 14px; font-weight: bold; margin-right: 10px;">Hasta el
+                año:</label>
+            <select id="end-year-select"
+                style="padding: 8px; border-radius: 4px; border: 1px solid #ddd; margin-right: 10px; font-family: var(--font-family-body);">
+                <!-- Se llena dinámicamente -->
+            </select>
+
+            <a href="index.html" class="btn-nav"
+                style="text-decoration: none; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px; color: var(--color-gobmx-guinda); font-weight: bold; font-family: var(--font-family-body); font-size: 14px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                    <path fill-rule="evenodd"
+                        d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+                </svg>
+                Inicio
+            </a>
+
+            <button id="btn-download" class="btn-export-full" onclick="downloadFullReport()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                    <path
+                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                </svg>
+                Descargar Imagen (Gráfica + Tabla)
+            </button>
+        </div>
+
+        <!-- Área de Captura -->
+        <div id="report-capture-area">
+            <header>
+                <div>
+                    <h1>Porcentaje de Requisito de Energía Limpia 2025-2039</h1>
+                    <h2 style="margin-bottom: 2px;">Subsecretaría de Planeación y Transición Energética</h2>
+                    <h3 style="margin: 0; color: var(--color-gobmx-gris); font-weight: normal; font-size: 14px;">
+                        Dirección General de Transición Energética</h3>
+                </div>
+                <div class="header-logos">
+                    <img src="img/logo_sener.png" alt="SENER">
+                </div>
+            </header>
+
+            <div id="container-chart"></div>
+
+            <!-- Contenedor de la Tabla -->
+            <div class="table-container" id="data-table-container"></div>
+
+            <div class="footer-note">
+                <p><strong>Nota:</strong> Requisito = Energía Estimada Acreditable en CEL / (Consumo de Energía Total -
+                    Consumo CIL).</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos Transcritos
+        const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039];
+
+        // Series Completas
+        const fullData = {
+            consumo: {
+                name: 'Consumo Total (GWh) - Consumo Exento',
+                data: [279471.95, 290864.22, 302003.28, 312714.26, 323021.58, 334116.99, 340321.85, 347967.39, 354359.89, 362784.21, 370785.19, 378693.07, 388018.20, 397289.64, 405223.09],
+                color: '#6c757d', // Gris
+                isPercentage: false
+            },
+            generacion: {
+                name: 'Generación Limpia (GWh) sin GD',
+                data: [89401.38, 96644.80, 102007.46, 120690.75, 139478.50, 153163.82, 156787.56, 174210.91, 181007.70, 186506.27, 194659.12, 210099.91, 214245.62, 230298.06, 241722.29],
+                color: '#28a745', // Verde claro
+                isPercentage: false
+            },
+            requisito: {
+                name: 'Requisito (%) = Energía Acreditable / Consumo',
+                data: [31.99, 33.23, 33.78, 38.59, 43.18, 45.84, 46.07, 50.07, 51.08, 51.41, 52.50, 55.48, 55.22, 57.97, 59.65],
+                color: '#1E5B4F', // Verde Institucional fuerte
+                isPercentage: true
+            }
+        };
+
+        let currentChart = null;
+
+        function downloadFullReport() {
+            const element = document.getElementById('report-capture-area');
+            const btn = document.getElementById('btn-download');
+
+            const currentTitleElement = document.querySelector('#report-capture-area h1');
+            const cleanTitle = currentTitleElement.innerText.replace(/ /g, '_').replace(/ó/g, 'o').replace(/á/g, 'a').replace(/%/g, 'Porcentaje');
+
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Generando imagen...';
+            btn.disabled = true;
+
+            const originalBg = element.style.backgroundColor;
+            element.style.backgroundColor = 'transparent';
+
+            html2canvas(element, { scale: 2, backgroundColor: null, useCORS: true }).then(canvas => {
+                element.style.backgroundColor = originalBg;
+                const link = document.createElement('a');
+                link.download = `${cleanTitle}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                element.style.backgroundColor = originalBg;
+                alert('Error al generar la imagen.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        function renderTable(displayYears, displayData) {
+            const container = document.getElementById('data-table-container');
+            let html = '<table class="data-table">';
+
+            // Header
+            html += '<thead><tr><th>Variable</th>';
+            displayYears.forEach(year => html += `<th>${year}</th>`);
+            html += '</tr></thead><tbody>';
+
+            // Rows
+            // 1. Consumo
+            html += `<tr><td>${fullData.consumo.name}</td>`;
+            displayData.consumo.forEach(val => html += `<td>${val.toLocaleString('es-MX', { maximumFractionDigits: 1 })}</td>`);
+            html += `</tr>`;
+
+            // 2. Generación
+            html += `<tr><td>${fullData.generacion.name}</td>`;
+            displayData.generacion.forEach(val => html += `<td>${val.toLocaleString('es-MX', { maximumFractionDigits: 1 })}</td>`);
+            html += `</tr>`;
+
+            // 3. Requisito (Highlight) - Muestra %
+            html += `<tr class="row-highlight"><td><strong>${fullData.requisito.name}</strong></td>`;
+            displayData.requisito.forEach(val => html += `<td><strong>${val.toLocaleString('es-MX', { minimumFractionDigits: 2 })}%</strong></td>`);
+            html += `</tr>`;
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function updateDashboard(endYear) {
+            const startYear = 2025;
+            const endIndex = years.indexOf(parseInt(endYear));
+            if (endIndex === -1) return;
+
+            const filteredYears = years.slice(0, endIndex + 1);
+
+            // Filtrar datos
+            const filteredData = {
+                consumo: fullData.consumo.data.slice(0, endIndex + 1),
+                generacion: fullData.generacion.data.slice(0, endIndex + 1),
+                requisito: fullData.requisito.data.slice(0, endIndex + 1)
+            };
+
+            // Update Title
+            document.querySelector('#report-capture-area h1').innerText = `Porcentaje de Requisito de Energía Limpia ${startYear}-${endYear}`;
+
+            // Update Chart
+            if (currentChart) currentChart.destroy();
+
+            currentChart = Highcharts.chart('container-chart', {
+                chart: {
+                    zoomType: 'xy',
+                    style: { fontFamily: "'Noto Sans', sans-serif" },
+                    backgroundColor: null,
+                    marginBottom: 100, // Más espacio para leyenda
+                    events: {
+                        fullscreenOpen: function () {
+                            this.update({ chart: { backgroundColor: '#FFFFFF' } });
+                        },
+                        fullscreenClose: function () {
+                            this.update({ chart: { backgroundColor: null } });
+                        }
+                    }
+                },
+                title: { text: null },
+                xAxis: {
+                    categories: filteredYears,
+                    crosshair: true,
+                    lineColor: '#A57F2C',
+                    lineWidth: 2
+                },
+                yAxis: [{ // Primary yAxis (GWh)
+                    labels: {
+                        format: '{value:,.0f}',
+                        style: { color: fullData.consumo.color }
+                    },
+                    title: {
+                        text: 'Energía (GWh)',
+                        style: { color: fullData.consumo.color }
+                    },
+                    opposite: true // Lado derecho
+                }, { // Secondary yAxis (%)
+                    title: {
+                        text: 'Porcentaje (%)',
+                        style: { color: fullData.requisito.color }
+                    },
+                    labels: {
+                        format: '{value}%',
+                        style: { color: fullData.requisito.color }
+                    },
+                    gridLineColor: '#E5E5E5',
+                    min: 0,
+                    // max: 100
+                }],
+                tooltip: {
+                    shared: true
+                },
+                series: [{
+                    name: fullData.consumo.name, // Consumo (GWh)
+                    type: 'column',
+                    yAxis: 0,
+                    data: filteredData.consumo,
+                    color: '#D3D3D3', // Gris claro para fondo
+                    tooltip: { valueSuffix: ' GWh' }
+                }, {
+                    name: fullData.generacion.name, // Generación (GWh)
+                    type: 'column',
+                    yAxis: 0,
+                    data: filteredData.generacion,
+                    color: '#71c086', // Verde claro
+                    tooltip: { valueSuffix: ' GWh' }
+                }, {
+                    name: 'Requisito CEL', // Porcentaje (%)
+                    type: 'spline',
+                    yAxis: 1, // Eje secundario
+                    data: filteredData.requisito,
+                    color: fullData.requisito.color,
+                    lineWidth: 3,
+                    marker: {
+                        enabled: true,
+                        radius: 5,
+                        fillColor: '#FFFFFF',
+                        lineWidth: 2,
+                        lineColor: null
+                    },
+                    tooltip: { valueSuffix: ' %' },
+                    dataLabels: {
+                        enabled: true,
+                        format: '{y}%',
+                        y: -8, // Move slightly up
+                        style: {
+                            fontSize: '11px',
+                            textOutline: 'none', // Quitamos el borde negro
+                            color: fullData.requisito.color, // Color del texto igual a la línea
+                            fontWeight: 'bold'
+                        }
+                    }
+
+                }],
+                exporting: { enabled: true },
+                credits: { enabled: false },
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    itemStyle: { fontSize: '11px', fontWeight: 'normal' }
+                }
+            });
+
+            // Update Table matches exactly what is shown
+            renderTable(filteredYears, filteredData);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const maxYear = years[years.length - 1];
+            const selectInfo = document.getElementById('end-year-select');
+
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.text = year;
+                if (year === maxYear) option.selected = true;
+                selectInfo.appendChild(option);
+            });
+
+            selectInfo.addEventListener('change', (e) => updateDashboard(e.target.value));
+            updateDashboard(maxYear);
+        });
+    </script>
+</body>
+
+</html>
