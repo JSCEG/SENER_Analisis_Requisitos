@@ -30,25 +30,60 @@
 
     <!-- Navegación Responsiva -->
     <nav class="site-nav">
-        <div class="nav-container">
+        <!-- Navigation Bar -->
+        <nav class="site-nav">
             <div class="nav-brand">
-                <img src="img/logo_sener.png" alt="SENER Logo">
-                <span>Requisitos CEL</span>
+                <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center;">
+                    <span style="font-size: 1.2rem; margin-right: 5px;"><i class="bi bi-bar-chart-fill"></i></span>
+                    SENER | CELs
+                </a>
             </div>
-            <button class="nav-toggle" aria-label="Abrir menú">
-                <span></span>
-                <span></span>
-                <span></span>
+
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                &#9776; <!-- Hamburger Icon -->
             </button>
-            <div class="nav-menu">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="requisito_cel.html" class="nav-link">Requisito</a>
-                <a href="metodologia_cel.html" class="nav-link">Metodología</a>
-                <a href="obligacion_cel_participantes.html" class="nav-link">Obligaciones</a>
-                <a href="pronostico_generacion.html" class="nav-link active">Pronóstico</a>
-                <a href="indicador_y_requisito_cel.html" class="nav-link">Indicadores</a>
-            </div>
-        </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                </li>
+
+                <!-- Group: Análisis Requisito de CEL -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link nav-dropdown-toggle">
+                        Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span>
+                    </a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                        <li><a href="pronostico_generacion.html" class="nav-dropdown-link"
+                                style="color:var(--color-gobmx-dorado); font-weight:bold;">2. Pronóstico</a></li>
+                        <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs
+                                Requisito</a></li>
+                        <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                        <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación
+                                Participantes</a></li>
+                        <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia
+                                Transición</a></li>
+                    </ul>
+                </li>
+
+                <!-- New Page: Sistema CEL -->
+                <li class="nav-item">
+                    <a href="sistema_cel.html" class="nav-link">Sistema CEL</a>
+                </li>
+
+                <!-- Placeholders -->
+                <li class="nav-item">
+                    <a href="construccion.html" class="nav-link">Análisis de Otorgamiento de CEL</a>
+                </li>
+                <li class="nav-item">
+                    <a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a>
+                </li>
+                <li class="nav-item">
+                    <a href="construccion.html" class="nav-link">Análisis Proyecto Eólica Marina</a>
+                </li>
+            </ul>
+        </nav>
     </nav>
 
     <div class="main-wrapper">

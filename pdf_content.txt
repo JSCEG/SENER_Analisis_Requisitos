@@ -1,0 +1,155 @@
+Èstrãtègìã dè
+Trãnsìcìón pãrã
+Rèqùìsìtøs dè CÈL
+(2025-2028)
+2026
+
+Dirección General de Transición Energética
+2 Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)
+Índìcè
+Introducción 1
+1. EL Diagnóstico. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1
+2. Solución - Análisis de Escenarios de Transición: Estrategias de Convergencia para
+Requisitos de CEL. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+2.1. Escenario A: Convergencia Acelerada (2025 a 2028). . . . . . . . . . . . . . . 2
+2.2. Escenario B: Convergencia Moderada (2025 a 2029) (Recomendado). . . . . 3
+2.3. Escenario C: Convergencia Gradual (2025 a 2030). . . . . . . . . . . . . . . . . 4
+2.4. Análisis comparativo y recomendación. . . . . . . . . . . . . . . . . . . . . . . 4
+Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)I
+Índìcè dè tãblãs
+Escenario A: Convergencia acelerada (2025 a 2028). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .2
+Escenario B: Convergencia moderada (2025 a 2029). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .3
+Escenario C: Convergencia gradual (2025 a 2030). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .4
+II Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)
+Índìcè dè fìgùrãs
+Escenario A: convergencia del requisito oficial vs. técnico (2025 a 2028).. . . . . . . . . . . . . . . . . . .2
+Escenario B: convergencia del requisito oficial vs. técnico (2025 a 2029).. . . . . . . . . . . . . . . . . . .3
+Escenario C: convergencia del requisito oficial vs. técnico (2025 a 2030).. . . . . . . . . . . . . . . . . . .4
+Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)III
+Ìntrødùccìón
+El Contexto:La entrada en vigor de la nueva Ley del Sector Eléctrico (LSE 2025) transforma el
+mercado de Certificados de Energías Limpias (CEL) al reconocer la generación de las centrales
+hidroeléctricas y nucleares de CFE (Legadas) como acreditables.
+El Problema:Esto genera un superávit técnico inmediato. Si aplicamos la metodología para el
+cálculo del requisito estrictamente, el requisito para 2025 saltaría del histórico 13.9 % al 31.99 %.
+Un incremento importante, que impacta la planeación financiera de los Suministradores y deto-
+naría litigios por retroactividad.
+La Propuesta:Se presenta una Estrategia de Normalización (2025-2028) que utiliza las facultades
+de Planeación Vinculante para:
+1. Ratificar el 13.9 % para 2025 (Cierre Administrativo).
+2. Incrementar gradualmente la obligación en 2026 (23.5 %) y 2027 (31.1 %).
+3. Converger con la capacidad real del sistema en 2028 (38.6 %).
+Esta ruta garantiza el cumplimiento legal del Transitorio Décimo Sexto del Reglamento, prote-
+ge las tarifas finales y crea una reserva estratégica de certificados para la estabilidad futura del
+sistema.
+1. ÈL Dìãgnóstìcø
+ElAl realizar el cruce de datos entre el Pronóstico de Demanda y la Oferta de Generación Limpia
+se confirma lo siguiente: :
+1. Cálculo del Requisito con los datos proporcionados (32 %):Al incorporar las centrales
+legadas de CFE (Hidro/Nuclear) según el nuevo Art. 126 de la LSE, la oferta disponible de
+CELs para 2025 alcanza el 31.99 % de la demanda obligada.
+2. El Requisito Oficial Públicado (13.9 %):El mercado ha operado durante 2023, 2024 y 2025
+con una inercia regulatoria del 13.9 %, a pesar de que el cálculo técnico con los datos pro-
+porcionados sugiere niveles del 30 % .
+El Problema:Aplicar el requisito técnico del 31.99 % en 2025 representaría un incremento abrup-
+to (+130 %) respecto al año anterior , afectando la planeación financiera de los Suministradores y
+vulnerando la seguridad jurídica.
+Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)1
+2. Sølùcìón - Ånálìsìs dè Èscènãrìøs dè Trãnsìcìón: Èstrãtègìãs dè
+Cønvèrgèncìã pãrã Rèqùìsìtøs dè CÈL
+Objetivo: Evaluar tres escenarios para alinear el Requisito Oficial con la Disponibilidad Técnica
+Real, mitigando el impacto financiero en los Suministradores y gestionando el superávit de certi-
+ficados de CFE.
+Premisa base (invariable):
+• Año 2025:Se mantiene en 13.9 % por seguridad jurídica (Cierre Administrativo).
+• Oferta técnica:Se utiliza el cálculo real del PVIRCE (incluyendo Hidro/Nuclear CFE, exclu-
+yendo GD).
+2.1. Èscènãrìø Å: Cønvèrgèncìã Åcèlèrãdã (2025 ã 2028)
+“Transición Rápida”.Enfoque: Busca cerrar la brecha regulatoria lo más rápido posible (3 años
+efectivos), aceptando incrementos anuales pronunciados para limpiar el mercado antes de 2029.
+Tãblã 1 -Èscènãrìø Å: Cønvèrgèncìã ãcèlèrãdã (2025 ã 2028)
+Año Requisito técnico (real) Propuesto (Esc. A) Incremento anual Brecha (oferta vs. demanda)
+2025 31.99 % 13.9 % – +18.0 % (Superávit masivo)
+2026 33.22 % 22.5 % +8.6 p.p. +10.7 % (Superávit alto)
+2027 33.77 % 30.5 % +8.0 p.p. +3.2 % (Superávit bajo)
+2028 38.59 % 38.6 % +8.1 p.p. 0.0 % (Normalización)
+Fìgùrã 1 -Èscènãrìø Å: cønvèrgèncìã dèl rèqùìsìtø øfìcìãl vs. técnìcø (2025 ã 2028).
+2025 2026 2027 20280
+20
+40
+Año
+Requisito ( %)
+Técnico (real) Oficial (Esc. A)
+Pros:
+2 Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)
+• El escenario más rápido y evita una acumulación excesiva de CEL, que podría deprimir el
+precio a largo plazo.
+Contras:
+• Requiere que los Suministradores aumenten su presupuesto de CELs en un∼60 % anual
+entre 2026 y 2027.
+2.2. Èscènãrìø B: Cønvèrgèncìã Mødèrãdã (2025 ã 2029) (Rècømèndãdø)
+“Transición Equilibrada”.Enfoque: Extiende el ajuste un año más, permitiendo incrementos anua-
+les de∼7 puntos porcentuales. Coincide con la entrada prevista de los primeros pilotos de Hidró-
+geno Verde.
+Tãblã 2 -Èscènãrìø B: Cønvèrgèncìã mødèrãdã (2025 ã 2029)
+Año Requisito técnico (real) Propuesto (Esc. B) Incremento anual Brecha (oferta vs. demanda)
+2025 31.99 % 13.9 % – +18.0 % (Reserva estratégica)
+2026 33.22 % 21.5 % +7.6 p.p. +11.7 % (Reserva estratégica)
+2027 33.77 % 28.8 % +7.3 p.p. +4.9 % (Absorción suave)
+2028 38.59 % 36.0 % +7.2 p.p. +2.5 % (Absorción final)
+2029 43.18 % 43.2 % +7.2 p.p. 0.0 % (Normalización)
+Fìgùrã 2 -Èscènãrìø B: cønvèrgèncìã dèl rèqùìsìtø øfìcìãl vs. técnìcø (2025 ã 2029).
+2025 2026 2027 2028 20290
+20
+40
+Año
+Requisito ( %)
+Técnico (real) Oficial (Esc. B)
+Pros:
+• Suaviza la curva financiera para CFE Suministro Básico.
+• Crea una reserva estratégica de CELs robusta entre 2025 a 2027 para cubrir el salto técnico
+de 2029 (meta∼43 %).
+Contras:
+Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)3
+• Mantiene una discrepancia técnica por 4 años.
+2.3. Èscènãrìø C: Cønvèrgèncìã Grãdùãl (2025 ã 2030)
+“Transición Gradual”.Enfoque: Prioriza la estabilidad, diluyendo el ajuste en 5 años; ideal si el
+objetivo político es minimizar impactos en costos en el corto plazo.
+Tãblã 3 -Èscènãrìø C: Cønvèrgèncìã grãdùãl (2025 ã 2030)
+Año Requisito técnico (real) Propuesto (Esc. C) Incremento anual Brecha (oferta vs. demanda)
+2025 31.99 % 13.9 % – +18.0 %
+2026 33.22 % 20.3 % +6.4 p.p. +12.9 % (Acumulación alta)
+2027 33.77 % 26.7 % +6.4 p.p. +7.0 % (Acumulación media)
+2028 38.59 % 33.1 % +6.4 p.p. +5.4 % (Acumulación media)
+2029 43.18 % 39.5 % +6.4 p.p. +3.6 % (Acumulación baja)
+2030 45.84 % 45.8 % +6.3 p.p. 0.0 % (Normalización)
+Fìgùrã 3 -Èscènãrìø C: cønvèrgèncìã dèl rèqùìsìtø øfìcìãl vs. técnìcø (2025 ã 2030).
+2025 2026 2027 2028 2029 20300
+20
+40
+Año
+Requisito ( %)
+Técnico (real) Oficial (Esc. C)
+Pros:
+• Menor impacto anual (∼+6.4 p.p.); prácticamente el mejor escenario en cuanto a costos.
+Contras:
+• Poisibilidad de generar una sobreoferta muy grande de CELs acumulados, con riesgo de
+derrumbar el precio y desincentivar inversión privada en renovables hasta después de 2030.
+2.4. Ånálìsìs cømpãrãtìvø ÿ rècømèndãcìón
+La Lectura:
+4 Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)
+• Escenario A (2028):Alto estrés financiero / mercado sano rápidamente.
+• Escenario C (2030):Bajo estrés financiero / mercado con ciertos riesgos por exceso de in-
+ventario.
+• Escenario B (2029):Punto óptimo, en cuanto a costos.
+Recomendación técnica:El análisi sugiere adoptar elEscenario B (2025 a 2029)o Escenario
+C (2025 a 2030).Nota: El escenario ”B”permite publicar en el DOF los requisitos para los 4 años
+obligatorios (2025, 2026, 2027, 2028) mostrando una tendencia clara de alza, pero dejando la
+convergencia final para 2029.
+Importante:
+1. ambos escenarios ”B2Ç”, Brindan margen a CFE para “bancar” los CELs de sus hidroeléctricas
+(2025 a 2027) y usarlos en 2029 a 2030, años donde el requisito técnico supera el 40 %.
+2. Cumple con el mandato de Planeación Vinculante de la LSE sin asfixiar a los Suministradores
+Calificados.
+Èstrãtègìã dè Trãnsìcìón pãrã Rèqùìsìtøs dè CÈL (2025-2028)5
+

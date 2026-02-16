@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema CEL: Análisis Regulatorio - SENER</title>
+
+    <!-- Fuentes Institucionales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Estilos Compartidos -->
+    <link rel="stylesheet" href="css/pages-common.css">
+
+    <style>
+        /* Specific Styles for Comparison View */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-column {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .column-header {
+            padding: 15px 20px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .header-old {
+            background-color: #545454;
+            /* Grey for "Old" */
+            border-bottom: 4px solid #9B2247;
+            /* Guinda accent */
+        }
+
+        .header-new {
+            background-color: #1E5B4F;
+            /* Verde Institucional */
+            border-bottom: 4px solid #D4C19C;
+            /* Dorado accent */
+        }
+
+        .topic-card {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .topic-card:last-child {
+            border-bottom: none;
+        }
+
+        .topic-title {
+            font-weight: bold;
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            display: block;
+        }
+
+        .topic-content {
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Flex row for topics to ensure alignment across columns */
+        .topic-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .topic-row {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="site-nav">
+        <!-- Navigation Bar (Filled via JS or static) -->
+        <!-- Will be updated universally in next step, putting static placeholder for now -->
+        <div class="nav-brand">
+            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center;">
+                <span style="font-size: 1.2rem; margin-right: 5px;"><i class="bi bi-bar-chart-fill"></i></span>
+                SENER | CELs
+            </a>
+        </div>
+
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            &#9776;
+        </button>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Inicio</a>
+            </li>
+
+            <!-- Group: Análisis Requisito de CEL -->
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">
+                    Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span>
+                </a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a>
+                    </li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación
+                            Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- New Page: Sistema CEL -->
+            <li class="nav-item">
+                <a href="sistema_cel.html" class="nav-link"
+                    style="color:var(--color-gobmx-dorado); font-weight:bold;">Sistema CEL</a>
+            </li>
+
+            <!-- Placeholders -->
+            <li class="nav-item">
+                <a href="construccion.html" class="nav-link">Análisis de Otorgamiento de CEL</a>
+            </li>
+            <li class="nav-item">
+                <a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a>
+            </li>
+            <li class="nav-item">
+                <a href="construccion.html" class="nav-link">Análisis Proyecto Eólica Marina</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main-wrapper">
+
+        <!-- Controls Area -->
+        <div class="controls-area" style="justify-content: flex-end;">
+            <button onclick="window.print()" class="btn-export-full" style="max-width: 200px;">
+                Descargar Análisis (PDF)
+            </button>
+        </div>
+
+        <div id="report-capture-area" style="padding: 20px; background: white;">
+            <!-- Header -->
+            <header class="header">
+                <div class="logo-container">
+                    <img src="img/logo_sener.png" alt="SENER" class="logo">
+                </div>
+                <div class="header-text">
+                    <h1>Sistema de Certificados de Energías Limpias (CEL)</h1>
+                    <h2>Análisis Regulatorio Comparativo</h2>
+                    <h3>Marco Anterior vs. Nuevo Marco Regulatorio</h3>
+                </div>
+            </header>
+
+            <div class="comparison-container">
+                <!-- Headers -->
+                <div class="comparison-column">
+                    <div class="column-header header-old">Marco Regulatorio Anterior</div>
+                    <!-- Content will go here via rows -->
+                </div>
+                <div class="comparison-column">
+                    <div class="column-header header-new">Nuevo Marco Regulatorio</div>
+                </div>
+            </div>
+
+            <!-- Comparison Rows -->
+            <div id="comparison-rows">
+                <!-- Row 1: Objetivos -->
+                <div class="topic-row">
+                    <div class="comparison-column">
+                        <div class="topic-card">
+                            <span class="topic-title">1. Objetivo Principal</span>
+                            <div class="topic-content">
+                                <p>Enfoque limitado a la generación, sin considerar integralmente la eficiencia
+                                    energética o los beneficios sociales.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-column">
+                        <div class="topic-card">
+                            <span class="topic-title">1. Objetivo Principal</span>
+                            <div class="topic-content">
+                                <p>Enfoque holístico que integra la generación limpia con la eficiencia energética,
+                                    impacto social positivo y soberanía energética.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Participantes -->
+                <div class="topic-row">
+                    <div class="comparison-column">
+                        <div class="topic-card">
+                            <span class="topic-title">2. Participantes Obligados</span>
+                            <div class="topic-content">
+                                <p>Definición rígida de participantes, excluyendo a ciertos actores y creando asimetrías
+                                    en las obligaciones.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-column">
+                        <div class="topic-card">
+                            <span class="topic-title">2. Participantes Obligados</span>
+                            <div class="topic-content">
+                                <p>Ampliación del padrón de participantes obligados para garantizar equidad y mayor
+                                    cobertura en el cumplimiento de metas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Mecanismos -->
+                <div class="topic-row">
+                    <div class="comparison-column">
+                        <div class="topic-card">
+                            <span class="topic-title">3. Mecanismos de Cumplimiento</span>
+                            <div class="topic-content">
+                                <p>Dependencia casi exclusiva de la compra de CELs en el mercado spot o contratos
+                                    bilaterales opacos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-column">
+                        <div class="topic-card">
+                            <span class="topic-title">3. Mecanismos de Cumplimiento</span>
+                            <div class="topic-content">
+                                <p>Diversificación de mecanismos: Mercado de CELs transparente, opciones de
+                                    autogeneración y reconocimiento de eficiencia.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-note">
+                <p><strong>Fuente:</strong> Dirección General de Transición Energética. Análisis Regulatorio Interno
+                    (2025).</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Shared JS -->
+    <script src="js/pages-common.js"></script>
+</body>
+
+</html>

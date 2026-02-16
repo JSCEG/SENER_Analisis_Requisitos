@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sener - Estrategia de Transición de Requisitos CEL (2025-2028)</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="css/pages-common.css">
+
+    <!-- Mobile Responsive CSS (Optional for specific overrides not in pages-common) -->
+    <!-- <link rel="stylesheet" href="css/mobile-responsive.css"> -->
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center;">
+                <span style="font-size: 1.2rem; margin-right: 5px;"><i class="bi bi-bar-chart-fill"></i></span>
+                SENER | CELs
+            </a>
+        </div>
+
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            &#9776; <!-- Hamburger Icon -->
+        </button>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">Inicio</a>
+            </li>
+
+            <!-- Group: Análisis Requisito de CEL -->
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">
+                    Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span>
+                </a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs
+                            Requisito</a></li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación
+                            Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link"
+                            style="color:var(--color-gobmx-dorado); font-weight:bold;">6. Estrategia Transición</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- New Page: Sistema CEL -->
+            <li class="nav-item">
+                <a href="sistema_cel.html" class="nav-link">Sistema CEL</a>
+            </li>
+
+            <!-- Placeholders -->
+            <li class="nav-item">
+                <a href="construccion.html" class="nav-link">Análisis de Otorgamiento de CEL</a>
+            </li>
+            <li class="nav-item">
+                <a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a>
+            </li>
+            <li class="nav-item">
+                <a href="construccion.html" class="nav-link">Análisis Proyecto Eólica Marina</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main-wrapper">
+
+        <div class="main-wrapper">
+
+            <!-- Controls Area (Moved above content for capture) -->
+            <div class="controls-area">
+                <div class="control-group">
+                    <label for="scenario-select" class="control-label">Seleccionar Escenario:</label>
+                    <select id="scenario-select" class="control-select">
+                        <option value="A">Escenario A: Convergencia Acelerada (2025-2028)</option>
+                        <option value="B" selected>Escenario B: Convergencia Moderada (Recomendado) (2025-2029)</option>
+                        <option value="C">Escenario C: Convergencia Gradual (2025-2030)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <span id="scenario-description" style="font-style: italic; color: #666; font-size: 0.9rem;">
+                        “Transición Equilibrada”. Extiende el ajuste un año más, permitiendo incrementos anuales de ~7
+                        puntos porcentuales.
+                    </span>
+                </div>
+
+                <button id="btn-download" class="btn-export-full" onclick="downloadFullReport()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                    </svg>
+                    Descargar Imagen
+                </button>
+            </div>
+
+            <!-- Capture Area -->
+            <div id="report-capture-area" style="padding: 20px; background: white;">
+                <!-- Header -->
+                <header class="header">
+                    <div class="logo-container">
+                        <img src="img/logo_sener.png" alt="SENER" class="logo">
+                    </div>
+                    <div class="header-text">
+                        <h1>Estrategia de Transición de Requisitos CEL (2025-2028)</h1>
+                        <h2>Análisis de Escenarios de Convergencia</h2>
+                        <h3>Dirección General de Transición Energética</h3>
+                    </div>
+                </header>
+
+                <!-- Chart Container -->
+                <div class="chart-container" id="container"></div>
+
+                <!-- Table Container -->
+                <div class="table-container">
+                    <h3 class="table-section-title">Detalle del Escenario Seleccionado</h3>
+                    <table class="data-table" id="data-table">
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Requisito Técnico (Real)</th>
+                                <th>Propuesto (Oficial)</th>
+                                <th>Incremento Anual</th>
+                                <th>Brecha (Oferta vs Demanda)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="footer-note">
+                    <p><strong>Fuente:</strong> Dirección General de Transición Energética. Propuesta de Estrategia de
+                        Transición para Requisitos de CEL (2025-2028).</p>
+
+                    <!-- Pros and Cons Container -->
+                    <div id="scenario-analysis" class="pros-cons-grid">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Shared JS -->
+        <script src="js/pages-common.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+        <script>
+            // Data derived from PDF "Propuesta de Estrategia de Transición para Requisitos de CEL (2025-2028)"
+            const scenarios = {
+                "A": {
+                    name: "Escenario A: Convergencia Acelerada (2025 a 2028)",
+                    description: "“Transición Rápida”. Busca cerrar la brecha regulatoria lo más rápido posible (3 años efectivos), aceptando incrementos anuales pronunciados.",
+                    data: [
+                        { year: 2025, technical: 31.99, proposed: 13.9, increment: "-", gap: "+18.0% (Superávit masivo)" },
+                        { year: 2026, technical: 33.22, proposed: 22.5, increment: "+8.6 p.p.", gap: "+10.7% (Superávit alto)" },
+                        { year: 2027, technical: 33.77, proposed: 30.5, increment: "+8.0 p.p.", gap: "+3.2% (Superávit bajo)" },
+                        { year: 2028, technical: 38.59, proposed: 38.6, increment: "+8.1 p.p.", gap: "0.0% (Normalización)" }
+                    ],
+                    pros: "El más rápido, evita acumulación excesiva de obligaciones diferidas.",
+                    contras: "Alto estrés financiero para participantes, incrementos de ~60% anual en presupuesto requerido."
+                },
+                "B": {
+                    name: "Escenario B: Convergencia Moderada (2025 a 2029)",
+                    description: "“Transición Equilibrada”. Extiende el ajuste un año más, permitiendo incrementos anuales de ~7 puntos porcentuales. (RECOMENDADO)",
+                    data: [
+                        { year: 2025, technical: 31.99, proposed: 13.9, increment: "-", gap: "+18.0% (Reserva estratégica)" },
+                        { year: 2026, technical: 33.22, proposed: 21.5, increment: "+7.6 p.p.", gap: "+11.7% (Reserva estratégica)" },
+                        { year: 2027, technical: 33.77, proposed: 28.8, increment: "+7.3 p.p.", gap: "+4.9% (Absorción suave)" },
+                        { year: 2028, technical: 38.59, proposed: 36.0, increment: "+7.2 p.p.", gap: "+2.5% (Absorción final)" },
+                        { year: 2029, technical: 43.18, proposed: 43.2, increment: "+7.2 p.p.", gap: "0.0% (Normalización)" }
+                    ],
+                    pros: "Suaviza curva financiera, crea reserva estratégica de certificados.",
+                    contras: "Mantiene validez técnica de discrepancia por 4 años. Punto óptimo costo-beneficio."
+                },
+                "C": {
+                    name: "Escenario C: Convergencia Gradual (2025 a 2030)",
+                    description: "“Transición Gradual”. Prioriza la estabilidad, diluyendo el ajuste en 5 años.",
+                    data: [
+                        { year: 2025, technical: 31.99, proposed: 13.9, increment: "-", gap: "+18.0%" },
+                        { year: 2026, technical: 33.22, proposed: 20.3, increment: "+6.4 p.p.", gap: "+12.9% (Acumulación alta)" },
+                        { year: 2027, technical: 33.77, proposed: 26.7, increment: "+6.4 p.p.", gap: "+7.0% (Acumulación media)" },
+                        { year: 2028, technical: 38.59, proposed: 33.1, increment: "+6.4 p.p.", gap: "+5.4% (Acumulación media)" },
+                        { year: 2029, technical: 43.18, proposed: 39.5, increment: "+6.4 p.p.", gap: "+3.6% (Acumulación baja)" },
+                        { year: 2030, technical: 45.84, proposed: 45.8, increment: "+6.3 p.p.", gap: "0.0% (Normalización)" }
+                    ],
+                    pros: "Menor impacto anual en el presupuesto inmediato.",
+                    contras: "Riesgo de sobreoferta masiva y caída dramática de precios de CELs."
+                }
+            };
+
+            let chart;
+
+            function updateContent(scenarioKey) {
+                const data = scenarios[scenarioKey];
+
+                // Update Text
+                document.getElementById('scenario-description').textContent = data.description;
+                // Update Pros/Cons
+                const analysisContainer = document.getElementById('scenario-analysis');
+                analysisContainer.innerHTML = `
+                    <div class="analysis-box pros-box">
+                        <span class="box-title">✅ Ventajas (Pros)</span>
+                        ${data.pros}
+                    </div>
+                    <div class="analysis-box cons-box">
+                        <span class="box-title">⚠️ Desventajas (Contras)</span>
+                        ${data.contras}
+                    </div>
+                `;
+
+                // Update Table
+                const tbody = document.querySelector('#data-table tbody');
+                tbody.innerHTML = '';
+                data.data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${row.year}</td>
+                    <td>${row.technical}%</td>
+                    <td class="highlight-val">${row.proposed}%</td>
+                    <td>${row.increment}</td>
+                    <td>${row.gap}</td>
+                `;
+                    tbody.appendChild(tr);
+                });
+
+                // Prepare Chart Data
+                const categories = data.data.map(d => d.year);
+                const technicalSeries = data.data.map(d => d.technical);
+                const proposedSeries = data.data.map(d => d.proposed);
+
+                // Update Chart
+                if (chart) {
+                    chart.update({
+                        xAxis: { categories: categories },
+                        series: [
+                            { name: 'Requisito Técnico (Real)', data: technicalSeries },
+                            { name: 'Propuesto (Oficial)', data: proposedSeries }
+                        ],
+                        title: { text: `Convergencia: ${data.name}` }
+                    });
+                } else {
+                    initChart(categories, technicalSeries, proposedSeries, data.name);
+                }
+            }
+
+            function initChart(categories, technical, proposed, title) {
+                chart = Highcharts.chart('container', {
+                    chart: {
+                        type: 'spline',
+                        backgroundColor: null, // Transparent for capture
+                        events: {
+                            fullscreenOpen: function () {
+                                this.update({ chart: { backgroundColor: '#FFFFFF' } });
+                            },
+                            fullscreenClose: function () {
+                                this.update({ chart: { backgroundColor: null } });
+                            }
+                        }
+                    },
+                    title: { text: `Convergencia: ${title}` },
+                    xAxis: { categories: categories, title: { text: 'Año' } },
+                    yAxis: { title: { text: 'Porcentaje (%)' }, min: 0 },
+                    tooltip: { shared: true, valueSuffix: ' %' },
+                    colors: ['#9B2247', '#1E5B4F'],
+                    series: [{
+                        name: 'Requisito Técnico (Real)',
+                        data: technical,
+                        color: '#98989A',
+                        dashStyle: 'ShortDash',
+                        marker: { symbol: 'diamond' }
+                    }, {
+                        name: 'Propuesto (Oficial)',
+                        data: proposed,
+                        color: '#9B2247',
+                        lineWidth: 3,
+                        marker: { symbol: 'circle', radius: 6 }
+                    }],
+                    exporting: { enabled: false } // Disable Highcharts export menu
+                });
+            }
+
+            function downloadFullReport() {
+                const element = document.getElementById('report-capture-area');
+                const btn = document.getElementById('btn-download');
+
+                // Sanitize Title for Filename
+                const currentTitleElement = document.querySelector('.header h1') || document.querySelector('h1');
+                let cleanTitle = "Reporte_Estrategia_Transicion_CEL";
+                if (currentTitleElement) {
+                    cleanTitle = currentTitleElement.innerText.replace(/ /g, '_').replace(/ó/g, 'o').replace(/á/g, 'a').replace(/é/g, 'e').replace(/\n/g, '');
+                }
+
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Generando imagen...';
+                btn.disabled = true;
+
+                const originalBg = element.style.backgroundColor;
+                // Force white background for capture
+                element.style.backgroundColor = '#ffffff';
+
+                html2canvas(element, { scale: 2, backgroundColor: '#ffffff', useCORS: true }).then(canvas => {
+                    element.style.backgroundColor = originalBg; // Restore
+                    const link = document.createElement('a');
+                    link.download = `${cleanTitle}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    console.error(err);
+                    element.style.backgroundColor = originalBg;
+                    alert('Error al generar la imagen.');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', () => {
+                const select = document.getElementById('scenario-select');
+                select.addEventListener('change', (e) => updateContent(e.target.value));
+
+                // Initial load
+                updateContent('B'); // Default to Recommended
+            });
+
+        </script>
+</body>
+
+</html>
