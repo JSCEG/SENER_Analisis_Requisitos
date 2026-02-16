@@ -13,204 +13,53 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
 
+    <!-- Estilos Compartidos -->
+    <link rel="stylesheet" href="css/pages-common.css">
+
     <!-- Librerías -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-    <style>
-        :root {
-            /* Colores Institucionales */
-            --color-gobmx-guinda: #9B2247;
-            --color-gobmx-verde: #1E5B4F;
-            --color-gobmx-dorado: #A57F2C;
-            --color-gobmx-gris: #98989A;
-            --color-gobmx-gris-claro: #E5E5E5;
-
-            /* Tipografía */
-            --font-family-headings: 'Merriweather', serif;
-            --font-family-body: 'Noto Sans', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-family-body);
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-
-        .main-wrapper {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .controls-area {
-            text-align: right;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-        .btn-export-full {
-            background-color: var(--color-gobmx-guinda);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-family: var(--font-family-body);
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.2s;
-        }
-
-        .btn-export-full:hover {
-            background-color: #7a1b38;
-        }
-
-        #report-capture-area {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            border-bottom: 4px solid var(--color-gobmx-dorado);
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header-logos img {
-            height: 60px;
-            margin-left: 20px;
-            object-fit: contain;
-        }
-
-        h1 {
-            font-family: var(--font-family-headings);
-            color: var(--color-gobmx-guinda);
-            margin: 0 0 5px 0;
-            font-size: 24px;
-        }
-
-        h2 {
-            font-family: var(--font-family-headings);
-            color: var(--color-gobmx-verde);
-            margin: 0;
-            font-size: 16px;
-        }
-
-        #container-chart {
-            width: 100%;
-            height: 500px;
-            margin-bottom: 20px;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            font-family: 'Noto Sans', sans-serif;
-            text-align: right;
-        }
-
-        .data-table th,
-        .data-table td {
-            padding: 6px 4px;
-            border: 1px solid #ddd;
-        }
-
-        .data-table th {
-            background-color: var(--color-gobmx-guinda);
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .data-table td:first-child,
-        .data-table th:first-child {
-            text-align: left;
-            position: sticky;
-            left: 0;
-            background-color: white;
-            z-index: 1;
-            font-weight: bold;
-            min-width: 250px;
-            /* Más ancho para los nombres largos */
-        }
-
-        .data-table th:first-child {
-            background-color: var(--color-gobmx-guinda);
-            color: white;
-            z-index: 2;
-        }
-
-        .data-table tr:nth-child(even) td {
-            background-color: #f9f9f9;
-        }
-
-        .data-table tr:hover td {
-            background-color: #f1f1f1;
-        }
-
-        /* Fila de Porcentaje (Negrita y destacado) */
-        .row-highlight td {
-            background-color: #e8f5e9 !important;
-            /* Verde muy claro */
-            font-weight: bold;
-            border-top: 2px solid #1E5B4F;
-        }
-
-        .footer-note {
-            font-size: 11px;
-            color: #666;
-            margin-top: 10px;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-            line-height: 1.4;
-        }
-    </style>
+    <script src="js/pages-common.js" defer></script>
 </head>
 
 <body>
 
-    <div class="main-wrapper">
-        <div class="controls-area">
-            <label for="end-year-select" style="font-size: 14px; font-weight: bold; margin-right: 10px;">Hasta el
-                año:</label>
-            <select id="end-year-select"
-                style="padding: 8px; border-radius: 4px; border: 1px solid #ddd; margin-right: 10px; font-family: var(--font-family-body);">
-                <!-- Se llena dinámicamente -->
-            </select>
+    <!-- Navegación Responsiva -->
+    <nav class="site-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="img/logo_sener.png" alt="SENER Logo">
+                <span>Requisitos CEL</span>
+            </div>
+            <button class="nav-toggle" aria-label="Abrir menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="requisito_cel.html" class="nav-link active">Requisito</a>
+                <a href="metodologia_cel.html" class="nav-link">Metodología</a>
+                <a href="obligacion_cel_participantes.html" class="nav-link">Obligaciones</a>
+                <a href="pronostico_generacion.html" class="nav-link">Pronóstico</a>
+                <a href="indicador_y_requisito_cel.html" class="nav-link">Indicadores</a>
+            </div>
+        </div>
+    </nav>
 
-            <a href="index.html" class="btn-nav"
-                style="text-decoration: none; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px; color: var(--color-gobmx-guinda); font-weight: bold; font-family: var(--font-family-body); font-size: 14px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                    <path fill-rule="evenodd"
-                        d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-                </svg>
-                Inicio
-            </a>
+    <div class="main-wrapper">
+
+        <!-- Área de Controles -->
+        <div class="controls-area">
+            <div class="control-group">
+                <label for="end-year-select" class="control-label">Proyectar hasta:</label>
+                <select id="end-year-select" class="control-select">
+                    <!-- Se llena dinámicamente -->
+                </select>
+            </div>
 
             <button id="btn-download" class="btn-export-full" onclick="downloadFullReport()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -219,18 +68,17 @@
                     <path
                         d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                 </svg>
-                Descargar Imagen (Gráfica + Tabla)
+                Descargar Imagen
             </button>
         </div>
 
-        <!-- Área de Captura -->
+        <!-- Área de Captura (Reporte) -->
         <div id="report-capture-area">
-            <header>
+            <header class="page-header">
                 <div>
                     <h1>Porcentaje de Requisito de Energía Limpia 2025-2039</h1>
-                    <h2 style="margin-bottom: 2px;">Subsecretaría de Planeación y Transición Energética</h2>
-                    <h3 style="margin: 0; color: var(--color-gobmx-gris); font-weight: normal; font-size: 14px;">
-                        Dirección General de Transición Energética</h3>
+                    <h2>Subsecretaría de Planeación y Transición Energética</h2>
+                    <h3>Dirección General de Transición Energética</h3>
                 </div>
                 <div class="header-logos">
                     <img src="img/logo_sener.png" alt="SENER">

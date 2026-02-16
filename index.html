@@ -13,45 +13,31 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
 
+    <!-- Estilos Compartidos -->
+    <link rel="stylesheet" href="css/pages-common.css">
+
     <style>
-        :root {
-            /* Colores Institucionales */
-            --color-gobmx-guinda: #9B2247;
-            --color-gobmx-verde: #1E5B4F;
-            --color-gobmx-dorado: #A57F2C;
-            --color-gobmx-gris: #98989A;
-            --color-gobmx-gris-claro: #E5E5E5;
+        /* Estilos Específicos del Dashboard (que no están en common) */
 
-            /* Tipografía */
-            --font-family-headings: 'Merriweather', serif;
-            --font-family-body: 'Noto Sans', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-family-body);
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
+        /* Ajustes al Header para el Dashboard (sin navegación) */
         header {
+            /* Sobrescribe el header flex de common si es necesario, 
+               pero common.css no tiene estilos de 'header' tag globales agresivos excepto border-bottom */
             background-color: white;
             border-bottom: 4px solid var(--color-gobmx-dorado);
             padding: 20px 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: block;
+            /* Reset flex from common if any */
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .header-text h1 {
@@ -74,11 +60,6 @@
             margin: 2px 0 0 0;
             font-size: 0.9rem;
             font-weight: normal;
-        }
-
-        .header-logos img {
-            height: 60px;
-            object-fit: contain;
         }
 
         .intro-section {
@@ -120,6 +101,10 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             padding-bottom: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         .card {
