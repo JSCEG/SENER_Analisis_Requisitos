@@ -1,0 +1,2551 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Nueva Arquitectura CEL | SENER</title>
+
+    <!-- Fuentes Institucionales -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Estilos Compartidos -->
+    <link rel="stylesheet" href="css/pages-common.css">
+
+    <style>
+        /* ========== PRESENTATION LAYOUT ========== */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--color-bg-body);
+        }
+
+        .pres-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar --- */
+        .pres-sidebar {
+            width: 300px;
+            min-width: 300px;
+            background: white;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .pres-sidebar-header {
+            padding: 20px;
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .pres-sidebar-header h3 {
+            font-family: var(--font-family-headings);
+            font-size: 1rem;
+            margin: 0;
+            color: white;
+        }
+
+        .pres-sidebar-header p {
+            font-size: 0.8rem;
+            opacity: 0.85;
+            margin: 6px 0 0;
+        }
+
+        /* Progress bar */
+        .pres-progress {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .pres-progress-fill {
+            height: 100%;
+            background: var(--color-gobmx-dorado);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Part groups */
+        .part-group {
+            border-bottom: 1px solid #eee;
+        }
+
+        .part-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--color-gobmx-guinda);
+            background: #fafafa;
+            cursor: pointer;
+            user-select: none;
+            border-left: 4px solid transparent;
+            transition: 0.2s;
+        }
+
+        .part-title:hover {
+            background: #f0f0f0;
+        }
+
+        .part-title.open {
+            border-left-color: var(--color-gobmx-guinda);
+            background: #f5f0f2;
+        }
+
+        .part-title .arrow {
+            transition: transform 0.3s;
+            font-size: 0.7rem;
+        }
+
+        .part-title.open .arrow {
+            transform: rotate(90deg);
+        }
+
+        .part-items {
+            display: none;
+        }
+
+        .part-items.open {
+            display: block;
+        }
+
+        .slide-link {
+            display: block;
+            padding: 10px 20px 10px 32px;
+            font-size: 0.85rem;
+            color: #555;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: 0.2s;
+            line-height: 1.4;
+        }
+
+        .slide-link:hover {
+            background: #f5f5f5;
+            color: var(--color-gobmx-guinda);
+        }
+
+        .slide-link.active {
+            background: #fdf0f3;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            border-left-color: var(--color-gobmx-dorado);
+        }
+
+        /* Mobile hamburger for sidebar */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-gobmx-guinda);
+            color: white;
+            font-size: 1.4rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- Main Content --- */
+        .pres-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        /* Slides */
+        .slide {
+            display: none;
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide header */
+        .slide-badge {
+            display: inline-block;
+            background: var(--color-gobmx-guinda);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .slide h2 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .slide-subtitle {
+            color: var(--color-gobmx-verde);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        /* Problemática y Mejora card */
+        .card-problema {
+            background: white;
+            border-left: 5px solid var(--color-gobmx-verde);
+            border-radius: 0 8px 8px 0;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .card-problema .card-label {
+            font-weight: 700;
+            color: var(--color-gobmx-verde);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        /* Comparative table */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comp-table thead th {
+            background: var(--color-gobmx-guinda);
+            color: white;
+            padding: 12px 16px;
+            font-family: var(--font-family-headings);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .comp-table thead th:first-child {
+            background: #7a1b38;
+        }
+
+        .comp-table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .comp-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .comp-table tbody td:first-child {
+            font-weight: 700;
+            color: var(--color-gobmx-guinda);
+            white-space: nowrap;
+            background: white;
+        }
+
+        .comp-table tbody tr:nth-child(even) td:first-child {
+            background: #fafafa;
+        }
+
+        /* Legal references */
+        .ref {
+            font-size: 0.78rem;
+            color: var(--color-gobmx-dorado);
+            font-weight: 700;
+        }
+
+        /* Perspectiva Regulatoria (collapsible) */
+        .perspectiva-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 20px;
+            background: #fdf8ef;
+            border: 1px solid #e8dcc6;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--color-gobmx-dorado);
+            font-size: 0.85rem;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .perspectiva-toggle:hover {
+            background: #f8f0df;
+        }
+
+        .perspectiva-toggle .arrow {
+            transition: transform 0.3s;
+        }
+
+        .perspectiva-toggle.open .arrow {
+            transform: rotate(90deg);
+        }
+
+        .perspectiva-content {
+            display: none;
+            background: #fdf8ef;
+            border: 1px solid #e8dcc6;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 20px 24px;
+            margin-top: -1px;
+            line-height: 1.7;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .perspectiva-content.open {
+            display: block;
+        }
+
+        /* Portada */
+        .slide-portada {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 60vh;
+        }
+
+        .portada-logo {
+            height: 80px;
+            margin-bottom: 24px;
+        }
+
+        .slide-portada h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .portada-divider {
+            width: 80px;
+            height: 4px;
+            background: var(--color-gobmx-dorado);
+            border-radius: 2px;
+            margin: 16px auto;
+        }
+
+        .slide-portada .portada-institution {
+            color: var(--color-gobmx-verde);
+            font-family: var(--font-family-headings);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .slide-portada .portada-sub {
+            color: var(--color-gobmx-gris);
+            font-size: 0.95rem;
+        }
+
+        /* Navigation buttons */
+        .slide-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .slide-nav button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--color-gobmx-guinda);
+            background: white;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .slide-nav button:hover {
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .slide-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Conclusión card */
+        .conclusion-card {
+            background: linear-gradient(135deg, #fdf0f3 0%, #f0f7f5 100%);
+            border: 2px solid var(--color-gobmx-dorado);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 24px;
+        }
+
+        .conclusion-card h3 {
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 16px;
+        }
+
+        .conclusion-card ul {
+            padding-left: 20px;
+            line-height: 2;
+        }
+
+        /* Footer */
+        .pres-footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 900px) {
+            .pres-sidebar {
+                position: fixed;
+                left: -320px;
+                top: 60px;
+                bottom: 0;
+                z-index: 998;
+                transition: left 0.3s ease;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .pres-sidebar.open {
+                left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .slide {
+                padding: 24px 16px;
+            }
+
+            .slide h2 {
+                font-size: 1.3rem;
+            }
+
+            .slide-portada h1 {
+                font-size: 1.6rem;
+            }
+
+            .comp-table {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ========== TIMELINE SLIDE ========== */
+        .timeline-container {
+            position: relative;
+            padding: 20px 0 20px 0;
+            overflow-x: auto;
+        }
+
+        .tl-group {
+            margin-bottom: 28px;
+        }
+
+        .tl-group-title {
+            font-family: var(--font-family-headings);
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .tl-group-title.p1 {
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .tl-group-title.p2 {
+            background: var(--color-gobmx-verde);
+            color: white;
+        }
+
+        .tl-group-title.p3 {
+            background: var(--color-gobmx-dorado);
+            color: white;
+        }
+
+        .tl-group-title.p4 {
+            background: #555;
+            color: white;
+        }
+
+        .tl-track {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tl-node {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+            line-height: 1.3;
+        }
+
+        .tl-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .tl-node .tl-num {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .tl-node.p1 {
+            background: #fdf0f3;
+            border-color: var(--color-gobmx-guinda);
+            color: #6b1530;
+        }
+
+        .tl-node.p1 .tl-num {
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .tl-node.p2 {
+            background: #eef6f4;
+            border-color: var(--color-gobmx-verde);
+            color: #14423a;
+        }
+
+        .tl-node.p2 .tl-num {
+            background: var(--color-gobmx-verde);
+            color: white;
+        }
+
+        .tl-node.p3 {
+            background: #fdf8ef;
+            border-color: var(--color-gobmx-dorado);
+            color: #6b5017;
+        }
+
+        .tl-node.p3 .tl-num {
+            background: var(--color-gobmx-dorado);
+            color: white;
+        }
+
+        .tl-node.p4 {
+            background: #f5f5f5;
+            border-color: #555;
+            color: #333;
+        }
+
+        .tl-node.p4 .tl-num {
+            background: #555;
+            color: white;
+        }
+
+        .tl-legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .tl-legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tl-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* ========== NOTA IMPORTANTE BANNER ========== */
+        .nota-importante {
+            background: linear-gradient(135deg, #fdf0f3 0%, #fff3e0 100%);
+            border: 3px solid var(--color-gobmx-guinda);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .nota-importante::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-gobmx-guinda), var(--color-gobmx-dorado));
+            border-radius: 12px 12px 0 0;
+        }
+
+        .nota-importante-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-family-headings);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nota-importante-header .nota-icon {
+            font-size: 1.4rem;
+        }
+
+        .nota-importante p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+        }
+
+        .nota-importante strong {
+            color: var(--color-gobmx-guinda);
+        }
+
+        /* ========== EOLICAS MARINAS ========== */
+        .tl-node.p5 {
+            background: #e8f4fd;
+            border-color: #1565C0;
+            color: #0d3b66;
+        }
+
+        .tl-node.p5 .tl-num {
+            background: #1565C0;
+            color: white;
+        }
+
+        .tl-group-title.p5 {
+            background: #1565C0;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar (same as index.html) -->
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html"
+                style="color:var(--color-gobmx-guinda); text-decoration:none; display:flex; align-items:center;">
+                <span style="font-size: 1.2rem; margin-right: 5px;"><i class="bi bi-bar-chart-fill"></i></span> SENER |
+                CELs
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span
+                        class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a>
+                    </li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación
+                            Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- <li class="nav-item"><a href="sistema_cel.html" class="nav-link">Sistema CEL</a></li> -->
+            <li class="nav-item"><a href="presentacion_otorgamiento_cel.html" class="nav-link active">Presentación
+                    Otorgamiento</a></li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+        </ul>
+    </nav>
+
+    <div class="pres-container">
+        <!-- Sidebar -->
+        <aside class="pres-sidebar" id="sidebar">
+            <div class="pres-sidebar-header">
+                <h3>Nueva Arquitectura CEL</h3>
+                <p>LSE 2025 · 26 Diapositivas</p>
+                <div class="pres-progress">
+                    <div class="pres-progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Portada -->
+            <div class="slide-link active" data-target="portada">📋 Portada</div>
+            <div class="slide-link" data-target="timeline">🗺️ Mapa de Transformación</div>
+
+            <!-- Parte 1 -->
+            <div class="part-group">
+                <div class="part-title open"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+                    <span>Parte 1: Nuevo Paradigma</span><span class="arrow">▸</span>
+                </div>
+                <div class="part-items open">
+                    <div class="slide-link" data-target="s1">1. Cambio de Paradigma</div>
+                    <div class="slide-link" data-target="s2">2. Automatización del Otorgamiento</div>
+                    <div class="slide-link" data-target="s3">3. Identificación: GLD</div>
+                </div>
+            </div>
+
+            <!-- Parte 2 -->
+            <div class="part-group">
+                <div class="part-title"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+                    <span>Parte 2: Modernización S-CEL</span><span class="arrow">▸</span>
+                </div>
+                <div class="part-items">
+                    <div class="slide-link" data-target="s4">4. Inscripción al S-CEL</div>
+                    <div class="slide-link" data-target="s5">5. Registro S-RCEL</div>
+                    <div class="slide-link" data-target="s6">6. Medición y Datos</div>
+                    <div class="slide-link" data-target="s7">7. Trazabilidad UID</div>
+                    <div class="slide-link" data-target="s8">8. Validación Técnica</div>
+                    <div class="slide-link" data-target="s9">9. Conteo y Fraccionamiento</div>
+                    <div class="slide-link" data-target="s10">10. Trazabilidad Jurídica</div>
+                    <div class="slide-link" data-target="s11">11. Disponibilidad Real</div>
+                    <div class="slide-link" data-target="s12">12. Flexibilidad y Diferimiento</div>
+                    <div class="slide-link" data-target="s13">13. Entidades Voluntarias</div>
+                </div>
+            </div>
+
+            <!-- Parte 3 -->
+            <div class="part-group">
+                <div class="part-title"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+                    <span>Parte 3: Mercado y Comercio</span><span class="arrow">▸</span>
+                </div>
+                <div class="part-items">
+                    <div class="slide-link" data-target="s14">14. Transacciones Bilaterales</div>
+                    <div class="slide-link" data-target="s15">15. Bolsa No Onerosa</div>
+                    <div class="slide-link" data-target="s16">16. Precio del CEL</div>
+                    <div class="slide-link" data-target="s17">17. Contratos de Cobertura</div>
+                    <div class="slide-link" data-target="s18">18. Subastas de CEL</div>
+                </div>
+            </div>
+
+            <!-- Parte 4 -->
+            <div class="part-group">
+                <div class="part-title"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+                    <span>Parte 4: Cumplimiento y Transparencia</span><span class="arrow">▸</span>
+                </div>
+                <div class="part-items">
+                    <div class="slide-link" data-target="s19">19. DECLARACEL</div>
+                    <div class="slide-link" data-target="s20">20. Sanciones</div>
+                    <div class="slide-link" data-target="s21">21. Transparencia</div>
+                </div>
+            </div>
+
+            <!-- Parte 5 -->
+            <div class="part-group">
+                <div class="part-title"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+                    <span>Parte 5: Eólicas Marinas</span><span class="arrow">▸</span>
+                </div>
+                <div class="part-items">
+                    <div class="slide-link" data-target="eolicas">🌊 Eólicas Marinas</div>
+                </div>
+            </div>
+
+            <!-- Conclusión -->
+            <div class="slide-link" data-target="conclusion">📌 Conclusión</div>
+        </aside>
+
+        <!-- Mobile sidebar toggle -->
+        <button class="sidebar-toggle" id="sidebarToggle"
+            onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+        <!-- Main Content -->
+        <main class="pres-main">
+
+            <!-- PORTADA -->
+            <div class="slide active" id="portada">
+                <div class="slide-portada">
+                    <img src="img/logo_sener.png" alt="SENER" class="portada-logo">
+                    <h1>La Nueva Arquitectura de los<br>Certificados de Energía Limpia (CEL)</h1>
+                    <div class="portada-divider"></div>
+                    <p class="portada-institution">Subsecretaría de Planeación y Transición Energética</p>
+                    <p class="portada-sub">Dirección General de Transición Energética</p>
+                    <p style="margin-top:24px;color:var(--color-gobmx-gris);font-size:0.9rem">Ley del Sector Eléctrico
+                        2025 · Análisis de Otorgamiento</p>
+                </div>
+                <div class="slide-nav">
+                    <button disabled>← Anterior</button>
+                    <button onclick="navigateTo('timeline')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- TIMELINE SLIDE -->
+            <div class="slide" id="timeline">
+                <span class="slide-badge">Panorama General</span>
+                <h2>Mapa de Transformación del Sistema CEL</h2>
+                <p class="slide-subtitle">20 áreas de mejora: de la LIE 2014 a la LSE 2025</p>
+
+                <div class="timeline-container">
+                    <!-- Parte 1 -->
+                    <div class="tl-group">
+                        <div class="tl-group-title p1">Parte 1 — El Nuevo Paradigma (Puntos 1-3)</div>
+                        <div class="tl-track">
+                            <div class="tl-node p1" onclick="navigateTo('s1')"><span class="tl-num">1</span>Definición
+                                del CEL</div>
+                            <div class="tl-node p1" onclick="navigateTo('s2')"><span class="tl-num">2</span>Modelo de
+                                Otorgamiento</div>
+                            <div class="tl-node p1" onclick="navigateTo('s3')"><span
+                                    class="tl-num">3</span>Identificación
+                                en GD</div>
+                        </div>
+                    </div>
+
+                    <!-- Parte 2 -->
+                    <div class="tl-group">
+                        <div class="tl-group-title p2">Parte 2 — Modernización S-CEL (Puntos 4-13)</div>
+                        <div class="tl-track">
+                            <div class="tl-node p2" onclick="navigateTo('s4')"><span class="tl-num">4</span>Inscripción
+                                al Registro</div>
+                            <div class="tl-node p2" onclick="navigateTo('s5')"><span class="tl-num">5</span>Admin. de
+                                Cuentas</div>
+                            <div class="tl-node p2" onclick="navigateTo('s6')"><span class="tl-num">6</span>Medición y
+                                Datos</div>
+                            <div class="tl-node p2" onclick="navigateTo('s7')"><span class="tl-num">7</span>Trazabilidad
+                                UID</div>
+                            <div class="tl-node p2" onclick="navigateTo('s8')"><span class="tl-num">8</span>Validación
+                                Técnica</div>
+                            <div class="tl-node p2" onclick="navigateTo('s9')"><span class="tl-num">9</span>Conteo y
+                                Fraccionamiento</div>
+                            <div class="tl-node p2" onclick="navigateTo('s10')"><span
+                                    class="tl-num">10</span>Trazabilidad
+                                Jurídica</div>
+                            <div class="tl-node p2" onclick="navigateTo('s11')"><span
+                                    class="tl-num">11</span>Disponibilidad
+                                Real</div>
+                            <div class="tl-node p2" onclick="navigateTo('s12')"><span
+                                    class="tl-num">12</span>Flexibilidad
+                            </div>
+                            <div class="tl-node p2" onclick="navigateTo('s13')"><span class="tl-num">13</span>Entidades
+                                Voluntarias</div>
+                        </div>
+                    </div>
+
+                    <!-- Parte 3 -->
+                    <div class="tl-group">
+                        <div class="tl-group-title p3">Parte 3 — Mercado y Comercio (Puntos 14-17)</div>
+                        <div class="tl-track">
+                            <div class="tl-node p3" onclick="navigateTo('s14')"><span class="tl-num">14</span>Bolsa No
+                                Onerosa</div>
+                            <div class="tl-node p3" onclick="navigateTo('s15')"><span class="tl-num">15</span>Formación
+                                de Precios</div>
+                            <div class="tl-node p3" onclick="navigateTo('s16')"><span class="tl-num">16</span>Contratos
+                                de Cobertura</div>
+                            <div class="tl-node p3" onclick="navigateTo('s17')"><span class="tl-num">17</span>Subastas
+                                de CEL</div>
+                        </div>
+                    </div>
+
+                    <!-- Parte 4 -->
+                    <div class="tl-group">
+                        <div class="tl-group-title p4">Parte 4 — Cumplimiento y Transparencia (Puntos 18-20)</div>
+                        <div class="tl-track">
+                            <div class="tl-node p4" onclick="navigateTo('s18')"><span class="tl-num">18</span>Subastas
+                                de CEL</div>
+                            <div class="tl-node p4" onclick="navigateTo('s19')"><span class="tl-num">19</span>DECLARACEL
+                            </div>
+                            <div class="tl-node p4" onclick="navigateTo('s20')"><span class="tl-num">20</span>Sanciones
+                            </div>
+                            <div class="tl-node p4" onclick="navigateTo('s21')"><span
+                                    class="tl-num">21</span>Transparencia
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parte 5 -->
+                    <div class="tl-group">
+                        <div class="tl-group-title p5">Parte 5 — Eólicas Marinas</div>
+                        <div class="tl-track">
+                            <div class="tl-node p5" onclick="navigateTo('eolicas')"><span
+                                    class="tl-num">🌊</span>Análisis
+                                Proyecto Eólica Marina</div>
+                        </div>
+                    </div>
+
+                    <div class="tl-legend">
+                        <span><span class="tl-legend-dot" style="background:var(--color-gobmx-guinda)"></span>
+                            Paradigma</span>
+                        <span><span class="tl-legend-dot" style="background:var(--color-gobmx-verde)"></span>
+                            Modernización</span>
+                        <span><span class="tl-legend-dot" style="background:var(--color-gobmx-dorado)"></span>
+                            Mercado</span>
+                        <span><span class="tl-legend-dot" style="background:#555"></span> Cumplimiento</span>
+                        <span><span class="tl-legend-dot" style="background:#1565C0"></span> Eólicas Marinas</span>
+                        <span style="margin-left:auto;font-style:italic">Los nodos con menor opacidad son puntos
+                            complementarios no presentados individualmente.</span>
+                    </div>
+                </div> <!-- /timeline-container -->
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('portada')">← Anterior</button>
+                    <button onclick="navigateTo('s1')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 1: Punto 1 -->
+            <div class="slide" id="s1">
+                <span class="slide-badge">Parte 1 · Punto 1 de 21</span>
+                <h2>El Cambio de Paradigma: Definición y Naturaleza del CEL</h2>
+                <p class="slide-subtitle">De instrumento de mercado a herramienta de planeación estatal</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El CEL ha dejado de ser un mero instrumento financiero. La Ley del Sector Eléctrico (LSE) 2025 lo
+                        transforma en una herramienta de planeación estatal. El cambio no es solo de nombre (de CRE a
+                        CNE), sino de esencia: ahora, el CEL sirve para reconocer y contabilizar <strong>toda la
+                            generación limpia del país</strong> con fines de política energética, sin las exclusiones
+                        del pasado.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Definición</td>
+                            <td>Título emitido por la CRE que acredita la producción de 1 MWh de Energía Limpia. <span
+                                    class="ref">Art. 3, Fracc. VIII, LIE</span></td>
+                            <td>Título emitido por la <strong>CNE</strong> que acredita la producción de 1 MWh de
+                                Energía Limpia. <span class="ref">Art. 3, Fracc. VII, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Autoridad Emisora</td>
+                            <td>Comisión Reguladora de Energía (CRE). <span class="ref">Art. 12, Fracc. XVI, LIE</span>
+                            </td>
+                            <td>Comisión Nacional de Energía (CNE). <span class="ref">Art. 11, Fracc. XVI, LSE</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Elegibilidad</td>
+                            <td>Centrales posteriores al 11 de agosto de 2014. <span class="ref">Lineamientos CEL
+                                    2014</span></td>
+                            <td>No dependerá de la propiedad ni de la fecha de inicio de operación. <span
+                                    class="ref">Art.
+                                    143 y Art. 126, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Naturaleza</td>
+                            <td>Instrumento de mercado abierto. <span class="ref">Art. 121, LIE</span></td>
+                            <td>Instrumento de <strong>Planeación Vinculante</strong>. <span class="ref">Art. 143; Art.
+                                    12, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Vigencia</td>
+                            <td>Indefinida. <span class="ref">Art. 125, LIE</span></td>
+                            <td>Vigencia de <strong>30 meses</strong>. <span class="ref">Art. 146, LSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>El cambio más relevante no es administrativo, sino filosófico. Por primera vez, el Estado podrá
+                        contar con una visión completa de su generación limpia (incluyendo las grandes hidroeléctricas
+                        del pasado) porque el CEL ahora es una herramienta de <strong>reconocimiento</strong>, no solo
+                        de incentivo a nuevo capital privado. La vigencia de 30 meses, en lugar de indefinida, es clave
+                        para evitar la especulación.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('timeline')">← Anterior</button>
+                    <button onclick="navigateTo('s2')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Punto 2 -->
+            <div class="slide" id="s2">
+                <span class="slide-badge">Parte 1 · Punto 2 de 21</span>
+                <h2>Automatización del Otorgamiento para un Inventario Nacional</h2>
+                <p class="slide-subtitle">De "el que no tramita, no existe" a "el Estado te reconoce y te genera el CEL"
+                </p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El modelo antiguo, basado en que el generador "solicitara" su CEL, dejaba fuera a gran parte de
+                        la generación (GD, centrales no inscritas). La propuesta es transitar a un <strong>modelo de
+                            emisión automatizada</strong> donde el Estado, usando sus propios datos (CENACE, CFE),
+                        construya mes a mes un "Inventario Nacional de Energía Limpia" y genere los CEL
+                        correspondientes, estén o no inscritos los generadores.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Modelo de Otorgamiento</td>
+                            <td>Basado en "solicitud de parte" e inscripción voluntaria.</td>
+                            <td><strong>Emisión automatizada</strong> basada en datos oficiales (CENACE/CFE).</td>
+                        </tr>
+                        <tr>
+                            <td>Generación Distribuida (GD)</td>
+                            <td>Dependiente de reportes y medición certificada, lo que la excluía en gran medida.</td>
+                            <td>Uso de <strong>estimaciones</strong> (capacidad instalada, radiación) para incluirla en
+                                el inventario nacional.</td>
+                        </tr>
+                        <tr>
+                            <td>Centrales Legadas</td>
+                            <td>Excluidas del otorgamiento.</td>
+                            <td>Inclusión automática de su generación en el inventario. <span class="ref">Art. 126,
+                                    LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Generadores No Inscritos</td>
+                            <td>No generaban CEL; energía perdida.</td>
+                            <td>Depósito en una <strong>Cuenta de Reserva Estratégica</strong> con plazo para
+                                reclamarlos.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Esta es la <strong>solución arquitectónica</strong> central. Cambiamos la lógica: de "el que no
+                        tramita, no existe" a "el Estado te reconoce, te genera el CEL y te lo guarda". La facultad de
+                        "estimación" del Art. 147 es la llave jurídica que lo permite. La Cuenta de Reserva no es una
+                        "bolsa" para regalar, sino un "apartado" para que el dueño de esa energía pueda reclamar su
+                        activo posteriormente.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s1')">← Anterior</button>
+                    <button onclick="navigateTo('s3')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: Punto 3 -->
+            <div class="slide" id="s3">
+                <span class="slide-badge">Parte 1 · Punto 3 de 21</span>
+                <h2>Unidad de Identificación: Resolviendo el Caso de la GLD</h2>
+                <p class="slide-subtitle">Del Permiso al Punto de Interconexión (RPU/Contrato)</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El sistema antiguo usaba el "Número de Permiso", pero la GLD (&lt;0.7 MW) no tiene permiso (es
+                        "exenta") y su representante comercial puede cambiar mes a mes. La solución es cambiar la unidad
+                        de identificación: del <strong>Permiso</strong> al <strong>Punto de Interconexión
+                            (RPU/Contrato)</strong>. Así, el sistema puede asignar dinámicamente el CEL al suministrador
+                        que representa al generador en cada periodo.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Unidad de Identificación</td>
+                            <td>Número de Permiso de Generación (CRE/CNE).</td>
+                            <td>Para GLD (&lt;0.7 MW): <strong>Punto de Interconexión (RPU/Contrato)</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td>Fundamento</td>
+                            <td>La GLD no tiene permiso (Art. 19 LSE), modelo inoperante.</td>
+                            <td>RPU como "llave única" que sigue la generación independientemente del representante
+                                comercial.</td>
+                        </tr>
+                        <tr>
+                            <td>Asignación del CEL</td>
+                            <td>Proceso administrativo lento y poco claro.</td>
+                            <td><strong>Asignación dinámica mensual</strong>: el sistema identifica al Suministrador
+                                vigente y deposita los CEL automáticamente.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Esta es una solución de "ingeniería de sistemas" para un problema legal. La ley dice que la GLD
+                        no tiene permiso y puede cambiar de representante. Al cambiar la unidad de identificación,
+                        hacemos que el sistema sea lo suficientemente flexible para manejar la alta movilidad de este
+                        segmento del mercado sin necesidad de trámites de cesión mensuales.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s2')">← Anterior</button>
+                    <button onclick="navigateTo('s4')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Punto 4 -->
+            <div class="slide" id="s4">
+                <span class="slide-badge">Parte 2 · Punto 4</span>
+                <h2>Inscripción al S-CEL: Soberanía de Datos y Validación Social</h2>
+                <p class="slide-subtitle">Fe pública digital y la MIS como filtro de legitimidad</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El Registro (S-CEL) se transforma de un mero repositorio documental a una infraestructura de
+                        <strong>Soberanía de Datos</strong> con fe pública digital bajo la CNE. Además, se integra un
+                        filtro social clave: la Manifestación de Impacto Social (MIS) de SENER será un
+                        <strong>pre-requisito obligatorio</strong> para inscribir cualquier central mayor a 0.7 MW,
+                        alineando el otorgamiento de CEL con la justicia energética.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Autoridad del Registro</td>
+                            <td>Administrado por la CRE, información fragmentada.</td>
+                            <td><strong>CNE</strong>, registro único y matriculación inviolable. <span class="ref">Art.
+                                    149, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Validación Social</td>
+                            <td>Inexistente o post-facto.</td>
+                            <td>La <strong>MIS</strong> es pre-requisito obligatorio. <span class="ref">Art. 205,
+                                    RLSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Naturaleza del Acto</td>
+                            <td>Trámite administrativo sujeto a discreción.</td>
+                            <td><strong>Acto de publicidad registral automatizado</strong> con fe pública digital.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Dos palabras clave: "Soberanía" e "Impacto Social". La CNE no solo guarda datos, sino que ejerce
+                        fe pública sobre ellos, garantizando que cada CEL corresponde a un MWh real. Por primera vez, no
+                        se podrá obtener un CEL de un proyecto que no haya pasado el filtro social de SENER, cerrando la
+                        puerta al "greenwashing" social.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s3')">← Anterior</button>
+                    <button onclick="navigateTo('s5')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: Punto 5 -->
+            <div class="slide" id="s5">
+                <span class="slide-badge">Parte 2 · Punto 5</span>
+                <h2>Registro y Administración de Cuentas (S-RCEL)</h2>
+                <p class="slide-subtitle">Automatización, onboarding digital y transición de activos legados</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Se propone un "onboarding digital" mediante interoperabilidad con CENACE. Asimismo, se garantiza
+                        la seguridad jurídica de los activos del pasado: los CEL emitidos bajo la LIE (CEL "Legados")
+                        mantienen su validez, pero el nuevo sistema los identificará claramente para una gestión
+                        ordenada.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gestión de Cuentas</td>
+                            <td>Gestión manual y procesos lentos.</td>
+                            <td><strong>Onboarding digital automatizado</strong> vía interoperabilidad con CENACE. <span
+                                    class="ref">Art. 6, RLSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Validez de CEL Legados</td>
+                            <td>Incertidumbre sobre su futuro.</td>
+                            <td>Conservan su validez. El sistema los distinguirá como "CEL Legados". <span
+                                    class="ref">Transitorio Sexto, RLSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Ciberseguridad</td>
+                            <td>No especificada.</td>
+                            <td>Estándares ISO 27001 para integridad de la información. <span class="ref">Art. 182,
+                                    RLSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Los CEL que ya se compraron o generaron no desaparecen. El Transitorio Sexto les da
+                        "ultra-actividad". La innovación está en el futuro: automatización para ser más eficientes y
+                        estándares de ciberseguridad para proteger los activos.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s4')">← Anterior</button>
+                    <button onclick="navigateTo('s6')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Punto 6 -->
+            <div class="slide" id="s6">
+                <span class="slide-badge">Parte 2 · Punto 6</span>
+                <h2>Medición, Fuentes de Datos e Información Vinculante</h2>
+                <p class="slide-subtitle">Del reporte manual a la telemetría automatizada de CENACE</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Se acabó la era de los reportes manuales propensos a errores. La propuesta es que el sistema se
+                        alimente automáticamente de la <strong>medición fiscal del CENACE</strong> (para gran escala) y
+                        de los reportes de <strong>CFE Distribución</strong> (para GD). Con esta información, se
+                        implementarán algoritmos de validación cruzada en tiempo real.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fuente Principal</td>
+                            <td>Reportes manuales de generadores (alta propensión a error).</td>
+                            <td><strong>Medición fiscal de CENACE</strong> y datos de Distribuidores como fuente oficial
+                                y vinculante. <span class="ref">Art. 52, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Validación de Datos</td>
+                            <td>Manual y ex-post, detección tardía.</td>
+                            <td><strong>Validación cruzada automática y en tiempo real</strong>. <span class="ref">Art.
+                                    147, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Cobertura de GD</td>
+                            <td>Subregistro masivo.</td>
+                            <td>Integración de datos de contratos y uso de <strong>estimaciones técnicas</strong>. <span
+                                    class="ref">Art. 147, LSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>"¿De dónde van a salir los datos?" — Del propio Estado. CENACE ya mide la energía que entra al
+                        sistema. El Distribuidor ya tiene los contratos de la GD. Solo necesitamos la voluntad y la base
+                        legal (Art. 147) para usar esa información de manera inteligente y automatizada.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s5')">← Anterior</button>
+                    <button onclick="navigateTo('s7')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Punto 7 -->
+            <div class="slide" id="s7">
+                <span class="slide-badge">Parte 2 · Punto 7</span>
+                <h2>Trazabilidad Jurídica y Técnica del CEL</h2>
+                <p class="slide-subtitle">UID criptográfico + expediente digital = Libro Mayor de Energía Limpia</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Cada CEL emitido en el nuevo sistema tendrá un <strong>Identificador Único (UID)</strong> con un
+                        "hash" criptográfico que lo vincula a la medición de CENACE. Al consultar ese UID, se desplegará
+                        un expediente digital completo: la central, la tecnología, la fecha de generación y su historial
+                        de propietarios. Esto es el "Libro Mayor" de la energía limpia en México.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Registro (S-CEL 2.0)</td>
+                            <td>Plataforma desconectada de la medición fiscal.</td>
+                            <td>Plataforma soberana de la CNE con un <strong>UID</strong> inviolable vinculado a la
+                                medición de CENACE. <span class="ref">Art. 149, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Metadatos</td>
+                            <td>Información limitada.</td>
+                            <td><strong>Expediente digital</strong> completo: fuente, tecnología, validación CENACE,
+                                estatus social (MIS). <span class="ref">Art. 149, LSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Así como un billete tiene un número de serie que lo hace único, nuestro CEL tendrá un UID que lo
+                        vincula a un MWh específico generado en un lugar y momento concretos. Esto elimina para siempre
+                        la posibilidad de doble conteo o de certificados "fantasma".</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s6')">← Anterior</button>
+                    <button onclick="navigateTo('s8')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: Punto 8 -->
+            <div class="slide" id="s8">
+                <span class="slide-badge">Parte 2 · Punto 8 de 21</span>
+                <h2>Modalidades Operativas de Otorgamiento</h2>
+                <p class="slide-subtitle">De validación por terceros a certificación automatizada por CNE</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Un cambio profundo: antes, cualquier tecnología necesitaba una "Unidad Acreditada" privada para
+                        certificarla. Eso generaba un mercado de certificaciones que, en muchos casos, era un costo sin
+                        valor real. ¿Para qué certificar que un panel solar genera energía solar? La LSE 2025 pone a la
+                        <strong>CNE como autoridad certificadora directa</strong>. Para tecnologías puras (solar,
+                        eólica, hidro, nuclear), la validación será automática con datos de CENACE. Solo para casos
+                        complejos (cogeneración, bioenergía) se mantendrá verificación externa con reglas
+                        anti-conflicto.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Validación Técnica</td>
+                            <td>Dependencia de "Unidades Acreditadas" privadas para certificar eficiencia. <span
+                                    class="ref">RES/1838/2016</span></td>
+                            <td>Validación digital automatizada por CNE basada en interoperabilidad con CENACE. <span
+                                    class="ref">Art. 11-XVI LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Costo para el Generador</td>
+                            <td>Alto (honorarios recurrentes a Unidades Acreditadas).</td>
+                            <td>Bajo/Nulo. Proceso sustentado en datos operativos existentes.</td>
+                        </tr>
+                        <tr>
+                            <td>Centrales Nucleoeléctricas</td>
+                            <td>Sin regla clara, se aplicaba analogía de cogeneración. <span class="ref">Transitorio
+                                    Cuarto RES/2910/2017</span></td>
+                            <td>Medición directa vía CENACE + historial CNSNS. <span class="ref">Art. 182 RLSE</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Rol de Terceros</td>
+                            <td>Indispensable y obligatorio para todos.</td>
+                            <td>Acotado solo a tecnologías complejas (cogeneración, bioenergía).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Esto es "quitar intermediarios innecesarios". Una planta solar es obviamente solar. Con el dato
+                        de CENACE basta. El ahorro para el generador es directo, y la confiabilidad es mayor porque el
+                        dato viene de la operación real, no de una visita de campo que se hace cada 3 años.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s7')">← Anterior</button>
+                    <button onclick="navigateTo('s9')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: Punto 9 -->
+            <div class="slide" id="s9">
+                <span class="slide-badge">Parte 2 · Punto 9 de 21</span>
+                <h2>Conteo, Fraccionamiento y Acumulación de CEL</h2>
+                <p class="slide-subtitle">Precisión de 4 decimales y justicia para pequeños generadores</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El sistema anterior redondeaba: si generabas 0.99 MWh, no obtenías un CEL y esos decimales se
+                        perdían. Para un pequeño generador, 0.99 MWh representan meses de generación. La nueva regla:
+                        <strong>acumulación con 4 decimales</strong>. El sistema lleva contabilidad exacta de cada
+                        fracción. Al alcanzar 1.0000, se emite un CEL y se reinicia la cuenta. Para plantas híbridas, se
+                        llevan cuentas segregadas por tecnología.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Precisión</td>
+                            <td>1 o 2 decimales, pérdida de residuales. <span class="ref">Disp. 32 RES/174/2016</span>
+                            </td>
+                            <td><strong>4 decimales</strong> para captura total de valor. <span class="ref">Art. 147 V
+                                    LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Centrales Híbridas</td>
+                            <td>Conteo global por central, sin desglose.</td>
+                            <td>Acumulación <strong>segregada por tecnología</strong>. <span class="ref">Art. 3 XXI
+                                    LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Validación</td>
+                            <td>Manual y reactiva.</td>
+                            <td>Automática e instructiva (CNE instruye corrección a CENACE).</td>
+                        </tr>
+                        <tr>
+                            <td>Paros y Mantenimientos</td>
+                            <td>Vacío legal en conteo durante pausas.</td>
+                            <td>Flag de estado operativo: suspensión automática de conteo durante mantenimiento.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Una casa con paneles genera 0.3 MWh/mes. En 3 meses tiene 0.9. En el cuarto genera 0.2, llega a
+                        1.1. El sistema emite un CEL y deja 0.1 de saldo. En el pasado, esos 0.1 se habrían perdido por
+                        redondeos. Es un sistema justo que contabiliza cada kilowatt-hora.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s8')">← Anterior</button>
+                    <button onclick="navigateTo('s10')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 10: Punto 10 -->
+            <div class="slide" id="s10">
+                <span class="slide-badge">Parte 2 · Punto 10 de 21</span>
+                <h2>Trazabilidad Jurídica y Técnica del CEL</h2>
+                <p class="slide-subtitle">UID con hash criptográfico: el "número de serie" de la energía limpia</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El Art. 149 LSE habla de "matriculación unitaria" e "historial inviolable". Cada CEL tendrá un
+                        <strong>número de serie único (UID)</strong> con formato
+                        <code>MX-[TEC]-[NODO]-[MES]-[AÑO]-[HASH]</code> y una firma digital que lo ata a la medición de
+                        CENACE. Al consultarlo, se despliega un expediente digital completo: central, tecnología, fecha
+                        y el historial de propietarios. Es el "Libro Mayor" de la energía limpia.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Registro (S-CEL 2.0)</td>
+                            <td>Plataforma desconectada de la medición fiscal.</td>
+                            <td>Plataforma soberana de CNE con UID inviolable vinculado a CENACE. <span class="ref">Art.
+                                    149 LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Identificador Único</td>
+                            <td>Solo un número de folio sin respaldo técnico.</td>
+                            <td><code>MX-[TEC]-[NODO]-[MES]-[AÑO]-[HASH]</code> con firma criptográfica.</td>
+                        </tr>
+                        <tr>
+                            <td>Metadatos</td>
+                            <td>Información limitada.</td>
+                            <td><strong>Expediente digital</strong> completo: fuente, tecnología, validación CENACE,
+                                estatus social (MISSE). <span class="ref">Art. 149 LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Historial de Propiedad</td>
+                            <td>No existía cadena de custodia pública.</td>
+                            <td>Cadena de custodia desde el generador hasta el usuario final.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Así como un billete tiene un número de serie, nuestro CEL tendrá un UID que lo vincula a un MWh
+                        específico. Una empresa puede verificar que su CEL viene de una planta solar en Sonora que operó
+                        en junio de 2025 y que nunca ha sido usado antes. Elimina el doble conteo y los certificados
+                        "fantasma".</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s9')">← Anterior</button>
+                    <button onclick="navigateTo('s11')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 11: Punto 11 -->
+            <div class="slide" id="s11">
+                <span class="slide-badge">Parte 2 · Punto 11 de 21</span>
+                <h2>Disponibilidad Real de CEL</h2>
+                <p class="slide-subtitle">De reportes ex-post a tableros de control en tiempo real</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Antes, la CRE publicaba un reporte mensual desfasado 10 días. Con datos en tiempo real de CENACE,
+                        el nuevo modelo permite <strong>tableros de control vivos</strong>: cuánta energía limpia se
+                        genera hoy, cuántos CEL se acumulan, y proyecciones de déficit. Esto es crucial para la
+                        "Planeación Vinculante" del Art. 12 LSE. Si se detecta un déficit en 6 meses, SENER puede
+                        actuar: ajustar requisitos, lanzar subastas o incentivar generación.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monitoreo</td>
+                            <td>Reporte ex-post (10 días después del cierre de mes). <span class="ref">S-CEL CRE</span>
+                            </td>
+                            <td><strong>Tableros de control en tiempo real</strong> enlazados a CENACE.</td>
+                        </tr>
+                        <tr>
+                            <td>Gestión de Excedentes</td>
+                            <td>CEL no emitidos se transferían a "Bolsa" para asignación gratuita. <span
+                                    class="ref">Disp.
+                                    34 RES/174/2016</span></td>
+                            <td>Creación de <strong>Reserva Estratégica de CELs</strong> administrada por CNE. <span
+                                    class="ref">Art. 141 LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Flexibilidad</td>
+                            <td>Basada en precio (>60 UDIs). <span class="ref">A/013/2019</span></td>
+                            <td>Basada en seguridad energética y disponibilidad física real.</td>
+                        </tr>
+                        <tr>
+                            <td>Planeación</td>
+                            <td>PRODESEN indicativo, no vinculante.</td>
+                            <td><strong>Planeación vinculante</strong>. <span class="ref">Art. 12 LSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Si por una sequía las hidroeléctricas generan menos, el tablero lo detecta en tiempo real. La
+                        autoridad puede activar mecanismos de flexibilidad para los suministradores, dándoles más
+                        tiempo, en lugar de esperar a diciembre para descubrir que todos incumplieron. Es pasar de "ver
+                        el problema cuando ya ocurrió" a "anticiparlo".</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s10')">← Anterior</button>
+                    <button onclick="navigateTo('s12')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 12: Punto 12 -->
+            <div class="slide" id="s12">
+                <span class="slide-badge">Parte 2 · Punto 12 de 21</span>
+                <h2>Mecanismos de Flexibilidad y Diferimiento</h2>
+                <p class="slide-subtitle">De activación financiera a causas técnicas + opción de inversión</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>En el esquema anterior, la flexibilidad se activaba por precio: si el CEL subía mucho, podías
+                        diferir. Era un mecanismo financiero, no técnico. La nueva lógica: la flexibilidad se activa por
+                        <strong>causas técnicas y de planeación</strong> (congestión de red certificada por CENACE,
+                        problemas estructurales de oferta). Y una novedad: la <strong>"Opción de Inversión"</strong> —
+                        en lugar de pagar multa, el obligado puede invertir en paneles solares propios y se le condona
+                        la penalización.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gatillo de Activación</td>
+                            <td>Automático si oferta CEL < 70% demanda. <span class="ref">A/013/2019</span></td>
+                            <td>Dictamen de Balance Energético (SENER/CNE) por causas técnicas. <span class="ref">Art.
+                                    147 LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Costo del Diferimiento</td>
+                            <td>Incremento del 5% de la obligación.</td>
+                            <td>Opción A: 10% financiero. <strong>Opción B: inversión en GD/almacenamiento</strong>.
+                                <span class="ref">Art. 30 LSE</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sujetos</td>
+                            <td>Trato igualitario ciego.</td>
+                            <td>Diferenciación estratégica: prioridad a empresas públicas y usuarios con impacto social.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tope de Diferimiento</td>
+                            <td>25% de la obligación anual (Lineamiento 25).</td>
+                            <td>Máximo 30%, solo si CENACE certifica congestión de red.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Una fábrica en Monterrey no pudo conseguir CEL porque la línea de transmisión estaba saturada. La
+                        CNE le dice: "Te diferimos, pero elige: pagas 10% de interés, o inviertes en paneles en tu
+                        techo". La fábrica elige los paneles. Gana ella (ahorra en electricidad), gana el medio ambiente
+                        (más generación limpia), gana la red (menos demanda). Ganar-ganar-ganar.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s11')">← Anterior</button>
+                    <button onclick="navigateTo('s13')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 13: Punto 13 -->
+            <div class="slide" id="s13">
+                <span class="slide-badge">Parte 2 · Punto 13 de 21</span>
+                <h2>Entidades Voluntarias y Cancelación Voluntaria</h2>
+                <p class="slide-subtitle">Del mercado opaco al reconocimiento público de contribuciones climáticas</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Empresas y personas que cancelan CEL voluntariamente para compensar su huella de carbono operaban
+                        en la opacidad: nadie más sabía quién compensaba. La nueva propuesta: al cancelar CEL, el
+                        sistema emite un <strong>"Comprobante de Retiro" digital</strong>. La CNE publica un
+                        <strong>"Listado de Contribuyentes a la Transición"</strong> con datos agregados. La cancelación
+                        se vincula a huella de carbono declarada, acabando con el greenwashing.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Nuevo Marco (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Definición</td>
+                            <td>"Quien no está obligado". <span class="ref">Disp. 7 RES/174/2016</span></td>
+                            <td>Participante que declara objetivos de descarbonización.</td>
+                        </tr>
+                        <tr>
+                            <td>Cancelación</td>
+                            <td>"Ciega", sin validar adicionalidad. <span class="ref">Disp. 53 RES/174/2016</span></td>
+                            <td>Validación de impacto: vincula a huella de carbono (tCO2e). <span class="ref">Art. 181
+                                    RLSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Transparencia</td>
+                            <td>Datos agregados, sin auditar quién cancelaba. <span class="ref">Disp. 60
+                                    RES/174/2016</span></td>
+                            <td><strong>Listado público</strong> de "Contribuyentes a la Transición". <span
+                                    class="ref">Art.
+                                    3 Ley CNE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Reconocimiento</td>
+                            <td>Inexistente.</td>
+                            <td><strong>Comprobante de Retiro</strong> digital con valor reputacional.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Una cadena de hoteles compra 5,000 CEL y los cancela. El sistema genera: "Hotel X canceló 5,000
+                        CEL = 2,000 tCO2 evitadas". Eso va a su reporte de sostenibilidad y al listado público de la
+                        CNE. Hay incentivo reputacional. Y el Estado puede contabilizar esa reducción para sus NDC.
+                        Todos ganan.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s12')">← Anterior</button>
+                    <button onclick="navigateTo('s14')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 14: Punto 14 -->
+            <div class="slide" id="s14">
+                <span class="slide-badge">Parte 3 · Punto 14</span>
+                <h2>Mercado de CEL y Transacciones Bilaterales</h2>
+                <p class="slide-subtitle">De procesos manuales a contratos inteligentes en la plataforma S-CEL</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Las transacciones bilaterales, que antes eran un proceso manual y lento, podrán ejecutarse
+                        mediante <strong>contratos inteligentes</strong> en la propia plataforma del S-CEL. Esto reduce
+                        costos, acelera tiempos y elimina el riesgo de error. Adicionalmente, se implementará un sistema
+                        de garantías que proteja a las partes en caso de incumplimiento.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Proceso de Transacciones</td>
+                            <td>Proceso manual de comunicación y aceptación (lento y propenso a error). <span
+                                    class="ref">Disp. 44, RES/174/2016</span></td>
+                            <td><strong>Smart contracts</strong> en la plataforma S-CEL que ejecutan la transferencia en
+                                tiempo real.</td>
+                        </tr>
+                        <tr>
+                            <td>Riesgo Crediticio</td>
+                            <td>La autoridad era ajena al riesgo de pago.</td>
+                            <td>Implementación de un <strong>sistema de garantías y clearing</strong> para transacciones
+                                bilaterales. <span class="ref">Art. 11, LSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Estamos llevando el mercado de CEL del siglo XX al XXI. Donde antes había correos electrónicos y
+                        papeleo, ahora habrá código que ejecuta automáticamente la transacción una vez que se cumplen
+                        las condiciones, dando certidumbre y eficiencia a los participantes.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s7')">← Anterior</button>
+                    <button onclick="navigateTo('s15')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 15: Punto 15 -->
+            <div class="slide" id="s15">
+                <span class="slide-badge">Parte 3 · Punto 15</span>
+                <h2>La Bolsa No Onerosa: De la Distorsión al Fondo de Transición</h2>
+                <p class="slide-subtitle">Eliminación de la asignación gratuita y creación de un mecanismo de valor</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Uno de los cambios más importantes es la eliminación de la "Bolsa No Onerosa", un mecanismo que
+                        asignaba CEL gratuitamente y distorsionaba el mercado. En su lugar, los CEL de la Cuenta de
+                        Reserva serán <strong>subastados públicamente</strong>. Los ingresos se destinarán a un
+                        <strong>Fondo de Transición Energética</strong> para financiar proyectos de energías limpias,
+                        justicia energética y desarrollo tecnológico.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mecanismo de Asignación</td>
+                            <td>Asignación gratuita y proporcional al consumo. <span class="ref">Disp. 34,
+                                    RES/174/2016</span></td>
+                            <td><strong>Eliminación de la asignación gratuita</strong>. Los CEL excedentes se venderán
+                                en <strong>subasta pública</strong> con precio de reserva.</td>
+                        </tr>
+                        <tr>
+                            <td>Destino de los Ingresos</td>
+                            <td>No aplicaba.</td>
+                            <td>Creación de un <strong>Fondo de Transición Energética</strong> para financiar proyectos
+                                de energías limpias. <span class="ref">Art. 141, LSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>El mecanismo anterior era un subsidio implícito e ineficiente. La propuesta es de sentido común:
+                        el Estado no debe regalar un activo ambiental con valor. Debe venderlo y usar los recursos para
+                        acelerar precisamente la transición que esos certificados representan. Es un círculo virtuoso.
+                    </p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s14')">← Anterior</button>
+                    <button onclick="navigateTo('s16')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 16: Punto 16 -->
+            <div class="slide" id="s16">
+                <span class="slide-badge">Parte 3 · Punto 16</span>
+                <h2>Formación del Precio del CEL y Vinculación con el Factor de Emisiones</h2>
+                <p class="slide-subtitle">Transparencia, precio de referencia ambiental y mecanismos de estabilización
+                </p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Las transacciones bilaterales operaban en la opacidad, impidiendo una señal de precio clara. La
+                        propuesta establece la obligación de reportar los precios con metodología estandarizada. Además,
+                        por primera vez, se vinculará el precio del CEL con su beneficio ambiental real, publicando un
+                        <strong>precio de referencia ambiental</strong> anual calculado con base en el Factor de Emisión
+                        del SEN y el costo social del carbono.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Transparencia de Precios</td>
+                            <td>Opacidad en precios bilaterales; solo datos agregados. <span class="ref">Disp. 60,
+                                    RES/174/2016</span></td>
+                            <td><strong>Reporte obligatorio</strong> de precios bilaterales con metodología
+                                estandarizada. Publicación de índices desagregados por tecnología.</td>
+                        </tr>
+                        <tr>
+                            <td>Vinculación Ambiental</td>
+                            <td>Precio desconectado del valor de la reducción de emisiones.</td>
+                            <td>Publicación anual de un <strong>precio de referencia ambiental</strong> basado en el
+                                Factor de Emisión del SEN y el costo social del carbono. <span class="ref">Art. 147,
+                                    LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Mecanismos de Estabilización</td>
+                            <td>Sin instrumentos ante volatilidad extrema.</td>
+                            <td>Implementación de <strong>mecanismos temporales de estabilización</strong> (ej. rangos
+                                de referencia) ante volatilidad que supere umbrales predefinidos.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Estamos profesionalizando el mercado. La opacidad beneficia a unos pocos; la transparencia
+                        beneficia a todos. El "precio de referencia ambiental" es una innovación clave: le dice al
+                        mercado "esto es lo que vale ambientalmente este activo", creando un ancla que evita que los
+                        precios caigan a cero o se disparen especulativamente.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s15')">← Anterior</button>
+                    <button onclick="navigateTo('s17')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 17: Punto 17 -->
+            <div class="slide" id="s17">
+                <span class="slide-badge">Parte 3 · Punto 17</span>
+                <h2>CEL en Contratos de Cobertura: Coordinación y Garantías</h2>
+                <p class="slide-subtitle">Puente entre el MEM y las obligaciones de largo plazo</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Los Contratos de Cobertura Eléctrica son el puente entre el Mercado Eléctrico Mayorista y las
+                        obligaciones de largo plazo. El marco regulatorio está desactualizado desde la suspensión de
+                        subastas en 2019. La propuesta actualiza los porcentajes de cobertura y resuelve una falla
+                        crítica: la <strong>ausencia de garantías</strong> que aseguren la transferencia de los CEL
+                        comprometidos en estos contratos.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Porcentajes de Cobertura</td>
+                            <td>Desactualizados desde 2019. <span class="ref">RES/008/2016</span></td>
+                            <td><strong>Actualización normativa</strong> de los porcentajes de cobertura adaptados a la
+                                LSE 2025.</td>
+                        </tr>
+                        <tr>
+                            <td>Garantías de Cumplimiento</td>
+                            <td>No existían garantías específicas para asegurar la transferencia de CEL. <span
+                                    class="ref">RES/008/2016</span></td>
+                            <td>Implementación de un <strong>sistema de garantías</strong> (financieras o técnicas) para
+                                generadores con Contratos de Cobertura. <span class="ref">Art. 11, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Coordinación MEM-CEL</td>
+                            <td>Procesos descoordinados entre liquidaciones del MEM y transferencias de CEL.</td>
+                            <td><strong>Sincronización automática</strong> de los ciclos de liquidación del MEM con la
+                                ejecución de transferencias de CEL en el S-CEL.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Este punto cierra un círculo virtuoso. El MEM genera la energía, el CENACE la mide, el S-CEL
+                        emite el CEL, y el Contrato de Cobertura asegura que ese CEL llegue a quien lo necesita. Las
+                        garantías son el seguro de que este flujo no se interrumpa por un incumplimiento, dando solidez
+                        a todo el sistema de planeación de largo plazo.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s16')">← Anterior</button>
+                    <button onclick="navigateTo('s18')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 18: Punto 18 -->
+            <div class="slide" id="s18">
+                <span class="slide-badge">Parte 3 · Punto 18</span>
+                <h2>Subastas de CEL: Reactivación como Instrumento de Planeación Vinculante</h2>
+                <p class="slide-subtitle">De mecanismo de mercado a herramienta de planeación nacional</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Las subastas de largo plazo, suspendidas desde 2019, fueron exitosas para incorporar capacidad
+                        limpia. Su reactivación no puede ser un simple regreso al pasado. Se rediseñan como un
+                        <strong>instrumento de Planeación Vinculante</strong> bajo la rectoría de SENER: ya no serán
+                        solo un mecanismo de mercado, sino una herramienta para cubrir las brechas identificadas en el
+                        PRODESEN entre la oferta y las metas de la LPTE.
+                    </p>
+                </div>
+
+                <div class="nota-importante">
+                    <div class="nota-importante-header">
+                        <span class="nota-icon">🚨</span> NOTA IMPORTANTE — Actualización de Terminología
+                    </div>
+                    <p>En el nuevo marco jurídico, el término <strong>“subastas” ya no será utilizado</strong>. En su
+                        lugar,
+                        se adoptará el concepto de <strong>“convocatorias” o “mecanismos competitivos de adquisición de
+                            energía y productos asociados”</strong>. Este cambio refleja una visión más amplia e
+                        integral:
+                        no se trata solo de adjudicar contratos al mejor postor, sino de diseñar <strong>procesos de
+                            contratación estratégica</strong> que permitan a SENER, a través de la CNE, adquirir energía
+                        limpia, CEL y servicios asociados mediante los mecanismos que mejor se adapten a las necesidades
+                        de
+                        la planeación energética nacional.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Estado Actual</td>
+                            <td>Suspendidas indefinidamente desde 2019.</td>
+                            <td><strong>Reactivación estratégica</strong> como herramienta de Planeación Vinculante, no
+                                solo de mercado.</td>
+                        </tr>
+                        <tr>
+                            <td>Objetivo</td>
+                            <td>Adjudicar contratos de cobertura en un mercado competitivo.</td>
+                            <td>Cubrir <strong>brechas de planeación</strong> identificadas en el PRODESEN para cumplir
+                                metas de la LPTE. <span class="ref">Art. 108, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Marco Regulatorio</td>
+                            <td>Manuales de subastas históricos (2017) basados en la LIE.</td>
+                            <td>Desarrollo de un <strong>nuevo marco regulatorio</strong> (Reglamento de Subastas de
+                                CEL) adaptado a la LSE 2025. <span class="ref">Art. 45, RLSE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>No se trata de "revivir las subastas porque sí". Se trata de recuperar un instrumento, pero
+                        dándole un nuevo propósito. La pregunta que activa una subasta será: "De acuerdo con el
+                        PRODESEN, ¿vamos a cumplir la meta del 35% de energías limpias? Si no, lancemos una subasta para
+                        convocar la capacidad que falta". Es la planeación energética usando el mercado como
+                        herramienta.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s17')">← Anterior</button>
+                    <button onclick="navigateTo('s19')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 19: Punto 19 -->
+            <div class="slide" id="s19">
+                <span class="slide-badge">Parte 4 · Punto 19</span>
+                <h2>DECLARACEL: Liquidaciones y Reliquidaciones Automatizadas</h2>
+                <p class="slide-subtitle">De la incertidumbre anual al monitoreo continuo y la preliquidación mensual
+                </p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El proceso anual DECLARACEL ha sido fuente de errores manuales y reliquidaciones tardías. La
+                        propuesta lo transforma por completo: será un proceso <strong>automático y continuo</strong>.
+                        Los participantes podrán ver mes a mes el estimado de su obligación y el saldo de CEL. Al cierre
+                        del año, la liquidación se ejecutará automáticamente con datos del MEM. Las reliquidaciones solo
+                        ocurrirán por causas objetivas (ajustes del MEM &gt;2%).</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Proceso de Declaración</td>
+                            <td>Manual, con alta propensión a errores de captura. <span class="ref">Disp. 48,
+                                    RES/174/2016</span></td>
+                            <td><strong>Captura automática</strong> de datos desde sistemas de medición de CENACE.
+                                Preliquidación mensual visible para el participante.</td>
+                        </tr>
+                        <tr>
+                            <td>Reliquidaciones</td>
+                            <td>Criterios ambiguos ("inconsistencias") y procesos reactivos. <span class="ref">Disp. 52,
+                                    RES/174/2016</span></td>
+                            <td><strong>Criterios objetivos y cuantitativos</strong> (ej. ajustes del MEM &gt;2%) que
+                                activan reliquidaciones automáticas.</td>
+                        </tr>
+                        <tr>
+                            <td>Liquidación Anual</td>
+                            <td>Proceso con plazos inciertos.</td>
+                            <td><strong>Liquidación automática</strong> dentro de los 15 días hábiles posteriores al
+                                cierre del año. Notificación y constancia inmediata.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Este punto es el de la "eficiencia operativa". Pasamos de un proceso que generaba incertidumbre a
+                        uno que da control total. La frase clave es "preliquidación mensual": el participante ya no se
+                        entera en marzo de si cumplió o no; puede gestionar su cumplimiento durante todo el año.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s18')">← Anterior</button>
+                    <button onclick="navigateTo('s20')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 20: Punto 20 -->
+            <div class="slide" id="s20">
+                <span class="slide-badge">Parte 4 · Punto 20</span>
+                <h2>Régimen de Sanciones: Proporcionalidad, Predictibilidad e Incentivos</h2>
+                <p class="slide-subtitle">De la discrecionalidad punitiva a la gestión de cumplimiento con incentivos
+                    positivos</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>El rango actual de 0.1% a 10% de los ingresos, sin metodología de graduación, genera
+                        discrecionalidad e inseguridad jurídica. La propuesta desarrolla una <strong>metodología de
+                            graduación objetiva</strong> basada en factores como la gravedad del déficit, la capacidad
+                        económica y la reincidencia. Se introduce por primera vez un <strong>sistema de incentivos
+                            positivos</strong>: descuentos por cumplimiento anticipado y créditos por sobrecumplimiento.
+                    </p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Graduación de Sanciones</td>
+                            <td>Rango amplio (0.1%-10% de ingresos) sin metodología específica. <span class="ref">Art.
+                                    165, LSE</span></td>
+                            <td><strong>Metodología de graduación</strong> con factores objetivos (déficit, capacidad
+                                económica, reincidencia).</td>
+                        </tr>
+                        <tr>
+                            <td>Incentivos Positivos</td>
+                            <td>Régimen puramente punitivo.</td>
+                            <td><strong>Sistema de incentivos</strong>: descuentos por cumplimiento anticipado y
+                                créditos por sobrecumplimiento. <span class="ref">Art. 10, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Plazos del Procedimiento</td>
+                            <td>Indefinidos, con procedimientos que se alargaban por años.</td>
+                            <td><strong>Plazos máximos definidos</strong> (120 días hábiles totales) para garantizar una
+                                resolución pronta.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Pasamos de un sistema de "sanciones por ocurrencias" a un sistema de "gestión de cumplimiento".
+                        La metodología de graduación le dice al participante: "si fallas, sabes exactamente cómo se va a
+                        calcular tu multa". Y los incentivos positivos envían una señal poderosa: el Estado no solo
+                        castiga el incumplimiento, sino que premia el buen comportamiento y el sobrecumplimiento.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s19')">← Anterior</button>
+                    <button onclick="navigateTo('s21')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 21: Punto 21 -->
+            <div class="slide" id="s21">
+                <span class="slide-badge">Parte 4 · Punto 21</span>
+                <h2>Transparencia, Información Pública y Reportes del Mercado</h2>
+                <p class="slide-subtitle">Dashboard público en tiempo real y APIs abiertas para escrutinio ciudadano</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>La propuesta va más allá de los reportes mensuales en PDF. Se implementará un <strong>dashboard
+                            público en tiempo real</strong> con precios, volúmenes e indicadores de liquidez. Toda la
+                        información estadística se publicará desagregada por tecnología, región y tipo de participante.
+                        Además, se pondrán a disposición <strong>APIs públicas</strong> para que académicos, analistas e
+                        inversionistas puedan acceder programáticamente a los datos.</p>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Marco Anterior (LIE/CRE)</th>
+                            <th>Propuesta (LSE 2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Información en Tiempo Real</td>
+                            <td>Solo reportes mensuales agregados. <span class="ref">Disp. 60, RES/174/2016</span></td>
+                            <td><strong>Dashboard público en tiempo real</strong> con precios, volúmenes e indicadores
+                                de liquidez. <span class="ref">Art. 44, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Granularidad</td>
+                            <td>Información agregada sin desglose útil.</td>
+                            <td>Publicación desagregada por <strong>tecnología, región y tipo de participante</strong>.
+                                <span class="ref">Art. 43, LSE</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Acceso a Datos</td>
+                            <td>Limitado a reportes estáticos (PDF).</td>
+                            <td>Proveer <strong>APIs públicas</strong> para acceso programático a datos históricos y en
+                                tiempo real. <span class="ref">Art. 6, Ley Federal de Transparencia</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>Esta es la diapositiva del "legado". Con estas medidas, el S-CEL 2.0 no solo será una herramienta
+                        de gestión, sino una fuente de conocimiento público. Cualquier ciudadano, investigador o empresa
+                        podrá saber, en tiempo real, cómo va la transición energética en México. La transparencia es la
+                        base de la confianza y la rendición de cuentas.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s20')">← Anterior</button>
+                    <button onclick="navigateTo('eolicas')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE EÓLICAS MARINAS -->
+            <div class="slide" id="eolicas">
+                <span class="slide-badge" style="background:#1565C0">Parte 5 · Proyecto Estratégico</span>
+                <h2>Análisis del Proyecto de Eólica Marina</h2>
+                <p class="slide-subtitle">Generación offshore, CEL y almacenamiento: reglas claras para el primer
+                    proyecto costa afuera</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Contexto Estratégico</div>
+                    <p>México cuenta con un potencial eólico marino estimado en más de <strong>17 GW</strong> en el
+                        Golfo de México y el Pacífico. La LSE 2025, junto con la LPTE, establecen el marco para impulsar
+                        esta tecnología como pilar de la transición energética. El proyecto piloto de eólica marina
+                        representará un hito: la primera central offshore del país, generando CEL desde el mar
+                        territorial.</p>
+                </div>
+
+                <!-- Dos columnas: Generación SÍ / Almacenamiento NO -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0">
+                    <!-- Columna Generación -->
+                    <div
+                        style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:2px solid #2e7d32;border-radius:12px;padding:18px;position:relative">
+                        <div
+                            style="position:absolute;top:-12px;left:16px;background:#2e7d32;color:white;font-weight:800;font-size:0.85rem;padding:3px 14px;border-radius:20px;font-family:var(--font-family-headings)">
+                            ✅ SÍ RECIBE CELs</div>
+                        <h3
+                            style="color:#2e7d32;margin:10px 0 8px;font-size:1.05rem;font-family:var(--font-family-headings)">
+                            Generación Eólica Marina</h3>
+                        <ul style="font-size:0.92rem;line-height:1.6;margin:0;padding-left:18px;color:#333">
+                            <li><strong>Regla:</strong> 1 CEL por cada 1 MWh de energía neta generada e inyectada al
+                                sistema.</li>
+                            <li><strong>Fundamento:</strong> Energía eólica clasificada como <strong>Energía
+                                    Renovable</strong> en Art. 3 de la LPTE y LIE.</li>
+                            <li><strong>% ELC:</strong> <span
+                                    style="background:#2e7d32;color:white;padding:2px 8px;border-radius:4px;font-weight:700">100%</span>
+                                — tecnología renovable sin combustibles fósiles.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna Almacenamiento -->
+                    <div
+                        style="background:linear-gradient(135deg,#ffebee,#fce4ec);border:2px solid #c62828;border-radius:12px;padding:18px;position:relative">
+                        <div
+                            style="position:absolute;top:-12px;left:16px;background:#c62828;color:white;font-weight:800;font-size:0.85rem;padding:3px 14px;border-radius:20px;font-family:var(--font-family-headings)">
+                            ⛔ NO RECIBE CELs</div>
+                        <h3
+                            style="color:#c62828;margin:10px 0 8px;font-size:1.05rem;font-family:var(--font-family-headings)">
+                            Almacenamiento (Baterías / SAEE)</h3>
+                        <ul style="font-size:0.92rem;line-height:1.6;margin:0;padding-left:18px;color:#333">
+                            <li><strong>Prohibición:</strong> <span class="ref">Art. 195 RLSE 2025</span> — los SAEE no
+                                pueden recibir CELs; no generan energía, solo la desplazan.</li>
+                            <li><strong>Doble contabilidad:</strong> Otorgar CEL a la batería al descargar sería contar
+                                dos veces la misma energía limpia.</li>
+                            <li><strong>Función real:</strong> Gestión operativa y comercial (evitar recortes, vender en
+                                horas pico), pero los CEL se limitan a la energía original de la turbina menos pérdidas.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Aspecto</th>
+                            <th>Situación Actual</th>
+                            <th>Visión con LSE 2025</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Marco Legal</td>
+                            <td>Sin regulación específica para eólica marina. Normativa pensada para proyectos
+                                terrestres.</td>
+                            <td>SENER podrá emitir regulación específica para generación offshore. <span
+                                    class="ref">Art.
+                                    108, LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Permisos y Concesiones</td>
+                            <td>Proceso fragmentado entre SEMARNAT, SCT, SEMAR y CRE.</td>
+                            <td><strong>Ventanilla única</strong> coordinada por SENER con dictamen ambiental integral.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Interconexión al SEN</td>
+                            <td>Sin infraestructura submarina ni protocolos técnicos.</td>
+                            <td>CENACE desarrollará <strong>protocolos de interconexión submarina</strong> y medición
+                                fiscal para centrales offshore.</td>
+                        </tr>
+                        <tr>
+                            <td>Generación de CEL</td>
+                            <td>No aplicable aún.</td>
+                            <td>Cada MWh generado offshore → <strong>1 CEL con UID específico</strong> que identifique
+                                "Eólica Marina". <span class="ref">Art. 149 LSE</span></td>
+                        </tr>
+                        <tr>
+                            <td>Almacenamiento (SAEE)</td>
+                            <td>Sin regulación CEL para almacenamiento.</td>
+                            <td><strong>Excluido de CELs</strong> por Art. 195 RLSE. Función: gestión operativa, no
+                                generación.</td>
+                        </tr>
+                        <tr>
+                            <td>Impacto Económico</td>
+                            <td>Sin cadena de valor nacional.</td>
+                            <td>Requisitos de <strong>contenido nacional</strong> en manufactura, instalación y
+                                mantenimiento.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="nota-importante">
+                    <div class="nota-importante-header">
+                        <span class="nota-icon">🌊</span> REGLA FUNDAMENTAL
+                    </div>
+                    <p>Tu planta eólica marina será la <strong>fuente exclusiva de los CELs</strong>. Las baterías
+                        funcionarán como <strong>herramienta de gestión operativa y comercial</strong>, pero
+                        jurídicamente no son generadoras de energía limpia adicional para efectos de acreditación de
+                        certificados. La primera convocatoria para eólica marina se realizará bajo los nuevos
+                        <strong>mecanismos competitivos de adquisición de energía y productos asociados</strong>.
+                    </p>
+                </div>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>La eólica marina no es solo un proyecto energético; es un proyecto de soberanía tecnológica e
+                        industrial. Requiere nueva regulación, nuevos estándares de medición, y nuevas capacidades
+                        institucionales. El S-CEL debe estar preparado para registrar esta nueva clase de generación
+                        desde el día uno, con trazabilidad completa, diferenciando claramente entre la energía generada
+                        (que recibe CEL) y la almacenada (que no los recibe).</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('s21')">← Anterior</button>
+                    <button onclick="navigateTo('conclusion')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- CONCLUSIÓN -->
+            <div class="slide" id="conclusion">
+                <span class="slide-badge">Conclusión General</span>
+                <h2>La Nueva Arquitectura CEL: Un Sistema Integrado</h2>
+                <p class="slide-subtitle">De instrumento de mercado aislado a ecosistema de planeación soberana</p>
+
+                <div class="card-problema">
+                    <div class="card-label">⚡ Problemática y Mejora</div>
+                    <p>Hemos recorrido un camino que comenzó con un cambio de paradigma: el CEL deja de ser un
+                        instrumento de mercado para convertirse en una herramienta de planeación estatal. Para hacerlo
+                        realidad, propusimos un modelo de automatización basado en la soberanía de datos del Estado. Y
+                        desplegamos ese modelo en mejoras concretas para cada componente del sistema.</p>
+                </div>
+
+                <div class="conclusion-card">
+                    <h3>Ejes de Transformación</h3>
+                    <ul>
+                        <li><strong>Soberanía de Datos:</strong> El Estado controla y certifica toda la información del
+                            sistema CEL.</li>
+                        <li><strong>Automatización Total:</strong> De la inscripción a la liquidación, cada proceso es
+                            digital y automatizado.</li>
+                        <li><strong>Justicia Energética:</strong> Inclusión de generación distribuida, validación social
+                            (MIS) y transición justa.</li>
+                        <li><strong>Transparencia:</strong> Dashboard público, APIs abiertas y reportes desagregados en
+                            tiempo real.</li>
+                        <li><strong>Incentivos Positivos:</strong> El Estado no solo castiga el incumplimiento; premia
+                            el buen comportamiento.</li>
+                        <li><strong>Planeación Vinculante:</strong> Convocatorias y mecanismos competitivos alineados al
+                            PRODESEN y la LPTE.
+                        </li>
+                        <li><strong>Eólicas Marinas:</strong> Primer proyecto estratégico de generación offshore
+                            integrado al S-CEL.</li>
+                    </ul>
+                </div>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"><span
+                        class="arrow">▸</span> 💡 Perspectiva Regulatoria</div>
+                <div class="perspectiva-content">
+                    <p>El resultado es una arquitectura integral y coherente que no solo cumple con la nueva Ley del
+                        Sector Eléctrico 2025, sino que la dota de herramientas operativas para convertir sus principios
+                        (Soberanía, Justicia Energética, Planeación Vinculante) en una realidad tangible y medible.
+                        "Empezamos con el QUÉ (el nuevo CEL), pasamos al CÓMO (la automatización), y detallamos el CON
+                        QUÉ (cada punto de mejora)".</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('eolicas')">← Anterior</button>
+                    <button disabled>Fin de la presentación</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="pres-footer">
+        <p>&copy; 2025 Secretaría de Energía | Subsecretaría de Planeación y Transición Energética</p>
+    </footer>
+
+    <!-- Shared JS (nav toggle) -->
+    <script src="js/pages-common.js"></script>
+
+    <script>
+        const slideLinks = document.querySelectorAll('.slide-link');
+        const slides = document.querySelectorAll('.slide');
+        const progressFill = document.getElementById('progressFill');
+        const slideIds = ['portada', 'timeline', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12', 's13', 's14', 's15', 's16', 's17', 's18', 's19', 's20', 's21', 'eolicas', 'conclusion'];
+
+        function navigateTo(id) {
+            slides.forEach(s => s.classList.remove('active'));
+            slideLinks.forEach(l => l.classList.remove('active'));
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            const link = document.querySelector(`[data-target="${id}"]`);
+            if (link) {
+                link.classList.add('active');
+                link.scrollIntoView({ block: 'nearest' });
+                // Open parent part group
+                const items = link.closest('.part-items');
+                if (items && !items.classList.contains('open')) {
+                    items.classList.add('open');
+                    items.previousElementSibling.classList.add('open');
+                }
+            }
+            const idx = slideIds.indexOf(id);
+            progressFill.style.width = ((idx / (slideIds.length - 1)) * 100) + '%';
+            document.getElementById('sidebar').classList.remove('open');
+            document.querySelector('.pres-main').scrollTo(0, 0);
+        }
+
+        slideLinks.forEach(l => l.addEventListener('click', () => navigateTo(l.dataset.target)));
+
+        // Keyboard nav
+        document.addEventListener('keydown', e => {
+            const current = document.querySelector('.slide.active');
+            const idx = slideIds.indexOf(current?.id);
+            if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
+            if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
+        });
+    </script>
+</body>
+
+</html>
