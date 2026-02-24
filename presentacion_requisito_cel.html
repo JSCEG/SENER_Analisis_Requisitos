@@ -1085,18 +1085,15 @@
                 marker: { radius: 6 },
                 nodeWidth: 20,
                 dataLabels: {
-                    y: 18,
                     padding: 0,
                     crop: false,
                     overflow: 'allow',
-                    style: { fontSize: '0.68rem', fontWeight: '600', textOutline: 'none', color: '#000000', width: '140px' },
+                    style: { fontSize: '0.7rem', fontWeight: '400', textOutline: 'none', color: '#000000' },
                     format: '{point.name}',
                     linkFormat: '',
                     nodeFormatter: function () {
                         var p = this.point;
-                        return '<b style="color:#000">' + p.name + '</b>' +
-                            '<br><span style="font-size:.62rem;color:#555;font-weight:500">' + p.title + '</span>' +
-                            '<br><span style="font-size:.58rem;color:#777;font-style:italic;font-weight:400">' + p.description + '</span>';
+                        return '<b style="color:#000">' + p.name + '</b> <span style="font-size:.65rem;color:#555;font-style:italic">— ' + p.description + '</span>';
                     }
                 },
                 levels: [{ level: 0, colorByPoint: true }, { level: 1, colorByPoint: true }, { level: 2, colorByPoint: true }],
