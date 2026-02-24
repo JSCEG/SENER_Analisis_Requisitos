@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis del Requisito CEL — Metodología, Brecha y Transición | SENER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/pages-common.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/treegraph.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--color-bg-body);
+        }
+
+        .pres-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .pres-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: white;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, .05);
+        }
+
+        .pres-sidebar-header {
+            padding: 20px;
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .pres-sidebar-header h3 {
+            font-family: var(--font-family-headings);
+            font-size: 1rem;
+            margin: 0;
+            color: white;
+        }
+
+        .pres-sidebar-header p {
+            font-size: .8rem;
+            opacity: .85;
+            margin: 6px 0 0;
+        }
+
+        .pres-progress {
+            height: 4px;
+            background: rgba(255, 255, 255, .2);
+        }
+
+        .pres-progress-fill {
+            height: 100%;
+            background: var(--color-gobmx-dorado);
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        .slide-link {
+            display: block;
+            padding: 10px 20px 10px 28px;
+            font-size: .85rem;
+            color: #555;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: .2s;
+            line-height: 1.4;
+        }
+
+        .slide-link:hover {
+            background: #f5f5f5;
+            color: var(--color-gobmx-guinda);
+        }
+
+        .slide-link.active {
+            background: #fdf0f3;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            border-left-color: var(--color-gobmx-dorado);
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-gobmx-guinda);
+            color: white;
+            font-size: 1.4rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+        }
+
+        .pres-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeIn .3s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .slide-badge {
+            display: inline-block;
+            background: var(--color-gobmx-guinda);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+            margin-bottom: 12px;
+        }
+
+        .slide h2 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .slide-subtitle {
+            color: var(--color-gobmx-verde);
+            font-size: .95rem;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .card-problema {
+            background: white;
+            border-left: 5px solid var(--color-gobmx-verde);
+            border-radius: 0 8px 8px 0;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            line-height: 1.7;
+            font-size: .95rem;
+        }
+
+        .card-problema .card-label {
+            font-weight: 700;
+            color: var(--color-gobmx-verde);
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: .9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comp-table thead th {
+            background: var(--color-gobmx-guinda);
+            color: white;
+            padding: 12px 16px;
+            font-family: var(--font-family-headings);
+            font-size: .85rem;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .comp-table thead th:first-child {
+            background: #7a1b38;
+        }
+
+        .comp-table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .comp-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .comp-table tbody td:first-child {
+            font-weight: 700;
+            color: var(--color-gobmx-guinda);
+            white-space: nowrap;
+        }
+
+        .ref {
+            font-size: .78rem;
+            color: var(--color-gobmx-dorado);
+            font-weight: 700;
+        }
+
+        .slide-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .slide-nav button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--color-gobmx-guinda);
+            background: white;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .slide-nav button:hover {
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .slide-nav button:disabled {
+            opacity: .3;
+            cursor: not-allowed;
+        }
+
+        .slide-portada {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 60vh;
+        }
+
+        .portada-logo {
+            height: 80px;
+            margin-bottom: 24px;
+        }
+
+        .slide-portada h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .portada-divider {
+            width: 80px;
+            height: 4px;
+            background: var(--color-gobmx-dorado);
+            border-radius: 2px;
+            margin: 16px auto;
+        }
+
+        .slide-portada .portada-institution {
+            color: var(--color-gobmx-verde);
+            font-family: var(--font-family-headings);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .slide-portada .portada-sub {
+            color: var(--color-gobmx-gris);
+            font-size: .95rem;
+        }
+
+        .nota-importante {
+            background: linear-gradient(135deg, #fdf0f3 0%, #fff3e0 100%);
+            border: 3px solid var(--color-gobmx-guinda);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .nota-importante::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-gobmx-guinda), var(--color-gobmx-dorado));
+            border-radius: 12px 12px 0 0;
+        }
+
+        .nota-importante-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-family-headings);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .nota-importante p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+        }
+
+        .nota-importante strong {
+            color: var(--color-gobmx-guinda);
+        }
+
+        .conclusion-card {
+            background: linear-gradient(135deg, #fdf0f3 0%, #f0f7f5 100%);
+            border: 2px solid var(--color-gobmx-dorado);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 24px;
+        }
+
+        .conclusion-card h3 {
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 16px;
+        }
+
+        .conclusion-card ul {
+            padding-left: 20px;
+            line-height: 2;
+        }
+
+        .pres-footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: .85rem;
+        }
+
+        .chart-container {
+            min-height: 400px;
+            margin: 20px 0;
+        }
+
+        .scenario-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .scenario-card {
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            transition: .3s;
+            cursor: pointer;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+        }
+
+        .scenario-card.active {
+            border-color: var(--color-gobmx-guinda);
+            box-shadow: 0 4px 16px rgba(155, 34, 71, .2);
+        }
+
+        .scenario-card h4 {
+            font-family: var(--font-family-headings);
+            margin-bottom: 8px;
+            font-size: .95rem;
+        }
+
+        .scenario-card p {
+            font-size: .85rem;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .scenario-card .sc-tag {
+            display: inline-block;
+            font-size: .7rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .metric-box {
+            text-align: center;
+            padding: 16px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+        }
+
+        .metric-box .metric-val {
+            font-size: 1.6rem;
+            font-weight: 800;
+            font-family: var(--font-family-headings);
+        }
+
+        .metric-box .metric-label {
+            font-size: .75rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .perspectiva-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 20px;
+            background: #fdf8ef;
+            border: 1px solid #e8dcc6;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--color-gobmx-dorado);
+            font-size: .85rem;
+            transition: .2s;
+            user-select: none;
+        }
+
+        .perspectiva-toggle:hover {
+            background: #f8f0df;
+        }
+
+        .perspectiva-toggle .arrow {
+            transition: transform .3s;
+        }
+
+        .perspectiva-toggle.open .arrow {
+            transform: rotate(90deg);
+        }
+
+        .perspectiva-content {
+            display: none;
+            background: #fdf8ef;
+            border: 1px solid #e8dcc6;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 20px 24px;
+            margin-top: -1px;
+            line-height: 1.7;
+            font-size: .9rem;
+            color: #555;
+        }
+
+        .perspectiva-content.open {
+            display: block;
+        }
+
+        @media (max-width:900px) {
+            .pres-sidebar {
+                position: fixed;
+                left: -320px;
+                top: 60px;
+                bottom: 0;
+                z-index: 998;
+                transition: left .3s ease;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, .2);
+            }
+
+            .pres-sidebar.open {
+                left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .slide {
+                padding: 24px 16px;
+            }
+
+            .slide h2 {
+                font-size: 1.3rem;
+            }
+
+            .slide-portada h1 {
+                font-size: 1.6rem;
+            }
+
+            .scenario-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html" style="color:white;text-decoration:none;display:flex;align-items:center;">
+                <span style="font-size:1.2rem;margin-right:5px;"><i class="bi bi-bar-chart-fill"></i></span> SENER |
+                CELs
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span
+                        class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a>
+                    </li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación
+                            Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="presentacion_otorgamiento_cel.html" class="nav-link">Presentación
+                    Otorgamiento</a></li>
+            <li class="nav-item"><a href="presentacion_requisito_cel.html" class="nav-link active">Presentación
+                    Requisito</a></li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+        </ul>
+    </nav>
+
+    <div class="pres-container">
+        <!-- Sidebar -->
+        <aside class="pres-sidebar" id="sidebar">
+            <div class="pres-sidebar-header">
+                <h3>Análisis Requisito CEL</h3>
+                <p>Metodología, Brecha y Transición · 7 Diapositivas</p>
+                <div class="pres-progress">
+                    <div class="pres-progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <div class="slide-link active" data-target="portada">📋 Portada</div>
+            <div class="slide-link" data-target="metodologia">📐 Metodología del Requisito</div>
+            <div class="slide-link" data-target="brecha">⚡ La Brecha 2026</div>
+            <div class="slide-link" data-target="calculo">📊 Cálculo del Requisito</div>
+            <div class="slide-link" data-target="escenarios">🔄 Escenarios de Transición</div>
+            <div class="slide-link" data-target="obligacion">🏢 Obligación por Participante</div>
+            <div class="slide-link" data-target="conclusion">📌 Conclusión</div>
+        </aside>
+
+        <button class="sidebar-toggle" id="sidebarToggle"
+            onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+        <main class="pres-main">
+
+            <!-- PORTADA -->
+            <div class="slide active" id="portada">
+                <div class="slide-portada">
+                    <img src="img/logo_sener.png" alt="SENER" class="portada-logo">
+                    <h1>Análisis del Requisito de CEL</h1>
+                    <div class="portada-divider"></div>
+                    <p class="portada-institution">Metodología, Brecha 2026 y Estrategia de Transición</p>
+                    <p class="portada-sub">Subsecretaría de Planeación y Transición Energética</p>
+                    <p class="portada-sub">Dirección General de Transición Energética</p>
+                    <p class="portada-sub" style="margin-top:16px;font-size:.85rem">Ley del Sector Eléctrico 2025 ·
+                        Análisis de Requisito</p>
+                </div>
+                <div class="slide-nav">
+                    <button disabled>← Anterior</button>
+                    <button onclick="navigateTo('metodologia')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: METODOLOGÍA -->
+            <div class="slide" id="metodologia">
+                <span class="slide-badge">Slide 1 · Fundamento Legal</span>
+                <h2>Metodología de Determinación del Requisito de CEL</h2>
+                <p class="slide-subtitle">Fórmula General: R = Oferta Acreditable / Demanda Obligada</p>
+
+                <div class="card-problema">
+                    <div class="card-label">📐 Metodología y Base Legal</div>
+                    <p>El <strong>Requisito de CEL</strong> es el porcentaje de energía limpia que los
+                        <strong>participantes obligados</strong>
+                        (suministradores, usuarios calificados) deben acreditar mediante la adquisición de Certificados
+                        de Energías Limpias.
+                        Es un <strong>mecanismo de transición</strong> para impulsar la generación limpia en el país.
+                    </p>
+                    <p style="margin-top:10px">Se determina conforme a la <strong>LSE Art. 143</strong> y el
+                        <strong>Art. 188 del RLSE</strong>:
+                        el cociente entre la <strong>oferta acreditable de energía limpia</strong> (Numerador) y la
+                        <strong>demanda obligada</strong> — consumo nacional menos contratos legados (Denominador).
+                    </p>
+                </div>
+
+                <div id="chart-metodologia" class="chart-container" style="min-height:420px"></div>
+
+                <div class="nota-importante">
+                    <div class="nota-importante-header"><span style="font-size:1.4rem">📋</span> CONSIDERACIONES</div>
+                    <p><strong>1 CEL = 1 MWh</strong> de Energía Limpia. Todos los datos se presentan en
+                        <strong>MWh</strong>.<br>
+                        <strong>Numerador incluye:</strong> Renovables (solar, eólica, geotermia post-2014), Centrales
+                        Legadas (hidro y nuclear CFE al 100%), Hidrógeno Verde (25%).<br>
+                        <strong>Exclusiones:</strong> Generación Distribuida (incertidumbre en certificación) y
+                        Almacenamiento (Art. 195 RLSE — no generan energía, desplazan).<br>
+                        <strong>Denominador:</strong> Consumo Nacional Total menos energía de Contratos de Interconexión
+                        Legados (CIL).
+                    </p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('portada')">← Anterior</button>
+                    <button onclick="navigateTo('brecha')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: LA BRECHA -->
+            <div class="slide" id="brecha">
+                <span class="slide-badge" style="background:#c62828">Slide 2 · Diagnóstico</span>
+                <h2>La Brecha 2026: ¿Por qué el salto?</h2>
+                <p class="slide-subtitle">El último requisito publicado fue 13.9% — el cálculo real arroja 31.99%</p>
+
+                <div class="metric-row">
+                    <div class="metric-box" style="border-left:4px solid var(--color-gobmx-dorado)">
+                        <div class="metric-val" style="color:var(--color-gobmx-dorado)">13.9%</div>
+                        <div class="metric-label">Último Publicado<br>(PRODESEN)</div>
+                    </div>
+                    <div class="metric-box" style="border-left:4px solid var(--color-gobmx-guinda)">
+                        <div class="metric-val" style="color:var(--color-gobmx-guinda)">31.99%</div>
+                        <div class="metric-label">Requisito Calculado<br>(2025)</div>
+                    </div>
+                    <div class="metric-box" style="border-left:4px solid #c62828">
+                        <div class="metric-val" style="color:#c62828">+18.1 pp</div>
+                        <div class="metric-label">Brecha<br>Inmediata</div>
+                    </div>
+                    <div class="metric-box" style="border-left:4px solid var(--color-gobmx-verde)">
+                        <div class="metric-val" style="color:var(--color-gobmx-verde)">33.22%</div>
+                        <div class="metric-label">Requisito Calculado<br>(2026)</div>
+                    </div>
+                </div>
+
+                <div id="chart-brecha" class="chart-container"></div>
+
+                <div class="card-problema">
+                    <div class="card-label">🔍 ¿Qué explica la brecha?</div>
+                    <p>El <strong>Requisito de CEL</strong> y el <strong></strong>Indicador PRODESEN</strong> obedecen a
+                        <strong>naturalezas diferentes</strong>:
+                    </p>
+                    <ul style="margin:10px 0;padding-left:20px;line-height:1.8">
+                        <li><strong>Requisito de CEL:</strong> Es el porcentaje que los <strong>consumidores de
+                                energía</strong> (participantes obligados)
+                            deben acreditar comprando CELs. Es un <strong>mecanismo de transición</strong> para que los
+                            consumidores contribuyan
+                            al crecimiento de las energías limpias.</li>
+                        <li><strong>Indicador PRODESEN:</strong> Es la <strong>meta nacional</strong> de participación
+                            de energías limpias
+                            en la generación total del país. Es un objetivo de política energética.</li>
+                    </ul>
+                    <p>El indicador se mantuvo en <strong>24.32%</strong> como meta conservadora desde 2019.
+                        El requisito calculado (31.99%) refleja la <strong>oferta real proyectada</strong> de energía
+                        limpia
+                        (89,401,380 MWh en 2025), que incluye centrales legadas más nuevas renovables ya en operación.
+                    </p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('metodologia')">← Anterior</button>
+                    <button onclick="navigateTo('calculo')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: CÁLCULO -->
+            <div class="slide" id="calculo">
+                <span class="slide-badge" style="background:var(--color-gobmx-verde)">Slide 3 · Datos</span>
+                <h2>Cálculo del Requisito CEL (2025-2039)</h2>
+                <p class="slide-subtitle">Consumo obligado, generación limpia y porcentaje de requisito</p>
+
+                <div id="chart-calculo" class="chart-container" style="min-height:420px"></div>
+
+                <table class="comp-table" id="table-calculo">
+                    <thead>
+                        <tr>
+                            <th>Año</th>
+                            <th>Consumo Obligado (GWh)</th>
+                            <th>Generación Limpia (GWh)</th>
+                            <th>Requisito (%)</th>
+                            <th>Indicador PRODESEN (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('brecha')">← Anterior</button>
+                    <button onclick="navigateTo('escenarios')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: ESCENARIOS -->
+            <div class="slide" id="escenarios">
+                <span class="slide-badge" style="background:var(--color-gobmx-dorado)">Slide 4 · Estrategia</span>
+                <h2>Escenarios de Transición</h2>
+                <p class="slide-subtitle">3 alternativas para cerrar la brecha entre el 13.9% publicado y el requisito
+                    real</p>
+
+                <div class="scenario-cards">
+                    <div class="scenario-card" id="card-A" onclick="selectScenario('A')">
+                        <span class="sc-tag" style="background:#fce4ec;color:#c62828">Acelerado</span>
+                        <h4 style="color:#c62828">Escenario A (2025→2028)</h4>
+                        <p>Cierre rápido en 3 años. Incrementos de ~8 pp/año. Alto estrés financiero.</p>
+                    </div>
+                    <div class="scenario-card active" id="card-B" onclick="selectScenario('B')">
+                        <span class="sc-tag" style="background:#e8f5e9;color:#2e7d32">✅ Recomendado</span>
+                        <h4 style="color:#2e7d32">Escenario B (2025→2029)</h4>
+                        <p>Transición equilibrada en 4 años. Incrementos de ~7 pp/año. Reserva estratégica.</p>
+                    </div>
+                    <div class="scenario-card" id="card-C" onclick="selectScenario('C')">
+                        <span class="sc-tag" style="background:#fff3e0;color:#e65100">Gradual</span>
+                        <h4 style="color:#e65100">Escenario C (2025→2030)</h4>
+                        <p>Dilución en 5 años. Incrementos de ~6.4 pp/año. Riesgo de sobreoferta.</p>
+                    </div>
+                </div>
+
+                <div id="chart-escenarios" class="chart-container"></div>
+
+                <table class="comp-table" id="table-escenarios">
+                    <thead>
+                        <tr>
+                            <th>Año</th>
+                            <th>Requisito Técnico</th>
+                            <th>Propuesto Oficial</th>
+                            <th>Incremento Anual</th>
+                            <th>Brecha</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div id="escenario-analisis"
+                    style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('calculo')">← Anterior</button>
+                    <button onclick="navigateTo('obligacion')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: OBLIGACIÓN -->
+            <div class="slide" id="obligacion">
+                <span class="slide-badge">Slide 5 · Impacto</span>
+                <h2>Obligación por Participante Obligado</h2>
+                <p class="slide-subtitle">Cuántos CELs debe adquirir cada tipo de participante según el requisito</p>
+
+                <div id="chart-obligacion" class="chart-container" style="min-height:420px"></div>
+
+                <table class="comp-table" id="table-obligacion">
+                    <thead>
+                        <tr>
+                            <th>Año</th>
+                            <th>Suministro Básico (CELs)</th>
+                            <th>CFE Calificado (CELs)</th>
+                            <th>Suministradores (CELs)</th>
+                            <th>Total (CELs)</th>
+                            <th>Requisito %</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div class="nota-importante">
+                    <div class="nota-importante-header"><span style="font-size:1.4rem">📏</span> FÓRMULA DE CÁLCULO
+                    </div>
+                    <p><strong>Obligación (CELs) = Consumo (GWh) × 1,000 × % Requisito</strong><br>
+                        Ejemplo 2025: Suministro Básico = 236,972 GWh × 1,000 × 31.99% = <strong>75,822,543
+                            CELs</strong></p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('escenarios')">← Anterior</button>
+                    <button onclick="navigateTo('conclusion')">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- CONCLUSIÓN -->
+            <div class="slide" id="conclusion">
+                <span class="slide-badge">Slide 6 · Conclusión</span>
+                <h2>Hallazgos Clave y Recomendación</h2>
+                <p class="slide-subtitle">Resumen ejecutivo del análisis del requisito CEL</p>
+
+                <div class="conclusion-card">
+                    <h3>📋 Hallazgos Principales</h3>
+                    <ul>
+                        <li><strong>La metodología produce requisitos más altos</strong> que las metas PRODESEN porque
+                            refleja la oferta real de energía limpia (incluyendo legadas).</li>
+                        <li><strong>La brecha 2026 es de ~18 puntos porcentuales</strong> (13.9% publicado vs 31.99%
+                            calculado). No es un error, es resultado de contar toda la oferta real.</li>
+                        <li><strong>El Escenario B es la ruta óptima:</strong> convergencia en 4 años (2025→2029) con
+                            incrementos graduales de ~7 pp/año.</li>
+                        <li><strong>Los participantes deben planificar</strong> adquisición gradual de CELs,
+                            considerando que la obligación total en 2025 supera los <strong>89 millones de
+                                certificados</strong>.</li>
+                    </ul>
+                </div>
+
+                <div class="metric-row" style="margin-top:24px">
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-guinda)">
+                        <div class="metric-val" style="color:var(--color-gobmx-guinda)">31.99%</div>
+                        <div class="metric-label">Requisito Real 2025</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-dorado)">
+                        <div class="metric-val" style="color:var(--color-gobmx-dorado)">13.9→43.2%</div>
+                        <div class="metric-label">Transición Propuesta (Esc. B)</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-verde)">
+                        <div class="metric-val" style="color:var(--color-gobmx-verde)">2029</div>
+                        <div class="metric-label">Año de Normalización</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid #555">
+                        <div class="metric-val" style="color:#555">89.4M</div>
+                        <div class="metric-label">CELs Requeridos 2025</div>
+                    </div>
+                </div>
+
+                <div class="perspectiva-toggle"
+                    onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+                    <span class="arrow">▸</span> 💡 Nota Final
+                </div>
+                <div class="perspectiva-content">
+                    <p>La estrategia de transición permite a los participantes adaptarse sin un impacto financiero
+                        abrupto,
+                        mientras se reconoce que la oferta de energía limpia ya existe y supera las metas previas.
+                        La convergencia gradual crea una reserva estratégica de certificados que puede utilizarse
+                        para estabilizar el mercado de CELs durante el periodo de ajuste.</p>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('obligacion')">← Anterior</button>
+                    <button disabled>Fin de la presentación</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="pres-footer">
+        <p>&copy; 2025 Secretaría de Energía | Subsecretaría de Planeación y Transición Energética</p>
+    </footer>
+
+    <script src="js/pages-common.js"></script>
+    <script>
+        // ===== NUMBER FORMATTING =====
+        function fmtMWh(gwh) { return (gwh * 1000).toLocaleString('es-MX', { maximumFractionDigits: 0 }); }
+        function fmtPct(val) { return val.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'; }
+        function fmtCEL(cels) { return Math.round(cels).toLocaleString('es-MX'); }
+
+        // ===== DATA (from existing HTML pages) =====
+        const years = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039];
+        const consumoGWh = [279471.95, 290864.22, 302003.28, 312714.26, 323021.58, 334116.99, 340321.85, 347967.39, 354359.89, 362784.21, 370785.19, 378693.07, 388018.20, 397289.64, 405223.09];
+        const generacionGWh = [89401.38, 96644.80, 102007.46, 120690.75, 139478.50, 153163.82, 156787.56, 174210.91, 181007.70, 186506.27, 194659.12, 210099.91, 214245.62, 230298.06, 241722.29];
+        const requisitoPC = [31.99, 33.22, 33.78, 38.59, 43.18, 45.84, 46.07, 50.07, 51.08, 51.41, 52.50, 55.48, 55.22, 57.97, 59.65];
+        const indicadorPC = [24.32, 24.32, 24.32, 24.32, 24.32, 38, null, null, null, null, null, null, null, null, null];
+
+        const consBasGWh = [236971.95, 246631.46, 255970.12, 265091.50, 273201.21, 281540.95, 286526.76, 291734.99, 296639.80, 302127.81, 307776.77, 313537.89, 319765.90, 326207.08, 332581.49];
+        const consCFEGWh = [13000, 13800.62, 14721.40, 15610.50, 16739.14, 17929.99, 18620.91, 19659.22, 20482.02, 21739.21, 22807.99, 23820.93, 25202.78, 26510.36, 27633.64];
+        const consSumGWh = [29500, 30432.14, 31311.74, 32012.26, 33081.23, 34646.05, 35174.18, 36573.18, 37238.08, 38917.19, 40200.43, 41334.25, 43049.52, 44572.20, 45007.95];
+
+        const scenarios = {
+            A: {
+                name: 'Escenario A: Convergencia Acelerada (2025→2028)',
+                desc: '"Transición Rápida". Cierre en 3 años efectivos con incrementos anuales pronunciados.',
+                data: [
+                    { year: 2025, technical: 31.99, proposed: 13.9, increment: '-', gap: '+18.1 pp (Superávit masivo)' },
+                    { year: 2026, technical: 33.22, proposed: 22.5, increment: '+8.6 pp', gap: '+10.7 pp (Superávit alto)' },
+                    { year: 2027, technical: 33.77, proposed: 30.5, increment: '+8.0 pp', gap: '+3.2 pp (Superávit bajo)' },
+                    { year: 2028, technical: 38.59, proposed: 38.6, increment: '+8.1 pp', gap: '0.0 pp (Normalización)' }
+                ],
+                pros: 'El más rápido, evita acumulación excesiva de obligaciones diferidas.',
+                contras: 'Alto estrés financiero para participantes, incrementos de ~60% anual en presupuesto.'
+            },
+            B: {
+                name: 'Escenario B: Convergencia Moderada (2025→2029)',
+                desc: '"Transición Equilibrada". Incrementos de ~7 pp/año. RECOMENDADO.',
+                data: [
+                    { year: 2025, technical: 31.99, proposed: 13.9, increment: '-', gap: '+18.1 pp (Reserva estratégica)' },
+                    { year: 2026, technical: 33.22, proposed: 21.5, increment: '+7.6 pp', gap: '+11.7 pp (Reserva estratégica)' },
+                    { year: 2027, technical: 33.77, proposed: 28.8, increment: '+7.3 pp', gap: '+5.0 pp (Absorción suave)' },
+                    { year: 2028, technical: 38.59, proposed: 36.0, increment: '+7.2 pp', gap: '+2.6 pp (Absorción final)' },
+                    { year: 2029, technical: 43.18, proposed: 43.2, increment: '+7.2 pp', gap: '0.0 pp (Normalización)' }
+                ],
+                pros: 'Suaviza curva financiera, crea reserva estratégica de certificados.',
+                contras: 'Mantiene discrepancia por 4 años. Punto óptimo costo-beneficio.'
+            },
+            C: {
+                name: 'Escenario C: Convergencia Gradual (2025→2030)',
+                desc: '"Transición Gradual". Prioriza estabilidad, dilución en 5 años.',
+                data: [
+                    { year: 2025, technical: 31.99, proposed: 13.9, increment: '-', gap: '+18.1 pp' },
+                    { year: 2026, technical: 33.22, proposed: 20.3, increment: '+6.4 pp', gap: '+12.9 pp (Acum. alta)' },
+                    { year: 2027, technical: 33.77, proposed: 26.7, increment: '+6.4 pp', gap: '+7.1 pp (Acum. media)' },
+                    { year: 2028, technical: 38.59, proposed: 33.1, increment: '+6.4 pp', gap: '+5.5 pp (Acum. media)' },
+                    { year: 2029, technical: 43.18, proposed: 39.5, increment: '+6.4 pp', gap: '+3.7 pp (Acum. baja)' },
+                    { year: 2030, technical: 45.84, proposed: 45.8, increment: '+6.3 pp', gap: '0.0 pp (Normalización)' }
+                ],
+                pros: 'Menor impacto anual en el presupuesto inmediato.',
+                contras: 'Riesgo de sobreoferta masiva y caída dramática de precios de CELs.'
+            }
+        };
+
+        // ===== CHART DEFAULTS =====
+        Highcharts.setOptions({
+            lang: { thousandsSep: ',', decimalPoint: '.' },
+            chart: { backgroundColor: null, style: { fontFamily: "'Noto Sans',sans-serif" } },
+            credits: { enabled: false },
+            exporting: {
+                enabled: true,
+                chartOptions: { chart: { backgroundColor: '#FFFFFF' } },
+                buttons: { contextButton: { menuItems: ['viewFullscreen', 'separator', 'downloadPNG', 'downloadSVG'] } }
+            }
+        });
+
+        // ===== 1. TREEGRAPH (Metodología) =====
+        Highcharts.chart('chart-metodologia', {
+            chart: { spacingBottom: 30, marginRight: 100 },
+            title: { text: null },
+            series: [{
+                type: 'treegraph',
+                keys: ['parent', 'id', 'name', 'title', 'description', 'color'],
+                clip: false,
+                data: [
+                    [undefined, 'Requisito', 'REQUISITO ANUAL (%)', 'Fórmula General', 'R = Oferta Acreditable / Demanda Obligada', '#9B2247'],
+                    ['Requisito', 'Denominador', 'DENOMINADOR', 'Demanda Obligada (MWh)', 'Base de consumo sujeta a obligación.', '#A57F2C'],
+                    ['Denominador', 'Consumo_Total', 'Consumo Nacional', 'BASE', 'Demanda total del SEN.', '#d4a017'],
+                    ['Denominador', 'Menos_CIL', '(-) Contratos Legados', 'DEDUCCIÓN', 'Energía exenta por Derechos Adquiridos.', '#9B2247'],
+                    ['Requisito', 'Numerador', 'NUMERADOR', 'Oferta Acreditable (CELs)', 'Total de Certificados disponibles.', '#1E5B4F'],
+                    ['Numerador', 'Renovables', 'Renovables Nuevas', 'INCLUIDO', 'Solar, Eólica, Geotermia (post-2014).', '#28a745'],
+                    ['Numerador', 'Legadas', 'Centrales Legadas', 'INCLUIDO (100%)', 'Hidro y Nuclear de CFE.', '#28a745'],
+                    ['Numerador', 'Hidrogeno', 'Hidrógeno Verde', 'PARCIAL (25%)', 'H2 en mezcla con gas en CC.', '#28a745'],
+                    ['Numerador', 'Excluidos', 'Exclusiones', 'NO COMPUTAN', 'No generan CELs.', '#6c757d'],
+                    ['Excluidos', 'GD', 'Gen. Distribuida', 'EXCLUIDO', 'Difícil de certificar.', '#dc3545'],
+                    ['Excluidos', 'SAE', 'Baterías (SAE)', 'EXCLUIDO', 'Desplazan energía, no generan.', '#dc3545']
+                ],
+                marker: { radius: 8 },
+                dataLabels: {
+                    style: { fontSize: '0.72rem', fontWeight: '600', textOutline: 'none' },
+                    format: '{point.name}',
+                    linkFormat: '{point.title}',
+                    nodeFormatter: function () { return '<b>' + this.point.name + '</b><br><span style="font-size:.7rem;color:#666">' + this.point.title + '</span>'; }
+                },
+                levels: [{ level: 0, colorByPoint: true }, { level: 1, colorByPoint: true }, { level: 2, colorByPoint: true }],
+                link: { type: 'curved' },
+                tooltip: { pointFormat: '<b>{point.name}</b><br>{point.title}<br><em>{point.description}</em>' }
+            }]
+        });
+
+        // ===== 2. BRECHA CHART =====
+        Highcharts.chart('chart-brecha', {
+            chart: { type: 'column' },
+            title: { text: 'Requisito Calculado vs Último Publicado', style: { fontSize: '1rem', color: '#9B2247' } },
+            xAxis: { categories: ['Último Publicado\n(PRODESEN)', 'Requisito 2025\n(Calculado)', 'Requisito 2026\n(Calculado)'] },
+            yAxis: { title: { text: 'Porcentaje (%)' }, max: 40 },
+            tooltip: { valueSuffix: ' %' },
+            plotOptions: { column: { dataLabels: { enabled: true, format: '{y}%', style: { fontWeight: '700' } } } },
+            series: [{
+                name: 'Porcentaje',
+                data: [
+                    { y: 13.9, color: '#A57F2C' },
+                    { y: 31.99, color: '#9B2247' },
+                    { y: 33.22, color: '#1E5B4F' }
+                ],
+                showInLegend: false
+            }]
+        });
+
+        // ===== 3. CÁLCULO CHART =====
+        Highcharts.chart('chart-calculo', {
+            title: { text: 'Consumo Obligado, Generación Limpia y Requisito CEL', style: { fontSize: '1rem', color: '#9B2247' } },
+            xAxis: { categories: years },
+            yAxis: [{
+                title: { text: 'MWh', style: { color: '#6c757d' } },
+                labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
+            }, {
+                title: { text: 'Requisito (%)', style: { color: '#9B2247' } },
+                opposite: true,
+                min: 0, max: 70
+            }],
+            tooltip: {
+                shared: true,
+                formatter: function () {
+                    var s = '<b>' + this.x + '</b>';
+                    this.points.forEach(function (p) {
+                        if (p.series.yAxis.options.index === 1) s += '<br>' + p.series.name + ': <b>' + p.y.toFixed(2) + '%</b>';
+                        else s += '<br>' + p.series.name + ': <b>' + (p.y).toLocaleString('es-MX', { maximumFractionDigits: 0 }) + ' MWh</b>';
+                    });
+                    return s;
+                }
+            },
+            series: [{
+                type: 'area', name: 'Consumo Obligado',
+                data: consumoGWh.map(v => v * 1000),
+                color: '#98989A', fillOpacity: 0.15
+            }, {
+                type: 'area', name: 'Generación Limpia',
+                data: generacionGWh.map(v => v * 1000),
+                color: '#28a745', fillOpacity: 0.25
+            }, {
+                type: 'spline', name: 'Requisito (%)',
+                data: requisitoPC, yAxis: 1,
+                color: '#9B2247', lineWidth: 3,
+                marker: { symbol: 'circle', radius: 5 }
+            }]
+        });
+
+        // Populate calculo table
+        (function () {
+            var tb = document.querySelector('#table-calculo tbody');
+            years.forEach(function (y, i) {
+                var ind = indicadorPC[i];
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + y + '</td><td>' + fmtMWh(consumoGWh[i]) + '</td><td>' + fmtMWh(generacionGWh[i]) + '</td><td>' + fmtPct(requisitoPC[i]) + '</td><td>' + (ind !== null ? fmtPct(ind) : '—') + '</td>';
+                tb.appendChild(tr);
+            });
+        })();
+
+        // ===== 4. ESCENARIOS =====
+        var chartEsc = null;
+        function selectScenario(key) {
+            var sc = scenarios[key];
+            document.querySelectorAll('.scenario-card').forEach(function (c) { c.classList.remove('active'); });
+            document.getElementById('card-' + key).classList.add('active');
+            var cats = sc.data.map(function (d) { return d.year; });
+            var tech = sc.data.map(function (d) { return d.technical; });
+            var prop = sc.data.map(function (d) { return d.proposed; });
+            if (chartEsc) {
+                chartEsc.update({
+                    xAxis: { categories: cats },
+                    series: [{ data: tech }, { data: prop }],
+                    title: { text: 'Convergencia: ' + sc.name }
+                });
+            } else {
+                chartEsc = Highcharts.chart('chart-escenarios', {
+                    chart: { type: 'spline' },
+                    title: { text: 'Convergencia: ' + sc.name, style: { fontSize: '1rem', color: '#9B2247' } },
+                    xAxis: { categories: cats, title: { text: 'Año' } },
+                    yAxis: { title: { text: 'Porcentaje (%)' }, min: 0, max: 50 },
+                    tooltip: { shared: true, valueSuffix: ' %' },
+                    series: [
+                        { name: 'Requisito Técnico (Real)', data: tech, color: '#98989A', dashStyle: 'ShortDash', marker: { symbol: 'diamond' } },
+                        { name: 'Propuesto (Oficial)', data: prop, color: '#9B2247', lineWidth: 3, marker: { symbol: 'circle', radius: 6 } }
+                    ]
+                });
+            }
+            // Table
+            var tb = document.querySelector('#table-escenarios tbody');
+            tb.innerHTML = '';
+            sc.data.forEach(function (r) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + r.year + '</td><td>' + fmtPct(r.technical) + '</td><td style="font-weight:700;color:#9B2247">' + fmtPct(r.proposed) + '</td><td>' + r.increment + '</td><td>' + r.gap + '</td>';
+                tb.appendChild(tr);
+            });
+            // Pros/Cons
+            document.getElementById('escenario-analisis').innerHTML =
+                '<div style="background:#e8f5e9;border-radius:8px;padding:16px"><strong style="color:#2e7d32">✅ Ventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.pros + '</p></div>' +
+                '<div style="background:#fff3e0;border-radius:8px;padding:16px"><strong style="color:#e65100">⚠️ Desventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.contras + '</p></div>';
+        }
+        selectScenario('B');
+
+        // ===== 5. OBLIGACIÓN =====
+        Highcharts.chart('chart-obligacion', {
+            chart: { type: 'column' },
+            title: { text: 'Obligación de CEL por Participante Obligado', style: { fontSize: '1rem', color: '#9B2247' } },
+            xAxis: { categories: years },
+            yAxis: {
+                title: { text: 'CELs (MWh)' },
+                labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
+            },
+            tooltip: {
+                shared: true,
+                formatter: function () {
+                    var s = '<b>' + this.x + '</b>';
+                    this.points.forEach(function (p) {
+                        s += '<br>' + p.series.name + ': <b>' + Math.round(p.y).toLocaleString('es-MX') + ' CELs</b>';
+                    });
+                    return s;
+                }
+            },
+            plotOptions: { column: { stacking: 'normal', dataLabels: { enabled: false } } },
+            series: [
+                { name: 'Suministro Básico', data: consBasGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#9B2247' },
+                { name: 'CFE Calificado', data: consCFEGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#A57F2C' },
+                { name: 'Suministradores', data: consSumGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#1E5B4F' }
+            ]
+        });
+
+        // Populate obligation table
+        (function () {
+            var tb = document.querySelector('#table-obligacion tbody');
+            years.forEach(function (y, i) {
+                var req = requisitoPC[i] / 100;
+                var ob1 = consBasGWh[i] * 1000 * req;
+                var ob2 = consCFEGWh[i] * 1000 * req;
+                var ob3 = consSumGWh[i] * 1000 * req;
+                var tot = ob1 + ob2 + ob3;
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + y + '</td><td>' + fmtCEL(ob1) + '</td><td>' + fmtCEL(ob2) + '</td><td>' + fmtCEL(ob3) + '</td><td style="font-weight:700">' + fmtCEL(tot) + '</td><td>' + fmtPct(requisitoPC[i]) + '</td>';
+                tb.appendChild(tr);
+            });
+        })();
+
+        // ===== NAVIGATION =====
+        const slideLinks = document.querySelectorAll('.slide-link');
+        const slides = document.querySelectorAll('.slide');
+        const progressFill = document.getElementById('progressFill');
+        const slideIds = ['portada', 'metodologia', 'brecha', 'calculo', 'escenarios', 'obligacion', 'conclusion'];
+
+        function navigateTo(id) {
+            slides.forEach(s => s.classList.remove('active'));
+            slideLinks.forEach(l => l.classList.remove('active'));
+            var target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            var link = document.querySelector('[data-target="' + id + '"]');
+            if (link) {
+                link.classList.add('active');
+                link.scrollIntoView({ block: 'nearest' });
+            }
+            var idx = slideIds.indexOf(id);
+            progressFill.style.width = ((idx / (slideIds.length - 1)) * 100) + '%';
+            document.getElementById('sidebar').classList.remove('open');
+            document.querySelector('.pres-main').scrollTo(0, 0);
+        }
+
+        slideLinks.forEach(l => l.addEventListener('click', () => navigateTo(l.dataset.target)));
+        document.addEventListener('keydown', e => {
+            var current = document.querySelector('.slide.active');
+            var idx = slideIds.indexOf(current?.id);
+            if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
+            if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
+        });
+    </script>
+</body>
+
+</html>
