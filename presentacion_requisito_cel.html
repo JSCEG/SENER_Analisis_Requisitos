@@ -15,8 +15,8 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/treegraph.js"></script>
     <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/treegraph.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -905,6 +905,32 @@
 
     <script src="js/pages-common.js"></script>
     <script>
+        // ===== NAVIGATION (must be defined first for onclick handlers) =====
+        var slideLinks, slides, progressFill;
+        var slideIds = ['portada', 'metodologia', 'brecha', 'calculo', 'escenarios', 'obligacion', 'conclusion'];
+
+        function navigateTo(id) {
+            if (!slides) {
+                slides = document.querySelectorAll('.slide');
+                slideLinks = document.querySelectorAll('.slide-link');
+                progressFill = document.getElementById('progressFill');
+            }
+            slides.forEach(function (s) { s.classList.remove('active'); });
+            slideLinks.forEach(function (l) { l.classList.remove('active'); });
+            var target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            var link = document.querySelector('[data-target="' + id + '"]');
+            if (link) {
+                link.classList.add('active');
+                link.scrollIntoView({ block: 'nearest' });
+            }
+            var idx = slideIds.indexOf(id);
+            if (progressFill) progressFill.style.width = ((idx / (slideIds.length - 1)) * 100) + '%';
+            document.getElementById('sidebar').classList.remove('open');
+            var main = document.querySelector('.pres-main');
+            if (main) main.scrollTo(0, 0);
+        }
+
         // ===== NUMBER FORMATTING =====
         function fmtMWh(gwh) { return (gwh * 1000).toLocaleString('es-MX', { maximumFractionDigits: 0 }); }
         function fmtPct(val) { return val.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'; }
@@ -1163,32 +1189,15 @@
             });
         })();
 
-        // ===== NAVIGATION =====
-        const slideLinks = document.querySelectorAll('.slide-link');
-        const slides = document.querySelectorAll('.slide');
-        const progressFill = document.getElementById('progressFill');
-        const slideIds = ['portada', 'metodologia', 'brecha', 'calculo', 'escenarios', 'obligacion', 'conclusion'];
+        // ===== INIT NAVIGATION LISTENERS =====
+        slideLinks = document.querySelectorAll('.slide-link');
+        slides = document.querySelectorAll('.slide');
+        progressFill = document.getElementById('progressFill');
 
-        function navigateTo(id) {
-            slides.forEach(s => s.classList.remove('active'));
-            slideLinks.forEach(l => l.classList.remove('active'));
-            var target = document.getElementById(id);
-            if (target) target.classList.add('active');
-            var link = document.querySelector('[data-target="' + id + '"]');
-            if (link) {
-                link.classList.add('active');
-                link.scrollIntoView({ block: 'nearest' });
-            }
-            var idx = slideIds.indexOf(id);
-            progressFill.style.width = ((idx / (slideIds.length - 1)) * 100) + '%';
-            document.getElementById('sidebar').classList.remove('open');
-            document.querySelector('.pres-main').scrollTo(0, 0);
-        }
-
-        slideLinks.forEach(l => l.addEventListener('click', () => navigateTo(l.dataset.target)));
-        document.addEventListener('keydown', e => {
+        slideLinks.forEach(function (l) { l.addEventListener('click', function () { navigateTo(l.dataset.target); }); });
+        document.addEventListener('keydown', function (e) {
             var current = document.querySelector('.slide.active');
-            var idx = slideIds.indexOf(current?.id);
+            var idx = slideIds.indexOf(current ? current.id : '');
             if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
             if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
         });
