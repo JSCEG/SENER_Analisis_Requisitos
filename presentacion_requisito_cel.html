@@ -1056,7 +1056,7 @@
             credits: { enabled: false },
             exporting: {
                 enabled: true,
-                chartOptions: { chart: { backgroundColor: '#FFFFFF' } },
+                chartOptions: { chart: { backgroundColor: 'transparent' } },
                 buttons: { contextButton: { menuItems: ['viewFullscreen', 'separator', 'downloadPNG', 'downloadSVG'] } }
             }
         });
@@ -1084,10 +1084,10 @@
                 ],
                 marker: { radius: 8 },
                 dataLabels: {
-                    style: { fontSize: '0.72rem', fontWeight: '600', textOutline: 'none' },
+                    style: { fontSize: '0.72rem', fontWeight: '600', textOutline: 'none', color: '#000000' },
                     format: '{point.name}',
                     linkFormat: '{point.title}',
-                    nodeFormatter: function () { return '<b>' + this.point.name + '</b><br><span style="font-size:.7rem;color:#666">' + this.point.title + '</span>'; }
+                    nodeFormatter: function () { return '<b style="color:#000">' + this.point.name + '</b><br><span style="font-size:.7rem;color:#333">' + this.point.title + '</span>'; }
                 },
                 levels: [{ level: 0, colorByPoint: true }, { level: 1, colorByPoint: true }, { level: 2, colorByPoint: true }],
                 link: { type: 'curved' },
