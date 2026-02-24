@@ -11,13 +11,6 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/pages-common.css">
-    <!-- Librerías Highcharts -->
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/treemap.js"></script>
-    <script src="https://code.highcharts.com/modules/treegraph.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <style>
         body {
             display: flex;
@@ -959,6 +952,13 @@
     </footer>
 
     <script src="js/pages-common.js"></script>
+    <!-- Librerías Highcharts (cargadas al final del body para garantizar su disponibilidad) -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/treegraph.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
         // ===== NAVIGATION (must be defined first for onclick handlers) =====
         var slideLinks, slides, progressFill;
@@ -1045,293 +1045,292 @@
         };
 
         // ===== CHART DEFAULTS =====
-        document.addEventListener('DOMContentLoaded', function () {
-            Highcharts.setOptions({
-                lang: { thousandsSep: ',', decimalPoint: '.' },
-                chart: { backgroundColor: null, style: { fontFamily: "'Noto Sans',sans-serif" } },
-                credits: { enabled: false },
-                exporting: {
-                    enabled: true,
-                    chartOptions: { chart: { backgroundColor: '#FFFFFF' } },
-                    buttons: { contextButton: { menuItems: ['viewFullscreen', 'separator', 'downloadPNG', 'downloadSVG'] } }
+        Highcharts.setOptions({
+            lang: { thousandsSep: ',', decimalPoint: '.' },
+            chart: { backgroundColor: null, style: { fontFamily: "'Noto Sans',sans-serif" } },
+            credits: { enabled: false },
+            exporting: {
+                enabled: true,
+                chartOptions: { chart: { backgroundColor: '#FFFFFF' } },
+                buttons: { contextButton: { menuItems: ['viewFullscreen', 'separator', 'downloadPNG', 'downloadSVG'] } }
+            }
+        });
+
+        // ===== 1. TREEGRAPH (Metodología) =====
+        Highcharts.chart('chart-metodologia', {
+            chart: { spacingBottom: 30, marginRight: 100 },
+            title: { text: null },
+            series: [{
+                type: 'treegraph',
+                keys: ['parent', 'id', 'name', 'title', 'description', 'color'],
+                clip: false,
+                data: [
+                    [undefined, 'Requisito', 'REQUISITO ANUAL (%)', 'Fórmula General', 'R = Oferta Acreditable / Demanda Obligada', '#9B2247'],
+                    ['Requisito', 'Denominador', 'DENOMINADOR', 'Demanda Obligada (MWh)', 'Base de consumo sujeta a obligación.', '#A57F2C'],
+                    ['Denominador', 'Consumo_Total', 'Consumo Nacional', 'BASE', 'Demanda total del SEN.', '#d4a017'],
+                    ['Denominador', 'Menos_CIL', '(-) Contratos Legados', 'DEDUCCIÓN', 'Energía exenta por Derechos Adquiridos.', '#9B2247'],
+                    ['Requisito', 'Numerador', 'NUMERADOR', 'Oferta Acreditable (CELs)', 'Total de Certificados disponibles.', '#1E5B4F'],
+                    ['Numerador', 'Renovables', 'Renovables Nuevas', 'INCLUIDO', 'Solar, Eólica, Geotermia (post-2014).', '#28a745'],
+                    ['Numerador', 'Legadas', 'Centrales Legadas', 'INCLUIDO (100%)', 'Hidro y Nuclear de CFE.', '#28a745'],
+                    ['Numerador', 'Hidrogeno', 'Hidrógeno Verde', 'PARCIAL (25%)', 'H2 en mezcla con gas en CC.', '#28a745'],
+                    ['Numerador', 'Excluidos', 'Exclusiones', 'NO COMPUTAN', 'No generan CELs.', '#6c757d'],
+                    ['Excluidos', 'GD', 'Gen. Distribuida', 'EXCLUIDO', 'Difícil de certificar.', '#dc3545'],
+                    ['Excluidos', 'SAE', 'Baterías (SAE)', 'EXCLUIDO', 'Desplazan energía, no generan.', '#dc3545']
+                ],
+                marker: { radius: 8 },
+                dataLabels: {
+                    style: { fontSize: '0.72rem', fontWeight: '600', textOutline: 'none' },
+                    format: '{point.name}',
+                    linkFormat: '{point.title}',
+                    nodeFormatter: function () { return '<b>' + this.point.name + '</b><br><span style="font-size:.7rem;color:#666">' + this.point.title + '</span>'; }
+                },
+                levels: [{ level: 0, colorByPoint: true }, { level: 1, colorByPoint: true }, { level: 2, colorByPoint: true }],
+                link: { type: 'curved' },
+                tooltip: { pointFormat: '<b>{point.name}</b><br>{point.title}<br><em>{point.description}</em>' }
+            }]
+        });
+
+        // ===== 2. BRECHA CHART =====
+        Highcharts.chart('chart-brecha', {
+            chart: { type: 'column' },
+            title: { text: 'Requisito Calculado vs Último Publicado', style: { fontSize: '1rem', color: '#9B2247' } },
+            xAxis: { categories: ['Último Publicado\n(PRODESEN)', 'Requisito 2025\n(Calculado)', 'Requisito 2026\n(Calculado)'] },
+            yAxis: { title: { text: 'Porcentaje (%)' }, max: 40 },
+            tooltip: { valueSuffix: ' %' },
+            plotOptions: { column: { dataLabels: { enabled: true, format: '{y}%', style: { fontWeight: '700' } } } },
+            series: [{
+                name: 'Porcentaje',
+                data: [
+                    { y: 13.9, color: '#A57F2C' },
+                    { y: 31.99, color: '#9B2247' },
+                    { y: 33.22, color: '#1E5B4F' }
+                ],
+                showInLegend: false
+            }]
+        });
+
+        // ===== 3. CÁLCULO CHART =====
+        Highcharts.chart('chart-calculo', {
+            title: { text: 'Consumo Obligado, Generación Limpia y Requisito CEL', style: { fontSize: '1rem', color: '#9B2247' } },
+            xAxis: { categories: years },
+            yAxis: [{
+                title: { text: 'MWh', style: { color: '#6c757d' } },
+                labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
+            }, {
+                title: { text: 'Requisito (%)', style: { color: '#9B2247' } },
+                opposite: true,
+                min: 0, max: 70
+            }],
+            tooltip: {
+                shared: true,
+                formatter: function () {
+                    var s = '<b>' + this.x + '</b>';
+                    this.points.forEach(function (p) {
+                        if (p.series.yAxis.options.index === 1) s += '<br>' + p.series.name + ': <b>' + p.y.toFixed(2) + '%</b>';
+                        else s += '<br>' + p.series.name + ': <b>' + (p.y).toLocaleString('es-MX', { maximumFractionDigits: 0 }) + ' MWh</b>';
+                    });
+                    return s;
                 }
+            },
+            series: [{
+                type: 'area', name: 'Consumo Obligado',
+                data: consumoGWh.map(v => v * 1000),
+                color: '#98989A', fillOpacity: 0.15
+            }, {
+                type: 'area', name: 'Generación Limpia',
+                data: generacionGWh.map(v => v * 1000),
+                color: '#28a745', fillOpacity: 0.25
+            }, {
+                type: 'spline', name: 'Requisito (%)',
+                data: requisitoPC, yAxis: 1,
+                color: '#9B2247', lineWidth: 3,
+                marker: { symbol: 'circle', radius: 5 }
+            }]
+        });
+
+        // Populate calculo table
+        (function () {
+            var tb = document.querySelector('#table-calculo tbody');
+            years.forEach(function (y, i) {
+                var ind = indicadorPC[i];
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + y + '</td><td>' + fmtMWh(consumoGWh[i]) + '</td><td>' + fmtMWh(generacionGWh[i]) + '</td><td>' + fmtPct(requisitoPC[i]) + '</td><td>' + (ind !== null ? fmtPct(ind) : '—') + '</td>';
+                tb.appendChild(tr);
+            });
+        })();
+
+        // ===== 4. ESCENARIOS =====
+        var chartEsc = null;
+        function selectScenario(key) {
+            var sc = scenarios[key];
+            document.querySelectorAll('.scenario-card').forEach(function (c) { c.classList.remove('active'); });
+            document.getElementById('card-' + key).classList.add('active');
+            var cats = sc.data.map(function (d) { return d.year; });
+            var tech = sc.data.map(function (d) { return d.technical; });
+            var prop = sc.data.map(function (d) { return d.proposed; });
+            if (chartEsc) {
+                chartEsc.update({
+                    xAxis: { categories: cats },
+                    series: [{ data: tech }, { data: prop }],
+                    title: { text: 'Convergencia: ' + sc.name }
+                });
+            } else {
+                chartEsc = Highcharts.chart('chart-escenarios', {
+                    chart: { type: 'spline' },
+                    title: { text: 'Convergencia: ' + sc.name, style: { fontSize: '1rem', color: '#9B2247' } },
+                    xAxis: { categories: cats, title: { text: 'Año' } },
+                    yAxis: { title: { text: 'Porcentaje (%)' }, min: 0, max: 50 },
+                    tooltip: { shared: true, valueSuffix: ' %' },
+                    series: [
+                        { name: 'Requisito Técnico (Real)', data: tech, color: '#98989A', dashStyle: 'ShortDash', marker: { symbol: 'diamond' } },
+                        { name: 'Propuesto (Oficial)', data: prop, color: '#9B2247', lineWidth: 3, marker: { symbol: 'circle', radius: 6 } }
+                    ]
+                });
+            }
+            // Table
+            var tb = document.querySelector('#table-escenarios tbody');
+            tb.innerHTML = '';
+            sc.data.forEach(function (r) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + r.year + '</td><td>' + fmtPct(r.technical) + '</td><td style="font-weight:700;color:#9B2247">' + fmtPct(r.proposed) + '</td><td>' + r.increment + '</td><td>' + r.gap + '</td>';
+                tb.appendChild(tr);
+            });
+            // Pros/Cons
+            document.getElementById('escenario-analisis').innerHTML =
+                '<div style="background:#e8f5e9;border-radius:8px;padding:16px"><strong style="color:#2e7d32">✅ Ventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.pros + '</p></div>' +
+                '<div style="background:#fff3e0;border-radius:8px;padding:16px"><strong style="color:#e65100">⚠️ Desventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.contras + '</p></div>';
+        }
+        selectScenario('B');
+
+        // ===== 5. OBLIGACIÓN =====
+        Highcharts.chart('chart-obligacion', {
+            chart: { type: 'column' },
+            title: { text: 'Obligación de CEL por Participante Obligado', style: { fontSize: '1rem', color: '#9B2247' } },
+            xAxis: { categories: years },
+            yAxis: {
+                title: { text: 'CELs (MWh)' },
+                labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
+            },
+            tooltip: {
+                shared: true,
+                formatter: function () {
+                    var s = '<b>' + this.x + '</b>';
+                    this.points.forEach(function (p) {
+                        s += '<br>' + p.series.name + ': <b>' + Math.round(p.y).toLocaleString('es-MX') + ' CELs</b>';
+                    });
+                    return s;
+                }
+            },
+            plotOptions: { column: { stacking: 'normal', dataLabels: { enabled: false } } },
+            series: [
+                { name: 'Suministro Básico', data: consBasGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#9B2247' },
+                { name: 'CFE Calificado', data: consCFEGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#A57F2C' },
+                { name: 'Suministradores', data: consSumGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#1E5B4F' }
+            ]
+        });
+
+        // Populate obligation table
+        (function () {
+            var tb = document.querySelector('#table-obligacion tbody');
+            years.forEach(function (y, i) {
+                var req = requisitoPC[i] / 100;
+                var ob1 = consBasGWh[i] * 1000 * req;
+                var ob2 = consCFEGWh[i] * 1000 * req;
+                var ob3 = consSumGWh[i] * 1000 * req;
+                var tot = ob1 + ob2 + ob3;
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + y + '</td><td>' + fmtCEL(ob1) + '</td><td>' + fmtCEL(ob2) + '</td><td>' + fmtCEL(ob3) + '</td><td style="font-weight:700">' + fmtCEL(tot) + '</td><td>' + fmtPct(requisitoPC[i]) + '</td>';
+                tb.appendChild(tr);
+            });
+        })();
+
+        // ===== 6. ESCENARIOS POR PARTICIPANTE =====
+        var chartEscPart = null;
+        function selectEscenarioParticipante(key) {
+            var sc = scenarios[key];
+            document.querySelectorAll('#escenarios-participante .scenario-card').forEach(function (c) { c.classList.remove('active'); });
+            document.getElementById('card-ep-' + key).classList.add('active');
+
+            // Map scenario years to consumption index
+            var cats = sc.data.map(function (d) { return d.year; });
+            var dataBas = [], dataCFE = [], dataSum = [];
+            sc.data.forEach(function (d) {
+                var yIdx = years.indexOf(d.year);
+                if (yIdx === -1) return;
+                var pct = d.proposed / 100;
+                dataBas.push(Math.round(consBasGWh[yIdx] * 1000 * pct));
+                dataCFE.push(Math.round(consCFEGWh[yIdx] * 1000 * pct));
+                dataSum.push(Math.round(consSumGWh[yIdx] * 1000 * pct));
             });
 
-            // ===== 1. TREEGRAPH (Metodología) =====
-            Highcharts.chart('chart-metodologia', {
-                chart: { spacingBottom: 30, marginRight: 100 },
-                title: { text: null },
-                series: [{
-                    type: 'treegraph',
-                    keys: ['parent', 'id', 'name', 'title', 'description', 'color'],
-                    clip: false,
-                    data: [
-                        [undefined, 'Requisito', 'REQUISITO ANUAL (%)', 'Fórmula General', 'R = Oferta Acreditable / Demanda Obligada', '#9B2247'],
-                        ['Requisito', 'Denominador', 'DENOMINADOR', 'Demanda Obligada (MWh)', 'Base de consumo sujeta a obligación.', '#A57F2C'],
-                        ['Denominador', 'Consumo_Total', 'Consumo Nacional', 'BASE', 'Demanda total del SEN.', '#d4a017'],
-                        ['Denominador', 'Menos_CIL', '(-) Contratos Legados', 'DEDUCCIÓN', 'Energía exenta por Derechos Adquiridos.', '#9B2247'],
-                        ['Requisito', 'Numerador', 'NUMERADOR', 'Oferta Acreditable (CELs)', 'Total de Certificados disponibles.', '#1E5B4F'],
-                        ['Numerador', 'Renovables', 'Renovables Nuevas', 'INCLUIDO', 'Solar, Eólica, Geotermia (post-2014).', '#28a745'],
-                        ['Numerador', 'Legadas', 'Centrales Legadas', 'INCLUIDO (100%)', 'Hidro y Nuclear de CFE.', '#28a745'],
-                        ['Numerador', 'Hidrogeno', 'Hidrógeno Verde', 'PARCIAL (25%)', 'H2 en mezcla con gas en CC.', '#28a745'],
-                        ['Numerador', 'Excluidos', 'Exclusiones', 'NO COMPUTAN', 'No generan CELs.', '#6c757d'],
-                        ['Excluidos', 'GD', 'Gen. Distribuida', 'EXCLUIDO', 'Difícil de certificar.', '#dc3545'],
-                        ['Excluidos', 'SAE', 'Baterías (SAE)', 'EXCLUIDO', 'Desplazan energía, no generan.', '#dc3545']
-                    ],
-                    marker: { radius: 8 },
-                    dataLabels: {
-                        style: { fontSize: '0.72rem', fontWeight: '600', textOutline: 'none' },
-                        format: '{point.name}',
-                        linkFormat: '{point.title}',
-                        nodeFormatter: function () { return '<b>' + this.point.name + '</b><br><span style="font-size:.7rem;color:#666">' + this.point.title + '</span>'; }
+            if (chartEscPart) {
+                chartEscPart.update({
+                    xAxis: { categories: cats },
+                    series: [{ data: dataBas }, { data: dataCFE }, { data: dataSum }],
+                    title: { text: 'Obligación por Participante — ' + sc.name }
+                });
+            } else {
+                chartEscPart = Highcharts.chart('chart-escenarios-participante', {
+                    chart: { type: 'column' },
+                    title: { text: 'Obligación por Participante — ' + sc.name, style: { fontSize: '1rem', color: '#9B2247' } },
+                    xAxis: { categories: cats },
+                    yAxis: {
+                        title: { text: 'CELs (MWh)' },
+                        labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
                     },
-                    levels: [{ level: 0, colorByPoint: true }, { level: 1, colorByPoint: true }, { level: 2, colorByPoint: true }],
-                    link: { type: 'curved' },
-                    tooltip: { pointFormat: '<b>{point.name}</b><br>{point.title}<br><em>{point.description}</em>' }
-                }]
-            });
-
-            // ===== 2. BRECHA CHART =====
-            Highcharts.chart('chart-brecha', {
-                chart: { type: 'column' },
-                title: { text: 'Requisito Calculado vs Último Publicado', style: { fontSize: '1rem', color: '#9B2247' } },
-                xAxis: { categories: ['Último Publicado\n(PRODESEN)', 'Requisito 2025\n(Calculado)', 'Requisito 2026\n(Calculado)'] },
-                yAxis: { title: { text: 'Porcentaje (%)' }, max: 40 },
-                tooltip: { valueSuffix: ' %' },
-                plotOptions: { column: { dataLabels: { enabled: true, format: '{y}%', style: { fontWeight: '700' } } } },
-                series: [{
-                    name: 'Porcentaje',
-                    data: [
-                        { y: 13.9, color: '#A57F2C' },
-                        { y: 31.99, color: '#9B2247' },
-                        { y: 33.22, color: '#1E5B4F' }
-                    ],
-                    showInLegend: false
-                }]
-            });
-
-            // ===== 3. CÁLCULO CHART =====
-            Highcharts.chart('chart-calculo', {
-                title: { text: 'Consumo Obligado, Generación Limpia y Requisito CEL', style: { fontSize: '1rem', color: '#9B2247' } },
-                xAxis: { categories: years },
-                yAxis: [{
-                    title: { text: 'MWh', style: { color: '#6c757d' } },
-                    labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
-                }, {
-                    title: { text: 'Requisito (%)', style: { color: '#9B2247' } },
-                    opposite: true,
-                    min: 0, max: 70
-                }],
-                tooltip: {
-                    shared: true,
-                    formatter: function () {
-                        var s = '<b>' + this.x + '</b>';
-                        this.points.forEach(function (p) {
-                            if (p.series.yAxis.options.index === 1) s += '<br>' + p.series.name + ': <b>' + p.y.toFixed(2) + '%</b>';
-                            else s += '<br>' + p.series.name + ': <b>' + (p.y).toLocaleString('es-MX', { maximumFractionDigits: 0 }) + ' MWh</b>';
-                        });
-                        return s;
-                    }
-                },
-                series: [{
-                    type: 'area', name: 'Consumo Obligado',
-                    data: consumoGWh.map(v => v * 1000),
-                    color: '#98989A', fillOpacity: 0.15
-                }, {
-                    type: 'area', name: 'Generación Limpia',
-                    data: generacionGWh.map(v => v * 1000),
-                    color: '#28a745', fillOpacity: 0.25
-                }, {
-                    type: 'spline', name: 'Requisito (%)',
-                    data: requisitoPC, yAxis: 1,
-                    color: '#9B2247', lineWidth: 3,
-                    marker: { symbol: 'circle', radius: 5 }
-                }]
-            });
-
-            // Populate calculo table
-            (function () {
-                var tb = document.querySelector('#table-calculo tbody');
-                years.forEach(function (y, i) {
-                    var ind = indicadorPC[i];
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + y + '</td><td>' + fmtMWh(consumoGWh[i]) + '</td><td>' + fmtMWh(generacionGWh[i]) + '</td><td>' + fmtPct(requisitoPC[i]) + '</td><td>' + (ind !== null ? fmtPct(ind) : '—') + '</td>';
-                    tb.appendChild(tr);
-                });
-            })();
-
-            // ===== 4. ESCENARIOS =====
-            var chartEsc = null;
-            function selectScenario(key) {
-                var sc = scenarios[key];
-                document.querySelectorAll('.scenario-card').forEach(function (c) { c.classList.remove('active'); });
-                document.getElementById('card-' + key).classList.add('active');
-                var cats = sc.data.map(function (d) { return d.year; });
-                var tech = sc.data.map(function (d) { return d.technical; });
-                var prop = sc.data.map(function (d) { return d.proposed; });
-                if (chartEsc) {
-                    chartEsc.update({
-                        xAxis: { categories: cats },
-                        series: [{ data: tech }, { data: prop }],
-                        title: { text: 'Convergencia: ' + sc.name }
-                    });
-                } else {
-                    chartEsc = Highcharts.chart('chart-escenarios', {
-                        chart: { type: 'spline' },
-                        title: { text: 'Convergencia: ' + sc.name, style: { fontSize: '1rem', color: '#9B2247' } },
-                        xAxis: { categories: cats, title: { text: 'Año' } },
-                        yAxis: { title: { text: 'Porcentaje (%)' }, min: 0, max: 50 },
-                        tooltip: { shared: true, valueSuffix: ' %' },
-                        series: [
-                            { name: 'Requisito Técnico (Real)', data: tech, color: '#98989A', dashStyle: 'ShortDash', marker: { symbol: 'diamond' } },
-                            { name: 'Propuesto (Oficial)', data: prop, color: '#9B2247', lineWidth: 3, marker: { symbol: 'circle', radius: 6 } }
-                        ]
-                    });
-                }
-                // Table
-                var tb = document.querySelector('#table-escenarios tbody');
-                tb.innerHTML = '';
-                sc.data.forEach(function (r) {
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + r.year + '</td><td>' + fmtPct(r.technical) + '</td><td style="font-weight:700;color:#9B2247">' + fmtPct(r.proposed) + '</td><td>' + r.increment + '</td><td>' + r.gap + '</td>';
-                    tb.appendChild(tr);
-                });
-                // Pros/Cons
-                document.getElementById('escenario-analisis').innerHTML =
-                    '<div style="background:#e8f5e9;border-radius:8px;padding:16px"><strong style="color:#2e7d32">✅ Ventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.pros + '</p></div>' +
-                    '<div style="background:#fff3e0;border-radius:8px;padding:16px"><strong style="color:#e65100">⚠️ Desventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.contras + '</p></div>';
-            }
-            selectScenario('B');
-
-            // ===== 5. OBLIGACIÓN =====
-            Highcharts.chart('chart-obligacion', {
-                chart: { type: 'column' },
-                title: { text: 'Obligación de CEL por Participante Obligado', style: { fontSize: '1rem', color: '#9B2247' } },
-                xAxis: { categories: years },
-                yAxis: {
-                    title: { text: 'CELs (MWh)' },
-                    labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
-                },
-                tooltip: {
-                    shared: true,
-                    formatter: function () {
-                        var s = '<b>' + this.x + '</b>';
-                        this.points.forEach(function (p) {
-                            s += '<br>' + p.series.name + ': <b>' + Math.round(p.y).toLocaleString('es-MX') + ' CELs</b>';
-                        });
-                        return s;
-                    }
-                },
-                plotOptions: { column: { stacking: 'normal', dataLabels: { enabled: false } } },
-                series: [
-                    { name: 'Suministro Básico', data: consBasGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#9B2247' },
-                    { name: 'CFE Calificado', data: consCFEGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#A57F2C' },
-                    { name: 'Suministradores', data: consSumGWh.map(function (v, i) { return v * 1000 * requisitoPC[i] / 100; }), color: '#1E5B4F' }
-                ]
-            });
-
-            // Populate obligation table
-            (function () {
-                var tb = document.querySelector('#table-obligacion tbody');
-                years.forEach(function (y, i) {
-                    var req = requisitoPC[i] / 100;
-                    var ob1 = consBasGWh[i] * 1000 * req;
-                    var ob2 = consCFEGWh[i] * 1000 * req;
-                    var ob3 = consSumGWh[i] * 1000 * req;
-                    var tot = ob1 + ob2 + ob3;
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + y + '</td><td>' + fmtCEL(ob1) + '</td><td>' + fmtCEL(ob2) + '</td><td>' + fmtCEL(ob3) + '</td><td style="font-weight:700">' + fmtCEL(tot) + '</td><td>' + fmtPct(requisitoPC[i]) + '</td>';
-                    tb.appendChild(tr);
-                });
-            })();
-
-            // ===== 6. ESCENARIOS POR PARTICIPANTE =====
-            var chartEscPart = null;
-            function selectEscenarioParticipante(key) {
-                var sc = scenarios[key];
-                document.querySelectorAll('#escenarios-participante .scenario-card').forEach(function (c) { c.classList.remove('active'); });
-                document.getElementById('card-ep-' + key).classList.add('active');
-
-                // Map scenario years to consumption index
-                var cats = sc.data.map(function (d) { return d.year; });
-                var dataBas = [], dataCFE = [], dataSum = [];
-                sc.data.forEach(function (d) {
-                    var yIdx = years.indexOf(d.year);
-                    if (yIdx === -1) return;
-                    var pct = d.proposed / 100;
-                    dataBas.push(Math.round(consBasGWh[yIdx] * 1000 * pct));
-                    dataCFE.push(Math.round(consCFEGWh[yIdx] * 1000 * pct));
-                    dataSum.push(Math.round(consSumGWh[yIdx] * 1000 * pct));
-                });
-
-                if (chartEscPart) {
-                    chartEscPart.update({
-                        xAxis: { categories: cats },
-                        series: [{ data: dataBas }, { data: dataCFE }, { data: dataSum }],
-                        title: { text: 'Obligación por Participante — ' + sc.name }
-                    });
-                } else {
-                    chartEscPart = Highcharts.chart('chart-escenarios-participante', {
-                        chart: { type: 'column' },
-                        title: { text: 'Obligación por Participante — ' + sc.name, style: { fontSize: '1rem', color: '#9B2247' } },
-                        xAxis: { categories: cats },
-                        yAxis: {
-                            title: { text: 'CELs (MWh)' },
-                            labels: { formatter: function () { return (this.value / 1e6).toFixed(0) + 'M'; } }
-                        },
-                        tooltip: {
-                            shared: true,
-                            formatter: function () {
-                                var s = '<b>' + this.x + '</b>';
-                                var total = 0;
-                                this.points.forEach(function (p) {
-                                    s += '<br>' + p.series.name + ': <b>' + Math.round(p.y).toLocaleString('es-MX') + ' CELs</b>';
-                                    total += p.y;
-                                });
-                                s += '<br><b>Total: ' + Math.round(total).toLocaleString('es-MX') + ' CELs</b>';
-                                return s;
-                            }
-                        },
-                        plotOptions: { column: { stacking: 'normal' } },
-                        series: [
-                            { name: 'Suministro Básico', data: dataBas, color: '#9B2247' },
-                            { name: 'CFE Calificado', data: dataCFE, color: '#A57F2C' },
-                            { name: 'Suministradores', data: dataSum, color: '#1E5B4F' }
-                        ]
-                    });
-                }
-
-                // Table
-                var tb = document.querySelector('#table-escenarios-participante tbody');
-                tb.innerHTML = '';
-                sc.data.forEach(function (d, i) {
-                    var yIdx = years.indexOf(d.year);
-                    if (yIdx === -1) return;
-                    var pct = d.proposed / 100;
-                    var ob1 = consBasGWh[yIdx] * 1000 * pct;
-                    var ob2 = consCFEGWh[yIdx] * 1000 * pct;
-                    var ob3 = consSumGWh[yIdx] * 1000 * pct;
-                    var tot = ob1 + ob2 + ob3;
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + d.year + '</td><td style="font-weight:700;color:#9B2247">' + fmtPct(d.proposed) + '</td><td>' + fmtCEL(ob1) + '</td><td>' + fmtCEL(ob2) + '</td><td>' + fmtCEL(ob3) + '</td><td style="font-weight:700">' + fmtCEL(tot) + '</td>';
-                    tb.appendChild(tr);
+                    tooltip: {
+                        shared: true,
+                        formatter: function () {
+                            var s = '<b>' + this.x + '</b>';
+                            var total = 0;
+                            this.points.forEach(function (p) {
+                                s += '<br>' + p.series.name + ': <b>' + Math.round(p.y).toLocaleString('es-MX') + ' CELs</b>';
+                                total += p.y;
+                            });
+                            s += '<br><b>Total: ' + Math.round(total).toLocaleString('es-MX') + ' CELs</b>';
+                            return s;
+                        }
+                    },
+                    plotOptions: { column: { stacking: 'normal' } },
+                    series: [
+                        { name: 'Suministro Básico', data: dataBas, color: '#9B2247' },
+                        { name: 'CFE Calificado', data: dataCFE, color: '#A57F2C' },
+                        { name: 'Suministradores', data: dataSum, color: '#1E5B4F' }
+                    ]
                 });
             }
-            selectEscenarioParticipante('B');
 
-            // ===== INIT NAVIGATION LISTENERS =====
-            slideLinks = document.querySelectorAll('.slide-link');
-            slides = document.querySelectorAll('.slide');
-            progressFill = document.getElementById('progressFill');
-
-            slideLinks.forEach(function (l) { l.addEventListener('click', function () { navigateTo(l.dataset.target); }); });
-            document.addEventListener('keydown', function (e) {
-                var current = document.querySelector('.slide.active');
-                var idx = slideIds.indexOf(current ? current.id : '');
-                if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
-                if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
+            // Table
+            var tb = document.querySelector('#table-escenarios-participante tbody');
+            tb.innerHTML = '';
+            sc.data.forEach(function (d, i) {
+                var yIdx = years.indexOf(d.year);
+                if (yIdx === -1) return;
+                var pct = d.proposed / 100;
+                var ob1 = consBasGWh[yIdx] * 1000 * pct;
+                var ob2 = consCFEGWh[yIdx] * 1000 * pct;
+                var ob3 = consSumGWh[yIdx] * 1000 * pct;
+                var tot = ob1 + ob2 + ob3;
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + d.year + '</td><td style="font-weight:700;color:#9B2247">' + fmtPct(d.proposed) + '</td><td>' + fmtCEL(ob1) + '</td><td>' + fmtCEL(ob2) + '</td><td>' + fmtCEL(ob3) + '</td><td style="font-weight:700">' + fmtCEL(tot) + '</td>';
+                tb.appendChild(tr);
             });
-        }); // end DOMContentLoaded
+        }
+        selectEscenarioParticipante('B');
+
+        // ===== INIT NAVIGATION LISTENERS =====
+        slideLinks = document.querySelectorAll('.slide-link');
+        slides = document.querySelectorAll('.slide');
+        progressFill = document.getElementById('progressFill');
+
+        slideLinks.forEach(function (l) { l.addEventListener('click', function () { navigateTo(l.dataset.target); }); });
+        document.addEventListener('keydown', function (e) {
+            var current = document.querySelector('.slide.active');
+            var idx = slideIds.indexOf(current ? current.id : '');
+            if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
+            if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
+        });
+
     </script>
 </body>
 
