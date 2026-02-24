@@ -1082,11 +1082,11 @@
                     ['Excluidos', 'GD', 'Gen. Distribuida', 'EXCLUIDO', 'Difícil de certificar', '#dc3545'],
                     ['Excluidos', 'SAE', 'Baterías (SAE)', 'EXCLUIDO', 'Desplazan, no generan', '#dc3545']
                 ],
-                marker: { radius: 6 },
-                nodeWidth: 20,
+                marker: { radius: 0, lineWidth: 0, fillColor: 'transparent' },
+                nodeWidth: 1,
                 dataLabels: {
                     align: 'left',
-                    x: 12,
+                    x: 5,
                     padding: 0,
                     crop: false,
                     overflow: 'allow',
@@ -1095,11 +1095,13 @@
                     linkFormat: '',
                     nodeFormatter: function () {
                         var p = this.point;
-                        return '<b style="color:#000">' + p.name + '</b><br><span style="font-size:.65rem;color:#666;font-style:italic">' + p.description + '</span>';
+                        return '<b style="color:#000">' + p.name + '</b>' +
+                            '<br><span style="font-size:.65rem;color:#555">' + p.title + '</span>' +
+                            '<br><span style="font-size:.6rem;color:#777;font-style:italic">' + p.description + '</span>';
                     }
                 },
                 levels: [{ level: 0, colorByPoint: true }, { level: 1, colorByPoint: true }, { level: 2, colorByPoint: true }],
-                link: { type: 'curved' },
+                link: { type: 'curved', lineWidth: 2 },
                 tooltip: { pointFormat: '<b>{point.name}</b><br>{point.title}<br><em>{point.description}</em>' }
             }]
         });
