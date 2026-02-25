@@ -509,45 +509,187 @@
             display: block;
         }
 
-        @media (max-width:900px) {
-            .pres-sidebar {
-                position: fixed;
-                left: -320px;
-                top: 60px;
-                bottom: 0;
-                z-index: 998;
-                transition: left .3s ease;
-                box-shadow: 4px 0 20px rgba(0, 0, 0, .2);
+        /* ===== INFOGRAFÍA METODOLOGÍA ===== */
+        .infografia-metodologia {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin: 30px 0;
+            padding: 24px;
+            background: #fdf8ef;
+            border-radius: 12px;
+            border: 1px solid #e8dcc6;
+            font-family: var(--font-family-headings);
+        }
+
+        .metodologia-res {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .metodologia-res .circulo-r {
+            background: var(--color-gobmx-guinda);
+            color: white;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(155, 34, 71, 0.3);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .circulo-r .r-gran {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .circulo-r .r-txt {
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .metodologia-equals {
+            font-size: 2.5rem;
+            color: #555;
+            font-weight: 300;
+        }
+
+        .metodologia-fraccion {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+            max-width: 700px;
+        }
+
+        .fraccion-bloque {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            border-radius: 10px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border-top: 4px solid #ccc;
+        }
+
+        .fraccion-bloque.num {
+            border-color: var(--color-gobmx-verde);
+        }
+
+        .fraccion-bloque.den {
+            border-color: var(--color-gobmx-dorado);
+        }
+
+        .bloque-titulo {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            color: #555;
+        }
+
+        .num .bloque-titulo {
+            color: var(--color-gobmx-verde);
+        }
+
+        .den .bloque-titulo {
+            color: var(--color-gobmx-dorado);
+        }
+
+        .bloque-items {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .item-tarjeta {
+            background: #fdfdfd;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 120px;
+            border: 1px solid #eee;
+            line-height: 1.3;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s;
+        }
+
+        .item-tarjeta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .item-tarjeta.verde {
+            border-bottom: 3px solid var(--color-gobmx-verde);
+        }
+
+        .item-tarjeta.dorado {
+            border-bottom: 3px solid var(--color-gobmx-dorado);
+        }
+
+        .item-tarjeta.rojo {
+            border-bottom: 3px solid #d32f2f;
+        }
+
+        .item-tarjeta.gris {
+            border-bottom: 3px solid #757575;
+            opacity: 0.8;
+        }
+
+        .item-tarjeta span {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #333;
+            margin-top: 6px;
+        }
+
+        .item-tarjeta small {
+            font-size: 0.72rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .signo-mate {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #777;
+        }
+
+        .fraccion-linea {
+            height: 3px;
+            background: #333;
+            width: 100%;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 900px) {
+            .infografia-metodologia {
+                flex-direction: column;
+                gap: 16px;
             }
 
-            .pres-sidebar.open {
-                left: 0;
+            .metodologia-equals {
+                display: none;
             }
 
-            .sidebar-toggle {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .slide {
-                padding: 24px 16px;
-            }
-
-            .slide h2 {
-                font-size: 1.3rem;
-            }
-
-            .slide-portada h1 {
-                font-size: 1.6rem;
-            }
-
-            .scenario-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .metric-row {
-                grid-template-columns: 1fr 1fr;
+            .item-tarjeta {
+                min-width: 100px;
+                padding: 10px;
             }
         }
     </style>
@@ -587,6 +729,8 @@
             <li class="nav-item"><a href="presentacion_otorgamiento_cel.html" class="nav-link">Presentación
                     Otorgamiento</a></li>
             <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+            <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
+
         </ul>
     </nav>
 
@@ -654,7 +798,68 @@
                     </p>
                 </div>
 
-                <div id="chart-metodologia" class="chart-container" style="min-height:420px"></div>
+                <div class="infografia-metodologia">
+                    <!-- Resultado -->
+                    <div class="metodologia-res">
+                        <div class="circulo-r">
+                            <span class="r-gran">R</span>
+                            <span class="r-txt">Requisito<br>CEL (%)</span>
+                        </div>
+                        <div class="metodologia-equals">=</div>
+                    </div>
+
+                    <!-- Fracción -->
+                    <div class="metodologia-fraccion">
+                        <!-- Numerador -->
+                        <div class="fraccion-bloque num">
+                            <div class="bloque-titulo">Oferta Acreditable (Numerador)</div>
+                            <div class="bloque-items">
+                                <div class="item-tarjeta verde">
+                                    <span style="font-size:1.4rem">☀️💨</span>
+                                    <span>Renovables<br>Nuevas</span>
+                                </div>
+                                <div class="signo-mate">+</div>
+                                <div class="item-tarjeta verde">
+                                    <span style="font-size:1.4rem">💧☢️</span>
+                                    <span>Centrales<br>Legadas</span>
+                                    <small>100% CFE</small>
+                                </div>
+                                <div class="signo-mate">+</div>
+                                <div class="item-tarjeta verde">
+                                    <span style="font-size:1.4rem">🧪</span>
+                                    <span>Hidrógeno<br>Verde</span>
+                                    <small>Mezclado 25%</small>
+                                </div>
+                                <div class="signo-mate" style="color:#d32f2f">-</div>
+                                <div class="item-tarjeta gris">
+                                    <span style="color:#d32f2f; font-size:0.75rem; margin-top:0">NO COMPUTAN</span>
+                                    <span style="font-size:0.8rem; margin-top:4px">Baterías /<br>Gen. Distribuida</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Línea divisora -->
+                        <div class="fraccion-linea"></div>
+
+                        <!-- Denominador -->
+                        <div class="fraccion-bloque den">
+                            <div class="bloque-titulo">Demanda Obligada (Denominador)</div>
+                            <div class="bloque-items">
+                                <div class="item-tarjeta dorado">
+                                    <span style="font-size:1.4rem">🏭</span>
+                                    <span>Consumo<br>Nacional</span>
+                                    <small>Demanda Total SEN</small>
+                                </div>
+                                <div class="signo-mate">-</div>
+                                <div class="item-tarjeta rojo">
+                                    <span style="font-size:1.4rem">📜</span>
+                                    <span>Contratos<br>Legados</span>
+                                    <small>Exentos (CIL)</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="nota-importante">
                     <div class="nota-importante-header"><span style="font-size:1.4rem">📋</span> CONSIDERACIONES</div>
@@ -989,6 +1194,9 @@
             document.getElementById('sidebar').classList.remove('open');
             var main = document.querySelector('.pres-main');
             if (main) main.scrollTo(0, 0);
+
+            // Actualizar hash en URL sin recargar
+            history.replaceState(null, null, '#' + id);
         }
 
         // ===== NUMBER FORMATTING =====
@@ -1061,51 +1269,6 @@
             }
         });
 
-        // ===== 1. TREEGRAPH (Metodología) =====
-        Highcharts.chart('chart-metodologia', {
-            chart: { spacingBottom: 50, marginRight: 250, marginLeft: 30, height: 600 },
-            title: { text: null },
-            series: [{
-                type: 'treegraph',
-                keys: ['parent', 'id', 'name', 'title', 'description', 'color'],
-                clip: false,
-                data: [
-                    [undefined, 'Requisito', 'Requisito Anual (%)', 'Fórmula General', 'R = Oferta / Demanda', '#9B2247'],
-                    ['Requisito', 'Denominador', 'Denominador', 'Demanda Obligada', 'Consumo sujeto a obligación', '#A57F2C'],
-                    ['Denominador', 'Consumo_Total', 'Consumo Nacional', 'BASE', 'Demanda total del SEN', '#d4a017'],
-                    ['Denominador', 'Menos_CIL', 'Contratos Legados', 'DEDUCCIÓN', 'Exenta por Derechos Adquiridos', '#9B2247'],
-                    ['Requisito', 'Numerador', 'Numerador', 'Oferta Acreditable', 'Total de Certificados disponibles', '#1E5B4F'],
-                    ['Numerador', 'Renovables', 'Renovables Nuevas', 'INCLUIDO', 'Solar, Eólica, Geotermia', '#28a745'],
-                    ['Numerador', 'Legadas', 'Centrales Legadas', 'INCLUIDO 100%', 'Hidro y Nuclear de CFE', '#28a745'],
-                    ['Numerador', 'Hidrogeno', 'Hidrógeno Verde', 'PARCIAL 25%', 'H2 en mezcla con gas', '#28a745'],
-                    ['Numerador', 'Excluidos', 'Exclusiones', 'NO COMPUTAN', 'No generan CELs', '#6c757d'],
-                    ['Excluidos', 'GD', 'Gen. Distribuida', 'EXCLUIDO', 'Difícil de certificar', '#dc3545'],
-                    ['Excluidos', 'SAE', 'Baterías (SAE)', 'EXCLUIDO', 'Desplazan, no generan', '#dc3545']
-                ],
-                marker: { radius: 0, lineWidth: 0, fillColor: 'transparent' },
-                nodeWidth: 1,
-                dataLabels: {
-                    useHTML: true,
-                    align: 'left',
-                    x: 5,
-                    padding: 0,
-                    crop: false,
-                    overflow: 'allow',
-                    style: { fontSize: '0.72rem', fontWeight: '400', textOutline: 'none', color: '#000000' },
-                    format: '{point.name}',
-                    linkFormat: '',
-                    nodeFormatter: function () {
-                        var p = this.point;
-                        return '<b style="color:#000">' + p.name + '</b>' +
-                            '<br><span style="font-size:.65rem;color:#555">' + p.title + '</span>' +
-                            '<br><span style="font-size:.6rem;color:#777;font-style:italic">' + p.description + '</span>';
-                    }
-                },
-                levels: [{ level: 0, colorByPoint: true }, { level: 1, colorByPoint: true }, { level: 2, colorByPoint: true }],
-                link: { type: 'curved', lineWidth: 2 },
-                tooltip: { pointFormat: '<b>{point.name}</b><br>{point.title}<br><em>{point.description}</em>' }
-            }]
-        });
 
         // ===== 2. BRECHA CHART =====
         Highcharts.chart('chart-brecha', {
@@ -1161,7 +1324,8 @@
                 type: 'spline', name: 'Requisito (%)',
                 data: requisitoPC, yAxis: 1,
                 color: '#9B2247', lineWidth: 3,
-                marker: { symbol: 'circle', radius: 5 }
+                marker: { symbol: 'circle', radius: 5 },
+                dataLabels: { enabled: true, format: '{y:.2f}%', style: { fontSize: '0.65rem', fontWeight: '700', color: '#9B2247', textOutline: '2px white' } }
             }]
         });
 
@@ -1346,6 +1510,24 @@
             var idx = slideIds.indexOf(current ? current.id : '');
             if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
             if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
+        });
+
+        // ===== INICIAR EN SLIDE ESPECÍFICO SEGÚN URL HASH =====
+        window.addEventListener('DOMContentLoaded', function () {
+            if (window.location.hash) {
+                var hash = window.location.hash.substring(1);
+                // Soporte para #slide3, #slide4, etc.
+                if (hash.startsWith('slide') && !isNaN(hash.substring(5))) {
+                    var idx = parseInt(hash.substring(5)) - 1;
+                    if (idx >= 0 && idx < slideIds.length) {
+                        navigateTo(slideIds[idx]);
+                    }
+                }
+                // Soporte para IDs directos como #brecha, #calculo
+                else if (slideIds.includes(hash)) {
+                    navigateTo(hash);
+                }
+            }
         });
 
     </script>
