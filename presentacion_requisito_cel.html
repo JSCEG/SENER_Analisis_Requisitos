@@ -1195,8 +1195,12 @@
             var main = document.querySelector('.pres-main');
             if (main) main.scrollTo(0, 0);
 
-            // Actualizar hash en URL sin recargar
-            history.replaceState(null, null, '#' + id);
+            // Actualizar hash en URL manteniendo los parámetros
+            if (typeof updateHashParams === 'function') {
+                updateHashParams();
+            } else {
+                history.replaceState(null, null, '#' + id);
+            }
         }
 
         // ===== NUMBER FORMATTING =====
@@ -1341,8 +1345,9 @@
         })();
 
         // ===== 4. ESCENARIOS =====
-        var chartEsc = null;
+        var currentEsc = 'B';
         function selectScenario(key) {
+            currentEsc = key;
             var sc = scenarios[key];
             document.querySelectorAll('.scenario-card').forEach(function (c) { c.classList.remove('active'); });
             document.getElementById('card-' + key).classList.add('active');
@@ -1380,8 +1385,9 @@
             document.getElementById('escenario-analisis').innerHTML =
                 '<div style="background:#e8f5e9;border-radius:8px;padding:16px"><strong style="color:#2e7d32">✅ Ventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.pros + '</p></div>' +
                 '<div style="background:#fff3e0;border-radius:8px;padding:16px"><strong style="color:#e65100">⚠️ Desventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.contras + '</p></div>';
+
+            updateHashParams();
         }
-        selectScenario('B');
 
         // ===== 5. OBLIGACIÓN =====
         Highcharts.chart('chart-obligacion', {
@@ -1426,8 +1432,9 @@
         })();
 
         // ===== 6. ESCENARIOS POR PARTICIPANTE =====
-        var chartEscPart = null;
+        var currentEscP = 'B';
         function selectEscenarioParticipante(key) {
+            currentEscP = key;
             var sc = scenarios[key];
             document.querySelectorAll('#escenarios-participante .scenario-card').forEach(function (c) { c.classList.remove('active'); });
             document.getElementById('card-ep-' + key).classList.add('active');
@@ -1496,6 +1503,7 @@
                 tr.innerHTML = '<td>' + d.year + '</td><td style="font-weight:700;color:#9B2247">' + fmtPct(d.proposed) + '</td><td>' + fmtCEL(ob1) + '</td><td>' + fmtCEL(ob2) + '</td><td>' + fmtCEL(ob3) + '</td><td style="font-weight:700">' + fmtCEL(tot) + '</td>';
                 tb.appendChild(tr);
             });
+            updateHashParams();
         }
         selectEscenarioParticipante('B');
 
@@ -1512,22 +1520,62 @@
             if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
         });
 
+        function updateHashParams() {
+            var current = document.querySelector('.slide.active');
+            var slideId = current ? current.id : 'portada';
+            var hashStr = '#' + slideId;
+
+            // Solo agregar parámetros si no son los "por defecto" para evitar URLs súper largas innecesariamente
+            var params = [];
+            if (currentEsc !== 'B') params.push('e=' + currentEsc);
+            if (currentEscP !== 'B') params.push('ep=' + currentEscP);
+
+            if (params.length > 0) {
+                hashStr += '?' + params.join('&');
+            }
+            history.replaceState(null, null, hashStr);
+        }
+
         // ===== INICIAR EN SLIDE ESPECÍFICO SEGÚN URL HASH =====
         window.addEventListener('DOMContentLoaded', function () {
+            // Valores por defecto
+            var iniEsc = 'B';
+            var iniEscP = 'B';
+
             if (window.location.hash) {
-                var hash = window.location.hash.substring(1);
+                var hashContent = window.location.hash.substring(1);
+                var slideIdPart = hashContent;
+
+                // Extraer parámetros (ej #escenarios?e=A&ep=C)
+                if (hashContent.includes('?')) {
+                    var parts = hashContent.split('?');
+                    slideIdPart = parts[0];
+                    var urlParams = new URLSearchParams(parts[1]);
+
+                    if (urlParams.has('e') && ['A', 'B', 'C'].includes(urlParams.get('e'))) {
+                        iniEsc = urlParams.get('e');
+                    }
+                    if (urlParams.has('ep') && ['A', 'B', 'C'].includes(urlParams.get('ep'))) {
+                        iniEscP = urlParams.get('ep');
+                    }
+                }
+
                 // Soporte para #slide3, #slide4, etc.
-                if (hash.startsWith('slide') && !isNaN(hash.substring(5))) {
-                    var idx = parseInt(hash.substring(5)) - 1;
+                if (slideIdPart.startsWith('slide') && !isNaN(slideIdPart.substring(5))) {
+                    var idx = parseInt(slideIdPart.substring(5)) - 1;
                     if (idx >= 0 && idx < slideIds.length) {
                         navigateTo(slideIds[idx]);
                     }
                 }
                 // Soporte para IDs directos como #brecha, #calculo
-                else if (slideIds.includes(hash)) {
-                    navigateTo(hash);
+                else if (slideIds.includes(slideIdPart)) {
+                    navigateTo(slideIdPart);
                 }
             }
+
+            // Inicializar escenarios
+            selectScenario(iniEsc);
+            selectEscenarioParticipante(iniEscP);
         });
 
     </script>
