@@ -1387,7 +1387,10 @@
                 '<div style="background:#e8f5e9;border-radius:8px;padding:16px"><strong style="color:#2e7d32">✅ Ventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.pros + '</p></div>' +
                 '<div style="background:#fff3e0;border-radius:8px;padding:16px"><strong style="color:#e65100">⚠️ Desventajas</strong><p style="font-size:.9rem;margin:8px 0 0">' + sc.contras + '</p></div>';
 
-            updateHashParams();
+            // Actualizar Hash URL si no estamos en carga inicial
+            if (document.readyState === 'complete') {
+                updateHashParams();
+            }
         }
 
         // ===== 5. OBLIGACIÓN =====
@@ -1505,7 +1508,10 @@
                 tr.innerHTML = '<td>' + d.year + '</td><td style="font-weight:700;color:#9B2247">' + fmtPct(d.proposed) + '</td><td>' + fmtCEL(ob1) + '</td><td>' + fmtCEL(ob2) + '</td><td>' + fmtCEL(ob3) + '</td><td style="font-weight:700">' + fmtCEL(tot) + '</td>';
                 tb.appendChild(tr);
             });
-            updateHashParams();
+            // Actualizar Hash URL si no estamos en carga inicial
+            if (document.readyState === 'complete') {
+                updateHashParams();
+            }
         }
         selectEscenarioParticipante('B');
 
@@ -1543,10 +1549,7 @@
             // Valores por defecto
             var iniEsc = 'B';
             var iniEscP = 'B';
-
-            // Inicializar escenarios PRIMERO para que existan las tablas antes de navegar
-            selectScenario(iniEsc);
-            selectEscenarioParticipante(iniEscP);
+            var navigateTarget = null;
 
             if (window.location.hash) {
                 var hashContent = window.location.hash.substring(1);
@@ -1560,11 +1563,9 @@
 
                     if (urlParams.has('e') && ['A', 'B', 'C'].includes(urlParams.get('e'))) {
                         iniEsc = urlParams.get('e');
-                        selectScenario(iniEsc);
                     }
                     if (urlParams.has('ep') && ['A', 'B', 'C'].includes(urlParams.get('ep'))) {
                         iniEscP = urlParams.get('ep');
-                        selectEscenarioParticipante(iniEscP);
                     }
                 }
 
@@ -1572,13 +1573,22 @@
                 if (slideIdPart.startsWith('slide') && !isNaN(slideIdPart.substring(5))) {
                     var idx = parseInt(slideIdPart.substring(5)) - 1;
                     if (idx >= 0 && idx < slideIds.length) {
-                        navigateTo(slideIds[idx]);
+                        navigateTarget = slideIds[idx];
                     }
                 }
                 // Soporte para IDs directos como #brecha, #calculo
                 else if (slideIds.includes(slideIdPart)) {
-                    navigateTo(slideIdPart);
+                    navigateTarget = slideIdPart;
                 }
+            }
+
+            // Inicializar escenarios con valores obtenidos
+            selectScenario(iniEsc);
+            selectEscenarioParticipante(iniEscP);
+
+            // Navegar a la slide al final para que las tablas estén listas
+            if (navigateTarget) {
+                navigateTo(navigateTarget);
             }
         });
 
