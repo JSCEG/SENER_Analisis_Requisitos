@@ -1544,6 +1544,10 @@
             var iniEsc = 'B';
             var iniEscP = 'B';
 
+            // Inicializar escenarios PRIMERO para que existan las tablas antes de navegar
+            selectScenario(iniEsc);
+            selectEscenarioParticipante(iniEscP);
+
             if (window.location.hash) {
                 var hashContent = window.location.hash.substring(1);
                 var slideIdPart = hashContent;
@@ -1556,9 +1560,11 @@
 
                     if (urlParams.has('e') && ['A', 'B', 'C'].includes(urlParams.get('e'))) {
                         iniEsc = urlParams.get('e');
+                        selectScenario(iniEsc);
                     }
                     if (urlParams.has('ep') && ['A', 'B', 'C'].includes(urlParams.get('ep'))) {
                         iniEscP = urlParams.get('ep');
+                        selectEscenarioParticipante(iniEscP);
                     }
                 }
 
@@ -1574,10 +1580,6 @@
                     navigateTo(slideIdPart);
                 }
             }
-
-            // Inicializar escenarios
-            selectScenario(iniEsc);
-            selectEscenarioParticipante(iniEscP);
         });
 
     </script>
