@@ -889,7 +889,11 @@
                 <div class="metric-row">
                     <div class="metric-box" style="border-left:4px solid var(--color-gobmx-dorado)">
                         <div class="metric-val" style="color:var(--color-gobmx-dorado)">13.9%</div>
-                        <div class="metric-label">Último Publicado<br>(PROSENER 2025-2030)</div>
+                        <div class="metric-label">Último Requisito<br>Publicado (2022)</div>
+                    </div>
+                    <div class="metric-box" style="border-left:4px solid #545454">
+                        <div class="metric-val" style="color:#545454">26.6%</div>
+                        <div class="metric-label">Meta PROSENER<br>(2025)</div>
                     </div>
                     <div class="metric-box" style="border-left:4px solid var(--color-gobmx-guinda)">
                         <div class="metric-val" style="color:var(--color-gobmx-guinda)">31.99%</div>
@@ -1290,7 +1294,7 @@
         Highcharts.chart('chart-brecha', {
             chart: { type: 'column' },
             title: { text: 'Requisito Calculado vs Último Publicado', style: { fontSize: '1rem', color: '#9B2247' } },
-            xAxis: { categories: ['Último Publicado\n(PROSENER 2025-2030)', 'Requisito 2025\n(Calculado)', 'Requisito 2026\n(Calculado)'] },
+            xAxis: { categories: ['Último Requisito\n(2022)', 'Meta PROSENER\n(2025)', 'Requisito 2025\n(Calculado)', 'Requisito 2026\n(Calculado)'] },
             yAxis: { title: { text: 'Porcentaje (%)' }, max: 40 },
             tooltip: { valueSuffix: ' %' },
             plotOptions: { column: { dataLabels: { enabled: true, format: '{y}%', style: { fontWeight: '700' } } } },
@@ -1298,6 +1302,7 @@
                 name: 'Porcentaje',
                 data: [
                     { y: 13.9, color: '#A57F2C' },
+                    { y: 26.6, color: '#545454' },
                     { y: 31.99, color: '#9B2247' },
                     { y: 33.22, color: '#1E5B4F' }
                 ],
