@@ -1,0 +1,261 @@
+<svg width="100%" height="100%" viewBox="0 0 1000 1550" xmlns="http://www.w3.org/2000/svg" style="background-color: white; font-family: 'Noto Sans', 'Arial', sans-serif;">
+    <!-- Background grid / subtle pattern (optional) -->
+    <rect width="1000" height="1550" fill="#fafafa"/>
+
+    <!-- TITLE -->
+    <text x="500" y="60" font-size="28" font-family="'Merriweather', serif" font-weight="bold" fill="#9d2449" text-anchor="middle">Falla de Origen LIE 2014 vs Solución LSE 2025</text>
+    <text x="500" y="90" font-size="16" fill="#555" text-anchor="middle">Evolución de la Arquitectura de los Certificados de Energía Limpia (CEL)</text>
+
+    <!-- COLUMN HEADERS -->
+    <text x="250" y="150" font-size="20" font-weight="bold" fill="#9d2449" text-anchor="middle">Marco Anterior (LIE 2014)</text>
+    <text x="750" y="150" font-size="20" font-weight="bold" fill="#285c4d" text-anchor="middle">Nueva Propuesta (LSE 2025)</text>
+
+    <!-- CENTRAL TIMELINE LINE -->
+    <line x1="500" y1="160" x2="500" y2="1080" stroke="#cccccc" stroke-width="4" stroke-dasharray="8, 8" />
+
+    <!-- ====== ROW 1: NATURALEZA ====== -->
+    <!-- Left Box -->
+    <g transform="translate(40, 180)">
+        <rect width="390" height="130" rx="8" fill="#fdf0f3" stroke="#9d2449" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#9d2449"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Orientado al Mercado</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Instrumento financiero comercializado entre</text>
+        <text x="20" y="100" fill="#333333" font-size="15">privados (Art. 121, LIE).</text>
+    </g>
+    <!-- Right Box -->
+    <g transform="translate(570, 180)">
+        <rect width="390" height="130" rx="8" fill="#eef6f4" stroke="#285c4d" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#285c4d"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Planeación Estatal</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Herramienta de política para contabilizar la</text>
+        <text x="20" y="100" fill="#333333" font-size="15">energía limpia nacional (Art. 143, LSE).</text>
+    </g>
+    <!-- Connecting Lines -->
+    <line x1="430" y1="245" x2="476" y2="245" stroke="#9d2449" stroke-width="3" />
+    <line x1="524" y1="245" x2="570" y2="245" stroke="#285c4d" stroke-width="3" />
+    <!-- Center Icon -->
+    <circle cx="500" cy="245" r="24" fill="#b38e5d" stroke="#ffffff" stroke-width="4"/>
+    <text x="500" y="253" fill="white" font-size="20" font-weight="bold" text-anchor="middle">1</text>
+    <text x="500" y="295" fill="#b38e5d" font-size="12" font-weight="bold" text-anchor="middle">NATURALEZA</text>
+
+    <!-- ====== ROW 2: ELEGIBILIDAD ====== -->
+    <!-- Left Box -->
+    <g transform="translate(40, 330)">
+        <rect width="390" height="130" rx="8" fill="#fdf0f3" stroke="#9d2449" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#9d2449"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Criterio Excluyente (2014)</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Solo apoyaba proyectos posteriores a</text>
+        <text x="20" y="100" fill="#333333" font-size="15">agosto 2014, ignorando el legado limpio.</text>
+    </g>
+    <!-- Right Box -->
+    <g transform="translate(570, 330)">
+        <rect width="390" height="130" rx="8" fill="#eef6f4" stroke="#285c4d" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#285c4d"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Inclusión Universal</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Reconoce toda la generación limpia, sin</text>
+        <text x="20" y="100" fill="#333333" font-size="15">importar fecha de inicio o propiedad.</text>
+    </g>
+    <!-- Connecting Lines -->
+    <line x1="430" y1="395" x2="476" y2="395" stroke="#9d2449" stroke-width="3" />
+    <line x1="524" y1="395" x2="570" y2="395" stroke="#285c4d" stroke-width="3" />
+    <!-- Center Icon -->
+    <circle cx="500" cy="395" r="24" fill="#b38e5d" stroke="#ffffff" stroke-width="4"/>
+    <text x="500" y="403" fill="white" font-size="20" font-weight="bold" text-anchor="middle">2</text>
+    <text x="500" y="445" fill="#b38e5d" font-size="12" font-weight="bold" text-anchor="middle">ELEGIBILIDAD</text>
+
+    <!-- ====== ROW 3: OTORGAMIENTO ====== -->
+    <!-- Left Box -->
+    <g transform="translate(40, 480)">
+        <rect width="390" height="130" rx="8" fill="#fdf0f3" stroke="#9d2449" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#9d2449"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Trámite Restrictivo</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Modelo a "solicitud de parte". Si el generador</text>
+        <text x="20" y="100" fill="#333333" font-size="15">no tramitaba, la energía limpia se perdía.</text>
+    </g>
+    <!-- Right Box -->
+    <g transform="translate(570, 480)">
+        <rect width="390" height="130" rx="8" fill="#eef6f4" stroke="#285c4d" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#285c4d"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Emisión Automatizada</text>
+        <text x="20" y="75" fill="#333333" font-size="15">El Estado reconoce y genera el CEL en</text>
+        <text x="20" y="100" fill="#333333" font-size="15">automático con datos de CENACE y CFE.</text>
+    </g>
+    <!-- Connecting Lines -->
+    <line x1="430" y1="545" x2="476" y2="545" stroke="#9d2449" stroke-width="3" />
+    <line x1="524" y1="545" x2="570" y2="545" stroke="#285c4d" stroke-width="3" />
+    <!-- Center Icon -->
+    <circle cx="500" cy="545" r="24" fill="#b38e5d" stroke="#ffffff" stroke-width="4"/>
+    <text x="500" y="553" fill="white" font-size="20" font-weight="bold" text-anchor="middle">3</text>
+    <text x="500" y="595" fill="#b38e5d" font-size="12" font-weight="bold" text-anchor="middle">OTORGAMIENTO</text>
+
+    <!-- ====== ROW 4: GENERACIÓN DISTRIBUIDA ====== -->
+    <!-- Left Box -->
+    <g transform="translate(40, 630)">
+        <rect width="390" height="130" rx="8" fill="#fdf0f3" stroke="#9d2449" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#9d2449"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Exclusión Práctica de GD</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Barreras técnicas (medición certificada costosa)</text>
+        <text x="20" y="100" fill="#333333" font-size="15">impedían el acceso a techos solares.</text>
+    </g>
+    <!-- Right Box -->
+    <g transform="translate(570, 630)">
+        <rect width="390" height="130" rx="8" fill="#eef6f4" stroke="#285c4d" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#285c4d"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Integración Masiva</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Uso de estimaciones estandarizadas (capacidad</text>
+        <text x="20" y="100" fill="#333333" font-size="15">y radiación solar) para incluir la GD.</text>
+    </g>
+    <!-- Connecting Lines -->
+    <line x1="430" y1="695" x2="476" y2="695" stroke="#9d2449" stroke-width="3" />
+    <line x1="524" y1="695" x2="570" y2="695" stroke="#285c4d" stroke-width="3" />
+    <!-- Center Icon -->
+    <circle cx="500" cy="695" r="24" fill="#b38e5d" stroke="#ffffff" stroke-width="4"/>
+    <text x="500" y="703" fill="white" font-size="20" font-weight="bold" text-anchor="middle">4</text>
+    <text x="500" y="745" fill="#b38e5d" font-size="12" font-weight="bold" text-anchor="middle">GEN. DISTRIBUIDA</text>
+
+    <!-- ====== ROW 5: VIGENCIA ====== -->
+    <!-- Left Box -->
+    <g transform="translate(40, 780)">
+        <rect width="390" height="130" rx="8" fill="#fdf0f3" stroke="#9d2449" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#9d2449"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Vigencia Indefinida</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Los CELs no expiraban, propiciando escasez,</text>
+        <text x="20" y="100" fill="#333333" font-size="15">acaparamiento y especulación (Art. 125, LIE).</text>
+    </g>
+    <!-- Right Box -->
+    <g transform="translate(570, 780)">
+        <rect width="390" height="130" rx="8" fill="#eef6f4" stroke="#285c4d" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#285c4d"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Máximo de 30 Meses</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Límite garantizado para asegurar la liquidez y</text>
+        <text x="20" y="100" fill="#333333" font-size="15">desactivar la especulación financiera (Art. 146).</text>
+    </g>
+    <!-- Connecting Lines -->
+    <line x1="430" y1="845" x2="476" y2="845" stroke="#9d2449" stroke-width="3" />
+    <line x1="524" y1="845" x2="570" y2="845" stroke="#285c4d" stroke-width="3" />
+    <!-- Center Icon -->
+    <circle cx="500" cy="845" r="24" fill="#b38e5d" stroke="#ffffff" stroke-width="4"/>
+    <text x="500" y="853" fill="white" font-size="20" font-weight="bold" text-anchor="middle">5</text>
+    <text x="500" y="895" fill="#b38e5d" font-size="12" font-weight="bold" text-anchor="middle">VIGENCIA</text>
+
+    <!-- ====== ROW 6: MERCADO ====== -->
+    <!-- Left Box -->
+    <g transform="translate(40, 930)">
+        <rect width="390" height="130" rx="8" fill="#fdf0f3" stroke="#9d2449" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#9d2449"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Opacidad de Precios</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Transacciones bilaterales opacas, sin </text>
+        <text x="20" y="100" fill="#333333" font-size="15">visibilidad clara del precio real del instrumento.</text>
+    </g>
+    <!-- Right Box -->
+    <g transform="translate(570, 930)">
+        <rect width="390" height="130" rx="8" fill="#eef6f4" stroke="#285c4d" stroke-width="2"/>
+        <path d="M 0 8 A 8 8 0 0 1 8 0 L 382 0 A 8 8 0 0 1 390 8 L 390 40 L 0 40 Z" fill="#285c4d"/>
+        <text x="195" y="25" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">Transparencia Total</text>
+        <text x="20" y="75" fill="#333333" font-size="15">Bolsa pública concurrente, transparente y</text>
+        <text x="20" y="100" fill="#333333" font-size="15">con visibilidad sobre precios reales (Art. 44, LSE).</text>
+    </g>
+    <!-- Connecting Lines -->
+    <line x1="430" y1="995" x2="476" y2="995" stroke="#9d2449" stroke-width="3" />
+    <line x1="524" y1="995" x2="570" y2="995" stroke="#285c4d" stroke-width="3" />
+    <!-- Center Icon -->
+    <circle cx="500" cy="995" r="24" fill="#b38e5d" stroke="#ffffff" stroke-width="4"/>
+    <text x="500" y="1003" fill="white" font-size="20" font-weight="bold" text-anchor="middle">6</text>
+    <text x="500" y="1045" fill="#b38e5d" font-size="12" font-weight="bold" text-anchor="middle">MERCADO</text>
+
+    <!-- Center Cap base -->
+    <circle cx="500" cy="1100" r="6" fill="#cccccc" />
+
+    <!-- ========================================== -->
+    <!-- NUEVA SECCIÓN: MODERNIZACIÓN S-CEL         -->
+    <!-- ========================================== -->
+    
+    <path d="M 500 1100 L 500 1170" stroke="#285c4d" stroke-width="4" />
+    <circle cx="500" cy="1170" r="8" fill="#285c4d" />
+
+    <text x="500" y="1200" font-size="22" font-family="'Merriweather', serif" font-weight="bold" fill="#285c4d" text-anchor="middle">Parte 2: Modernización S-CEL</text>
+    <text x="500" y="1225" font-size="15" fill="#555" text-anchor="middle">10 Puntos de Implementación Tecnológica y Trazabilidad (Puntos 4-13)</text>
+
+    <!-- BADGES GRID -->
+    <!-- Row 1 (y=1255) -->
+    <!-- Badge 4 -->
+    <g transform="translate(60, 1255)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="14" font-weight="bold" text-anchor="middle">4</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Inscripción al Registro</text>
+    </g>
+    <!-- Badge 5 -->
+    <g transform="translate(365, 1255)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="14" font-weight="bold" text-anchor="middle">5</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Admin. de Cuentas</text>
+    </g>
+    <!-- Badge 6 -->
+    <g transform="translate(670, 1255)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="14" font-weight="bold" text-anchor="middle">6</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Medición y Datos</text>
+    </g>
+
+    <!-- Row 2 (y=1320) -->
+    <!-- Badge 7 -->
+    <g transform="translate(60, 1320)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="14" font-weight="bold" text-anchor="middle">7</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Trazabilidad UID</text>
+    </g>
+    <!-- Badge 8 -->
+    <g transform="translate(365, 1320)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="14" font-weight="bold" text-anchor="middle">8</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Validación Técnica</text>
+    </g>
+    <!-- Badge 9 -->
+    <g transform="translate(670, 1320)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="14" font-weight="bold" text-anchor="middle">9</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Conteo y Fracc.</text> <!-- Abridged slightly to fit -->
+    </g>
+
+    <!-- Row 3 (y=1385) -->
+    <!-- Badge 10 -->
+    <g transform="translate(60, 1385)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="13" font-weight="bold" text-anchor="middle">10</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Trazabilidad Jurídica</text>
+    </g>
+    <!-- Badge 11 -->
+    <g transform="translate(365, 1385)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="13" font-weight="bold" text-anchor="middle">11</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Disponibilidad Real</text>
+    </g>
+    <!-- Badge 12 -->
+    <g transform="translate(670, 1385)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="13" font-weight="bold" text-anchor="middle">12</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Flexibilidad</text>
+    </g>
+
+    <!-- Row 4 (y=1450) centered -->
+    <g transform="translate(365, 1450)">
+        <rect width="270" height="46" rx="6" fill="#fdfdfd" stroke="#285c4d" stroke-width="2"/>
+        <circle cx="23" cy="23" r="14" fill="#285c4d"/>
+        <text x="23" y="28" fill="white" font-size="13" font-weight="bold" text-anchor="middle">13</text>
+        <text x="48" y="28" fill="#0d3b66" font-size="14" font-weight="bold">Entidades Voluntarias</text>
+    </g>
+
+
+    <!-- FOOTER -->
+    <text x="500" y="1530" font-size="14" fill="#888" text-anchor="middle">Sistema de Evaluación y Modelado de Transición Energética • Secretaría de Energía</text>
+
+</svg>

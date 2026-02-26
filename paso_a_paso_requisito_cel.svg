@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 800" width="900" height="800">
+<defs>
+<style>
+
+    text { font-family: "Noto Sans", Arial, sans-serif; }
+    .main-title { font-size: 26px; font-weight: 700; fill: #9B2247; }
+    .subtitle { font-size: 16px; fill: #666; font-style: italic; }
+    
+    .box { rx: 10; ry: 10; stroke-width: 2; fill: #ffffff; }
+    .box-title { font-size: 18px; font-weight: 700; }
+    .box-text { font-size: 14px; fill: #333; }
+    .highlight { font-weight: 700; }
+    
+    .guinda { fill: #9B2247; }
+    .dorado { fill: #A57F2C; }
+    .verde  { fill: #1E5B4F; }
+    .gris   { fill: #6c757d; }
+    
+    .stroke-guinda { stroke: #9B2247; }
+    .stroke-dorado { stroke: #A57F2C; }
+    .stroke-verde  { stroke: #1E5B4F; }
+    
+    /* Animations */
+    .step1 { opacity: 0; animation: fadeIn 0.8s ease-out 1s forwards; }
+    .step2 { opacity: 0; animation: fadeIn 0.8s ease-out 4s forwards; }
+    .step3 { opacity: 0; animation: fadeIn 0.8s ease-out 7s forwards; }
+    .step4 { opacity: 0; animation: fadeIn 0.8s ease-out 10s forwards; }
+    .step5 { opacity: 0; animation: fadeIn 0.8s ease-out 13s forwards; }
+    
+    .arrow1 { stroke-dasharray: 200; stroke-dashoffset: 200; animation: drawArrow 1s ease-out 2.5s forwards; }
+    .arrow2 { stroke-dasharray: 200; stroke-dashoffset: 200; animation: drawArrow 1s ease-out 5.5s forwards; }
+    .arrow3 { stroke-dasharray: 200; stroke-dashoffset: 200; animation: drawArrow 1s ease-out 8.5s forwards; }
+    .arrow4 { stroke-dasharray: 200; stroke-dashoffset: 200; animation: drawArrow 1s ease-out 11.5s forwards; }
+    
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes drawArrow { to { stroke-dashoffset: 0; } }
+
+</style>
+
+    <marker id="arrow-guinda" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9B2247" />
+    </marker>
+    <marker id="arrow-verde" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1E5B4F" />
+    </marker>
+
+</defs>
+<rect width="100%" height="100%" fill="#fdfdfd" />
+<text x="450.0" y="50" text-anchor="middle" class="main-title">Metodología Paso a Paso: Determinación del Requisito CEL</text>
+<text x="450.0" y="75" text-anchor="middle" class="subtitle">Guía explicativa para la determinación del Requisito Anual (Ejemplo Base 2025)</text>
+
+<g class="step1">
+    <rect x="70.0" y="150" width="360" height="130" class="box stroke-dorado" />
+    <rect x="70.0" y="150" width="360" height="40" fill="#A57F2C" rx="10" />
+    <rect x="70.0" y="170" width="360" height="20" fill="#A57F2C" /> <!-- square bottom corners -->
+    <text x="250.0" y="177" text-anchor="middle" class="box-title" fill="#fff">1. Demanda Obligada (Denominador)</text>
+    
+    <text x="90.0" y="215" class="box-text"><tspan class="highlight dorado">Consumo Nacional Total</tspan></text>
+    <text x="90.0" y="235" class="box-text">Toda la demanda de energía del país.</text>
+    <text x="90.0" y="265" class="box-text highlight">MENOS (-): <tspan fill="#666">Contratos Legados (CIL)</tspan></text>
+</g>
+
+
+<g class="step2">
+    <rect x="460.0" y="150" width="380" height="150" class="box stroke-verde" />
+    <rect x="460.0" y="150" width="380" height="40" fill="#1E5B4F" rx="10" />
+    <rect x="460.0" y="170" width="380" height="20" fill="#1E5B4F" />
+    <text x="650.0" y="177" text-anchor="middle" class="box-title" fill="#fff">2. Oferta Acreditable (Numerador)</text>
+    
+    <text x="480.0" y="215" class="box-text">Total de CELs disponibles de:</text>
+    <text x="500.0" y="235" class="box-text">✅ <tspan class="highlight verde">Renovables Nuevas</tspan> (Solar, Eólica)</text>
+    <text x="500.0" y="255" class="box-text">✅ <tspan class="highlight verde">Centrales Legadas</tspan> (Hidro, Nuclear CFE al 100%)</text>
+    <text x="500.0" y="275" class="box-text">✅ <tspan class="highlight verde">Hidrógeno Verde</tspan> (25% en mezcla)</text>
+</g>
+
+<path d="M 250.0 280 Q 250.0 330 430.0 330" fill="none" class="stroke-guinda arrow1" stroke-width="3" marker-end="url(#arrow-guinda)" />
+<path d="M 650.0 300 Q 650.0 350 470.0 330" fill="none" class="stroke-guinda arrow2" stroke-width="3" marker-end="url(#arrow-guinda)" />
+
+<g class="step3">
+    <rect x="225.0" y="350" width="450" height="160" class="box stroke-guinda" fill="#fdf0f3" />
+    <rect x="225.0" y="350" width="450" height="40" fill="#9B2247" rx="10" />
+    <rect x="225.0" y="370" width="450" height="20" fill="#9B2247" />
+    <text x="450.0" y="377" text-anchor="middle" class="box-title" fill="#fff">3. Cálculo del Requisito de CEL</text>
+    
+    <text x="450.0" y="420" text-anchor="middle" class="box-text" font-size="20">Fórmula General:</text>
+    <text x="450.0" y="455" text-anchor="middle" class="box-title guinda" font-size="22">REQUISITO (%) = <tspan class="verde">Oferta</tspan> / <tspan class="dorado">Demanda</tspan></text>
+    <line x1="500.0" y1="460" x2="650.0" y2="460" class="stroke-guinda" stroke-width="2" />
+    
+    <text x="450.0" y="490" text-anchor="middle" class="box-text">Ej. 2025: 89.4M MWh (Oferta) / 279.4M MWh (Demanda) = <tspan class="highlight guinda">31.99%</tspan></text>
+</g>
+
+<path d="M 450.0 510 L 450.0 540" fill="none" class="stroke-guinda arrow3" stroke-width="3" marker-end="url(#arrow-guinda)" />
+
+<g class="step4">
+    <rect x="150.0" y="550" width="600" height="150" class="box stroke-guinda" stroke-dasharray="5,5" />
+    <text x="450.0" y="580" text-anchor="middle" class="box-title guinda">4. ¿Qué significa esto para los participantes?</text>
+    
+    <text x="180.0" y="615" class="box-text">Cada participante obligado (Suministradores, Usuarios Calificados) debe adquirir:</text>
+    
+    <rect x="270.0" y="635" width="360" height="45" fill="#f5f5f5" rx="5" />
+    <text x="450.0" y="662" text-anchor="middle" class="box-title" font-size="16">CELs a Comprar = <tspan class="highlight gris">Su Consumo</tspan> × <tspan class="highlight guinda">Requisito %</tspan></text>
+</g>
+
+
+<g class="step5">
+    <path d="M 450.0 700 L 450.0 725" fill="none" class="stroke-verde arrow4" stroke-width="3" marker-end="url(#arrow-verde)" />
+    
+    <rect x="200.0" y="735" width="500" height="40" rx="20" fill="#1E5B4F" />
+    <text x="450.0" y="760" text-anchor="middle" font-size="16" fill="#fff" font-weight="700">Objetivo: Fomentar que el consumo impulse nuevas energías limpias</text>
+</g>
+
+</svg>
