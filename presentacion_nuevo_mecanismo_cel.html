@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto 8 — Nuevo Mecanismo para adquirir CEL (SENER 2026)</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script src="js/highcharts/highcharts.js"></script>
+    <script src="js/highcharts/modules/exporting.js"></script>
+    <script src="js/highcharts/modules/export-data.js"></script>
+    <script src="js/highcharts/modules/accessibility.js"></script>
+
+    <link rel="stylesheet" href="css/pages-common.css">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--color-bg-body);
+        }
+
+        .pres-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .pres-sidebar {
+            width: 300px;
+            min-width: 300px;
+            background: white;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, .05);
+        }
+
+        .pres-sidebar-header {
+            padding: 20px;
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .pres-sidebar-header h3 {
+            font-family: var(--font-family-headings);
+            font-size: 1rem;
+            margin: 0;
+            color: white;
+        }
+
+        .pres-sidebar-header p {
+            font-size: .8rem;
+            opacity: .9;
+            margin: 6px 0 0;
+        }
+
+        .pres-progress {
+            height: 4px;
+            background: rgba(255, 255, 255, .25);
+            margin-top: 10px;
+        }
+
+        .pres-progress-fill {
+            height: 100%;
+            background: var(--color-gobmx-dorado);
+            width: 0%;
+            transition: width .3s ease;
+        }
+
+        .slide-link {
+            display: block;
+            padding: 10px 20px 10px 28px;
+            font-size: .85rem;
+            color: #555;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: .2s;
+            line-height: 1.4;
+        }
+
+        .slide-link:hover {
+            background: #f5f5f5;
+            color: var(--color-gobmx-guinda);
+        }
+
+        .slide-link.active {
+            background: #fdf0f3;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            border-left-color: var(--color-gobmx-dorado);
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-gobmx-guinda);
+            color: white;
+            font-size: 1.4rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+        }
+
+        .pres-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeIn .3s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .slide-badge {
+            display: inline-block;
+            background: var(--color-gobmx-guinda);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+            margin-bottom: 12px;
+        }
+
+        .slide h2 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 1.55rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .slide-subtitle {
+            color: var(--color-gobmx-verde);
+            font-size: .95rem;
+            margin-bottom: 22px;
+            font-style: italic;
+        }
+
+        .slide-portada {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 60vh;
+        }
+
+        .portada-logo {
+            height: 80px;
+            margin-bottom: 24px;
+        }
+
+        .slide-portada h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 2.1rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .portada-divider {
+            width: 90px;
+            height: 4px;
+            background: var(--color-gobmx-dorado);
+            border-radius: 2px;
+            margin: 16px auto;
+        }
+
+        .portada-sub {
+            color: var(--color-gobmx-gris);
+            font-size: .95rem;
+            margin-top: 6px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            line-height: 1.65;
+            font-size: .92rem;
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 8px;
+            font-size: .9rem;
+        }
+
+        .frase-logica {
+            background: #fdf8ef;
+            border-left: 4px solid var(--color-gobmx-dorado);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            font-size: .9rem;
+            line-height: 1.6;
+            color: #4d4d4d;
+            font-style: italic;
+        }
+
+        .frase-logica strong {
+            color: var(--color-gobmx-guinda);
+            font-style: normal;
+        }
+
+        .formula-box {
+            background: #fdf8ef;
+            border-left: 5px solid var(--color-gobmx-guinda);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: .88rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comp-table thead th {
+            background: var(--color-gobmx-guinda);
+            color: white;
+            padding: 11px 14px;
+            font-family: var(--font-family-headings);
+            font-size: .82rem;
+            text-align: left;
+        }
+
+        .comp-table tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eee;
+            line-height: 1.45;
+        }
+
+        .comp-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .cols-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .chart-container {
+            min-height: 320px;
+            margin: 12px 0 16px;
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 14px 0;
+        }
+
+        .metric-box {
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+        }
+
+        .metric-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: var(--font-family-headings);
+        }
+
+        .metric-label {
+            font-size: .74rem;
+            color: #666;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .slide-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 26px;
+            padding-top: 18px;
+            border-top: 1px solid #eee;
+        }
+
+        .slide-nav button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--color-gobmx-guinda);
+            background: white;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .slide-nav button:hover {
+            background: var(--color-gobmx-guinda);
+            color: white;
+        }
+
+        .slide-nav button:disabled {
+            opacity: .3;
+            cursor: not-allowed;
+        }
+
+        .pres-footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            font-size: .85rem;
+        }
+
+        @media (max-width: 980px) {
+            .pres-sidebar {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                bottom: 0;
+                z-index: 998;
+                transition: left .3s;
+            }
+
+            .pres-sidebar.open {
+                left: 0;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .slide {
+                padding: 20px;
+            }
+
+            .cols-2,
+            .metric-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html" style="color:white;text-decoration:none;display:flex;align-items:center;">
+                <span style="font-size:1.2rem;margin-right:5px;"><i class="bi bi-bar-chart-fill"></i></span> SENER |
+                CELs
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span
+                        class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a>
+                    </li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación
+                            Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a>
+                    </li>
+                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación
+                            Requisitos</a></li>
+                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link active">8. Presentación
+                            Nuevo Mecanismo 2026</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="presentacion_otorgamiento_cel.html" class="nav-link">Presentación
+                    Otorgamiento</a></li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+            <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
+        </ul>
+    </nav>
+
+    <div class="pres-container">
+        <aside class="pres-sidebar" id="sidebar">
+            <div class="pres-sidebar-header">
+                <h3>Punto 8 · Nuevo Mecanismo CEL</h3>
+                <p>Presentación ejecutiva · 11 diapositivas</p>
+                <div class="pres-progress">
+                    <div class="pres-progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <div class="slide-link active" data-target="portada">📋 Portada</div>
+            <div class="slide-link" data-target="objetivo">🎯 Objetivo y problemática</div>
+            <div class="slide-link" data-target="motiva">📌 Qué motiva el ajuste</div>
+            <div class="slide-link" data-target="formula">🧮 Fórmula propuesta</div>
+            <div class="slide-link" data-target="ejemplo">📊 Ejemplo 2026</div>
+            <div class="slide-link" data-target="legal-conf">⚖️ Confiabilidad y base legal</div>
+            <div class="slide-link" data-target="legal-pal-fje">⚖️ Pal y sustento legal</div>
+            <div class="slide-link" data-target="fje-detalle">⚖️ Fje a detalle</div>
+            <div class="slide-link" data-target="impacto">📉 Impacto en obligaciones</div>
+            <div class="slide-link" data-target="faq">❓ Preguntas frecuentes</div>
+            <div class="slide-link" data-target="cierre">📌 Riesgos, mitigación y cierre</div>
+        </aside>
+
+        <button class="sidebar-toggle" id="sidebarToggle"
+            onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+        <main class="pres-main">
+            <div class="slide active" id="portada">
+                <div class="slide-portada">
+                    <img src="img/logo_sener.png" alt="SENER" class="portada-logo">
+                    <h1>Nuevo Mecanismo para adquirir CEL</h1>
+                    <div class="portada-divider"></div>
+                    <p class="portada-sub">Punto 8 · Propuesta SENER 2026</p>
+                    <p class="portada-sub">Subsecretaría de Planeación y Transición Energética</p>
+                    <p class="portada-sub">Dirección General de Transición Energética</p>
+                </div>
+                <div class="slide-nav">
+                    <button disabled>← Anterior</button>
+                    <button onclick="navigateTo('objetivo')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="objetivo">
+                <span class="slide-badge">Slide 1 · Contexto</span>
+                <h2>Objetivo y problemática que resuelve</h2>
+                <p class="slide-subtitle">Ajustar el requisito CEL conforme al Artículo 143 de la LSE</p>
+
+                <div class="card">
+                    <div class="card-title">Objetivo</div>
+                    Ajustar la metodología de requisito CEL para que responda a la planeación vinculante y a la
+                    Confiabilidad del SEN, evitando que el cálculo dependa de una división aritmética simple.
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Problema detectado</div>
+                    La metodología tradicional (Oferta/Demanda) para 2026 arroja 33.22%, nivel con impacto alto en costo
+                    de cumplimiento y presión potencial sobre tarifas del Suministro Básico.
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-box" style="border-top:4px solid #6c757d">
+                        <div class="metric-val" style="color:#6c757d">33.22%</div>
+                        <div class="metric-label">Tradicional 2026</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid #1E5B4F">
+                        <div class="metric-val" style="color:#1E5B4F">28.35%</div>
+                        <div class="metric-label">Técnico Ajustado</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-guinda)">
+                        <div class="metric-val" style="color:var(--color-gobmx-guinda)">22.68%</div>
+                        <div class="metric-label">Final Propuesto</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-dorado)">
+                        <div class="metric-val" style="color:var(--color-gobmx-dorado)">10.54 pp</div>
+                        <div class="metric-label">Reducción vs tradicional</div>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('portada')">← Anterior</button>
+                    <button onclick="navigateTo('motiva')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="motiva">
+                <span class="slide-badge" style="background:#7A1B38">Slide 2 · Motivación del ajuste</span>
+                <h2>¿Qué motiva la propuesta de ajuste?</h2>
+                <p class="slide-subtitle">El requisito debe responder a operación real del SEN y a protección tarifaria
+                </p>
+
+                <div class="card">
+                    <div class="card-title">Mandato legal directo</div>
+                    El Artículo 143 de la LSE establece que el requisito CEL se debe fijar conforme a la
+                    <strong>planeación vinculante</strong> y la <strong>Confiabilidad del Sistema Eléctrico
+                        Nacional</strong>,
+                    no solo como una razón aritmética estática de oferta y demanda.
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Motivador</th>
+                            <th>Riesgo si no se ajusta</th>
+                            <th>Cómo lo resuelve la propuesta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Confiabilidad del SEN</td>
+                            <td>Sobreestimar energía limpia realmente despachable</td>
+                            <td>Aplicar factor Fconf para reflejar restricciones de CENACE y reservas operativas.</td>
+                        </tr>
+                        <tr>
+                            <td>Almacenamiento</td>
+                            <td>Contar energía no acreditable por pérdidas de ciclo</td>
+                            <td>Descontar Pal conforme al Art. 195 RLSE (el almacenamiento no genera CEL).</td>
+                        </tr>
+                        <tr>
+                            <td>Justicia Energética</td>
+                            <td>Trasladar costos abruptos a tarifas finales</td>
+                            <td>Aplicar Fje para una trayectoria publicable y tarifariamente manejable.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('objetivo')">← Anterior</button>
+                    <button onclick="navigateTo('formula')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="formula">
+                <span class="slide-badge" style="background:var(--color-gobmx-verde)">Slide 3 · Metodología</span>
+                <h2>Fórmula completa del requisito ajustado</h2>
+                <p class="slide-subtitle">Secuencia: primero se obtiene el resultado técnico, luego se aplica Fje</p>
+
+                <div class="formula-box">
+                    R(%) = [((O<sub>int</sub> × Fconf<sub>int</sub>) + (O<sub>firme</sub> × Fconf<sub>firme</sub>) −
+                    Pal) / D<sub>obligada</sub>] × Fje
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Definición operativa</th>
+                            <th>Valor 2026</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>D<sub>obligada</sub></td>
+                            <td>Demanda obligada (Consumo nacional descontando CIL)</td>
+                            <td><strong>290,864.21 GWh</strong></td>
+                        </tr>
+                        <tr>
+                            <td>O<sub>int</sub> y O<sub>firme</sub></td>
+                            <td>Oferta limpia intermitente y firme sin GLD</td>
+                            <td><strong>44,720.53 / 51,924.27 GWh</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Fconf<sub>int</sub> y Fconf<sub>firme</sub></td>
+                            <td>Factor por Confiabilidad según naturaleza operativa</td>
+                            <td><strong>0.80 / 0.90</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Pal</td>
+                            <td>Pérdidas por Almacenamiento (no acreditables en CEL)</td>
+                            <td><strong>36.35 GWh</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Fje</td>
+                            <td>Factor de Justicia Energética (amortiguador tarifario)</td>
+                            <td><strong>0.80</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('objetivo')">← Anterior</button>
+                    <button onclick="navigateTo('ejemplo')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="ejemplo">
+                <span class="slide-badge" style="background:#2E7D32">Slide 4 · Ejemplo aplicado</span>
+                <h2>Ejercicio 2026 paso a paso</h2>
+                <p class="slide-subtitle">Se muestra primero el cálculo técnico y luego el ajuste final</p>
+
+                <div class="cols-2">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Paso</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>O<sub>ajustada</sub> = (O<sub>int</sub> × 0.80) + (O<sub>firme</sub> × 0.90)</td>
+                                <td><strong>82,508.26 GWh</strong></td>
+                            </tr>
+                            <tr>
+                                <td>O<sub>neta</sub> = O<sub>ajustada</sub> − Pal</td>
+                                <td><strong>82,471.91 GWh</strong></td>
+                            </tr>
+                            <tr>
+                                <td>R<sub>técnico</sub> = O<sub>neta</sub> / D<sub>obligada</sub></td>
+                                <td><strong>28.35%</strong></td>
+                            </tr>
+                            <tr>
+                                <td>R<sub>final</sub> = R<sub>técnico</sub> × Fje</td>
+                                <td><strong style="color:var(--color-gobmx-guinda)">22.68%</strong></td>
+                            </tr>
+                            <tr>
+                                <td>ΔR = R<sub>tradicional</sub> − R<sub>final</sub></td>
+                                <td><strong>10.54 pp</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div id="chart-comparativo" class="chart-container"></div>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('formula')">← Anterior</button>
+                    <button onclick="navigateTo('legal-conf')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="legal-conf">
+                <span class="slide-badge" style="background:#6A1B9A">Slide 5 · Confiabilidad</span>
+                <h2>Qué significa Confiabilidad y por qué Fconf se divide en 2</h2>
+                <p class="slide-subtitle">Intermitentes y firmes se operan distinto en el SEN, por eso su ajuste es
+                    distinto</p>
+
+                <div class="card">
+                    <div class="card-title">Confiabilidad en términos operativos</div>
+                    Confiabilidad es la capacidad del SEN para atender la demanda bajo condiciones de suficiencia,
+                    seguridad de despacho y estabilidad. En la práctica, el CENACE puede limitar inyección o retener
+                    capacidad para evitar riesgos de red.
+                </div>
+
+                <div class="frase-logica">
+                    <strong>Frase clave:</strong> “La Energía Neta es lo que la planta puede inyectar; la Confiabilidad
+                    es lo que la red le permite inyectar”.
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo de recurso</th>
+                            <th>Qué hace CENACE</th>
+                            <th>Factor aplicado</th>
+                            <th>Justificación de diseño</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Intermitentes (solar y eólica)</td>
+                            <td>Recortes por congestión, estabilidad e inercia del sistema</td>
+                            <td><strong>Fconf_int = 0.80</strong></td>
+                            <td>Mayor descuento porque el recorte de inyección puede ser más frecuente.</td>
+                        </tr>
+                        <tr>
+                            <td>Firmes (hidro, geotermia, nuclear, cogen)</td>
+                            <td>Retención de capacidad para reservas y servicios conexos</td>
+                            <td><strong>Fconf_firme = 0.90</strong></td>
+                            <td>Menor descuento porque su contribución operativa es más estable y despachable.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Ejemplo de lectura rápida</th>
+                            <th>Sin ajuste</th>
+                            <th>Con ajuste por Confiabilidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Intermitente con 100 MWh de energía neta</td>
+                            <td>100 MWh acreditables</td>
+                            <td><strong>80 MWh acreditables</strong> (100 × 0.80)</td>
+                        </tr>
+                        <tr>
+                            <td>Firme con 100 MWh de energía neta</td>
+                            <td>100 MWh acreditables</td>
+                            <td><strong>90 MWh acreditables</strong> (100 × 0.90)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card">
+                    <div class="card-title">Mensaje técnico clave</div>
+                    La división de Fconf no inventa reglas nuevas: traduce a la fórmula cómo el operador del sistema
+                    trata tecnologías distintas para sostener la Confiabilidad del SEN.
+                </div>
+
+                <div class="frase-logica">
+                    <strong>Frase clave:</strong> “Si en la fórmula usamos la energía neta proyectada sin Fconf,
+                    asumimos que el CENACE dejará pasar el 100% de esa energía; eso sobreestima CEL acreditables”.
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('ejemplo')">← Anterior</button>
+                    <button onclick="navigateTo('legal-pal-fje')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="legal-pal-fje">
+                <span class="slide-badge" style="background:#8D6E63">Slide 6 · Sustento legal</span>
+                <h2>Pérdidas por Almacenamiento (Pal)</h2>
+                <p class="slide-subtitle">Se descuenta energía no acreditable para evitar sobreestimar CEL disponibles
+                </p>
+
+                <div class="cols-2">
+                    <div class="card">
+                        <div class="card-title">Pérdidas por Almacenamiento (Pal)</div>
+                        <p><strong>RLSE Art. 195:</strong> los sistemas de almacenamiento no reciben CEL, ya que no
+                            generan energía nueva.</p>
+                        <p>El descuento Pal evita contabilizar energía que se pierde en el ciclo de baterías y que no
+                            llega como inyección final acreditable.</p>
+                        <p><strong>Ejemplo 2026:</strong> 166 MW × 4 horas × 365 días × 15% = <strong>36.35
+                                GWh</strong>.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Sustento normativo</div>
+                        <p><strong>RLSE Art. 195:</strong> el almacenamiento no genera energía nueva, solo la desplaza,
+                            por lo que no recibe CEL.</p>
+                        <p>Descontar Pal en la metodología evita exigir certificados sobre energía que no llega a
+                            consumo final.</p>
+                        <p><strong>Resultado metodológico:</strong> se limpia el numerador antes de calcular el
+                            requisito
+                            técnico.</p>
+                    </div>
+                </div>
+
+                <div class="frase-logica">
+                    <strong>Frase clave:</strong> “El CEL solo se otorga por la energía final inyectada a la red;
+                    si no restamos Pal con datos de proyección, se exigirían CEL sobre energía que se pierde en
+                    baterías”.
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('legal-conf')">← Anterior</button>
+                    <button onclick="navigateTo('fje-detalle')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="fje-detalle">
+                <span class="slide-badge" style="background:#5D4037">Slide 7 · Justicia Energética</span>
+                <h2>Factor de Justicia Energética (Fje) a detalle</h2>
+                <p class="slide-subtitle">Por qué existe, cómo se aplica y qué efecto produce en costo y tarifa</p>
+
+                <div class="card">
+                    <div class="card-title">Propósito del Fje</div>
+                    El Fje funciona como <strong>amortiguador tarifario</strong>: toma un resultado técnicamente válido
+                    y lo vuelve transitable para cumplimiento regulatorio, reduciendo riesgo de traslado abrupto de
+                    costo al usuario final.
+                </div>
+
+                <div class="frase-logica">
+                    <strong>Frase clave:</strong> “A mayor requisito de CEL, mayor costo para Suministro Básico y mayor
+                    riesgo de presión en tarifa; Fje modera ese impacto sin eliminar la meta”.
+                </div>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Elemento</th>
+                            <th>Qué representa</th>
+                            <th>Efecto práctico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Base legal</td>
+                            <td>LSE Art. 3 fracción XXVIII y Art. 12</td>
+                            <td>Obliga a privilegiar asequibilidad y protección tarifaria.</td>
+                        </tr>
+                        <tr>
+                            <td>Aplicación matemática</td>
+                            <td>Rfinal = Rtécnico × Fje</td>
+                            <td>Reduce meta exigible en fase de transición.</td>
+                        </tr>
+                        <tr>
+                            <td>Parámetro usado 2026</td>
+                            <td>Fje = 0.80</td>
+                            <td>28.35% × 0.80 = <strong>22.68%</strong>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="chart-fje" class="chart-container"></div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('legal-pal-fje')">← Anterior</button>
+                    <button onclick="navigateTo('impacto')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="impacto">
+                <span class="slide-badge" style="background:var(--color-gobmx-dorado)">Slide 8 · Impacto 2026</span>
+                <h2>Impacto en obligaciones de participantes obligados</h2>
+                <p class="slide-subtitle">Comparativo de obligaciones bajo 33.2268% vs 22.6900%</p>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Participante</th>
+                            <th>Escenario tradicional</th>
+                            <th>Escenario propuesto</th>
+                            <th>Diferencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Suministro Básico</td>
+                            <td>81,947.6839</td>
+                            <td>55,960.6774</td>
+                            <td><strong>-25,987.0065</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Calificado (CFE y suministradores)</td>
+                            <td>14,697.1208</td>
+                            <td>10,036.4135</td>
+                            <td><strong>-4,660.7073</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>96,644.8047</strong></td>
+                            <td><strong>65,997.0909</strong></td>
+                            <td><strong>-30,647.7138</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="chart-obligaciones" class="chart-container"></div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('fje-detalle')">← Anterior</button>
+                    <button onclick="navigateTo('faq')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="faq">
+                <span class="slide-badge" style="background:#4E342E">Slide 9 · Preguntas frecuentes</span>
+                <h2>Preguntas frecuentes para exposición</h2>
+                <p class="slide-subtitle">Respuestas breves para lectura ejecutiva</p>
+
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Pregunta</th>
+                            <th>Respuesta ejecutiva</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>¿Por qué no usar solo oferta/demanda tradicional?</td>
+                            <td>Porque no refleja restricciones operativas de Confiabilidad ni pérdidas no acreditables;
+                                sobreestima CEL disponibles.</td>
+                        </tr>
+                        <tr>
+                            <td>¿Por qué Fconf tiene dos valores?</td>
+                            <td>Intermitentes y firmes enfrentan restricciones distintas en operación del SEN; por eso
+                                el
+                                descuento no es igual.</td>
+                        </tr>
+                        <tr>
+                            <td>¿Fje elimina la meta de transición energética?</td>
+                            <td>No. La mantiene, pero la vuelve gradual para evitar choque tarifario en usuarios
+                                finales.</td>
+                        </tr>
+                        <tr>
+                            <td>¿Qué pasa si migra demanda CIL al nuevo régimen?</td>
+                            <td>Aumenta demanda obligada y presión de compra; se mitiga con margen de seguridad y
+                                monitoreo de mercado.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('impacto')">← Anterior</button>
+                    <button onclick="navigateTo('cierre')">Siguiente →</button>
+                </div>
+            </div>
+
+            <div class="slide" id="cierre">
+                <span class="slide-badge">Slide 10 · Cierre ejecutivo</span>
+                <h2>Riesgos, mitigación y recomendación</h2>
+                <p class="slide-subtitle">Cierre de la propuesta para publicación del requisito</p>
+
+                <div class="cols-2">
+                    <div class="card">
+                        <div class="card-title">Riesgo principal</div>
+                        Migración de titulares CIL al nuevo régimen, elevando demanda obligada y presión de compra de
+                        CEL.
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Mitigación</div>
+                        Exclusión inicial de GLD como margen de seguridad y seguimiento operativo para evitar escasez
+                        repentina de certificados.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Recomendación</div>
+                    Publicar el requisito 2026 con metodología ajustada (Confiabilidad + Pal + Fje), manteniendo
+                    trazabilidad técnica y legal, y reforzando comunicación de transición gradual para participantes.
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-box" style="border-top:4px solid #6c757d">
+                        <div class="metric-val" style="color:#6c757d">33.22%</div>
+                        <div class="metric-label">Escenario tradicional</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid #1E5B4F">
+                        <div class="metric-val" style="color:#1E5B4F">28.35%</div>
+                        <div class="metric-label">Requisito técnico</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-guinda)">
+                        <div class="metric-val" style="color:var(--color-gobmx-guinda)">22.68%</div>
+                        <div class="metric-label">Requisito final propuesto</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-dorado)">
+                        <div class="metric-val" style="color:var(--color-gobmx-dorado)">10.54 pp</div>
+                        <div class="metric-label">Ajuste total</div>
+                    </div>
+                </div>
+
+                <div class="slide-nav">
+                    <button onclick="navigateTo('faq')">← Anterior</button>
+                    <button disabled>Fin de la presentación</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="pres-footer">
+        <p>&copy; 2026 Secretaría de Energía | Subsecretaría de Planeación y Transición Energética</p>
+    </footer>
+
+    <script src="js/pages-common.js"></script>
+    <script>
+        var slideLinks = document.querySelectorAll('.slide-link');
+        var slides = document.querySelectorAll('.slide');
+        var progressFill = document.getElementById('progressFill');
+        var slideIds = ['portada', 'objetivo', 'motiva', 'formula', 'ejemplo', 'legal-conf', 'legal-pal-fje', 'fje-detalle', 'impacto', 'faq', 'cierre'];
+
+        function navigateTo(id) {
+            slides.forEach(function (s) { s.classList.remove('active'); });
+            slideLinks.forEach(function (l) { l.classList.remove('active'); });
+            var target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            var link = document.querySelector('[data-target="' + id + '"]');
+            if (link) {
+                link.classList.add('active');
+                link.scrollIntoView({ block: 'nearest' });
+            }
+            var idx = slideIds.indexOf(id);
+            progressFill.style.width = ((idx / (slideIds.length - 1)) * 100) + '%';
+            document.getElementById('sidebar').classList.remove('open');
+            var main = document.querySelector('.pres-main');
+            if (main) main.scrollTo(0, 0);
+            history.replaceState(null, null, '#' + id);
+        }
+
+        slideLinks.forEach(function (l) {
+            l.addEventListener('click', function () { navigateTo(l.dataset.target); });
+        });
+
+        document.addEventListener('keydown', function (e) {
+            var current = document.querySelector('.slide.active');
+            var idx = slideIds.indexOf(current ? current.id : '');
+            if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
+            if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
+        });
+
+        Highcharts.setOptions({
+            chart: { backgroundColor: null, style: { fontFamily: "'Noto Sans', sans-serif" } },
+            credits: { enabled: false },
+            lang: { decimalPoint: '.', thousandsSep: ',' }
+        });
+
+        Highcharts.chart('chart-comparativo', {
+            chart: { type: 'column' },
+            title: { text: 'Comparativo de requisito 2026', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: ['Tradicional', 'Técnico ajustado', 'Final propuesto'] },
+            yAxis: { title: { text: 'Porcentaje (%)' }, min: 0, max: 40 },
+            tooltip: { valueSuffix: ' %', pointFormat: '<b>{point.y:.2f}%</b>' },
+            plotOptions: {
+                column: {
+                    borderRadius: 4,
+                    dataLabels: { enabled: true, format: '{y:.2f}%' }
+                }
+            },
+            series: [{
+                showInLegend: false,
+                data: [
+                    { y: 33.22, color: '#6c757d' },
+                    { y: 28.35, color: '#1E5B4F' },
+                    { y: 22.68, color: '#9B2247' }
+                ]
+            }]
+        });
+
+        Highcharts.chart('chart-obligaciones', {
+            chart: { type: 'bar' },
+            title: { text: 'Obligaciones 2026 por escenario', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: ['Suministro Básico', 'Calificado (CFE y suministradores)', 'Total'] },
+            yAxis: { title: { text: 'Volumen de CEL (unidad de tabla)' } },
+            tooltip: { shared: true, valueDecimals: 4 },
+            plotOptions: {
+                series: { dataLabels: { enabled: true, format: '{y:.1f}' } }
+            },
+            series: [{
+                name: 'Tradicional',
+                color: '#6c757d',
+                data: [81947.6839, 14697.1208, 96644.8047]
+            }, {
+                name: 'Propuesto',
+                color: '#9B2247',
+                data: [55960.6774, 10036.4135, 65997.0909]
+            }]
+        });
+
+        Highcharts.chart('chart-fje', {
+            chart: { type: 'column' },
+            title: { text: 'Efecto del Fje sobre el requisito 2026', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: ['Rtécnico', 'Fje aplicado', 'Rfinal'] },
+            yAxis: { title: { text: 'Porcentaje (%)' }, min: 0, max: 35 },
+            tooltip: { valueSuffix: ' %', pointFormat: '<b>{point.y:.2f}%</b>' },
+            plotOptions: {
+                column: {
+                    borderRadius: 4,
+                    dataLabels: { enabled: true, format: '{y:.2f}%' }
+                }
+            },
+            series: [{
+                showInLegend: false,
+                data: [
+                    { y: 28.35, color: '#1E5B4F' },
+                    { y: 80.00, color: '#A57F2C', dataLabels: { format: 'Fje {y:.0f}%' } },
+                    { y: 22.68, color: '#9B2247' }
+                ]
+            }]
+        });
+
+        window.addEventListener('DOMContentLoaded', function () {
+            var initial = window.location.hash ? window.location.hash.substring(1) : 'portada';
+            if (!slideIds.includes(initial)) initial = 'portada';
+            navigateTo(initial);
+        });
+    </script>
+</body>
+
+</html>
