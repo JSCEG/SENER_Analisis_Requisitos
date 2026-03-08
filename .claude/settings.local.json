@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(done)",
+      "Bash(npx serve --version)",
+      "Bash(npx http-server --version)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where npx)",
+      "Bash(node --version)",
+      "Bash(grep -l \"presentacion_nuevo_mecanismo_cel\" \"C:/Proyectos/60.-Diseñador de Graficos/.claude/worktrees/hardcore-rubin/\"*.html)",
+      "Bash(py --version)",
+      "Bash(py -:*)"
+    ]
+  }
+}

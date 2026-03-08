@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Ejecutiva CEL | Subsecretaría SENER</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script src="js/highcharts/highcharts.js"></script>
+    <script src="js/highcharts/modules/exporting.js"></script>
+    <script src="js/highcharts/modules/export-data.js"></script>
+    <script src="js/highcharts/modules/accessibility.js"></script>
+
+    <link rel="stylesheet" href="css/pages-common.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--color-bg-body);
+        }
+
+        .pres-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .pres-sidebar {
+            width: 300px;
+            min-width: 300px;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, .05);
+        }
+
+        .pres-sidebar-header {
+            padding: 20px;
+            background: var(--color-gobmx-guinda);
+            color: #fff;
+        }
+
+        .pres-sidebar-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: #fff;
+            font-family: var(--font-family-headings);
+        }
+
+        .pres-sidebar-header p {
+            margin: 6px 0 0;
+            font-size: .8rem;
+            opacity: .9;
+        }
+
+        .pres-progress {
+            height: 4px;
+            background: rgba(255, 255, 255, .2);
+            margin-top: 10px;
+        }
+
+        .pres-progress-fill {
+            height: 100%;
+            background: var(--color-gobmx-dorado);
+            width: 0%;
+            transition: width .3s;
+        }
+
+        .slide-link {
+            display: block;
+            padding: 10px 20px 10px 28px;
+            font-size: .85rem;
+            color: #555;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .slide-link:hover {
+            background: #f5f5f5;
+            color: var(--color-gobmx-guinda);
+        }
+
+        .slide-link.active {
+            background: #fdf0f3;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            border-left-color: var(--color-gobmx-dorado);
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: var(--color-gobmx-guinda);
+            color: #fff;
+            z-index: 999;
+            font-size: 1.4rem;
+        }
+
+        .pres-main {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .slide {
+            display: none;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 38px;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide-badge {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 4px 14px;
+            border-radius: 18px;
+            background: var(--color-gobmx-guinda);
+            color: #fff;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .slide h2 {
+            margin: 0 0 8px;
+            color: var(--color-gobmx-guinda);
+            font-family: var(--font-family-headings);
+            font-size: 1.6rem;
+        }
+
+        .slide-subtitle {
+            margin: 0 0 22px;
+            color: var(--color-gobmx-verde);
+            font-style: italic;
+        }
+
+        .slide-portada {
+            min-height: 58vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .portada-logo {
+            height: 82px;
+            margin-bottom: 22px;
+        }
+
+        .portada-divider {
+            width: 86px;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--color-gobmx-dorado);
+            margin: 14px 0;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            margin-bottom: 16px;
+            line-height: 1.65;
+            font-size: .92rem;
+        }
+
+        .card-title {
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            font-size: .88rem;
+            margin-bottom: 16px;
+        }
+
+        .comp-table thead th {
+            background: var(--color-gobmx-guinda);
+            color: #fff;
+            font-family: var(--font-family-headings);
+            font-size: .82rem;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        .comp-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comp-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 12px 0 18px;
+        }
+
+        .metric-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+        }
+
+        .metric-val {
+            font-size: 1.5rem;
+            font-family: var(--font-family-headings);
+            font-weight: 800;
+        }
+
+        .metric-label {
+            font-size: .74rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .cols-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .chart-container {
+            min-height: 330px;
+            margin: 12px 0 16px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        .table-wrap .comp-table {
+            min-width: 1200px;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .engranes-wrap {
+            background: #fdf8ef;
+            border: 1px solid #e8dcc6;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .engranes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nodo {
+            background: #fff;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            font-size: .84rem;
+            line-height: 1.4;
+        }
+
+        .nodo h4 {
+            margin: 0 0 6px;
+            color: var(--color-gobmx-guinda);
+            font-size: .86rem;
+        }
+
+        .gear-center {
+            background: linear-gradient(135deg, #fdf0f3, #fff3e0);
+            border: 2px solid var(--color-gobmx-guinda);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .gear-main {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 1.02rem;
+            line-height: 1.55;
+        }
+
+        .arrow {
+            text-align: center;
+            color: #777;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .pillar {
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            min-height: 130px;
+            font-size: .8rem;
+            line-height: 1.35;
+        }
+
+        .pillar h4 {
+            margin: 0 0 6px;
+            font-size: .82rem;
+        }
+
+        .slide-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+
+        .slide-nav button {
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: 1px solid var(--color-gobmx-guinda);
+            background: #fff;
+            color: var(--color-gobmx-guinda);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .slide-nav button:hover {
+            background: var(--color-gobmx-guinda);
+            color: #fff;
+        }
+
+        .slide-nav button:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .pres-footer {
+            text-align: center;
+            background: #333;
+            color: #fff;
+            font-size: .85rem;
+            padding: 18px;
+        }
+
+        @media (max-width: 980px) {
+            .pres-sidebar {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                bottom: 0;
+                z-index: 998;
+                transition: left .3s;
+            }
+
+            .pres-sidebar.open {
+                left: 0;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .slide {
+                padding: 20px;
+            }
+
+            .engranes-grid,
+            .cols-2,
+            .metric-row,
+            .pillars {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center;">
+                <span style="font-size: 1.2rem; margin-right: 5px;"><i class="bi bi-bar-chart-fill"></i></span> SENER |
+                CELs
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span
+                        class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a></li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a></li>
+                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación Requisitos</a></li>
+                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo Mecanismo 2026</a></li>
+                    <li><a href="presentacion_ejecutiva_cel.html" class="nav-dropdown-link active">9. Presentación Ejecutiva CEL</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="presentacion_otorgamiento_cel.html" class="nav-link">Presentación Otorgamiento</a></li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+            <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
+        </ul>
+    </nav>
+
+    <div class="pres-container">
+        <aside class="pres-sidebar" id="sidebar">
+            <div class="pres-sidebar-header">
+                <h3>Nueva Arquitectura CEL</h3>
+                <p>Versión ejecutiva para Subsecretario · 11 láminas</p>
+                <div class="pres-progress">
+                    <div class="pres-progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <div class="slide-link active" data-target="portada">📋 Título</div>
+            <div class="slide-link" data-target="ecosistema">⚙️ Ecosistema de engranes</div>
+            <div class="slide-link" data-target="transformacion">🧭 Hoja de ruta CEL</div>
+            <div class="slide-link" data-target="reto">⚠️ Reto 2026: 13.9 → 33.22</div>
+            <div class="slide-link" data-target="detalle-obligaciones">📊 Detalle anual por participante</div>
+            <div class="slide-link" data-target="escenario-a">🧪 Escenario A: brecha y convergencia</div>
+            <div class="slide-link" data-target="escenario-b">🧪 Escenario B: brecha y convergencia</div>
+            <div class="slide-link" data-target="escenario-c">🧪 Escenario C: brecha y convergencia</div>
+            <div class="slide-link" data-target="comparativos">📈 Comparativos brecha y consumo</div>
+            <div class="slide-link" data-target="solucion">🧮 Solución de fondo</div>
+            <div class="slide-link" data-target="cierre">✅ Solicitud de aprobación</div>
+        </aside>
+
+        <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+        <main class="pres-main">
+            <div class="slide active" id="portada">
+                <div class="slide-portada">
+                    <img src="img/logo_sener.png" alt="SENER" class="portada-logo">
+                    <h2 style="font-size:2rem; margin-bottom:0;">Nueva Arquitectura del Sistema CEL</h2>
+                    <div class="portada-divider"></div>
+                    <p class="slide-subtitle" style="margin-bottom:6px;">De la LIE 2014 a la Ley del Sector Eléctrico
+                        2025</p>
+                    <p style="color:#666;">Transformación, trazabilidad y estabilización del requisito</p>
+                    <p style="color:#666;">Subsecretaría de Planeación y Transición Energética</p>
+                </div>
+                <div class="slide-nav"><button disabled>← Anterior</button><button
+                        onclick="navigateTo('ecosistema')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="ecosistema">
+                <span class="slide-badge">Lámina 2 · Visión General</span>
+                <h2>Ecosistema CEL 2025: sistema de engranes interconectados</h2>
+                <p class="slide-subtitle">Sin requisito no hay mercado; sin otorgamiento no hay oferta certificable</p>
+
+                <div class="engranes-wrap">
+                    <div class="engranes-grid">
+                        <div class="nodo">
+                            <h4>⬅ Otorgamiento (Oferta)</h4>
+                            1 MWh limpio inyectado = 1 CEL emitido por CNE.
+                        </div>
+                        <div class="gear-center">
+                            <div class="gear-main">
+                                Requisito CEL (Demanda)<br>
+                                SENER fija porcentaje obligatorio<br>
+                                con Planeación Vinculante + Confiabilidad
+                            </div>
+                        </div>
+                        <div class="nodo">
+                            <h4>➡ Cumplimiento</h4>
+                            Participantes obligados acreditan CELs para cumplir obligación anual.
+                        </div>
+                    </div>
+                    <div class="arrow" style="margin:8px 0;">⬇</div>
+                    <div class="nodo" style="max-width:700px; margin:0 auto;">
+                        <h4>Mercado S-CEL (Plataforma)</h4>
+                        La CNE administra registro, trazabilidad y transacciones; ahí se encuentran oferta y demanda.
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:14px;">
+                    <div class="card-title">Mensaje ejecutivo</div>
+                    El CEL nace por naturaleza técnica en la generación, pero toma valor de política pública cuando
+                    SENER publica el requisito.
+                </div>
+
+                <div class="slide-nav"><button onclick="navigateTo('portada')">← Anterior</button><button
+                        onclick="navigateTo('transformacion')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="transformacion">
+                <span class="slide-badge" style="background:#6A1B9A">Lámina 3 · Hoja de Ruta</span>
+                <h2>Lo nuevo vs lo viejo: mapa de transformación del sistema CEL</h2>
+                <p class="slide-subtitle">Cinco pilares para operar la Nueva Arquitectura sin romper mercado</p>
+
+                <div class="pillars">
+                    <div class="pillar" style="background:#9B2247;">
+                        <h4>Pilar 1</h4>Nuevo paradigma: redefinición del CEL, otorgamiento centralizado e inclusión
+                        total.
+                    </div>
+                    <div class="pillar" style="background:#1E5B4F;">
+                        <h4>Pilar 2</h4>Modernización S-CEL: inscripción, UID, trazabilidad jurídica y técnica.
+                    </div>
+                    <div class="pillar" style="background:#A57F2C;">
+                        <h4>Pilar 3</h4>Mercado y comercio: mejor formación de precios, sin bolsa no onerosa
+                        especulativa.
+                    </div>
+                    <div class="pillar" style="background:#6c757d;">
+                        <h4>Pilar 4</h4>Cumplimiento y transparencia: DECLARACEL, padrón público y sanciones efectivas.
+                    </div>
+                    <div class="pillar" style="background:#4E342E;">
+                        <h4>Pilar 5</h4>Horizonte futuro: integración de nuevos proyectos estratégicos (p.ej. eólicas
+                        marinas).
+                    </div>
+                </div>
+
+                <table class="comp-table" style="margin-top:14px;">
+                    <thead>
+                        <tr>
+                            <th>Enfoque</th>
+                            <th>Esquema anterior</th>
+                            <th>Nueva arquitectura LSE 2025</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Otorgamiento</td>
+                            <td>Más acotado por reglas históricas</td>
+                            <td>Más amplio y trazable por diseño de sistema</td>
+                        </tr>
+                        <tr>
+                            <td>Mercado</td>
+                            <td>Liquidez desigual y señales incompletas</td>
+                            <td>Mayor trazabilidad y señales de precio más robustas</td>
+                        </tr>
+                        <tr>
+                            <td>Cumplimiento</td>
+                            <td>Mayor fricción operativa</td>
+                            <td>Ruta digital y verificable de cumplimiento</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="slide-nav"><button onclick="navigateTo('ecosistema')">← Anterior</button><button
+                        onclick="navigateTo('reto')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="reto">
+                <span class="slide-badge" style="background:#c62828">Lámina 4 · Reto Inmediato</span>
+                <h2>El salto 2026: de 13.9% a 33.22%</h2>
+                <p class="slide-subtitle">El problema no es político: es matemático y operativo</p>
+
+                <div class="metric-row">
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-dorado)">
+                        <div class="metric-val" style="color:var(--color-gobmx-dorado)">13.9%</div>
+                        <div class="metric-label">Último requisito aplicado</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid #6c757d">
+                        <div class="metric-val" style="color:#6c757d">33.22%</div>
+                        <div class="metric-label">Inercial 2026 (tradicional)</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid #c62828">
+                        <div class="metric-val" style="color:#c62828">+19.32 pp</div>
+                        <div class="metric-label">Brecha inmediata</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-guinda)">
+                        <div class="metric-val" style="color:var(--color-gobmx-guinda)">Riesgo alto</div>
+                        <div class="metric-label">Presión a Suministro Básico</div>
+                    </div>
+                </div>
+
+                <div id="chart-reto" class="chart-container"></div>
+
+                <div class="card">
+                    <div class="card-title">Implicación ejecutiva</div>
+                    Si solo diferimos el salto sin corregir fórmula, solo “alargamos el dolor”; la presión estructural
+                    permanece.
+                </div>
+
+                <div class="slide-nav"><button onclick="navigateTo('transformacion')">← Anterior</button><button
+                        onclick="navigateTo('detalle-obligaciones')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="detalle-obligaciones">
+                <span class="slide-badge" style="background:#455A64">Lámina 5 · Detalle Operativo</span>
+                <h2>Obligación CEL anual por participante (2025–2039)</h2>
+                <p class="slide-subtitle">Consumo obligado × requisito (%) = obligación CEL; incluye total anual para
+                    trazabilidad</p>
+
+                <div class="table-wrap">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Requisito (%)<br><span style="font-size:.72rem;font-weight:400;opacity:.9;">EL
+                                        considerada / Consumo obligado</span></th>
+                                <th>Total Consumo Obligado (MWh)</th>
+                                <th>Obligación SB (CEL)<br><span style="font-size:.72rem;font-weight:400;opacity:.9;">R%
+                                        × Consumo SB</span></th>
+                                <th>Obligación CFE Cal. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo CFE
+                                        Cal.</span></th>
+                                <th>Obligación Sumin. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo Sumin.</span>
+                                </th>
+                                <th>Total Obligación (CEL)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="obligacionesBody"></tbody>
+                    </table>
+                </div>
+
+                <div id="chart-obligaciones-base" class="chart-container"></div>
+
+                <div class="slide-nav"><button onclick="navigateTo('reto')">← Anterior</button><button
+                        onclick="navigateTo('escenario-a')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="escenario-a">
+                <span class="slide-badge" style="background:#C62828">Lámina 6 · Escenario A</span>
+                <h2>Escenario A (rápido): brecha de requisito y acercamiento</h2>
+                <p class="slide-subtitle">Comparación directa contra trayectoria inercial y cálculo de obligación por
+                    participante (2026–2030)</p>
+
+                <div id="chart-esc-a-detail" class="chart-container"></div>
+
+                <div class="table-wrap">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Req. Esc. A (%)</th>
+                                <th>Req. Inercial (%)</th>
+                                <th>Brecha (pp)</th>
+                                <th>Acercamiento (%)</th>
+                                <th>Obligación SB (CEL)<br><span style="font-size:.72rem;font-weight:400;opacity:.9;">R%
+                                        × Consumo SB</span></th>
+                                <th>Obligación CFE Cal. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo CFE
+                                        Cal.</span></th>
+                                <th>Obligación Sumin. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo Sumin.</span>
+                                </th>
+                                <th>Total Obligación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="escenarioABody"></tbody>
+                    </table>
+                </div>
+
+                <div class="slide-nav"><button onclick="navigateTo('detalle-obligaciones')">← Anterior</button><button
+                        onclick="navigateTo('escenario-b')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="escenario-b">
+                <span class="slide-badge" style="background:#2E7D32">Lámina 7 · Escenario B</span>
+                <h2>Escenario B (recomendado): brecha de requisito y acercamiento</h2>
+                <p class="slide-subtitle">Trayectoria moderada para equilibrio costo-beneficio con cálculo completo por
+                    participante (2026–2030)</p>
+
+                <div id="chart-esc-b-detail" class="chart-container"></div>
+
+                <div class="table-wrap">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Req. Esc. B (%)</th>
+                                <th>Req. Inercial (%)</th>
+                                <th>Brecha (pp)</th>
+                                <th>Acercamiento (%)</th>
+                                <th>Obligación SB (CEL)<br><span style="font-size:.72rem;font-weight:400;opacity:.9;">R%
+                                        × Consumo SB</span></th>
+                                <th>Obligación CFE Cal. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo CFE
+                                        Cal.</span></th>
+                                <th>Obligación Sumin. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo Sumin.</span>
+                                </th>
+                                <th>Total Obligación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="escenarioBBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="slide-nav"><button onclick="navigateTo('escenario-a')">← Anterior</button><button
+                        onclick="navigateTo('escenario-c')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="escenario-c">
+                <span class="slide-badge" style="background:#E65100">Lámina 8 · Escenario C</span>
+                <h2>Escenario C (lento): brecha de requisito y acercamiento</h2>
+                <p class="slide-subtitle">Convergencia gradual con cálculo por participante y seguimiento explícito de
+                    brecha (2026–2030)</p>
+
+                <div id="chart-esc-c-detail" class="chart-container"></div>
+
+                <div class="table-wrap">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Req. Esc. C (%)</th>
+                                <th>Req. Inercial (%)</th>
+                                <th>Brecha (pp)</th>
+                                <th>Acercamiento (%)</th>
+                                <th>Obligación SB (CEL)<br><span style="font-size:.72rem;font-weight:400;opacity:.9;">R%
+                                        × Consumo SB</span></th>
+                                <th>Obligación CFE Cal. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo CFE
+                                        Cal.</span></th>
+                                <th>Obligación Sumin. (CEL)<br><span
+                                        style="font-size:.72rem;font-weight:400;opacity:.9;">R% × Consumo Sumin.</span>
+                                </th>
+                                <th>Total Obligación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="escenarioCBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="slide-nav"><button onclick="navigateTo('escenario-b')">← Anterior</button><button
+                        onclick="navigateTo('comparativos')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="comparativos">
+                <span class="slide-badge" style="background:#1565C0">Lámina 9 · Comparativos</span>
+                <h2>Comparativo integral: brechas y obligación anual por escenario</h2>
+                <p class="slide-subtitle">Lectura 2026–2030: brecha (pp), comparación A/B/C y referencia sin brecha
+                    (inercial)
+                </p>
+
+                <div id="chart-brechas-comparativo" class="chart-container"></div>
+                <div id="chart-obligaciones-comparativo" class="chart-container"></div>
+                <div id="chart-sin-brecha-pago" class="chart-container"></div>
+
+                <div class="slide-nav"><button onclick="navigateTo('escenario-c')">← Anterior</button><button
+                        onclick="navigateTo('solucion')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="solucion">
+                <span class="slide-badge" style="background:var(--color-gobmx-verde)">Lámina 10 · Solución
+                    Estratégica</span>
+                <h2>Solución de fondo: cambio de fórmula + transición</h2>
+                <p class="slide-subtitle">Primero corregir metodología (fondo), luego definir la velocidad de
+                    convergencia</p>
+
+                <div class="card">
+                    <div class="card-title">Nueva fórmula de requisito ajustado</div>
+                    <div
+                        style="font-family:var(--font-family-headings); color:var(--color-gobmx-guinda); line-height:1.7;">
+                        R(%) = [((Oint × Fconf_int) + (Ofirme × Fconf_firme) − Pal) / Dobligada] × Fje
+                    </div>
+                </div>
+
+                <div class="cols-2">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Componente</th>
+                                <th>Qué corrige</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fconf</td>
+                                <td>Confiabilidad real de despacho (recortes/reservas)</td>
+                                <td>Evita sobreestimar CEL</td>
+                            </tr>
+                            <tr>
+                                <td>Pal</td>
+                                <td>Pérdidas de almacenamiento no acreditables</td>
+                                <td>Evita energía “fantasma”</td>
+                            </tr>
+                            <tr>
+                                <td>Fje</td>
+                                <td>Amortiguación tarifaria</td>
+                                <td>Meta publicable y manejable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>Escenario</th>
+                                <th>Convergencia</th>
+                                <th>Lectura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A</td>
+                                <td>Rápida</td>
+                                <td>Mayor estrés financiero</td>
+                            </tr>
+                            <tr style="background:#e8f5e9;">
+                                <td><strong>B (recomendado)</strong></td>
+                                <td><strong>Moderada</strong></td>
+                                <td><strong>Equilibrio costo-beneficio</strong></td>
+                            </tr>
+                            <tr>
+                                <td>C</td>
+                                <td>Lenta</td>
+                                <td>Riesgo de prolongar distorsiones</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="chart-solucion" class="chart-container"></div>
+
+                <div class="slide-nav"><button onclick="navigateTo('escenario-c')">← Anterior</button><button
+                        onclick="navigateTo('cierre')">Siguiente →</button></div>
+            </div>
+
+            <div class="slide" id="cierre">
+                <span class="slide-badge">Lámina 11 · Conclusión</span>
+                <h2>Conclusión y solicitud de aprobación</h2>
+                <p class="slide-subtitle">Arrancar mercado con meta publicable para no nacer “roto”</p>
+
+                <div class="metric-row">
+                    <div class="metric-box" style="border-top:4px solid #6c757d">
+                        <div class="metric-val" style="color:#6c757d">33.22%</div>
+                        <div class="metric-label">Inercial (impagable)</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-guinda)">
+                        <div class="metric-val" style="color:var(--color-gobmx-guinda)">22.69%</div>
+                        <div class="metric-label">Propuesto 2026</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-verde)">
+                        <div class="metric-val" style="color:var(--color-gobmx-verde)">Escenario B</div>
+                        <div class="metric-label">Transición recomendada</div>
+                    </div>
+                    <div class="metric-box" style="border-top:4px solid var(--color-gobmx-dorado)">
+                        <div class="metric-val" style="color:var(--color-gobmx-dorado)">Activación CEL</div>
+                        <div class="metric-label">Mercado + trazabilidad + cumplimiento</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Solicitud ejecutiva</div>
+                    Aprobar la metodología ajustada y la transición recomendada para 2026, de modo que la modernización
+                    del S-CEL y la nueva arquitectura comercial arranquen con una meta factible, legal y tarifariamente
+                    sostenible.
+                </div>
+
+                <div class="slide-nav"><button onclick="navigateTo('solucion')">← Anterior</button><button disabled>Fin
+                        de la presentación</button></div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="pres-footer">
+        <p>&copy; 2026 Secretaría de Energía | Subsecretaría de Planeación y Transición Energética</p>
+    </footer>
+
+    <script src="js/pages-common.js"></script>
+    <script>
+        var slideLinks = document.querySelectorAll('.slide-link');
+        var slides = document.querySelectorAll('.slide');
+        var progressFill = document.getElementById('progressFill');
+        var slideIds = ['portada', 'ecosistema', 'transformacion', 'reto', 'detalle-obligaciones', 'escenario-a', 'escenario-b', 'escenario-c', 'comparativos', 'solucion', 'cierre'];
+
+        var annualData = [
+            { year: 2025, sbOb: 75807327, cfeOb: 4158700, sumOb: 9437050, totalOb: 89403077, req: 31.99 },
+            { year: 2026, sbOb: 81930971, cfeOb: 4584566, sumOb: 10109557, totalOb: 96625094, req: 33.22 },
+            { year: 2027, sbOb: 86466707, cfeOb: 4972889, sumOb: 10577106, totalOb: 102016701, req: 33.78 },
+            { year: 2028, sbOb: 102298810, cfeOb: 6024092, sumOb: 12353531, totalOb: 120676433, req: 38.59 },
+            { year: 2029, sbOb: 117968282, cfeOb: 7227961, sumOb: 14284475, totalOb: 139480718, req: 43.18 },
+            { year: 2030, sbOb: 129058371, cfeOb: 8219107, sumOb: 15881749, totalOb: 153159228, req: 45.84 },
+            { year: 2031, sbOb: 132002878, cfeOb: 8578653, sumOb: 16204745, totalOb: 156786276, req: 46.07 },
+            { year: 2032, sbOb: 146071709, cfeOb: 9843371, sumOb: 18312191, totalOb: 174227272, req: 50.07 },
+            { year: 2033, sbOb: 151523610, cfeOb: 10462216, sumOb: 19021211, totalOb: 181007037, req: 51.08 },
+            { year: 2034, sbOb: 155323907, cfeOb: 11176128, sumOb: 20007327, totalOb: 186507362, req: 51.41 },
+            { year: 2035, sbOb: 161582804, cfeOb: 11974195, sumOb: 21105226, totalOb: 194662225, req: 52.50 },
+            { year: 2036, sbOb: 173950821, cfeOb: 13215852, sumOb: 22932242, totalOb: 210098915, req: 55.48 },
+            { year: 2037, sbOb: 176574730, cfeOb: 13916975, sumOb: 23771945, totalOb: 214263650, req: 55.22 },
+            { year: 2038, sbOb: 189102244, cfeOb: 15368056, sumOb: 25838504, totalOb: 230308804, req: 57.97 },
+            { year: 2039, sbOb: 198384859, cfeOb: 16483466, sumOb: 26847242, totalOb: 241715567, req: 59.65 }
+        ];
+
+        function fmtInt(value) { return Highcharts.numberFormat(value, 0, '.', ','); }
+        function fmtPct(value) { return Highcharts.numberFormat(value, 2, '.', ',') + '%'; }
+
+        var annualDetail = annualData.map(function (row) {
+            var ratio = row.req / 100;
+            var sbCons = row.sbOb / ratio;
+            var cfeCons = row.cfeOb / ratio;
+            var sumCons = row.sumOb / ratio;
+            return {
+                year: row.year,
+                req: row.req,
+                sbCons: sbCons,
+                cfeCons: cfeCons,
+                sumCons: sumCons,
+                totalCons: sbCons + cfeCons + sumCons,
+                sbOb: row.sbOb,
+                cfeOb: row.cfeOb,
+                sumOb: row.sumOb,
+                totalOb: row.totalOb
+            };
+        });
+
+        var baseYears = [2026, 2027, 2028, 2029, 2030];
+        var inercialReqSeries = annualDetail.filter(function (r) { return baseYears.includes(r.year); }).map(function (r) { return r.req; });
+
+        function buildScenarioDetail(reqSeries) {
+            var baseRows = annualDetail.filter(function (r) { return baseYears.includes(r.year); });
+            return baseRows.map(function (r, idx) {
+                var reqEsc = reqSeries[idx];
+                var reqInercial = inercialReqSeries[idx];
+                var gapPp = reqInercial - reqEsc;
+                var approach = reqInercial > 0 ? (reqEsc / reqInercial) * 100 : 0;
+                var sbOb = Math.round(r.sbCons * reqEsc / 100);
+                var cfeOb = Math.round(r.cfeCons * reqEsc / 100);
+                var sumOb = Math.round(r.sumCons * reqEsc / 100);
+                return {
+                    year: r.year,
+                    reqEsc: reqEsc,
+                    reqInercial: reqInercial,
+                    gapPp: gapPp,
+                    approach: approach,
+                    sbCons: r.sbCons,
+                    cfeCons: r.cfeCons,
+                    sumCons: r.sumCons,
+                    sbOb: sbOb,
+                    cfeOb: cfeOb,
+                    sumOb: sumOb,
+                    totalOb: sbOb + cfeOb + sumOb
+                };
+            });
+        }
+
+        function populateScenarioTable(tbodyId, rows, label) {
+            var tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            tbody.innerHTML = rows.map(function (r) {
+                return '<tr>' +
+                    '<td>' + r.year + '</td>' +
+                    '<td>' + fmtPct(r.reqEsc) + '</td>' +
+                    '<td>' + fmtPct(r.reqInercial) + '</td>' +
+                    '<td>' + fmtPct(r.gapPp) + '</td>' +
+                    '<td>' + fmtPct(r.approach) + '</td>' +
+                    '<td><strong>' + fmtInt(r.sbOb) + '</strong><br><span style="font-size:.72rem;color:#666;">Consumo: ' + fmtInt(r.sbCons) + '</span></td>' +
+                    '<td><strong>' + fmtInt(r.cfeOb) + '</strong><br><span style="font-size:.72rem;color:#666;">Consumo: ' + fmtInt(r.cfeCons) + '</span></td>' +
+                    '<td><strong>' + fmtInt(r.sumOb) + '</strong><br><span style="font-size:.72rem;color:#666;">Consumo: ' + fmtInt(r.sumCons) + '</span></td>' +
+                    '<td><strong>' + fmtInt(r.totalOb) + '</strong></td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        function renderScenarioDetailChart(containerId, title, color, rows) {
+            Highcharts.chart(containerId, {
+                chart: { zoomType: 'xy' },
+                title: { text: title, style: { color: '#9B2247', fontSize: '0.95rem' } },
+                xAxis: [{ categories: rows.map(function (r) { return String(r.year); }) }],
+                yAxis: [
+                    { title: { text: 'CELs (MWh)' }, min: 0 },
+                    { title: { text: 'Requisito / Brecha (%)' }, opposite: true, min: 0, max: 50 }
+                ],
+                tooltip: { shared: true },
+                plotOptions: { column: { stacking: 'normal', borderRadius: 3, pointPadding: 0.03, groupPadding: 0.08 } },
+                series: [
+                    { name: 'Suministradores (obligación)', type: 'column', color: '#1E5B4F', data: rows.map(function (r) { return r.sumOb; }), yAxis: 0 },
+                    { name: 'CFE Calificado (obligación)', type: 'column', color: '#A57F2C', data: rows.map(function (r) { return r.cfeOb; }), yAxis: 0 },
+                    { name: 'Suministro Básico (obligación)', type: 'column', color: '#9B2247', data: rows.map(function (r) { return r.sbOb; }), yAxis: 0 },
+                    { name: 'Req. escenario', type: 'spline', color: color, lineWidth: 3, data: rows.map(function (r) { return r.reqEsc; }), yAxis: 1, tooltip: { valueSuffix: ' %' } },
+                    { name: 'Req. inercial', type: 'spline', color: '#6c757d', dashStyle: 'ShortDash', data: rows.map(function (r) { return r.reqInercial; }), yAxis: 1, tooltip: { valueSuffix: ' %' } },
+                    { name: 'Brecha (pp)', type: 'spline', color: '#455A64', data: rows.map(function (r) { return r.gapPp; }), yAxis: 1, tooltip: { valueSuffix: ' pp' } }
+                ]
+            });
+        }
+
+        function populateObligacionesTable() {
+            var tbody = document.getElementById('obligacionesBody');
+            if (!tbody) return;
+            tbody.innerHTML = annualDetail.map(function (r) {
+                return '<tr>' +
+                    '<td>' + r.year + '</td>' +
+                    '<td><strong>' + fmtPct(r.req) + '</strong><br><span style="font-size:.72rem;color:#666;">' + fmtInt(r.totalOb) + ' / ' + fmtInt(r.totalCons) + '</span></td>' +
+                    '<td><strong>' + fmtInt(r.totalCons) + '</strong></td>' +
+                    '<td><strong>' + fmtInt(r.sbOb) + '</strong><br><span style="font-size:.72rem;color:#666;">Consumo: ' + fmtInt(r.sbCons) + '</span></td>' +
+                    '<td><strong>' + fmtInt(r.cfeOb) + '</strong><br><span style="font-size:.72rem;color:#666;">Consumo: ' + fmtInt(r.cfeCons) + '</span></td>' +
+                    '<td><strong>' + fmtInt(r.sumOb) + '</strong><br><span style="font-size:.72rem;color:#666;">Consumo: ' + fmtInt(r.sumCons) + '</span></td>' +
+                    '<td><strong>' + fmtInt(r.totalOb) + '</strong></td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        function navigateTo(id) {
+            slides.forEach(function (s) { s.classList.remove('active'); });
+            slideLinks.forEach(function (l) { l.classList.remove('active'); });
+            var target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            var link = document.querySelector('[data-target="' + id + '"]');
+            if (link) { link.classList.add('active'); link.scrollIntoView({ block: 'nearest' }); }
+            var idx = slideIds.indexOf(id);
+            if (progressFill) progressFill.style.width = ((idx / (slideIds.length - 1)) * 100) + '%';
+            document.getElementById('sidebar').classList.remove('open');
+            var main = document.querySelector('.pres-main');
+            if (main) main.scrollTo(0, 0);
+            history.replaceState(null, null, '#' + id);
+        }
+
+        slideLinks.forEach(function (l) { l.addEventListener('click', function () { navigateTo(l.dataset.target); }); });
+
+        document.addEventListener('keydown', function (e) {
+            var current = document.querySelector('.slide.active');
+            var idx = slideIds.indexOf(current ? current.id : '');
+            if (e.key === 'ArrowRight' && idx < slideIds.length - 1) navigateTo(slideIds[idx + 1]);
+            if (e.key === 'ArrowLeft' && idx > 0) navigateTo(slideIds[idx - 1]);
+        });
+
+        Highcharts.setOptions({ credits: { enabled: false }, chart: { backgroundColor: '#FFFFFF', style: { fontFamily: "'Noto Sans', sans-serif" } } });
+
+        Highcharts.chart('chart-reto', {
+            chart: { type: 'column' },
+            title: { text: 'Reto de arranque del requisito 2026', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: ['Último aplicado', 'Inercial 2026', 'Meta publicable'] },
+            yAxis: { title: { text: 'Porcentaje (%)' }, min: 0, max: 40 },
+            tooltip: { valueSuffix: ' %', pointFormat: '<b>{point.y:.2f}%</b>' },
+            plotOptions: { column: { borderRadius: 4, dataLabels: { enabled: true, format: '{y:.2f}%' } } },
+            series: [{ showInLegend: false, data: [{ y: 13.90, color: '#A57F2C' }, { y: 33.22, color: '#6c757d' }, { y: 22.69, color: '#9B2247' }] }]
+        });
+
+        Highcharts.chart('chart-obligaciones-base', {
+            chart: { type: 'column' },
+            title: { text: 'Obligación de CEL por participante obligado (2025-2039)', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: annualData.map(function (d) { return String(d.year); }) },
+            yAxis: { min: 0, title: { text: 'CELs (MWh)' }, stackLabels: { enabled: false } },
+            tooltip: { shared: true, pointFormat: '{series.name}: <b>{point.y:,.0f}</b><br/>' },
+            plotOptions: { column: { stacking: 'normal', borderRadius: 3, pointPadding: 0.03, groupPadding: 0.08 } },
+            series: [
+                { name: 'Suministradores', color: '#1E5B4F', data: annualData.map(function (d) { return d.sumOb; }) },
+                { name: 'CFE Calificado', color: '#A57F2C', data: annualData.map(function (d) { return d.cfeOb; }) },
+                { name: 'Suministro Básico', color: '#9B2247', data: annualData.map(function (d) { return d.sbOb; }) }
+            ]
+        });
+
+        var scenarioA = buildScenarioDetail([22.5, 30.5, 38.6, 43.18, 45.84]);
+        var scenarioB = buildScenarioDetail([21.5, 28.8, 36.0, 43.2, 45.84]);
+        var scenarioC = buildScenarioDetail([20.3, 26.7, 33.1, 39.5, 45.8]);
+
+        populateScenarioTable('escenarioABody', scenarioA, 'A');
+        populateScenarioTable('escenarioBBody', scenarioB, 'B');
+        populateScenarioTable('escenarioCBody', scenarioC, 'C');
+
+        renderScenarioDetailChart('chart-esc-a-detail', 'Escenario A: obligación por participante + brecha de requisito', '#C62828', scenarioA);
+        renderScenarioDetailChart('chart-esc-b-detail', 'Escenario B: obligación por participante + brecha de requisito', '#2E7D32', scenarioB);
+        renderScenarioDetailChart('chart-esc-c-detail', 'Escenario C: obligación por participante + brecha de requisito', '#E65100', scenarioC);
+
+        var inercialRows = annualDetail.filter(function (r) { return baseYears.includes(r.year); });
+
+        Highcharts.chart('chart-brechas-comparativo', {
+            chart: { type: 'line' },
+            title: { text: 'Comparativo de brechas + requisito real (2026-2030)', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: scenarioA.map(function (r) { return String(r.year); }), title: { text: 'Año' } },
+            yAxis: [
+                { title: { text: 'Brecha (pp)' }, min: 0 },
+                { title: { text: 'Requisito real (%)' }, opposite: true, min: 0, max: 50 }
+            ],
+            tooltip: { shared: true },
+            plotOptions: {
+                line: {
+                    marker: { enabled: true, radius: 4 },
+                    dataLabels: { enabled: true }
+                }
+            },
+            series: [
+                { name: 'Brecha Escenario A', color: '#C62828', data: scenarioA.map(function (r) { return r.gapPp; }), yAxis: 0, dataLabels: { format: '{y:.2f} pp' }, tooltip: { valueSuffix: ' pp' } },
+                { name: 'Brecha Escenario B', color: '#2E7D32', data: scenarioB.map(function (r) { return r.gapPp; }), yAxis: 0, dataLabels: { format: '{y:.2f} pp' }, tooltip: { valueSuffix: ' pp' } },
+                { name: 'Brecha Escenario C', color: '#E65100', data: scenarioC.map(function (r) { return r.gapPp; }), yAxis: 0, dataLabels: { format: '{y:.2f} pp' }, tooltip: { valueSuffix: ' pp' } },
+                { name: 'Requisito real (sin escenario)', color: '#6c757d', dashStyle: 'ShortDash', lineWidth: 3, data: inercialRows.map(function (r) { return r.req; }), yAxis: 1, dataLabels: { format: '{y:.2f}%' }, tooltip: { valueSuffix: ' %' } }
+            ]
+        });
+
+        Highcharts.chart('chart-obligaciones-comparativo', {
+            chart: { type: 'column' },
+            title: { text: 'Obligación por año: escenarios vs real (apilado por obligados)', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: scenarioA.map(function (r) { return String(r.year); }), title: { text: 'Año' } },
+            yAxis: { min: 0, title: { text: 'Obligación (CEL)' } },
+            tooltip: { shared: true, pointFormat: '{series.name}: <b>{point.y:,.0f}</b><br/>' },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    borderRadius: 3,
+                    dataLabels: { enabled: true, format: '{point.y:,.0f}' }
+                }
+            },
+            series: [
+                { name: 'A · SB', color: '#C62828', stack: 'A', data: scenarioA.map(function (r) { return r.sbOb; }) },
+                { name: 'A · CFE Cal.', color: '#E57373', stack: 'A', data: scenarioA.map(function (r) { return r.cfeOb; }) },
+                { name: 'A · Sumin.', color: '#8E0000', stack: 'A', data: scenarioA.map(function (r) { return r.sumOb; }) },
+
+                { name: 'B · SB', color: '#2E7D32', stack: 'B', data: scenarioB.map(function (r) { return r.sbOb; }) },
+                { name: 'B · CFE Cal.', color: '#81C784', stack: 'B', data: scenarioB.map(function (r) { return r.cfeOb; }) },
+                { name: 'B · Sumin.', color: '#1B5E20', stack: 'B', data: scenarioB.map(function (r) { return r.sumOb; }) },
+
+                { name: 'C · SB', color: '#E65100', stack: 'C', data: scenarioC.map(function (r) { return r.sbOb; }) },
+                { name: 'C · CFE Cal.', color: '#FFB74D', stack: 'C', data: scenarioC.map(function (r) { return r.cfeOb; }) },
+                { name: 'C · Sumin.', color: '#BF360C', stack: 'C', data: scenarioC.map(function (r) { return r.sumOb; }) },
+
+                { name: 'Real · SB', color: '#6c757d', stack: 'Real', data: inercialRows.map(function (r) { return r.sbOb; }) },
+                { name: 'Real · CFE Cal.', color: '#9EA7AD', stack: 'Real', data: inercialRows.map(function (r) { return r.cfeOb; }) },
+                { name: 'Real · Sumin.', color: '#495057', stack: 'Real', data: inercialRows.map(function (r) { return r.sumOb; }) }
+            ]
+        });
+
+        Highcharts.chart('chart-sin-brecha-pago', {
+            chart: { zoomType: 'xy' },
+            title: { text: 'Sin brecha (inercial): cuánto pagan por año (2026-2030)', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: inercialRows.map(function (r) { return String(r.year); }), title: { text: 'Año' } },
+            yAxis: [
+                { title: { text: 'Obligación por participante (CEL)' }, min: 0 },
+                { title: { text: 'Total anual (CEL)' }, opposite: true, min: 0 }
+            ],
+            tooltip: { shared: true },
+            plotOptions: {
+                column: { stacking: 'normal', borderRadius: 3, pointPadding: 0.03, groupPadding: 0.08 },
+                spline: { dataLabels: { enabled: true, format: '{y:,.0f}' } }
+            },
+            series: [
+                { name: 'Suministro Básico (inercial)', type: 'column', color: '#9B2247', data: inercialRows.map(function (r) { return r.sbOb; }), yAxis: 0 },
+                { name: 'CFE Calificado (inercial)', type: 'column', color: '#A57F2C', data: inercialRows.map(function (r) { return r.cfeOb; }), yAxis: 0 },
+                { name: 'Suministradores (inercial)', type: 'column', color: '#1E5B4F', data: inercialRows.map(function (r) { return r.sumOb; }), yAxis: 0 },
+                { name: 'Total anual inercial', type: 'spline', color: '#455A64', lineWidth: 3, data: inercialRows.map(function (r) { return r.totalOb; }), yAxis: 1 }
+            ]
+        });
+
+        Highcharts.chart('chart-solucion', {
+            chart: { type: 'spline' },
+            title: { text: 'Escenarios de transición (A, B, C)', style: { color: '#9B2247', fontSize: '0.95rem' } },
+            xAxis: { categories: [2026, 2027, 2028, 2029, 2030] },
+            yAxis: { title: { text: 'Requisito (%)' }, min: 10, max: 50 },
+            tooltip: { shared: true, valueSuffix: ' %' },
+            series: [
+                { name: 'Escenario A', color: '#c62828', data: [22.5, 30.5, 38.6, null, null] },
+                { name: 'Escenario B (Recomendado)', color: '#2e7d32', lineWidth: 4, data: [21.5, 28.8, 36.0, 43.2, null] },
+                { name: 'Escenario C', color: '#e65100', data: [20.3, 26.7, 33.1, 39.5, 45.8] },
+                { name: 'Referencia inercial', color: '#6c757d', dashStyle: 'ShortDash', data: [33.22, 33.78, 38.59, 43.18, 45.84] }
+            ]
+        });
+
+        window.addEventListener('DOMContentLoaded', function () {
+            populateObligacionesTable();
+            var initial = window.location.hash ? window.location.hash.substring(1) : 'portada';
+            if (!slideIds.includes(initial)) initial = 'portada';
+            navigateTo(initial);
+        });
+    </script>
+</body>
+
+</html>
