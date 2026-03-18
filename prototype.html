@@ -1,0 +1,875 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Requisitos CEL 2026-2029</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8b1538 0%, #c41e3a 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            color: #8b1538;
+            background: #f5f5f5;
+        }
+
+        .tab.active {
+            color: #8b1538;
+            border-bottom-color: #8b1538;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #8b1538;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #8b1538;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #8b1538;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #8b1538 0%, #c41e3a 100%);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(139, 21, 56, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 21, 56, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .results h3 {
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-item strong {
+            font-size: 1.1em;
+        }
+
+        .result-value {
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .formula-display {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: #8b1538;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 5px solid #ffc107;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .metric-card h4 {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .metric-card .value {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .metric-card .unit {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+                text-align: left;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer {
+            background: #f5f5f5;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Requisitos de CEL 2026-2029</h1>
+            <p>Calculadora de Certificados de Energías Limpias</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Dirección General de Transición Energética</p>
+        </div>
+
+        <div class="content">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('calculadora')">Calculadora</button>
+                <button class="tab" onclick="showTab('metodologia')">Metodología</button>
+                <button class="tab" onclick="showTab('comparacion')">Comparación</button>
+                <button class="tab" onclick="showTab('factores')">Factores</button>
+                <button class="tab" onclick="showTab('normativa')">Marco Normativo</button>
+            </div>
+
+            <!-- TAB: CALCULADORA -->
+            <div id="calculadora" class="tab-content active">
+                <div class="card">
+                    <h3>📊 Calculadora de Requisitos CEL 2026</h3>
+                    
+                    <div class="input-group">
+                        <label>Consumo Nacional Total (GWh):</label>
+                        <input type="number" id="consumoTotal" value="290864.21" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Consumo Exento CIL (GWh):</label>
+                        <input type="number" id="consumoExento" value="0" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Generación Limpia Total (GWh):</label>
+                        <input type="number" id="genLimpia" value="96644.80" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Generación Limpia Distribuida - GLD (GWh):</label>
+                        <input type="number" id="gld" value="0" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Oferta Intermitente - Solar + Eólica (GWh):</label>
+                        <input type="number" id="ofertaIntermitente" value="44720.53" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Oferta Firme - Hidro + Geo + Bio + Nuclear (GWh):</label>
+                        <input type="number" id="ofertaFirme" value="51924.27" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Factor de Confiabilidad Intermitente (Fconf,int):</label>
+                        <input type="number" id="fconfInt" value="0.80" step="0.01" min="0" max="1">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Factor de Confiabilidad Firme (Fconf,firme):</label>
+                        <input type="number" id="fconfFirme" value="0.90" step="0.01" min="0" max="1">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Pérdidas por Almacenamiento - Pal (GWh):</label>
+                        <input type="number" id="pal" value="36.35" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Factor de Justicia Energética (Fje):</label>
+                        <input type="number" id="fje" value="0.80" step="0.01" min="0" max="1">
+                    </div>
+
+                    <button class="btn" onclick="calcular()">🔍 Calcular Requisitos</button>
+
+                    <div id="resultados" style="display:none;">
+                        <div class="results">
+                            <h3>Resultados del Cálculo</h3>
+                            
+                            <div class="result-item">
+                                <strong>Demanda Obligada:</strong>
+                                <span class="result-value" id="demandaObligada">-</span>
+                            </div>
+
+                            <div class="result-item">
+                                <strong>Oferta Ajustada por Confiabilidad:</strong>
+                                <span class="result-value" id="ofertaAjustada">-</span>
+                            </div>
+
+                            <div class="result-item">
+                                <strong>Oferta Neta Despachable:</strong>
+                                <span class="result-value" id="ofertaNeta">-</span>
+                            </div>
+
+                            <div class="result-item">
+                                <strong>Requisito Técnico:</strong>
+                                <span class="result-value" id="requisitoTecnico">-</span>
+                            </div>
+
+                            <div class="result-item" style="background: rgba(255,255,255,0.3); border: 2px solid white;">
+                                <strong style="font-size: 1.3em;">📌 REQUISITO FINAL (con Justicia Energética):</strong>
+                                <span class="result-value" style="font-size: 1.6em;" id="requisitoFinal">-</span>
+                            </div>
+
+                            <div class="result-item">
+                                <strong>CEL Requeridos (Básico):</strong>
+                                <span class="result-value" id="celBasico">-</span>
+                            </div>
+
+                            <div class="result-item">
+                                <strong>CEL Requeridos (Calificado):</strong>
+                                <span class="result-value" id="celCalificado">-</span>
+                            </div>
+
+                            <div class="result-item">
+                                <strong>CEL Totales Requeridos:</strong>
+                                <span class="result-value" id="celTotal">-</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressBar" style="width: 0%;">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: METODOLOGÍA -->
+            <div id="metodologia" class="tab-content">
+                <div class="card">
+                    <h3>📐 Metodología Propuesta (LSE 2025)</h3>
+                    
+                    <div class="info-box">
+                        <strong>Objetivo:</strong> Ajustar la metodología de cálculo del requisito de CEL conforme al Artículo 143 de la LSE, incorporando factores de Confiabilidad, pérdidas por almacenamiento y Justicia Energética.
+                    </div>
+
+                    <h4 style="margin: 30px 0 15px 0; color: #8b1538;">Fórmula General:</h4>
+                    <div class="formula-display">
+R(%) = [
+    (ConsumoNacionalTotal − ConsumoExentoCIL)
+    ─────────────────────────────────────────────────
+    ((Gen.Limpia − GLD) × Fconf) − Pal
+] × Fje
+                    </div>
+
+                    <h4 style="margin: 30px 0 15px 0; color: #8b1538;">Proceso de Cálculo en 4 Etapas:</h4>
+
+                    <div class="card" style="background: #e8f5e9; border-left-color: #4caf50;">
+                        <h4 style="color: #2e7d32;">Etapa 1: Oferta Ajustada por Confiabilidad</h4>
+                        <div class="formula-display">
+Oajustada = (Oint × Fconf,int) + (Ofirme × Fconf,firme)
+                        </div>
+                        <p><strong>Donde:</strong></p>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li>Oint: Oferta intermitente (solar + eólica)</li>
+                            <li>Ofirme: Oferta firme (hidro + nuclear + geo + bio)</li>
+                            <li>Fconf,int: Factor de confiabilidad intermitente (0.80 típico)</li>
+                            <li>Fconf,firme: Factor de confiabilidad firme (0.90 típico)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="background: #e3f2fd; border-left-color: #2196f3;">
+                        <h4 style="color: #1565c0;">Etapa 2: Oferta Neta Despachable</h4>
+                        <div class="formula-display">
+Oneta = Oajustada − Pal
+                        </div>
+                        <p><strong>Pal:</strong> Pérdidas por almacenamiento (energía que no genera CEL)</p>
+                    </div>
+
+                    <div class="card" style="background: #fff3e0; border-left-color: #ff9800;">
+                        <h4 style="color: #e65100;">Etapa 3: Requisito Técnico</h4>
+                        <div class="formula-display">
+Rtecnico(%) = Oneta / Dobligada
+                        </div>
+                        <p><strong>Dobligada:</strong> Demanda obligada = ConsumoTotal - ConsumoExentoCIL</p>
+                    </div>
+
+                    <div class="card" style="background: #f3e5f5; border-left-color: #9c27b0;">
+                        <h4 style="color: #6a1b9a;">Etapa 4: Requisito Final con Justicia Energética</h4>
+                        <div class="formula-display">
+Rfinal(%) = Rtecnico × Fje
+                        </div>
+                        <p><strong>Fje:</strong> Factor de Justicia Energética (0.80 para protección tarifaria)</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 A Quiénes Aplica</h3>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li><strong>Suministradoras:</strong> Servicios Básicos, Calificados y de Último Recurso</li>
+                        <li><strong>Usuarios Calificados:</strong> Participantes directos del Mercado Eléctrico Mayorista</li>
+                        <li><strong>Autoconsumo:</strong> Titulares de permisos de generación que consuman de la red</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TAB: COMPARACIÓN -->
+            <div id="comparacion" class="tab-content">
+                <div class="card">
+                    <h3>⚖️ Comparación: Metodología Tradicional vs. Propuesta LSE 2025</h3>
+
+                    <div class="grid">
+                        <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <h4>METODOLOGÍA TRADICIONAL</h4>
+                            <div class="value">33.22%</div>
+                            <div class="unit">Requisito Simple</div>
+                        </div>
+
+                        <div class="metric-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            <h4>METODOLOGÍA PROPUESTA</h4>
+                            <div class="value">22.68%</div>
+                            <div class="unit">Requisito Ajustado LSE 2025</div>
+                        </div>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>⚡ Diferencia:</strong> 10.54 puntos porcentuales de reducción<br>
+                        <strong>💰 Impacto:</strong> Reducción significativa de presión en tarifas del Suministro Básico
+                    </div>
+
+                    <h4 style="margin: 30px 0 15px 0; color: #8b1538;">Comparativa Detallada de Obligaciones 2026</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Metodología Tradicional<br>(33.23%)</th>
+                                <th>Metodología Propuesta<br>(22.69%)</th>
+                                <th>Diferencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Año</strong></td>
+                                <td>2026</td>
+                                <td>2026</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CEL Básico (GWh)</strong></td>
+                                <td>81,947.68</td>
+                                <td>55,960.68</td>
+                                <td style="color: #4caf50; font-weight: 600;">-25,987.00</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CEL Calificado (GWh)</strong></td>
+                                <td>14,697.12</td>
+                                <td>10,036.41</td>
+                                <td style="color: #4caf50; font-weight: 600;">-4,660.71</td>
+                            </tr>
+                            <tr style="background: #f5f5f5;">
+                                <td><strong>TOTAL CEL (GWh)</strong></td>
+                                <td><strong>96,644.80</strong></td>
+                                <td><strong>65,997.09</strong></td>
+                                <td style="color: #4caf50; font-weight: 700; font-size: 1.1em;">-30,647.71</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Ventajas de la Metodología Propuesta:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li>Incorpora restricciones operativas reales del CENACE</li>
+                            <li>Reconoce pérdidas por almacenamiento (prohibición de CEL a baterías)</li>
+                            <li>Protege tarifas mediante Factor de Justicia Energética</li>
+                            <li>100% apegado a LSE 2025 (Artículo 143)</li>
+                            <li>Reduce riesgo de impacto inflacionario en usuarios finales</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: FACTORES -->
+            <div id="factores" class="tab-content">
+                <div class="card">
+                    <h3>⚙️ Factor de Confiabilidad (Fconf)</h3>
+                    
+                    <div class="info-box">
+                        <strong>Definición Legal (Art. 3-IX LSE):</strong> Capacidad del Sistema Eléctrico Nacional para satisfacer la demanda bajo criterios de suficiencia, seguridad de despacho, continuidad, accesibilidad, calidad y sostenibilidad.
+                    </div>
+
+                    <p style="margin: 20px 0; line-height: 1.8;">
+                        <strong>Lógica Operativa:</strong> El CENACE puede limitar inyecciones para preservar la seguridad de la red. No toda la energía neta proyectada se convierte en inyección real.
+                    </p>
+
+                    <div class="grid">
+                        <div class="card" style="background: #fff9c4; border-left-color: #fbc02d;">
+                            <h4 style="color: #f57f17;">☀️ Factor Intermitente</h4>
+                            <div style="font-size: 2em; font-weight: 700; color: #f57f17; margin: 15px 0;">0.80</div>
+                            <p><strong>Aplica a:</strong> Solar y Eólica</p>
+                            <p style="margin-top: 10px;"><strong>Razón:</strong> Recortes por congestión, falta de inercia, variabilidad</p>
+                        </div>
+
+                        <div class="card" style="background: #e0f2f1; border-left-color: #009688;">
+                            <h4 style="color: #00695c;">💧 Factor Firme</h4>
+                            <div style="font-size: 2em; font-weight: 700; color: #00695c; margin: 15px 0;">0.90</div>
+                            <p><strong>Aplica a:</strong> Hidro, Nuclear, Geotérmica, Biomasa</p>
+                            <p style="margin-top: 10px;"><strong>Razón:</strong> Reserva operativa y servicios conexos</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>📌 Importante:</strong> La Energía Neta es lo que la planta puede inyectar; la Confiabilidad es lo que la red le permite inyectar.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔋 Factor de Pérdidas por Almacenamiento (Pal)</h3>
+                    
+                    <div class="warning-box">
+                        <strong>⚖️ Fundamento Legal (Art. 195 RLSE):</strong> Los sistemas de almacenamiento NO pueden recibir CEL, ya que no generan energía, solo la desplazan.
+                    </div>
+
+                    <p style="margin: 20px 0; line-height: 1.8;">
+                        <strong>Justificación Técnica:</strong> Si una batería recibe 100 MWh y devuelve 85 MWh por eficiencia, los 15 MWh perdidos no pueden generar CEL. Sin descontar Pal, se exigirían CEL sobre "energía fantasma".
+                    </p>
+
+                    <div class="card" style="background: #f3e5f5; border-left-color: #9c27b0;">
+                        <h4 style="color: #6a1b9a;">📊 Cálculo de Referencia 2026</h4>
+                        <div style="margin: 15px 0; line-height: 2;">
+                            <p><strong>Capacidad proyectada de baterías:</strong> 166 MW</p>
+                            <p><strong>Duración de almacenamiento:</strong> 4 horas</p>
+                            <p><strong>Energía diaria ciclada:</strong> 166 × 4 = 664 MWh/día</p>
+                            <p><strong>Energía anual ciclada:</strong> 664 × 365 = 242,360 MWh = 242.36 GWh</p>
+                            <p><strong>Pérdida asumida (15%):</strong> 242.36 × 0.15 = <span style="color: #9c27b0; font-weight: 700;">36.35 GWh</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚖️ Factor de Justicia Energética (Fje)</h3>
+                    
+                    <div class="info-box">
+                        <strong>Fundamento Normativo:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li><strong>Art. 3-XXVIII LSE:</strong> Define Justicia Energética vinculada al acceso asequible</li>
+                            <li><strong>Art. 118 RLSE:</strong> El diseño tarifario debe considerar Justicia Energética</li>
+                            <li><strong>Arts. 2 y 4 LSE:</strong> Suministro Básico al menor precio posible, sin lucro</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 30px 0;">
+                        <h4 style="color: #8b1538; margin-bottom: 15px;">💰 Impacto Económico del Fje = 0.80</h4>
+                        <div class="grid">
+                            <div class="card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">
+                                <strong>1. Menor Volumen Obligatorio</strong>
+                                <p style="margin-top: 10px;">↓ Meta exigible de CEL</p>
+                            </div>
+                            <div class="card" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); color: white;">
+                                <strong>2. Presión a la Baja en Precio</strong>
+                                <p style="margin-top: 10px;">↓ Riesgo de escasez</p>
+                            </div>
+                            <div class="card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                                <strong>3. Contención Tarifaria</strong>
+                                <p style="margin-top: 10px;">↓ Traslado a usuarios finales</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>✅ Conclusión:</strong> El Factor de Justicia Energética reduce la carga financiera y permite que la transición energética ocurra sin inflación eléctrica regresiva, cumpliendo el mandato de asequibilidad de la LSE.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: NORMATIVA -->
+            <div id="normativa" class="tab-content">
+                <div class="card">
+                    <h3>📜 Marco Normativo</h3>
+                    
+                    <div class="card" style="background: #e8eaf6; border-left-color: #3f51b5;">
+                        <h4 style="color: #1a237e;">⚖️ Ley del Sector Eléctrico (LSE) 2025</h4>
+                        
+                        <div style="margin: 20px 0;">
+                            <p style="font-weight: 600; color: #3f51b5; margin-bottom: 10px;">Artículo 143 - Requisitos de CEL:</p>
+                            <p style="background: white; padding: 15px; border-radius: 8px; line-height: 1.8;">
+                                "Los requisitos para adquirir Certificados de Energías Limpias se deben establecer como una proporción del total de la Energía Eléctrica consumida [...] <strong>de acuerdo con la planeación vinculante y la Confiabilidad del Sistema Eléctrico Nacional</strong>."
+                            </p>
+                        </div>
+
+                        <div style="margin: 20px 0;">
+                            <p style="font-weight: 600; color: #3f51b5; margin-bottom: 10px;">Artículo 3 - Definiciones Clave:</p>
+                            <ul style="background: white; padding: 15px; border-radius: 8px; line-height: 1.8;">
+                                <li><strong>Fracción IX - Confiabilidad:</strong> Capacidad del SEN para satisfacer demanda bajo criterios de suficiencia, seguridad, continuidad y sostenibilidad</li>
+                                <li><strong>Fracción XXVIII - Justicia Energética:</strong> Vinculada al acceso asequible de energía</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin: 20px 0;">
+                            <p style="font-weight: 600; color: #3f51b5; margin-bottom: 10px;">Artículos 2 y 4 - Principios del Suministro:</p>
+                            <p style="background: white; padding: 15px; border-radius: 8px; line-height: 1.8;">
+                                El Suministro Básico debe proveerse <strong>al menor precio posible y evitando lucro</strong>, garantizando asequibilidad.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background: #fce4ec; border-left-color: #e91e63;">
+                        <h4 style="color: #880e4f;">📋 Reglamento de la LSE (RLSE)</h4>
+                        
+                        <div style="margin: 20px 0;">
+                            <p style="font-weight: 600; color: #e91e63; margin-bottom: 10px;">Artículo 195 - Prohibición de CEL a Almacenamiento:</p>
+                            <p style="background: white; padding: 15px; border-radius: 8px; line-height: 1.8;">
+                                "Los sistemas de almacenamiento <strong>no pueden recibir CEL</strong>, ya que la acreditación surge por generación y consumo de energía, no por almacenamiento."
+                            </p>
+                        </div>
+
+                        <div style="margin: 20px 0;">
+                            <p style="font-weight: 600; color: #e91e63; margin-bottom: 10px;">Artículo 118 - Diseño Tarifario:</p>
+                            <p style="background: white; padding: 15px; border-radius: 8px; line-height: 1.8;">
+                                El diseño tarifario <strong>debe considerar explícitamente Justicia Energética</strong> para garantizar acceso asequible.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background: #e0f7fa; border-left-color: #00bcd4;">
+                        <h4 style="color: #006064;">🏛️ Bases del Mercado Eléctrico</h4>
+                        
+                        <div style="margin: 20px 0;">
+                            <p style="font-weight: 600; color: #00bcd4; margin-bottom: 10px;">Facultades del CENACE:</p>
+                            <p style="background: white; padding: 15px; border-radius: 8px; line-height: 1.8;">
+                                Las Bases del Mercado facultan al CENACE a <strong>emitir instrucciones distintas al despacho económico</strong> para preservar la Confiabilidad del SEN.
+                            </p>
+                            <p style="background: white; padding: 15px; border-radius: 8px; line-height: 1.8; margin-top: 15px;">
+                                Cuando una central limpia genera <strong>en violación de instrucciones de despacho</strong>, no procede el otorgamiento de CEL para esa energía.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Implicación Legal:</strong>
+                        <p style="margin-top: 10px; line-height: 1.8;">
+                            Si el requisito de CEL no toma en cuenta la Confiabilidad, las pérdidas por almacenamiento, ni la Justicia Energética, <strong>el acuerdo que publique la SENER podría ser inconsistente con el Artículo 143 de la LSE 2025</strong>.
+                        </p>
+                    </div>
+
+                    <div class="info-box">
+                        <strong>✅ Consistencia Normativa de la Propuesta:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li>✓ Cumple Art. 143 LSE: incorpora Confiabilidad y Planeación Vinculante</li>
+                            <li>✓ Respeta Art. 195 RLSE: excluye energía de almacenamiento</li>
+                            <li>✓ Aplica Art. 3-XXVIII y 118 RLSE: protege asequibilidad vía Justicia Energética</li>
+                            <li>✓ Alineado con Arts. 2 y 4 LSE: minimiza impacto tarifario en Suministro Básico</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Secretaría de Energía (SENER)</strong></p>
+            <p>Dirección General de Transición Energética</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Gobierno de México | 2026</p>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Ocultar todos los contenidos
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Desactivar todos los tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Activar el tab seleccionado
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function calcular() {
+            // Obtener valores de entrada
+            const consumoTotal = parseFloat(document.getElementById('consumoTotal').value);
+            const consumoExento = parseFloat(document.getElementById('consumoExento').value);
+            const genLimpia = parseFloat(document.getElementById('genLimpia').value);
+            const gld = parseFloat(document.getElementById('gld').value);
+            const ofertaInt = parseFloat(document.getElementById('ofertaIntermitente').value);
+            const ofertaFirme = parseFloat(document.getElementById('ofertaFirme').value);
+            const fconfInt = parseFloat(document.getElementById('fconfInt').value);
+            const fconfFirme = parseFloat(document.getElementById('fconfFirme').value);
+            const pal = parseFloat(document.getElementById('pal').value);
+            const fje = parseFloat(document.getElementById('fje').value);
+
+            // Cálculos según metodología propuesta
+            
+            // 1. Demanda Obligada
+            const demandaObligada = consumoTotal - consumoExento;
+
+            // 2. Oferta Ajustada por Confiabilidad
+            const ofertaAjustada = (ofertaInt * fconfInt) + (ofertaFirme * fconfFirme);
+
+            // 3. Oferta Neta Despachable
+            const ofertaNeta = ofertaAjustada - pal;
+
+            // 4. Requisito Técnico
+            const requisitoTecnico = (ofertaNeta / demandaObligada) * 100;
+
+            // 5. Requisito Final con Justicia Energética
+            const requisitoFinal = requisitoTecnico * fje;
+
+            // 6. Cálculo de CEL requeridos
+            const celBasico = (demandaObligada * 0.8) * (requisitoFinal / 100);
+            const celCalificado = (demandaObligada * 0.2) * (requisitoFinal / 100);
+            const celTotal = celBasico + celCalificado;
+
+            // Mostrar resultados
+            document.getElementById('demandaObligada').textContent = demandaObligada.toFixed(2) + ' GWh';
+            document.getElementById('ofertaAjustada').textContent = ofertaAjustada.toFixed(2) + ' GWh';
+            document.getElementById('ofertaNeta').textContent = ofertaNeta.toFixed(2) + ' GWh';
+            document.getElementById('requisitoTecnico').textContent = requisitoTecnico.toFixed(2) + ' %';
+            document.getElementById('requisitoFinal').textContent = requisitoFinal.toFixed(2) + ' %';
+            document.getElementById('celBasico').textContent = celBasico.toFixed(2) + ' GWh';
+            document.getElementById('celCalificado').textContent = celCalificado.toFixed(2) + ' GWh';
+            document.getElementById('celTotal').textContent = celTotal.toFixed(2) + ' GWh';
+
+            // Actualizar barra de progreso
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = requisitoFinal.toFixed(2) + '%';
+            progressBar.textContent = requisitoFinal.toFixed(2) + '%';
+
+            // Mostrar sección de resultados
+            document.getElementById('resultados').style.display = 'block';
+
+            // Scroll suave a resultados
+            document.getElementById('resultados').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Calcular automáticamente al cargar la página
+        window.addEventListener('load', function() {
+            calcular();
+        });
+    </script>
+</body>
+</html>
+```

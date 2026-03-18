@@ -931,3 +931,79 @@ footer .footer-sep {
     margin: var(--space-3) auto;
     border-radius: 2px;
 }
+
+
+/* ================================================================
+   REDESIGN GLOBAL — Editorial + Glass (2025)
+   Override al final para no romper estilos existentes.
+   ================================================================ */
+
+/* Fondo global cálido con textura institucional sutil */
+body {
+    background-color: #F7F6F3;
+    background-image:
+        radial-gradient(circle at 12% 18%, rgba(155, 34, 71, 0.04) 0%, transparent 42%),
+        radial-gradient(circle at 88% 72%, rgba(30, 91, 79, 0.03) 0%, transparent 40%);
+}
+
+/* Nav: dropdown links con radio */
+.nav-dropdown-link {
+    border-radius: 6px;
+}
+
+/* Cards (index.html y páginas de contenido) */
+.card {
+    border-radius: 16px;
+    box-shadow: 0 20px 50px -12px rgba(107, 15, 26, 0.06), 0 8px 12px -4px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(228, 224, 218, 0.6);
+    transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 28px 60px -12px rgba(107, 15, 26, 0.10), 0 14px 20px -6px rgba(0, 0, 0, 0.04);
+}
+
+/* Page header */
+.page-header {
+    border-radius: 12px;
+    box-shadow: 0 20px 50px -12px rgba(107, 15, 26, 0.06), 0 8px 12px -4px rgba(0, 0, 0, 0.02);
+}
+
+/* Report capture */
+.report-capture-area {
+    border-radius: 16px;
+}
+
+/* Method steps globales */
+.method-step {
+    border-radius: 14px;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.method-step:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -4px rgba(107, 15, 26, 0.08);
+}
+
+/* Control selects */
+.control-select {
+    border-radius: 10px;
+}
+
+/* Sankey stats globales (páginas sin pilot-redesign) */
+.cel-sankey-stat {
+    transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.cel-sankey-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -6px rgba(107, 15, 26, 0.08);
+}
+
+/* Buttons */
+.btn-export-full,
+.btn-download,
+.btn-nav {
+    border-radius: 10px;
+}

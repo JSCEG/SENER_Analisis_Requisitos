@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sener-guinda: #9B2247;
+  --color-sener-guinda-dark: #7A1B38;
+  --color-sener-verde: #1E5B4F;
+  --color-sener-dorado: #A57F2C;
+  --color-sener-niebla: #F5F1EC;
+  --color-sener-tinta: #243746;
+
+  --font-heading: "Merriweather", "Georgia", serif;
+  --font-body: "Noto Sans", "Segoe UI", sans-serif;
+
+  --shadow-soft: 0 20px 45px rgba(36, 55, 70, 0.10);
+  --shadow-panel: 0 20px 60px rgba(36, 55, 70, 0.14);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+  }
+}
+
+@layer components {
+  .shell-card {
+    @apply rounded-[28px] border border-white/70 bg-white/90 shadow-[0_20px_45px_rgba(36,55,70,0.10)] backdrop-blur;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-[#9B2247]/10 bg-[#9B2247]/5 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-[#9B2247];
+  }
+}

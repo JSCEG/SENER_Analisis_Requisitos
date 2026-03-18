@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankey CEL históricos otorgados | SENER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/pages-common.css">
+    <link rel="stylesheet" href="css/cel-sankey.css">
+    <link rel="stylesheet" href="css/sankey-pilot-redesign.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        header { background-color:white; border-bottom:4px solid var(--color-gobmx-dorado); padding:20px 0; box-shadow:0 2px 5px rgba(0,0,0,.05); display:block; }
+        .header-content { display:flex; justify-content:space-between; align-items:center; max-width:1600px; margin:0 auto; padding:0 12px; gap:24px; }
+        .header-text h1 { color:var(--color-gobmx-guinda); margin-bottom:8px; }
+        .header-text p { color:var(--color-text-secondary); margin-bottom:0; max-width:900px; }
+        .page-main { max-width:1600px; margin:0 auto; padding:20px 10px 48px; }
+        .page-breadcrumb { display:inline-flex; align-items:center; gap:8px; color:var(--color-gobmx-verde); font-size:.9rem; font-weight:700; margin-bottom:18px; }
+        .method-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:22px; }
+        .method-step { background:white; border-radius:14px; padding:16px; border:1px solid rgba(152,152,154,.18); box-shadow:var(--shadow-xs); }
+        .method-step strong { display:block; color:var(--color-gobmx-guinda); margin-bottom:6px; }
+        footer { background-color:#333; color:white; text-align:center; padding:30px 20px; margin-top:auto; }
+        @media (max-width:768px){ .header-content{ flex-direction:column; text-align:center; } }
+    </style>
+</head>
+<body class="cel-pilot-body">
+    <nav class="site-nav">
+        <div class="nav-brand"><a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center;"><span style="font-size: 1.2rem; margin-right: 5px;"><i class="bi bi-bar-chart-fill"></i></span> SENER | CELs</a></div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a></li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a></li>
+                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación Requisitos</a></li>
+                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo Mecanismo 2026</a></li>
+                    <li><a href="presentacion_ejecutiva_cel.html" class="nav-dropdown-link">9. Presentación Ejecutiva CEL</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle active">Otorgamiento CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="presentacion_otorgamiento_cel.html" class="nav-dropdown-link">Presentación Otorgamiento</a></li>
+                    <li><a href="sankey_otorgamiento_cel.html" class="nav-dropdown-link">Sankey Energía vs CEL otorgados</a></li>
+                    <li><a href="sankey_cel_historicos.html" class="nav-dropdown-link">Sankey CEL históricos otorgados</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+            <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-text">
+                <div class="page-breadcrumb"><i class="bi bi-clock-history"></i> Otorgamiento CEL / Históricos</div>
+                <h1>Sankey CEL <span class="cel-h1-accent">históricos otorgados</span></h1>
+                <p>Visualización histórica de CEL otorgados por propietario, tecnología y mes, con detalle por permisionario, vigencia activa por mes y piso aplicado. La clasificación Estado/Privado se construye a partir de la razón social: si contiene CFE se clasifica como Estado; en otro caso, Privado.</p>
+            </div>
+            <div class="header-logos"><img src="img/logo_sener.png" alt="SENER" style="height:72px;"></div>
+        </div>
+    </header>
+
+    <main class="page-main cel-pilot-main">
+        <section class="cel-sankey-hero">
+            <h2 style="margin-bottom:10px;">Lógica del flujo histórico</h2>
+            <div class="method-grid">
+                <div class="method-step"><strong>1. CEL históricos</strong> Consolidado mensual de CEL por permisionario y año.</div>
+                <div class="method-step"><strong>2. Estado / Privado</strong> Clasificación derivada de la razón social: CFE = Estado.</div>
+                <div class="method-step"><strong>3. Tecnología</strong> Agrupación por tipo de tecnología declarada en el padrón.</div>
+                <div class="method-step"><strong>4. Mes</strong> Distribución mensual de CEL históricos otorgados.</div>
+                <div class="method-step"><strong>5. Modal de detalle</strong> Sub-Sankey y registros mensuales por permiso, piso y vigencia.</div>
+            </div>
+        </section>
+
+        <section class="cel-pilot-toolbar">
+            <div class="cel-sankey-control-grid">
+                <div class="cel-sankey-field">
+                    <label for="celh-year" class="cel-sankey-label">Año</label>
+                    <select id="celh-year" class="cel-sankey-select"></select>
+                </div>
+                <div class="cel-sankey-field">
+                    <label for="celh-owner" class="cel-sankey-label">Propietario</label>
+                    <select id="celh-owner" class="cel-sankey-select">
+                        <option value="Todos">Todos</option>
+                        <option value="Estado">Estado</option>
+                        <option value="Privado">Privado</option>
+                    </select>
+                </div>
+                <div class="cel-sankey-field">
+                    <label for="celh-razon-social" class="cel-sankey-label">Razón social</label>
+                    <select id="celh-razon-social" class="cel-sankey-select">
+                        <option value="Todos">Todas</option>
+                    </select>
+                </div>
+                <div class="cel-sankey-field">
+                    <label for="celh-search" class="cel-sankey-label">Buscar</label>
+                    <input id="celh-search" class="cel-sankey-input" type="text" placeholder="Permiso, razón social o tecnología...">
+                </div>
+                <div class="cel-sankey-field">
+                    <label class="cel-sankey-label">Solo activos</label>
+                    <label class="cel-sankey-toggle">
+                        <input id="celh-active-toggle" type="checkbox">
+                        <span class="cel-sankey-toggle-ui"></span>
+                        <span class="cel-sankey-toggle-copy">Mes dentro de vigencia activa</span>
+                    </label>
+                </div>
+                <div class="cel-sankey-field">
+                    <label class="cel-sankey-label">Piso aplicado</label>
+                    <label class="cel-sankey-toggle">
+                        <input id="celh-piso-toggle" type="checkbox">
+                        <span class="cel-sankey-toggle-ui"></span>
+                        <span class="cel-sankey-toggle-copy">Mostrar solo meses con piso &gt; 0</span>
+                    </label>
+                </div>
+                <div class="cel-sankey-actions">
+                    <button id="celh-reset" class="cel-sankey-btn secondary" type="button">Restaurar filtros</button>
+                    <button id="celh-export-png" class="cel-sankey-btn primary" type="button">Exportar PNG</button>
+                    <button id="celh-export-csv" class="cel-sankey-btn secondary" type="button">Exportar CSV</button>
+                </div>
+            </div>
+            <div class="cel-sankey-inline-note"><span class="cel-sankey-inline-note-badge">Detalle interactivo</span><span>Haz click en cualquier nodo para abrir el sub-Sankey histórico, revisar entradas y salidas y ver los registros mensuales de permisos.</span></div>
+            <div id="celh-tech-filters" class="cel-sankey-techbar"></div>
+        </section>
+
+        <div class="cel-pilot-kpis">
+            <section class="cel-sankey-summary">
+                <article class="cel-sankey-stat">
+                    <div class="cel-stat-head">
+                        <div class="cel-stat-icon"><i class="bi bi-award-fill"></i></div>
+                        <div class="cel-stat-badge">
+                            <span class="cel-stat-badge-label">Histórico</span>
+                            <span class="cel-stat-badge-unit">CEL</span>
+                        </div>
+                    </div>
+                    <span class="cel-sankey-stat-label">CEL visibles</span>
+                    <span id="celh-summary-cel" class="cel-sankey-stat-value">0</span>
+                    <span class="cel-sankey-stat-note">total mensual agregado</span>
+                </article>
+                <article class="cel-sankey-stat">
+                    <div class="cel-stat-head">
+                        <div class="cel-stat-icon"><i class="bi bi-table"></i></div>
+                        <div class="cel-stat-badge">
+                            <span class="cel-stat-badge-label">Registros</span>
+                            <span class="cel-stat-badge-unit">Filas</span>
+                        </div>
+                    </div>
+                    <span class="cel-sankey-stat-label">Filas mensuales</span>
+                    <span id="celh-summary-records" class="cel-sankey-stat-value">0</span>
+                    <span id="celh-summary-note" class="cel-sankey-stat-note">filas visibles</span>
+                </article>
+                <article class="cel-sankey-stat">
+                    <div class="cel-stat-head">
+                        <div class="cel-stat-icon"><i class="bi bi-buildings"></i></div>
+                        <div class="cel-stat-badge">
+                            <span class="cel-stat-badge-label">Únicos</span>
+                            <span class="cel-stat-badge-unit">Cnt</span>
+                        </div>
+                    </div>
+                    <span class="cel-sankey-stat-label">Permisos</span>
+                    <span id="celh-summary-permits" class="cel-sankey-stat-value">0</span>
+                    <span class="cel-sankey-stat-note">permisionarios únicos</span>
+                </article>
+                <article class="cel-sankey-stat">
+                    <div class="cel-stat-head">
+                        <div class="cel-stat-icon"><i class="bi bi-activity"></i></div>
+                        <div class="cel-stat-badge">
+                            <span class="cel-stat-badge-label">Promedio</span>
+                            <span class="cel-stat-badge-unit">ELC</span>
+                        </div>
+                    </div>
+                    <span class="cel-sankey-stat-label">ELC promedio</span>
+                    <span id="celh-summary-elc" class="cel-sankey-stat-value">0</span>
+                    <span class="cel-sankey-stat-note">promedio simple ELC</span>
+                </article>
+            </section>
+        </div>
+
+        <section class="cel-sankey-layout cel-pilot-layout">
+            <article class="cel-sankey-panel">
+                <div class="cel-sankey-panel-header"><h3>Diagrama principal</h3></div>
+                <div class="cel-sankey-panel-body">
+                    <div id="celh-main-export" class="cel-export-surface">
+                        <div id="celh-chart" class="cel-sankey-chart"></div>
+                        <div id="celh-main-legend" class="cel-sankey-legend"></div>
+                    </div>
+                    <p class="cel-sankey-note">El flujo sintetiza CEL históricos desde el universo agregado hacia propietario, tecnología, mes y total otorgado. El detalle fino por permisionario se abre en el modal.</p>
+                </div>
+            </article>
+
+            <aside class="cel-sankey-sidepanel">
+                <div class="cel-sankey-side-header"><h3>Lectura rápida</h3></div>
+                <div class="cel-sankey-side-body">
+                    <div class="cel-sankey-read-grid">
+                        <section class="cel-sankey-read-card">
+                            <div class="cel-sankey-card-title">Contexto activo</div>
+                            <div class="cel-sankey-side-kpi">
+                                <div class="mini">Año activo<strong id="celh-side-year">Todos</strong></div>
+                                <div class="mini">Propietario<strong id="celh-side-owner">Todos</strong></div>
+                                <div class="mini">CEL visibles<strong id="celh-side-cel">0</strong></div>
+                                <div class="mini">Permisos visibles<strong id="celh-side-permits">0</strong></div>
+                            </div>
+                        </section>
+                        <section class="cel-sankey-read-card">
+                            <div class="cel-sankey-card-title">Tecnologías con más CEL</div>
+                            <div class="cel-sankey-table-wrap">
+                                <table class="cel-sankey-ranking"><thead><tr><th>Tecnología</th><th>CEL</th></tr></thead><tbody id="celh-ranking-body"></tbody></table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <div id="celh-detail-modal" class="cel-modal cel-pilot-modal" aria-hidden="true">
+        <div class="cel-modal-backdrop" data-close-modal="true"></div>
+        <div class="cel-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="celh-modal-title">
+            <div class="cel-modal-header">
+                <div>
+                    <h3 id="celh-modal-title" class="cel-node-detail-name">Detalle del nodo</h3>
+                    <p id="celh-modal-summary" class="cel-node-detail-summary">Sub-Sankey y registros asociados.</p>
+                </div>
+                <div class="cel-modal-actions">
+                    <button id="celh-modal-export-png" type="button" class="cel-sankey-btn secondary">Descargar PNG</button>
+                    <button id="celh-modal-close" type="button" class="cel-modal-close" aria-label="Cerrar detalle"><i class="bi bi-x-lg"></i></button>
+                </div>
+            </div>
+            <div class="cel-modal-body">
+                <div class="cel-node-detail-meta">
+                    <div class="mini">Entradas<strong id="celh-detail-inflow">0</strong></div>
+                    <div class="mini">Salidas<strong id="celh-detail-outflow">0</strong></div>
+                </div>
+                <div id="celh-sub-export" class="cel-export-surface">
+                    <div id="celh-subchart" class="cel-subchart"></div>
+                    <div id="celh-sub-legend" class="cel-sankey-legend"></div>
+                </div>
+                <div class="cel-node-flow-grid">
+                    <section class="cel-node-flow-card"><div class="cel-sankey-card-title">Qué entra</div><div class="cel-sankey-table-wrap"><table class="cel-sankey-ranking"><thead><tr><th>Origen</th><th>Valor</th><th>Unidad</th></tr></thead><tbody id="celh-detail-incoming-body"><tr><td colspan="3">Sin selección.</td></tr></tbody></table></div></section>
+                    <section class="cel-node-flow-card"><div class="cel-sankey-card-title">Qué sale</div><div class="cel-sankey-table-wrap"><table class="cel-sankey-ranking"><thead><tr><th>Destino</th><th>Valor</th><th>Unidad</th></tr></thead><tbody id="celh-detail-outgoing-body"><tr><td colspan="3">Sin selección.</td></tr></tbody></table></div></section>
+                </div>
+                <section class="cel-node-flow-card" style="margin-top:18px;">
+                    <div class="cel-sankey-card-title">Registros mensuales asociados</div>
+                    <div class="cel-sankey-table-wrap">
+                        <table class="cel-sankey-ranking"><thead><tr><th>Año</th><th>Mes</th><th>Tecnología</th><th>Owner</th><th>Permiso</th><th>CEL</th><th>Piso</th></tr></thead><tbody id="celh-detail-records-body"><tr><td colspan="7">Sin registros.</td></tr></tbody></table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <footer><div class="container"><p>&copy; 2025 Secretaría de Energía | Subsecretaría de Planeación y Transición Energética</p></div></footer>
+
+    <script src="js/pages-common.js"></script>
+    <script src="js/cel-historicos-data.js"></script>
+    <script src="js/cel-historicos-sankey.js"></script>
+</body>
+</html>

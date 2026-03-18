@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hidrógeno Verde — Benchmarking Internacional para México</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e17;
+  --bg2: #111827;
+  --bg3: #1a2235;
+  --accent: #00e896;
+  --accent2: #00c4ff;
+  --accent3: #ff6b6b;
+  --gold: #fbbf24;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --border: rgba(255,255,255,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+::selection { background:var(--accent); color:var(--bg); }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--bg3); border-radius:3px; }
+
+/* HERO */
+.hero {
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:2rem;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute;
+  width:600px; height:600px;
+  background:radial-gradient(circle, rgba(0,232,150,0.12) 0%, transparent 70%);
+  top:-200px; right:-100px;
+  pointer-events:none;
+}
+.hero::after {
+  content:'';
+  position:absolute;
+  width:500px; height:500px;
+  background:radial-gradient(circle, rgba(0,196,255,0.08) 0%, transparent 70%);
+  bottom:-200px; left:-100px;
+  pointer-events:none;
+}
+.hero-badge {
+  display:inline-block;
+  padding:6px 16px;
+  border:1px solid rgba(0,232,150,0.3);
+  border-radius:999px;
+  font-size:0.75rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:2rem;
+  animation: fadeUp 0.8s ease both;
+}
+.hero h1 {
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.2rem, 5vw, 4.5rem);
+  line-height:1.1;
+  max-width:900px;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero h1 span { color:var(--accent); }
+.hero p {
+  max-width:640px;
+  color:var(--text2);
+  font-size:1.05rem;
+  line-height:1.7;
+  margin-top:1.5rem;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.hero-cta {
+  margin-top:2.5rem;
+  display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
+  animation: fadeUp 0.8s 0.45s ease both;
+}
+.btn {
+  padding:12px 28px;
+  border-radius:8px;
+  font-size:0.9rem;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  transition:all 0.3s;
+  text-decoration:none;
+}
+.btn-primary { background:var(--accent); color:var(--bg); }
+.btn-primary:hover { box-shadow:0 0 30px rgba(0,232,150,0.3); transform:translateY(-2px); }
+.btn-ghost { background:transparent; border:1px solid var(--border); color:var(--text); }
+.btn-ghost:hover { border-color:var(--accent); color:var(--accent); }
+
+.scroll-indicator {
+  position:absolute; bottom:2rem;
+  animation: bounce 2s infinite;
+  color:var(--text2);
+  font-size:0.75rem;
+  letter-spacing:2px;
+}
+
+/* NAV */
+.nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(10,14,23,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  display:flex;
+  overflow-x:auto;
+  gap:0;
+}
+.nav button {
+  padding:14px 20px;
+  background:none; border:none;
+  color:var(--text2);
+  font-size:0.82rem;
+  font-weight:500;
+  cursor:pointer;
+  white-space:nowrap;
+  border-bottom:2px solid transparent;
+  transition:all 0.3s;
+}
+.nav button:hover { color:var(--text); }
+.nav button.active { color:var(--accent); border-bottom-color:var(--accent); }
+
+/* SECTIONS */
+section {
+  display:none;
+  padding:3rem 2rem;
+  max-width:1200px;
+  margin:0 auto;
+  animation:fadeUp 0.5s ease both;
+}
+section.visible { display:block; }
+
+section > h2 {
+  font-family:'DM Serif Display',serif;
+  font-size:2rem;
+  margin-bottom:0.5rem;
+}
+section > .subtitle {
+  color:var(--text2);
+  margin-bottom:2.5rem;
+  font-size:0.95rem;
+  line-height:1.6;
+  max-width:700px;
+}
+
+/* CARDS */
+.card-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));
+  gap:1.25rem;
+  margin-top:1.5rem;
+}
+.card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.5rem;
+  transition:all 0.3s;
+  cursor:default;
+}
+.card:hover {
+  border-color:rgba(0,232,150,0.2);
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.3);
+}
+.card-icon {
+  width:40px; height:40px;
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem;
+  margin-bottom:1rem;
+}
+.card h3 { font-size:1.05rem; font-weight:600; margin-bottom:0.5rem; }
+.card p { font-size:0.85rem; color:var(--text2); line-height:1.6; }
+
+/* COUNTRY EXPLORER */
+.country-tabs {
+  display:flex; flex-wrap:wrap; gap:8px; margin-bottom:2rem;
+}
+.country-tab {
+  padding:8px 16px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  color:var(--text2);
+  font-size:0.8rem;
+  cursor:pointer;
+  transition:all 0.3s;
+  font-weight:500;
+}
+.country-tab:hover { border-color:var(--accent); color:var(--accent); }
+.country-tab.active { background:var(--accent); color:var(--bg); border-color:var(--accent); }
+.country-tab .flag { margin-right:6px; }
+
+.maturity-badge {
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:999px;
+  font-size:0.7rem;
+  font-weight:600;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+.maturity-advanced { background:rgba(0,232,150,0.15); color:var(--accent); }
+.maturity-scaling { background:rgba(0,196,255,0.15); color:var(--accent2); }
+.maturity-emerging { background:rgba(251,191,36,0.15); color:var(--gold); }
+.maturity-early { background:rgba(255,107,107,0.15); color:var(--accent3); }
+
+.country-detail {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5rem;
+}
+@media(max-width:768px) { .country-detail { grid-template-columns:1fr; } .card-grid { grid-template-columns:1fr; } }
+
+.detail-block {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.5rem;
+}
+.detail-block h4 {
+  font-size:0.8rem;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--accent);
+  margin-bottom:1rem;
+}
+.detail-block.full { grid-column: 1 / -1; }
+
+/* RATING BARS */
+.rating-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  font-size:0.85rem;
+}
+.rating-row:last-child { border:none; }
+.rating-label { flex:1; color:var(--text2); }
+.rating-value { font-weight:600; min-width:100px; text-align:right; }
+.rating-high { color:var(--accent); }
+.rating-med { color:var(--gold); }
+.rating-low { color:var(--accent3); }
+
+/* HEATMAP */
+.heatmap-container { overflow-x:auto; margin-top:1rem; }
+.heatmap { border-collapse:collapse; width:100%; min-width:900px; font-size:0.78rem; }
+.heatmap th { padding:10px 8px; text-align:left; font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--text2); border-bottom:1px solid var(--border); white-space:nowrap; }
+.heatmap td { padding:8px; border-bottom:1px solid var(--border); }
+.heatmap tr:hover td { background:rgba(255,255,255,0.02); }
+.heatmap .country-name { font-weight:600; white-space:nowrap; }
+.heat-5 { background:rgba(0,232,150,0.25); color:var(--accent); border-radius:4px; text-align:center; font-weight:600; }
+.heat-4 { background:rgba(0,232,150,0.15); color:#7ae8c0; border-radius:4px; text-align:center; font-weight:600; }
+.heat-3 { background:rgba(251,191,36,0.15); color:var(--gold); border-radius:4px; text-align:center; font-weight:600; }
+.heat-2 { background:rgba(255,107,107,0.1); color:#ffa07a; border-radius:4px; text-align:center; font-weight:600; }
+.heat-1 { background:rgba(255,107,107,0.2); color:var(--accent3); border-radius:4px; text-align:center; font-weight:600; }
+
+/* MEXICO SECTION */
+.mexico-highlight {
+  background: linear-gradient(135deg, rgba(0,232,150,0.05) 0%, rgba(0,196,255,0.05) 100%);
+  border:1px solid rgba(0,232,150,0.15);
+  border-radius:16px;
+  padding:2rem;
+  margin-bottom:2rem;
+}
+.mexico-highlight h3 { font-family:'DM Serif Display',serif; font-size:1.5rem; margin-bottom:1rem; }
+
+.step-list { list-style:none; counter-reset:step; }
+.step-list li {
+  counter-increment:step;
+  padding:1.25rem 1.25rem 1.25rem 4rem;
+  position:relative;
+  border-left:2px solid var(--border);
+  margin-left:1rem;
+  margin-bottom:0;
+}
+.step-list li::before {
+  content: counter(step);
+  position:absolute;
+  left:-15px; top:1.2rem;
+  width:28px; height:28px;
+  background:var(--accent);
+  color:var(--bg);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.75rem;
+  font-weight:700;
+}
+.step-list li:last-child { border-left-color:transparent; }
+.step-list li h4 { font-size:0.95rem; margin-bottom:0.4rem; }
+.step-list li p { font-size:0.83rem; color:var(--text2); line-height:1.6; }
+
+/* PIPELINE */
+.pipeline-table { width:100%; border-collapse:collapse; font-size:0.82rem; margin-top:1rem; }
+.pipeline-table th { padding:10px 12px; text-align:left; font-weight:600; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--text2); border-bottom:2px solid var(--border); }
+.pipeline-table td { padding:10px 12px; border-bottom:1px solid var(--border); }
+.pipeline-table tr:hover td { background:rgba(0,232,150,0.03); }
+.status-concept { color:var(--accent3); }
+.status-feasibility { color:var(--gold); }
+
+/* FINDINGS */
+.finding-card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.75rem;
+  margin-bottom:1rem;
+  border-left:3px solid var(--accent);
+}
+.finding-card.warn { border-left-color:var(--gold); }
+.finding-card.critical { border-left-color:var(--accent3); }
+.finding-card h4 { font-size:1rem; margin-bottom:0.6rem; }
+.finding-card p { font-size:0.85rem; color:var(--text2); line-height:1.65; }
+.finding-tag {
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:4px;
+  font-size:0.68rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  margin-bottom:0.75rem;
+}
+.tag-governance { background:rgba(0,232,150,0.12); color:var(--accent); }
+.tag-regulatory { background:rgba(0,196,255,0.12); color:var(--accent2); }
+.tag-policy { background:rgba(251,191,36,0.12); color:var(--gold); }
+
+/* COMPARISON MATRIX */
+.matrix-wrap { overflow-x:auto; }
+.matrix { border-collapse:collapse; width:100%; min-width:700px; font-size:0.8rem; }
+.matrix th { padding:12px; text-align:center; font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; color:var(--text2); border-bottom:2px solid var(--border); }
+.matrix th:first-child { text-align:left; }
+.matrix td { padding:10px 12px; border-bottom:1px solid var(--border); text-align:center; }
+.matrix td:first-child { text-align:left; font-weight:600; }
+.dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+.dot-green { background:var(--accent); }
+.dot-yellow { background:var(--gold); }
+.dot-red { background:var(--accent3); }
+.dot-gray { background:#4a5568; }
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes bounce {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(8px); }
+}
+
+.tag-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:0.5rem; }
+.info-tag { font-size:0.7rem; padding:2px 8px; border-radius:4px; background:rgba(255,255,255,0.05); color:var(--text2); }
+
+.strength-list { list-style:none; padding:0; }
+.strength-list li { padding:6px 0; font-size:0.85rem; color:var(--text2); line-height:1.5; }
+.strength-list li::before { content:'→ '; color:var(--accent); font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero" id="heroSection">
+  <div class="hero-badge">GCIEP · MEX.TO.NRHP · Deliverable D2</div>
+  <h1>Benchmarking Internacional de <span>Hidrógeno Verde</span></h1>
+  <p>Análisis interactivo del reporte que evalúa 11 países para apoyar a México en el desarrollo de su primera Política Nacional de Hidrógeno Renovable. Explora gobernanza, regulación y palancas de política de cada país.</p>
+  <div class="hero-cta">
+    <button class="btn btn-primary" onclick="showSection('resumen')">Explorar el Análisis</button>
+    <button class="btn btn-ghost" onclick="showSection('mexico')">¿Qué debe hacer México?</button>
+  </div>
+  <div class="scroll-indicator">▼ SCROLL</div>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="mainNav">
+  <button onclick="showSection('resumen')" data-section="resumen">Resumen</button>
+  <button onclick="showSection('barreras')" data-section="barreras">Barreras Globales</button>
+  <button onclick="showSection('paises')" data-section="paises">Países · Fortalezas</button>
+  <button onclick="showSection('gobernanza')" data-section="gobernanza">Gobernanza</button>
+  <button onclick="showSection('regulacion')" data-section="regulacion">Regulación</button>
+  <button onclick="showSection('politicas')" data-section="politicas">Palancas de Política</button>
+  <button onclick="showSection('hallazgos')" data-section="hallazgos">Hallazgos Clave</button>
+  <button onclick="showSection('pipeline')" data-section="pipeline">Pipeline México</button>
+  <button onclick="showSection('mexico')" data-section="mexico">Ruta para México</button>
+</nav>
+
+<!-- RESUMEN -->
+<section id="resumen">
+  <h2>Resumen Ejecutivo</h2>
+  <p class="subtitle">México está en una etapa formativa del hidrógeno verde. Este reporte analiza 11 países para informar el diseño de la primera Política Nacional de Hidrógeno Renovable.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon" style="background:rgba(0,232,150,0.1); color:var(--accent);">🏛️</div>
+      <h3>Dimensión 1: Gobernanza</h3>
+      <p>Estructuras de liderazgo, coordinación interinstitucional, anclaje estratégico, monitoreo y participación de actores. La gobernanza madura es el mayor diferenciador entre mercados piloto y en escalamiento.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(0,196,255,0.1); color:var(--accent2);">⚖️</div>
+      <h3>Dimensión 2: Marco Legal y Regulatorio</h3>
+      <p>Definiciones, permisos, certificación y brechas regulatorias. La certeza regulatoria evoluciona incrementalmente — incluso mercados avanzados tienen brechas existentes.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(251,191,36,0.1); color:var(--gold);">🔧</div>
+      <h3>Dimensión 3: Palancas de Política</h3>
+      <p>Incentivos fiscales, financiamiento público, mecanismos de ingresos, estándares y habilitadores de infraestructura. La secuenciación importa más que cualquier instrumento individual.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(255,107,107,0.1); color:var(--accent3);">🌎</div>
+      <h3>11 Países Evaluados</h3>
+      <p><strong>Avanzados:</strong> Alemania, Países Bajos, Reino Unido · <strong>Medios:</strong> Japón, Australia, Corea del Sur, China · <strong>Emergentes:</strong> India, Chile · <strong>Pares:</strong> Colombia, Perú</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(0,232,150,0.1); color:var(--accent);">💡</div>
+      <h3>Hallazgo Central</h3>
+      <p>La secuenciación y alineación — no un instrumento individual — determina si el desarrollo del hidrógeno avanza de estrategia a inversión bancable. La combinación y orden de las políticas es clave.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:rgba(0,196,255,0.1); color:var(--accent2);">🇲🇽</div>
+      <h3>Contexto México</h3>
+      <p>Fuerte potencial renovable (solar/eólico), base industrial que ya consume hidrógeno (fósil), pero sin legislación dedicada, proyectos en fase de concepto y responsabilidades institucionales dispersas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BARRERAS -->
+<section id="barreras">
+  <h2>Barreras Globales al Hidrógeno Verde</h2>
+  <p class="subtitle">Estas barreras estructurales se observan en todos los mercados, independientemente de recursos o ambición política. Son el punto de referencia para entender las políticas de cada país.</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--accent3);">
+      <h3>💰 Incertidumbre de Ingresos y Riesgo de Demanda</h3>
+      <p>El hidrógeno verde es materialmente más caro que alternativas fósiles. Sin ingresos predecibles a largo plazo o compras comprometidas, los proyectos enfrentan alto riesgo de mercado, limitando la bancabilidad y el acceso a financiamiento de proyecto.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--gold);">
+      <h3>📋 Incertidumbre Regulatoria y Estándares en Evolución</h3>
+      <p>En muchas jurisdicciones, las definiciones, sistemas de certificación y permisos específicos para hidrógeno están ausentes o en evolución. Esto genera incertidumbre regulatoria para desarrolladores y financiadores.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent2);">
+      <h3>🏭 Altos Costos de Producción e Intensidad de Capital</h3>
+      <p>La producción requiere inversión sustancial en electrolizadores, generación renovable e infraestructura. Los costos de producción típicamente exceden los del hidrógeno convencional por un margen significativo.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h3>🔌 Brechas de Infraestructura e Integración al Sistema</h3>
+      <p>El despliegue depende de infraestructura dedicada. En mercados tempranos, la ausencia de infraestructura compartida obliga a soluciones específicas por proyecto, aumentando costos y riesgo de ejecución.</p>
+    </div>
+    <div class="card" style="border-left:3px solid #c084fc;">
+      <h3>🤝 Desafíos de Coordinación y Ejecución</h3>
+      <p>La cadena de valor involucra múltiples actores (energía, industria, ambiente, agua, transporte, comercio). Cuando los roles institucionales son difusos, la toma de decisiones se retrasa y los permisos se fragmentan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAÍSES -->
+<section id="paises">
+  <h2>Fortalezas por País</h2>
+  <p class="subtitle">Selecciona un país para ver sus fortalezas, modelo de gobernanza, madurez regulatoria y lecciones relevantes para México.</p>
+
+  <div class="country-tabs" id="countryTabs"></div>
+  <div id="countryContent"></div>
+</section>
+
+<!-- GOBERNANZA -->
+<section id="gobernanza">
+  <h2>Comparativa de Gobernanza</h2>
+  <p class="subtitle">Cómo se comparan los arreglos institucionales de los 11 países en las 7 subdimensiones de gobernanza evaluadas.</p>
+
+  <div class="heatmap-container">
+    <table class="heatmap" id="govHeatmap"></table>
+  </div>
+</section>
+
+<!-- REGULACIÓN -->
+<section id="regulacion">
+  <h2>Fundamentos Legales y Regulatorios</h2>
+  <p class="subtitle">Evaluación comparativa de marcos regulatorios: definiciones, regulación dedicada, certificación, alineación internacional y brechas.</p>
+
+  <div class="heatmap-container">
+    <table class="heatmap" id="regHeatmap"></table>
+  </div>
+</section>
+
+<!-- POLÍTICAS -->
+<section id="politicas">
+  <h2>Palancas de Política — Heatmap</h2>
+  <p class="subtitle">Las políticas importan menos individualmente y más en cómo se secuencian. Este mapa muestra la madurez relativa de los instrumentos en cada país.</p>
+
+  <div class="heatmap-container">
+    <table class="heatmap" id="policyHeatmap"></table>
+  </div>
+
+  <div style="margin-top:2rem;">
+    <div class="card-grid">
+      <div class="card">
+        <h3>Etapa Temprana</h3>
+        <p><strong>Instrumentos:</strong> Incentivos fiscales, pilotos, financiamiento público.<br><strong>Objetivo:</strong> Habilitar entrada al mercado, aprendizaje y demostración.<br><strong>Países ejemplo:</strong> Colombia, Perú, Chile (temprano).</p>
+      </div>
+      <div class="card">
+        <h3>Etapa de Escalamiento</h3>
+        <p><strong>Instrumentos:</strong> Estabilización de ingresos (CfDs, licitaciones, contratos a largo plazo).<br><strong>Objetivo:</strong> Absorber riesgo de mercado, crear bancabilidad.<br><strong>Países ejemplo:</strong> India, Australia, Corea del Sur.</p>
+      </div>
+      <div class="card">
+        <h3>Etapa Avanzada</h3>
+        <p><strong>Instrumentos:</strong> Inversiones coordinadas en infraestructura, integración al sistema.<br><strong>Objetivo:</strong> Orquestación del sistema, eficiencia.<br><strong>Países ejemplo:</strong> Alemania, Países Bajos, Reino Unido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HALLAZGOS -->
+<section id="hallazgos">
+  <h2>Hallazgos Clave del Reporte</h2>
+  <p class="subtitle">Las conclusiones más importantes del benchmarking internacional, organizadas por dimensión de análisis.</p>
+
+  <div class="finding-card">
+    <span class="finding-tag tag-governance">Gobernanza</span>
+    <h4>La gobernanza madura es el mayor diferenciador</h4>
+    <p>Los países que avanzan más allá de pilotos anclan el hidrógeno en estrategias nacionales vinculantes, aseguran liderazgo institucional claro, mantienen coordinación formal interagencial y coherencia de políticas. Mercados maduros (Alemania, UK) integran el hidrógeno de forma transversal en energía, clima e industria. Mercados tempranos (Perú, Colombia) dependen de mandatos fragmentados y coordinación informal.</p>
+  </div>
+  <div class="finding-card">
+    <span class="finding-tag tag-governance">Gobernanza</span>
+    <h4>Liderazgo híbrido energía-industria domina en mercados en escalamiento</h4>
+    <p>Los sistemas maduros combinan autoridades de energía e industria (Alemania, Japón). Los mercados tempranos dependen de liderazgo exclusivo de energía (Perú, Colombia). La colaboración entre ministerios de energía e industria es fundamental.</p>
+  </div>
+  <div class="finding-card warn">
+    <span class="finding-tag tag-regulatory">Regulación</span>
+    <h4>La certeza regulatoria evoluciona de forma incremental, no de golpe</h4>
+    <p>Incluso mercados avanzados muestran brechas. En etapas tempranas, lo más crítico es resolver regulaciones que reducen el riesgo del inversionista. La mayoría de países comienzan adaptando leyes existentes de energía y ambiente antes de desarrollar regulación específica de hidrógeno. La regulación dedicada aparece solo en etapas posteriores (ej: Corea del Sur).</p>
+  </div>
+  <div class="finding-card warn">
+    <span class="finding-tag tag-regulatory">Regulación</span>
+    <h4>Las definiciones claras anclan los mercados antes de profundizar la regulación</h4>
+    <p>Los países primero definen umbrales de emisiones, reglas de abastecimiento eléctrico y métodos contables, luego los aplican a esquemas de apoyo y marcos de certificación.</p>
+  </div>
+  <div class="finding-card critical">
+    <span class="finding-tag tag-policy">Política</span>
+    <h4>La secuenciación importa más que cualquier palanca individual</h4>
+    <p>Ningún instrumento individual explica el éxito. Los resultados dependen de cómo se secuencian las palancas: fiscal/pilotos → estabilización de ingresos → infraestructura coordinada. Los países que no evolucionan más allá de instrumentos aislados se estancan.</p>
+  </div>
+  <div class="finding-card critical">
+    <span class="finding-tag tag-policy">Política</span>
+    <h4>Los mecanismos de ingresos separan mercados piloto de mercados en escalamiento</h4>
+    <p>Los países que avanzan más allá de pilotos introducen consistentemente mecanismos de estabilización de ingresos (CfDs, contratos a largo plazo) para cerrar la brecha de costos y habilitar bancabilidad. Los mercados avanzados socializan explícitamente el riesgo de precio y demanda (ej: H2Global de Alemania).</p>
+  </div>
+  <div class="finding-card">
+    <span class="finding-tag tag-policy">Política</span>
+    <h4>La infraestructura se vuelve crítica al escalar</h4>
+    <p>Los países con clusters industriales o ambiciones de exportación priorizan infraestructura compartida (ductos, puertos, hubs). Cuando no se coordina, los costos se inflan y la integración se estanca. Los Países Bajos y Australia lideran este enfoque.</p>
+  </div>
+  <div class="finding-card">
+    <span class="finding-tag tag-policy">Política</span>
+    <h4>El enfoque exclusivo en incentivos de producción es insuficiente</h4>
+    <p>Para asegurar crecimiento sostenible, las medidas del lado de la demanda que garanticen compra son igualmente cruciales. Asegurar demanda a largo plazo reduce riesgos de inversión y fomenta cadenas de valor integrales.</p>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section id="pipeline">
+  <h2>Pipeline de Proyectos en México</h2>
+  <p class="subtitle">Proyectos identificados en bases de datos internacionales (IEA). Todos están en fase de concepto o estudio de factibilidad; ninguno ha alcanzado decisión final de inversión.</p>
+
+  <table class="pipeline-table">
+    <thead>
+      <tr><th>Proyecto</th><th>Estado</th><th>Tecnología</th><th>Producto</th><th>Capacidad (kt H₂/año)</th><th>Ubicación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ikal Solar – DH2</td><td class="status-concept">Concepto</td><td>Electrólisis</td><td>H₂</td><td>413</td><td>Nuevo León</td></tr>
+      <tr><td>ANEM Fase I</td><td class="status-concept">Concepto</td><td>Electrólisis</td><td>H₂</td><td>360</td><td>Sonora</td></tr>
+      <tr><td>ANEM Fase II</td><td class="status-concept">Concepto</td><td>Electrólisis</td><td>H₂</td><td>360</td><td>Sonora</td></tr>
+      <tr><td>Tango Solar Sinaloa</td><td class="status-concept">Concepto</td><td>Electrólisis</td><td>H₂</td><td>140</td><td>Sinaloa</td></tr>
+      <tr><td>DH2 Sinaloa</td><td class="status-concept">Concepto</td><td>Electrólisis</td><td>H₂</td><td>138</td><td>Sinaloa</td></tr>
+      <tr><td>Mexican Green H₂ Hub (F1)</td><td class="status-feasibility">Factibilidad</td><td>PEM</td><td>Amoniaco</td><td>102</td><td>Durango</td></tr>
+      <tr><td>Neptuno Solar</td><td class="status-concept">Concepto</td><td>Electrólisis</td><td>H₂</td><td>61</td><td>San Luis Potosí</td></tr>
+      <tr><td>Dhamma Energy Guanajuato</td><td class="status-concept">Concepto</td><td>Electrólisis</td><td>H₂</td><td>42</td><td>Guanajuato</td></tr>
+      <tr><td>Hy2gen Yucatán (1)</td><td class="status-concept">Concepto</td><td>Alcalina</td><td>Amoniaco</td><td>27.1</td><td>Yucatán</td></tr>
+      <tr><td>Delicias Solar</td><td class="status-feasibility">Factibilidad</td><td>Electrólisis</td><td>H₂</td><td>6.1</td><td>Guanajuato</td></tr>
+      <tr><td>Hy2gen Yucatán (2)</td><td class="status-concept">Concepto</td><td>PEM</td><td>Amoniaco</td><td>6</td><td>Yucatán</td></tr>
+      <tr><td>Energía Los Cabos</td><td class="status-feasibility">Factibilidad</td><td>PEM</td><td>H₂</td><td>5</td><td>Los Cabos</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:2rem;" class="card-grid">
+    <div class="card" style="border-left:3px solid var(--gold);">
+      <h3>⚠️ Señal Importante</h3>
+      <p>La mayoría de proyectos son expresiones de intención estratégica, no proyectos con pipeline bancable. La falta de avance hacia ejecución sugiere que condiciones habilitantes clave (certeza de ingresos, claridad regulatoria, infraestructura coordinada y alineación institucional) aún no están en su lugar.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h3>📊 Demanda Industrial Existente</h3>
+      <p>México ya consume hidrógeno en refinación, químicos, minería, metales y fertilizantes (todo fósil). Análisis sectoriales estiman un potencial de sustitución piloto de más de 390,000 toneladas de H₂/año. Estos sectores son los puntos de entrada naturales para el hidrógeno verde.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MEXICO -->
+<section id="mexico">
+  <h2>¿Qué Debería Hacer México?</h2>
+  <p class="subtitle">Basado en la experiencia internacional y el análisis del reporte, estas son las áreas de acción derivadas del benchmarking para que México avance de una etapa formativa hacia un mercado funcional de hidrógeno verde.</p>
+
+  <div class="mexico-highlight">
+    <h3>🇲🇽 Contexto Actual de México</h3>
+    <p style="color:var(--text2); line-height:1.7; font-size:0.9rem;">México no tiene legislación específica de hidrógeno. Los Lineamientos de Hidrógeno de 2024 (SENER) son un primer paso. Las responsabilidades están dispersas entre SENER, SEMARNAT, CONAGUA, ASEA, CRE, CENACE y autoridades locales. Todos los proyectos están en fase de concepto o factibilidad. La base industrial ya consume hidrógeno fósil, lo que genera puntos de entrada naturales. El potencial renovable (solar/eólico) es una ventaja estructural reconocida internacionalmente.</p>
+  </div>
+
+  <h3 style="font-family:'DM Serif Display',serif; font-size:1.3rem; margin-bottom:1.5rem;">Ruta de Acción Basada en la Experiencia Internacional</h3>
+
+  <ol class="step-list">
+    <li>
+      <h4>Anclar el hidrógeno en una estrategia nacional vinculante</h4>
+      <p>La lección #1 del benchmarking: todos los mercados exitosos comenzaron con una estrategia formal. Convertir los Lineamientos de 2024 en una Política Nacional con objetivos claros, responsabilidades y calendarios. Integrar hidrógeno en política energética, climática e industrial (NDC 3.0, PRODESEN). <strong>Referencia:</strong> Alemania con su Estrategia Nacional como ancla institucional; UK integrando hidrógeno en Net Zero y clusters industriales.</p>
+    </li>
+    <li>
+      <h4>Establecer liderazgo institucional claro y coordinación formal</h4>
+      <p>Designar a SENER como líder claro pero crear mecanismo formal de coordinación interministerial (SENER + SE + SEMARNAT + CONAGUA + ASEA + CRE + CENACE). Los mercados exitosos usan coordinación híbrida energía-industria, no solo energía. <strong>Referencia:</strong> Alemania (BMWK liderazgo dual energía-industria); UK (DESNZ + Ofgem + LCCC con roles claros).</p>
+    </li>
+    <li>
+      <h4>Establecer definiciones y criterios operativos de "hidrógeno verde"</h4>
+      <p>La experiencia muestra que definiciones claras son lo primero en secuencia regulatoria. Definir umbrales de emisiones, reglas de origen eléctrico y métodos contables. Esto reduce incertidumbre para inversionistas antes de regulación más compleja. <strong>Referencia:</strong> EU con criterios RFNBO; India con definiciones en su Misión Nacional.</p>
+    </li>
+    <li>
+      <h4>Adaptar marco legal existente antes de crear ley dedicada</h4>
+      <p>La mayoría de países NO comienzan con una ley específica de hidrógeno. México puede adaptar la Ley de Hidrocarburos, Ley de la Industria Eléctrica y Ley de Cambio Climático, agregando provisiones de hidrógeno incrementalmente. La regulación dedicada llega después (solo Corea del Sur lo hizo temprano). <strong>Referencia:</strong> Países Bajos y Alemania usan regulación embebida con guías secundarias.</p>
+    </li>
+    <li>
+      <h4>Comenzar con incentivos fiscales y financiamiento público para pilotos</h4>
+      <p>Los instrumentos de etapa temprana son fiscales: reducciones de impuestos, co-financiamiento de CAPEX para electrolizadores y pilotos. Estos habilitan aprendizaje pero NO escalan solos. Son herramientas de entrada, no de escala. <strong>Referencia:</strong> Chile (incentivos renovables generales); Australia (ARENA con fondos para hubs y pilotos).</p>
+    </li>
+    <li>
+      <h4>Desarrollar mecanismos de estabilización de ingresos para escalar</h4>
+      <p>Esta es la barrera clave que separa pilotos de escalamiento. Sin certeza de ingresos, ningún proyecto alcanza decisión final de inversión. Diseñar contratos por diferencia (CfDs), licitaciones o esquemas de compra garantizada. <strong>Referencia:</strong> Alemania (H2Global absorbe diferencia de precio); UK (contratos estandarizados via Hydrogen Allocation Rounds).</p>
+    </li>
+    <li>
+      <h4>Planificar infraestructura compartida alrededor de clusters industriales</h4>
+      <p>Aprovechar la concentración industrial en Veracruz, Tamaulipas, Nuevo León, Sonora, Baja California y Durango. La co-ubicación de generación renovable, electrólisis y demanda reduce costos de integración. Planificar hubs compartidos, no infraestructura proyecto por proyecto. <strong>Referencia:</strong> Países Bajos (modelo liderado por infraestructura via Gasunie y Puerto de Rotterdam); Australia (hubs exportadores).</p>
+    </li>
+    <li>
+      <h4>Desarrollar certificación y alinearse con marcos internacionales</h4>
+      <p>La certificación no impulsa despliegue por sí sola, pero reduce incertidumbre y habilita comercio. Diseñar esquema de certificación alineado con estándares internacionales (EU RFNBO, GoOs) para posicionar a México como proveedor creíble. <strong>Referencia:</strong> Australia diseñando certificación para mercados de exportación; EU con sistema operativo de GoOs.</p>
+    </li>
+    <li>
+      <h4>Institucionalizar la cooperación internacional</h4>
+      <p>Los países exportadores o con cadenas de suministro complejas institucionalizan la cooperación bilateral. México puede aprovechar acuerdos existentes (T-MEC, relación con EU, UK GCIEP) para posicionar su hidrógeno verde. <strong>Referencia:</strong> Japón (acuerdos bilaterales de suministro); Países Bajos (cooperación Mar del Norte y EU).</p>
+    </li>
+    <li>
+      <h4>Establecer monitoreo y evaluación desde el inicio</h4>
+      <p>Los mercados maduros tienen marcos de seguimiento estructurados. México debe crear indicadores de progreso desde la fase de diseño, no cuando los problemas ya sean evidentes. <strong>Referencia:</strong> Alemania (monitoreo estructurado de su Estrategia); UK (seguimiento via HAR y NZHF).</p>
+    </li>
+  </ol>
+</section>
+
+<script>
+// DATA
+const countries = [
+  {
+    id:'germany', name:'Alemania', flag:'🇩🇪', maturity:'advanced', maturityLabel:'Avanzado',
+    model:'Híbrido energía-industria · BMWK lidera',
+    summary:'Marco de gobernanza más consolidado del benchmarking. Estrategia Nacional vinculante, coordinación formal entre ministerios, criterios EU-RFNBO, sistema de certificación operativo, y mecanismos de mercado (H2Global). Referente para secuenciación completa.',
+    governance:{strategy:'Sí – Estrategia Nacional vinculante',integration:'Alta',leadership:'Híbrido: energía e industria',coordination:'Alta – formal cross-ministerial',monitoring:'Alto',stakeholder:'Fuerte con industria e investigación',intlCoop:'Alta – marcos EU y bilaterales'},
+    regulation:{definitions:'Alta',dedicated:'Embebida',certification:'Alta – operativa',alignment:'Alta – RFNBO/GoO',gaps:'Limitadas-Moderadas'},
+    strengths:['Estrategia Nacional como ancla institucional real, referenciada por todas las agencias','H2Global: mecanismo innovador de absorción de riesgo de precio vía CfDs','Certificación RFNBO operativa que da certeza a inversionistas','Coordinación formal entre BMWK, BNetzA y KfW con roles claros','Fondos IPCEI para proyectos industriales de gran escala','Planificación de red de hidrógeno (Hydrogen Backbone) vía BNetzA'],
+    lessonMx:'México puede tomar el modelo de anclaje institucional de Alemania: una estrategia formal con mandatos claros y coordinación entre energía e industria. El H2Global es referencia para diseño de mecanismos de ingreso.'
+  },
+  {
+    id:'netherlands', name:'Países Bajos', flag:'🇳🇱', maturity:'advanced', maturityLabel:'Avanzado',
+    model:'Energía e infraestructura · Modelo liderado por infraestructura',
+    summary:'Modelo liderado por infraestructura. Gasunie planifica la red troncal de hidrógeno; el Puerto de Rotterdam es hub clave. Regulación alineada con EU. SDE++ incluye hidrógeno. Enfoque en reducir riesgo de integración y habilitar desarrollo paralelo de proyectos.',
+    governance:{strategy:'Sí – Estrategia Nacional',integration:'Alta',leadership:'Energía e infraestructura',coordination:'Alta',monitoring:'Alto',stakeholder:'Fuerte con industria y puertos',intlCoop:'Alta – EU y Mar del Norte'},
+    regulation:{definitions:'Alta',dedicated:'Embebida',certification:'Alta',alignment:'Alta – RFNBO/GoO',gaps:'Limitadas-Moderadas'},
+    strengths:['Gasunie (operador estatal de gas) lidera planificación y construcción de red troncal de H₂','Puerto de Rotterdam como hub integrado de importación, producción y distribución','SDE++ integra hidrógeno en esquema general de energía limpia','Regulación de transporte de H₂ como activo de infraestructura regulada','Cooperación institucionalizada del Mar del Norte para infraestructura transfronteriza','Reducción de duplicación: infraestructura compartida entre múltiples proyectos y usuarios'],
+    lessonMx:'El modelo de infraestructura compartida de Países Bajos es relevante para México, que tiene puertos y clusters industriales que podrían funcionar como hubs. La idea de tratar al hidrógeno como activo de infraestructura regulada es poderosa.'
+  },
+  {
+    id:'uk', name:'Reino Unido', flag:'🇬🇧', maturity:'advanced', maturityLabel:'Avanzado',
+    model:'Energía con enfoque en entrega · DESNZ lidera',
+    summary:'Combina diseño centralizado con entrega por clusters. HPBM/HAR proveen contratos estandarizados de ingresos. LCCC como contraparte contractual. UK Low Carbon Hydrogen Standard como referencia de certificación. Modelo replicable y escalable.',
+    governance:{strategy:'Sí – UK Hydrogen Strategy',integration:'Alta',leadership:'Energía con entrega',coordination:'Alta',monitoring:'Alto',stakeholder:'Clusters industriales y academia',intlCoop:'Alta – EU, Mar del Norte, EE.UU.'},
+    regulation:{definitions:'Alta',dedicated:'Embebida',certification:'Alta',alignment:'Media',gaps:'Moderadas'},
+    strengths:['Hydrogen Production Business Model (HPBM): contratos estandarizados de ingresos a largo plazo','Hydrogen Allocation Rounds (HAR): proceso competitivo repetible para asignar apoyo','LCCC como contraparte contractual independiente del gobierno','UK Low Carbon Hydrogen Standard con umbrales claros de emisiones','Integración de producción de H₂ en planificación del sistema eléctrico vía Ofgem','Clusters industriales como unidad de organización para despliegue coordinado'],
+    lessonMx:'El modelo de contratos estandarizados y proceso competitivo del UK es un referente directo para cuando México necesite escalar. La organización por clusters industriales es aplicable a los corredores industriales mexicanos.'
+  },
+  {
+    id:'japan', name:'Japón', flag:'🇯🇵', maturity:'scaling', maturityLabel:'En escalamiento',
+    model:'Economía y comercio · METI lidera',
+    summary:'Modelo centrado en demanda y cadenas de suministro internacionales. METI lidera estrategia, JOGMEC financia y gestiona riesgo de importación. Marcos de seguridad y manejo establecidos. Enfoque en utilización y preparación de cadenas de suministro, no en producción doméstica masiva.',
+    governance:{strategy:'Sí – Basic Hydrogen Strategy',integration:'Alta',leadership:'Economía y comercio',coordination:'Alta',monitoring:'Alto',stakeholder:'Industria como líder',intlCoop:'Alta – cadenas de suministro (Australia, Medio Oriente)'},
+    regulation:{definitions:'Media-Alta',dedicated:'Embebida',certification:'Media-Alta',alignment:'Media',gaps:'Moderadas'},
+    strengths:['Anclaje de demanda como motor: política centrada en crear consumo, no solo producción','JOGMEC financia y mitiga riesgo de cadenas internacionales de suministro','Hydrogen Society Promotion Act como marco legal de soporte','Mecanismos de soporte para co-combustión hidrógeno/amoniaco en generación eléctrica','Acuerdos bilaterales institucionalizados con proveedores internacionales','Marcos de seguridad y manejo de hidrógeno establecidos y maduros'],
+    lessonMx:'El enfoque de Japón en crear demanda es un contrapunto importante: México no debe solo enfocarse en producción sino asegurar que haya compradores. Los acuerdos bilaterales de suministro son referencia para cooperación internacional.'
+  },
+  {
+    id:'australia', name:'Australia', flag:'🇦🇺', maturity:'scaling', maturityLabel:'En escalamiento',
+    model:'Híbrido federal-estatal · Exportación',
+    summary:'Modelo exportador basado en hubs. Gobernanza federal-estatal con ARENA como agencia de fondos. Hydrogen Headstart para contratos de ingresos de gran escala. Certificación en desarrollo para mercados de exportación. Recursos renovables abundantes.',
+    governance:{strategy:'Sí – National Hydrogen Strategy',integration:'Media-Alta',leadership:'Híbrido federal-estatal',coordination:'Media',monitoring:'Medio',stakeholder:'Industria vía hubs',intlCoop:'Alta – Japón, Corea, EU'},
+    regulation:{definitions:'Media',dedicated:'Embebida',certification:'Media',alignment:'Media',gaps:'Moderadas'},
+    strengths:['Modelo de hubs: concentración de infraestructura compartida en zonas con recursos renovables','Hydrogen Headstart: contratos de ingresos para proyectos de gran escala','ARENA administra fondos de innovación y co-financiamiento de CAPEX','Coordinación federal-estatal con estados liderando implementación local','Diseño de certificación orientada a mercados de exportación','Vinculación directa entre puertos, zonas renovables y clusters de demanda'],
+    lessonMx:'Australia es probablemente el modelo más relevante para México por similitud: abundantes recursos renovables, ambición de escala y potencial exportador. Los hubs vinculados a puertos y la certificación para exportación son directamente aplicables.'
+  },
+  {
+    id:'skorea', name:'Corea del Sur', flag:'🇰🇷', maturity:'scaling', maturityLabel:'En escalamiento',
+    model:'Industria y energía · MOTIE lidera · Legislación dedicada',
+    summary:'Único país con ley dedicada de hidrógeno (Hydrogen Economy Act). Mercado anclado en demanda del sector eléctrico (CHPS). KEPCO y KOGAS como SOEs ejecutoras. Certificación de hidrógeno limpio bajo marco legal.',
+    governance:{strategy:'Sí – Hydrogen Economy Roadmap',integration:'Alta',leadership:'Industria y energía (legislado)',coordination:'Alta',monitoring:'Alto',stakeholder:'Industria vía sector eléctrico',intlCoop:'Media-Alta – Asia-Pacífico'},
+    regulation:{definitions:'Alta',dedicated:'Dedicada',certification:'Alta',alignment:'Media',gaps:'Limitadas-Moderadas'},
+    strengths:['Ley dedicada de Economía del Hidrógeno: marco legal completo y específico','CHPS (Clean Hydrogen Power Generation Bidding Market): ancla de demanda vía sector eléctrico','Certificación de hidrógeno limpio bajo marco legal establecido','SOEs (KEPCO, KOGAS) ejecutan inversiones en infraestructura de importación y almacenamiento','Marco de seguridad del hidrógeno legislado','Demand-side anchoring: la demanda garantizada sustituye subsidios de producción'],
+    lessonMx:'Corea demuestra que anclar demanda (vía sector eléctrico) puede ser tan efectivo como subsidiar producción. Su ley dedicada es un caso excepcional — México no necesita comenzar ahí pero puede aspirar a ese nivel de claridad legal eventualmente.'
+  },
+  {
+    id:'china', name:'China', flag:'🇨🇳', maturity:'scaling', maturityLabel:'En escalamiento',
+    model:'Planificación central + SOEs · NDRC y NEA',
+    summary:'Modelo de planificación estatal con ejecución por SOEs y gobiernos provinciales. Inversión a escala industrial en parques y bases renovables. Marcos de seguridad y estándares bajo SAC. Cooperación internacional limitada. Capacidad de ejecución masiva.',
+    governance:{strategy:'Sí – Plan de Mediano y Largo Plazo',integration:'Alta',leadership:'Planificación central y estatal',coordination:'Alta',monitoring:'Medio-Alto',stakeholder:'Estatal-industrial',intlCoop:'Baja – bilateral selectiva'},
+    regulation:{definitions:'Media',dedicated:'Embebida',certification:'Media',alignment:'Baja-Media',gaps:'Moderadas-Significativas'},
+    strengths:['Capacidad de ejecución a escala masiva via SOEs (Sinopec, Baowu)','Integración en bases renovables de gran escala (Inner Mongolia, Hebei)','Planificación central coordina inversión pública y privada','Parques industriales de hidrógeno con infraestructura compartida','Estándares técnicos y de seguridad vía SAC','Financiamiento vía bancos de desarrollo estatales (CDB)'],
+    lessonMx:'El modelo centralizado de China no es replicable directamente para México, pero la capacidad de coordinación entre planificación, inversión y ejecución es instructiva. Los parques industriales de hidrógeno con infraestructura compartida son un concepto aplicable.'
+  },
+  {
+    id:'india', name:'India', flag:'🇮🇳', maturity:'emerging', maturityLabel:'Emergente',
+    model:'Energía · Misión Nacional · MNRE lidera',
+    summary:'Marco basado en misión (NGHM) con MNRE liderando incentivos y diseño. Múltiples ministerios involucrados. Programa SIGHT para co-financiamiento de electrolizadores. Definiciones establecidas pero en refinamiento. Enfoque en construcción de capacidad doméstica.',
+    governance:{strategy:'Sí – National Green Hydrogen Mission',integration:'Media',leadership:'Energía, basado en misión',coordination:'Media',monitoring:'Medio',stakeholder:'Creciente',intlCoop:'Media – EU y bilateral'},
+    regulation:{definitions:'Media',dedicated:'Embebida',certification:'Media',alignment:'Media',gaps:'Moderadas'},
+    strengths:['Misión Nacional con objetivos ambiciosos y estructura de coordinación','SIGHT: programa de co-financiamiento para electrolizadores y manufactura','Incentivos para manufactura doméstica de electrolizadores','Mecanismos interministeriales bajo la Misión (Comité de Supervisión)','SHIP (Strategic Hydrogen Innovation Partnership) como plataforma multi-actor','Enfoque en escala rápida de capacidad de producción'],
+    lessonMx:'India es similar a México en complejidad institucional. Su modelo de Misión Nacional con comité interministerial formal es una referencia para cómo México puede coordinar múltiples ministerios. SIGHT muestra cómo estructurar co-financiamiento de CAPEX.'
+  },
+  {
+    id:'chile', name:'Chile', flag:'🇨🇱', maturity:'emerging', maturityLabel:'Emergente',
+    model:'Energía con orientación exportadora · CORFO ejecuta',
+    summary:'Marco centralizado pero facilitador. Ministerio de Energía dirige, CORFO administra co-financiamiento competitivo de CAPEX. Sin CfDs ni garantías de ingresos. Enfoque en exportación (especialmente amoníaco y e-fuels). Certificación en maduración.',
+    governance:{strategy:'Sí – Estrategia Nacional de H₂ Verde',integration:'Media',leadership:'Energía con exportación',coordination:'Media',monitoring:'Medio',stakeholder:'Industria vía pilotos',intlCoop:'Media – EU y exportación'},
+    regulation:{definitions:'Media',dedicated:'Embebida',certification:'Media',alignment:'Media',gaps:'Moderadas'},
+    strengths:['Estrategia Nacional temprana (2020) con Plan de Acción a 2030','CORFO como agencia de implementación con fondos competitivos para pilotos','Recursos renovables excepcionales (especialmente solar en Atacama y eólico en Magallanes)','Posicionamiento exportador (amoníaco verde, e-fuels)','Vinculación con puertos de exportación (Magallanes, Antofagasta)','Marco de permisos ambientales establecido aplicable a hidrógeno'],
+    lessonMx:'Chile es un par relevante por similitud de recursos y ambición. Su experiencia muestra que sin mecanismos de ingresos, incluso con excelentes recursos renovables, los proyectos no avanzan más allá de pilotos. México debe aprender esta lección tempranamente.'
+  },
+  {
+    id:'colombia', name:'Colombia', flag:'🇨🇴', maturity:'early', maturityLabel:'Etapa temprana',
+    model:'Energía · Ministerio de Minas y Energía · Pilotos',
+    summary:'Fase temprana de construcción de gobernanza y regulación. MME lidera con apoyo de UPME y ProInversión. Enfoque en pilotos y sandboxes regulatorios. Sin instrumentos dedicados de mercado o financiamiento. Reconocimiento legal del hidrógeno en desarrollo.',
+    governance:{strategy:'Sí – Hoja de Ruta',integration:'Baja-Media',leadership:'Energía, temprano',coordination:'Baja-Media',monitoring:'Bajo',stakeholder:'Multi-actor temprano',intlCoop:'Media – regional y EU'},
+    regulation:{definitions:'Media',dedicated:'Embebida',certification:'Media',alignment:'Media',gaps:'Moderadas-Significativas'},
+    strengths:['Hoja de Ruta publicada como señal de intención','Sandboxes regulatorios para pilotos controlados','Reconocimiento legal del hidrógeno verde en marco de energías renovables','Pilotos liderados por Ecopetrol generan aprendizaje','Posición geográfica estratégica para exportación'],
+    lessonMx:'Colombia está en posición similar a México. Sus sandboxes regulatorios son un concepto interesante para probar regulación antes de formalizar. Pero el reporte muestra que sin coordinación institucional fuerte y mecanismos de ingresos, los pilotos no escalan.'
+  },
+  {
+    id:'peru', name:'Perú', flag:'🇵🇪', maturity:'early', maturityLabel:'Etapa temprana',
+    model:'Energía · MINEM · Fase de planificación',
+    summary:'Fase de planificación pura. MINEM lidera con ProInversión en promoción. Sin regulación, certificación ni instrumentos de mercado. Actividad limitada a roadmaps, estudios y participación de actores. Brechas regulatorias significativas en todas las áreas.',
+    governance:{strategy:'Sí – Hoja de Ruta',integration:'Baja',leadership:'Energía, planificación',coordination:'Baja',monitoring:'Bajo',stakeholder:'Limitado',intlCoop:'Baja – multilateral'},
+    regulation:{definitions:'Baja',dedicated:'Ninguna',certification:'Baja',alignment:'Baja',gaps:'Significativas'},
+    strengths:['Hoja de Ruta publicada como primer paso','ProInversión para promoción de inversión','Potencial renovable (solar, eólico, hidro)','Posición en costa Pacífico para exportación'],
+    lessonMx:'Perú representa lo que México debe evitar: quedarse en fase de planificación sin progreso hacia instrumentos concretos. La experiencia de Perú confirma que roadmaps sin implementación no atraen inversión.'
+  }
+];
+
+const govData = [
+  {name:'Alemania',vals:['Sí','Alta','Híbrido E-I','Alta','Alto','Fuerte','Alta']},
+  {name:'Países Bajos',vals:['Sí','Alta','E + Infra','Alta','Alto','Fuerte','Alta']},
+  {name:'Reino Unido',vals:['Sí','Alta','Energía','Alta','Alto','Clusters','Alta']},
+  {name:'Japón',vals:['Sí','Alta','Eco-Comercio','Alta','Alto','Industria','Alta']},
+  {name:'Australia',vals:['Sí','Med-Alta','Fed-Estatal','Media','Medio','Hubs','Alta']},
+  {name:'Corea del Sur',vals:['Sí','Alta','Ind-Energía','Alta','Alto','Industria','Med-Alta']},
+  {name:'China',vals:['Sí','Alta','Planificación','Alta','Med-Alto','Estatal','Baja']},
+  {name:'India',vals:['Sí','Media','Energía/Misión','Media','Medio','Creciente','Media']},
+  {name:'Chile',vals:['Sí','Media','Energía/Export','Media','Medio','Pilotos','Media']},
+  {name:'Colombia',vals:['Sí','Baja-Med','Energía','Baja-Med','Bajo','Temprano','Media']},
+  {name:'Perú',vals:['Sí','Baja','Energía/Plan','Baja','Bajo','Limitado','Baja']},
+];
+const govHeaders = ['País','Estrategia','Integración','Liderazgo','Coordinación','Monitoreo','Stakeholders','Coop. Intl.'];
+
+const regData = [
+  {name:'Alemania',vals:['Alta','Embebida','Alta','Alta','Lim-Mod']},
+  {name:'Países Bajos',vals:['Alta','Embebida','Alta','Alta','Lim-Mod']},
+  {name:'Reino Unido',vals:['Alta','Embebida','Alta','Media','Moderadas']},
+  {name:'Japón',vals:['Med-Alta','Embebida','Med-Alta','Media','Moderadas']},
+  {name:'Australia',vals:['Media','Embebida','Media','Media','Moderadas']},
+  {name:'Corea del Sur',vals:['Alta','Dedicada','Alta','Media','Lim-Mod']},
+  {name:'China',vals:['Media','Embebida','Media','Baja-Med','Mod-Sign']},
+  {name:'India',vals:['Media','Embebida','Media','Media','Moderadas']},
+  {name:'Chile',vals:['Media','Embebida','Media','Media','Moderadas']},
+  {name:'Colombia',vals:['Media','Embebida','Media','Media','Mod-Sign']},
+  {name:'Perú',vals:['Baja','Ninguna','Baja','Baja','Significativas']},
+];
+const regHeaders = ['País','Definiciones','Regulación Dedicada','Certificación','Alineación Intl.','Brechas'];
+
+const policyLevels = [
+  {name:'Alemania',vals:[4,5,5,5,5]},
+  {name:'Países Bajos',vals:[4,5,4,5,5]},
+  {name:'Reino Unido',vals:[4,5,5,5,4]},
+  {name:'Japón',vals:[3,4,4,4,4]},
+  {name:'Australia',vals:[3,5,4,3,4]},
+  {name:'Corea del Sur',vals:[3,4,4,5,4]},
+  {name:'China',vals:[3,5,2,4,4]},
+  {name:'India',vals:[3,4,2,3,3]},
+  {name:'Chile',vals:[3,3,2,3,2]},
+  {name:'Colombia',vals:[2,2,1,2,1]},
+  {name:'Perú',vals:[1,1,1,1,1]},
+];
+const polHeaders = ['País','Fiscal/Tax','Financ. Público','Ingresos/Mercado','Estándares/Cert.','Infraestructura'];
+const levelLabels = {5:'Avanzado',4:'Establecido',3:'Emergente',2:'Temprano',1:'Naciente'};
+
+// FUNCTIONS
+let currentSection = null;
+let currentCountry = 'germany';
+
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('visible'));
+  const sec = document.getElementById(id);
+  if(sec) { sec.classList.add('visible'); sec.style.animation='none'; sec.offsetHeight; sec.style.animation='fadeUp 0.5s ease both'; }
+  document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.section===id));
+  currentSection = id;
+  if(id==='paises') renderCountry(currentCountry);
+  document.getElementById('heroSection').style.display = 'none';
+  window.scrollTo({top:document.getElementById('mainNav').offsetTop, behavior:'smooth'});
+}
+
+function ratingClass(val) {
+  const v = val.toLowerCase();
+  if(v.includes('alta') || v==='sí' || v.includes('alto') || v.includes('fuerte') || v==='dedicada' || v.includes('limitad')) return 'rating-high';
+  if(v.includes('media') || v.includes('medio') || v.includes('embebida') || v.includes('creciente') || v.includes('moderada') || v.includes('cluster') || v.includes('hub') || v.includes('industria') || v.includes('pilotos') || v.includes('temprano')) return 'rating-med';
+  return 'rating-low';
+}
+
+function renderCountryTabs() {
+  const el = document.getElementById('countryTabs');
+  el.innerHTML = countries.map(c =>
+    `<button class="country-tab ${c.id===currentCountry?'active':''}" onclick="selectCountry('${c.id}')"><span class="flag">${c.flag}</span>${c.name}</button>`
+  ).join('');
+}
+
+function selectCountry(id) {
+  currentCountry = id;
+  renderCountryTabs();
+  renderCountry(id);
+}
+
+function renderCountry(id) {
+  const c = countries.find(x=>x.id===id);
+  if(!c) return;
+  const matClass = c.maturity==='advanced'?'maturity-advanced':c.maturity==='scaling'?'maturity-scaling':c.maturity==='emerging'?'maturity-emerging':'maturity-early';
+
+  document.getElementById('countryContent').innerHTML = `
+    <div style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:0.5rem;">
+        <span style="font-size:2rem;">${c.flag}</span>
+        <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;">${c.name}</h3>
+        <span class="maturity-badge ${matClass}">${c.maturityLabel}</span>
+      </div>
+      <p style="color:var(--text2);font-size:0.85rem;line-height:1.6;">${c.model}</p>
+      <p style="color:var(--text);font-size:0.9rem;line-height:1.65;margin-top:0.75rem;">${c.summary}</p>
+    </div>
+
+    <div class="country-detail">
+      <div class="detail-block">
+        <h4>🏛️ Gobernanza</h4>
+        <div class="rating-row"><span class="rating-label">Estrategia Nacional</span><span class="rating-value ${ratingClass(c.governance.strategy)}">${c.governance.strategy}</span></div>
+        <div class="rating-row"><span class="rating-label">Integración de política</span><span class="rating-value ${ratingClass(c.governance.integration)}">${c.governance.integration}</span></div>
+        <div class="rating-row"><span class="rating-label">Liderazgo institucional</span><span class="rating-value">${c.governance.leadership}</span></div>
+        <div class="rating-row"><span class="rating-label">Coordinación inter-agencial</span><span class="rating-value ${ratingClass(c.governance.coordination)}">${c.governance.coordination}</span></div>
+        <div class="rating-row"><span class="rating-label">Monitoreo y evaluación</span><span class="rating-value ${ratingClass(c.governance.monitoring)}">${c.governance.monitoring}</span></div>
+        <div class="rating-row"><span class="rating-label">Participación de actores</span><span class="rating-value ${ratingClass(c.governance.stakeholder)}">${c.governance.stakeholder}</span></div>
+        <div class="rating-row"><span class="rating-label">Cooperación internacional</span><span class="rating-value ${ratingClass(c.governance.intlCoop)}">${c.governance.intlCoop}</span></div>
+      </div>
+      <div class="detail-block">
+        <h4>⚖️ Regulación</h4>
+        <div class="rating-row"><span class="rating-label">Definiciones de H₂ verde</span><span class="rating-value ${ratingClass(c.regulation.definitions)}">${c.regulation.definitions}</span></div>
+        <div class="rating-row"><span class="rating-label">Regulación dedicada</span><span class="rating-value ${ratingClass(c.regulation.dedicated)}">${c.regulation.dedicated}</span></div>
+        <div class="rating-row"><span class="rating-label">Certificación</span><span class="rating-value ${ratingClass(c.regulation.certification)}">${c.regulation.certification}</span></div>
+        <div class="rating-row"><span class="rating-label">Alineación internacional</span><span class="rating-value ${ratingClass(c.regulation.alignment)}">${c.regulation.alignment}</span></div>
+        <div class="rating-row"><span class="rating-label">Brechas regulatorias</span><span class="rating-value ${ratingClass(c.regulation.gaps)}">${c.regulation.gaps}</span></div>
+      </div>
+      <div class="detail-block full">
+        <h4>💪 Fortalezas Principales</h4>
+        <ul class="strength-list">
+          ${c.strengths.map(s=>`<li>${s}</li>`).join('')}
+        </ul>
+      </div>
+      <div class="detail-block full" style="background:linear-gradient(135deg, rgba(0,232,150,0.04) 0%, rgba(0,196,255,0.04) 100%); border-color:rgba(0,232,150,0.15);">
+        <h4>🇲🇽 Lección para México</h4>
+        <p style="font-size:0.9rem;line-height:1.65;">${c.lessonMx}</p>
+      </div>
+    </div>
+  `;
+}
+
+function buildHeatmap(tableId, headers, data, isNumeric=false) {
+  const table = document.getElementById(tableId);
+  let html = '<thead><tr>';
+  headers.forEach(h => html += `<th>${h}</th>`);
+  html += '</tr></thead><tbody>';
+  data.forEach(row => {
+    html += '<tr>';
+    html += `<td class="country-name">${row.name}</td>`;
+    if(isNumeric) {
+      row.vals.forEach(v => {
+        html += `<td class="heat-${v}">${levelLabels[v]}</td>`;
+      });
+    } else {
+      row.vals.forEach(v => {
+        const cls = ratingClass(v);
+        html += `<td><span class="${cls}">${v}</span></td>`;
+      });
+    }
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+// INIT
+renderCountryTabs();
+buildHeatmap('govHeatmap', govHeaders, govData);
+buildHeatmap('regHeatmap', regHeaders, regData);
+buildHeatmap('policyHeatmap', polHeaders, policyLevels, true);
+
+// Smooth scroll on nav click
+document.querySelectorAll('.nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('heroSection').style.display='none';
+  });
+});
+</script>
+
+</body>
+</html>

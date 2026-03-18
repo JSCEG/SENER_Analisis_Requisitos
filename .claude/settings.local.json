@@ -9,7 +9,8 @@
       "Bash(node --version)",
       "Bash(grep -l \"presentacion_nuevo_mecanismo_cel\" \"C:/Proyectos/60.-Diseñador de Graficos/.claude/worktrees/hardcore-rubin/\"*.html)",
       "Bash(py --version)",
-      "Bash(py -:*)"
+      "Bash(py -:*)",
+      "Bash(\"c:/Proyectos/60.-Diseñador de:*)"
     ]
   }
 }

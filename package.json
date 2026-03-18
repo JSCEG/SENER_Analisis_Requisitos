@@ -1,5 +1,16 @@
 {
+  "scripts": {
+    "build:tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./css/output.css --minify",
+    "watch:tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./css/output.css --watch"
+  },
   "dependencies": {
     "highcharts": "^12.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2"
   }
 }

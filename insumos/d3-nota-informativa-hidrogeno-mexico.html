@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nota Informativa — Hidrógeno Renovable en México</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --white: #FFFFFF;
+  --bg: #F8F9FA;
+  --paper: #FFFFFF;
+  --ink: #333333;
+  --ink-light: #444444;
+  --ink-muted: #6B6B6B;
+  --ink-faint: #98989A;
+  --rule: #DDDDDD;
+  --rule-dark: #C8C5BF;
+  --teal: #1E5B4F;
+  --teal-light: rgba(30, 91, 79, 0.07);
+  --teal-mid: #2A7A6A;
+  --guinda: #9B2247;
+  --guinda-light: rgba(155, 34, 71, 0.06);
+  --amber: #A57F2C;
+  --amber-light: rgba(165, 127, 44, 0.08);
+  --coral: #9B2247;
+  --coral-light: rgba(155, 34, 71, 0.06);
+  --blue: #1E5B4F;
+  --blue-light: rgba(30, 91, 79, 0.06);
+  --green-bar: #1E5B4F;
+  --yellow-bar: #A57F2C;
+  --red-bar: #9B2247;
+  --serif: 'Merriweather', 'Patria', Georgia, serif;
+  --sans: 'Noto Sans', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --gris: #98989A;
+  --gris-claro: #E5E5E5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--guinda); color: white; }
+
+@media print {
+  body { background: white; }
+  .no-print { display: none !important; }
+  .page { break-inside: avoid; box-shadow: none; border: none; }
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--paper);
+  border-bottom: 3px solid var(--guinda);
+  padding: 48px 0 40px;
+}
+
+.header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-badge-dot {
+  width: 10px; height: 10px;
+  background: var(--guinda);
+  border-radius: 50%;
+}
+
+.header-badge-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--guinda);
+}
+
+.header-date {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.header h1 {
+  font-family: var(--serif);
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--guinda);
+  margin-bottom: 12px;
+}
+
+.header-subtitle {
+  font-size: 17px;
+  color: var(--ink-muted);
+  font-weight: 400;
+  max-width: 640px;
+}
+
+.header-meta {
+  display: flex;
+  gap: 40px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.header-meta dt {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 2px;
+}
+
+.header-meta dd {
+  font-size: 14px;
+  color: var(--ink-light);
+  font-weight: 500;
+}
+
+/* ===== CONTENT ===== */
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+/* Section blocks */
+.block {
+  margin-bottom: 56px;
+}
+
+.block-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--guinda);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.block-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.block h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--guinda);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--guinda);
+}
+
+.block h3 {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 12px;
+  margin-top: 32px;
+}
+
+.block p {
+  font-size: 15px;
+  color: var(--ink-light);
+  margin-bottom: 14px;
+  max-width: 720px;
+}
+
+.block p strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Callout box */
+.callout {
+  background: var(--teal-light);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 24px 28px;
+  margin: 24px 0;
+}
+
+.callout p {
+  color: var(--ink-light);
+  margin-bottom: 0;
+}
+
+.callout-amber {
+  background: var(--amber-light);
+  border-left-color: var(--amber);
+}
+
+.callout-coral {
+  background: var(--coral-light);
+  border-left-color: var(--coral);
+}
+
+.callout-blue {
+  background: var(--blue-light);
+  border-left-color: var(--blue);
+}
+
+/* ===== TABLES ===== */
+.table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+thead th {
+  background: var(--guinda);
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 14px 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+thead th:first-child { border-radius: 9px 0 0 0; }
+thead th:last-child { border-radius: 0 9px 0 0; }
+
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink-light);
+  line-height: 1.55;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+tbody tr:hover { background: rgba(155, 34, 71, 0.03); }
+
+.td-bold {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Status pills */
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.3px;
+}
+
+.pill-green { background: rgba(30, 91, 79, 0.12); color: #1E5B4F; }
+.pill-yellow { background: rgba(165, 127, 44, 0.12); color: #7A5F1A; }
+.pill-red { background: rgba(155, 34, 71, 0.1); color: #9B2247; }
+
+/* ===== BAR CHARTS ===== */
+.bar-chart {
+  margin: 24px 0;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 120px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.bar-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-light);
+  text-align: right;
+}
+
+.bar-track {
+  height: 28px;
+  background: var(--bg);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--rule);
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  transition: width 0.8s ease;
+}
+
+.bar-value {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+/* ===== COMPARISON CARDS ===== */
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.compare-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 24px;
+  position: relative;
+}
+
+.compare-card.recommended {
+  border-color: var(--guinda);
+  border-width: 2px;
+}
+
+.compare-card.recommended::after {
+  content: '✓ RECOMENDADO';
+  position: absolute;
+  top: -10px;
+  right: 16px;
+  background: var(--guinda);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.compare-card h4 {
+  font-family: var(--serif);
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.compare-card p {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 16px;
+  line-height: 1.55;
+}
+
+.compare-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+}
+
+.compare-stat-label { color: var(--ink-muted); }
+.compare-stat-value { font-weight: 600; color: var(--ink); }
+
+/* ===== ACTION CARDS ===== */
+.action-list {
+  counter-reset: actions;
+  margin: 24px 0;
+}
+
+.action-item {
+  counter-increment: actions;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.action-item:last-child { border-bottom: none; }
+
+.action-num {
+  width: 48px;
+  height: 48px;
+  background: var(--guinda);
+  color: white;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-content h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.action-content p {
+  font-size: 14px;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+}
+
+.action-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.action-tag {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--teal-light);
+  color: var(--teal);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.action-tag.caution {
+  background: var(--guinda-light);
+  color: var(--guinda);
+}
+
+/* ===== SEQUENCING VISUAL ===== */
+.seq-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin: 24px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+
+.seq-col {
+  padding: 24px 20px;
+  background: var(--paper);
+}
+
+.seq-col:nth-child(2) { border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+
+.seq-phase {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.seq-period {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-bottom: 16px;
+}
+
+.seq-item {
+  font-size: 13px;
+  color: var(--ink-light);
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--rule);
+  line-height: 1.5;
+}
+
+.seq-item:last-child { border-bottom: none; }
+
+/* ===== FOOTER ===== */
+.footer {
+  border-top: 3px solid var(--guinda);
+  background: var(--paper);
+  padding: 32px 0;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 12px;
+  color: var(--ink-faint);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .header-inner, .content { padding-left: 20px; padding-right: 20px; }
+  .header h1 { font-size: 28px; }
+  .header-meta { flex-direction: column; gap: 16px; }
+  .bar-row { grid-template-columns: 1fr; gap: 4px; }
+  .bar-label { text-align: left; }
+  .seq-timeline { grid-template-columns: 1fr; }
+  .seq-col:nth-child(2) { border-left: none; border-right: none; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .compare-grid { grid-template-columns: 1fr; }
+  .action-item { grid-template-columns: 48px 1fr; gap: 14px; }
+}
+
+/* Print button */
+.print-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--guinda);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(155, 34, 71, 0.25);
+  z-index: 100;
+  transition: transform 0.2s;
+}
+
+.print-btn:hover { transform: translateY(-2px); }
+
+/* Download PNG buttons */
+.downloadable {
+  position: relative;
+}
+
+.dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink-muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 12px;
+}
+
+.dl-btn:hover {
+  background: var(--guinda);
+  color: white;
+  border-color: var(--guinda);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(155, 34, 71, 0.2);
+}
+
+.dl-btn.downloading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.dl-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.dl-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+@media print {
+  .dl-btn, .dl-row { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- PRINT -->
+<button class="print-btn no-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="header-badge">
+        <span class="header-badge-dot"></span>
+        <span class="header-badge-text">Nota Informativa</span>
+      </div>
+      <span class="header-date">Marzo 2026</span>
+    </div>
+    <h1>Opciones para el desarrollo del<br>hidrógeno renovable en México</h1>
+    <p class="header-subtitle">Resumen ejecutivo del Analytical Options Paper (Deliverable D3) del programa GCIEP — con enfoque en lo que le toca hacer a SENER.</p>
+    <dl class="header-meta">
+      <div>
+        <dt>Documento base</dt>
+        <dd>D3 Analytical Options Paper</dd>
+      </div>
+      <div>
+        <dt>Programa</dt>
+        <dd>GCIEP (FCDO–PwC–Mott MacDonald)</dd>
+      </div>
+      <div>
+        <dt>Dirigido a</dt>
+        <dd>Secretaría de Energía (SENER)</dd>
+      </div>
+      <div>
+        <dt>Clasificación</dt>
+        <dd>Uso interno</dd>
+      </div>
+    </dl>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <!-- 1. CONTEXTO -->
+  <section class="block">
+    <div class="block-label">01 — Contexto</div>
+    <h2>De qué se trata este documento</h2>
+    <p>El Analytical Options Paper analiza qué opciones de política tiene México para desarrollar su mercado de hidrógeno renovable. No se trata de copiar lo que hacen otros países, sino de identificar <strong>qué sí se puede hacer hoy</strong> dentro del marco legal e institucional actual, y qué requeriría reformas más profundas.</p>
+    <p>El análisis evaluó opciones en <strong>cinco áreas clave</strong> (llamadas "principios guía") que la experiencia internacional señala como necesarias para que un mercado de hidrógeno funcione: tener una estrategia clara, certificar el hidrógeno, agilizar permisos, apoyar la producción inicial y crear demanda.</p>
+    <p>Para cada área se compararon diferentes modelos internacionales usando dos criterios: <strong>cuánto cuestan los recursos públicos</strong> y <strong>qué tan factible es implementarlos en México hoy</strong>.</p>
+
+    <div class="callout">
+      <p><strong>Hallazgo principal:</strong> Las opciones más viables para México no son las más sofisticadas, sino las que se pueden montar sobre instrumentos que ya existen — como ENTE, PLATEASE, LGCC, RETC y los marcos actuales de permisos. El progreso más inmediato viene de <strong>fortalecer lo que ya hay</strong>, no de crear estructuras nuevas desde cero.</p>
+    </div>
+  </section>
+
+  <!-- 2. LOS 5 PRINCIPIOS -->
+  <section class="block">
+    <div class="block-label">02 — Las cinco áreas clave</div>
+    <h2>Qué se necesita para que funcione un mercado de hidrógeno</h2>
+    <p>La experiencia de países como Reino Unido, Alemania, Australia e India muestra que los mercados de hidrógeno avanzan cuando se combinan tres cosas: dirección estratégica clara, reglas del juego definidas, y mecanismos que reduzcan el riesgo tanto para quien produce como para quien compra.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:30px">#</th>
+            <th>Área</th>
+            <th>¿Qué resuelve?</th>
+            <th>¿Qué le toca a SENER?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">1</td>
+            <td class="td-bold">Estrategia nacional vinculante</td>
+            <td>Da dirección, rendición de cuentas y señal de largo plazo a inversionistas.</td>
+            <td>Integrar metas de hidrógeno en ENTE y PLATEASE.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">2</td>
+            <td class="td-bold">Certificación del hidrógeno</td>
+            <td>Define qué cuenta como "renovable" y cómo se verifica. Clave para exportar.</td>
+            <td>Reconocer certificadores internacionales acreditados.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">3</td>
+            <td class="td-bold">Agilización de permisos</td>
+            <td>Reduce tiempos de trámite y da certidumbre a proyectos para que cierren financiamiento.</td>
+            <td>Dar trato prioritario al hidrógeno en el sistema de permisos existente.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">4</td>
+            <td class="td-bold">Apoyo a la producción temprana</td>
+            <td>Cierra la brecha de costos y hace bancables los primeros proyectos.</td>
+            <td>Usar esquemas de desarrollo mixto (tipo CFE-SENER) con PEMEX como ancla de compra.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">5</td>
+            <td class="td-bold">Estímulo de demanda</td>
+            <td>Crea mercado para el hidrógeno. Sin demanda, no hay proyecto que cierre.</td>
+            <td>Avanzar mandatos regulatorios sobre LGCC, RETC y el SCE piloto.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. COMPARATIVO INTERNACIONAL -->
+  <section class="block">
+    <div class="block-label">03 — Comparativo Internacional</div>
+    <h2>Qué hacen otros países y qué le sirve a México</h2>
+    <p>Se analizaron 8 países de referencia. Cada uno ofrece lecciones diferentes. Lo importante no es copiar un modelo completo, sino tomar los elementos que encajan con la realidad mexicana.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>País</th>
+            <th>Lo que hace bien</th>
+            <th>¿Es aplicable en México?</th>
+            <th>¿Por qué sí o por qué no?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">🇬🇧 Reino Unido</td>
+            <td>Contratos por Diferencia (CfDs) que garantizan precio a productores de hidrógeno</td>
+            <td><span class="pill pill-red">No a corto plazo</span></td>
+            <td>Requiere contraparte contractual, programación fiscal plurianual y coordinación SHCP. México no tiene estructura equivalente.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">🇩🇪 Alemania</td>
+            <td>€9B dedicados + topes sectoriales de emisiones vinculantes + certificación RFNBO</td>
+            <td><span class="pill pill-yellow">Parcialmente</span></td>
+            <td>Los topes sectoriales vinculantes requieren reforma de LGCC. La certificación RFNBO sí es directamente adoptable vía reconocimiento de certificadores acreditados (TÜV, DNV).</td>
+          </tr>
+          <tr>
+            <td class="td-bold">🇦🇺 Australia</td>
+            <td>Grants competitivos (ARENA) + sistema de Garantía de Origen + fast-track de permisos</td>
+            <td><span class="pill pill-green">Sí, alta compatibilidad</span></td>
+            <td>Los grants competitivos pueden canalizarse vía SENER/banca de desarrollo. El modelo GO es referencia para esquema híbrido de certificación. El fast-track es directamente replicable.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">🇮🇳 India</td>
+            <td>Incentivos por kg producido (SIGHT) + obligaciones verdes de consumo industrial</td>
+            <td><span class="pill pill-yellow">Parcialmente</span></td>
+            <td>Las obligaciones de consumo son transferibles (construir sobre LGCC/RETC). Los incentivos por producción requieren MRV que México no tiene aún.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">🇨🇱 Chile</td>
+            <td>Co-financiamiento CORFO + agregación de demanda temprana</td>
+            <td><span class="pill pill-green">Sí, directamente</span></td>
+            <td>Modelo CORFO es comparable a lo que SENER + NAFIN/Bancomext/Banobras ya saben hacer. Aplicable de inmediato.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">🇨🇴 Colombia</td>
+            <td>Sandbox regulatorio para proyectos piloto</td>
+            <td><span class="pill pill-green">Sí</span></td>
+            <td>México tiene bases legales para experimentación regulatoria. Útil mientras se refinan reglas permanentes, siempre que tenga ruta de transición clara.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">🇰🇷 Corea del Sur</td>
+            <td>Mercado de licitación de hidrógeno limpio integrado en compras de energía</td>
+            <td><span class="pill pill-red">No a corto plazo</span></td>
+            <td>Requiere mercado eléctrico más liberalizado que el actual en México.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">🇯🇵 Japón</td>
+            <td>Compras públicas como ancla de demanda + desarrollo de cadenas de suministro</td>
+            <td><span class="pill pill-green">Sí, vía PEMEX y CFE</span></td>
+            <td>PEMEX ya consume hidrógeno en refinación. CFE puede ser comprador temprano. El modelo de compras públicas encaja con la estructura mexicana.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. QUÉ CUESTA CADA OPCIÓN -->
+  <section class="block">
+    <div class="block-label">04 — Costos comparados</div>
+    <h2>¿Cuánto costaría cada tipo de instrumento?</h2>
+    <p>Las cifras son estimaciones de orden de magnitud para una referencia de ~100 MW de capacidad instalada de electrólisis. No son presupuestos, sino rangos comparativos para entender las diferencias entre opciones.</p>
+
+    <h3>Instrumentos de bajo costo (regulatorios / administrativos)</h3>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <span class="bar-label">Mandatos de demanda regulatoria</span>
+        <div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--green-bar);">USD 1-3M</div></div>
+        <span class="bar-value">Setup único</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Sandbox regulatorio</span>
+        <div class="bar-track"><div class="bar-fill" style="width:7%;background:var(--green-bar);">USD 1-2.5M</div></div>
+        <span class="bar-value">Setup único</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Fast-track de permisos</span>
+        <div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--green-bar);">USD 1.5-3M</div></div>
+        <span class="bar-value">Setup único</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Certificación internacional</span>
+        <div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--green-bar);">USD 1.5-3M</div></div>
+        <span class="bar-value">Setup único</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Metas en ENTE/PLATEASE</span>
+        <div class="bar-track"><div class="bar-fill" style="width:12%;background:var(--green-bar);">USD 2.5-4.5M</div></div>
+        <span class="bar-value">Setup único</span>
+      </div>
+    </div>
+
+    <h3>Instrumentos de costo moderado</h3>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <span class="bar-label">Certificación híbrida nacional</span>
+        <div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--yellow-bar);">USD 3-6M</div></div>
+        <span class="bar-value">Setup + plataforma</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Planeación integrada en red</span>
+        <div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--yellow-bar);">USD 3.5-6M</div></div>
+        <span class="bar-value">Modelación + estudios</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Compras públicas de H₂</span>
+        <div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--yellow-bar);font-size:10px;">USD 15-30M/año</div></div>
+        <span class="bar-value">Recurrente anual</span>
+      </div>
+    </div>
+
+    <h3>Instrumentos de alto costo</h3>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <span class="bar-label">Grants de CAPEX</span>
+        <div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--red-bar);font-size:10px;">USD 60-120M</div></div>
+        <span class="bar-value">Por 100 MW</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Desarrollo mixto (público-privado)</span>
+        <div class="bar-track"><div class="bar-fill" style="width:48%;background:var(--red-bar);font-size:10px;">USD 80-150M</div></div>
+        <span class="bar-value">Por 100 MW</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Incentivos por producción</span>
+        <div class="bar-track"><div class="bar-fill" style="width:70%;background:var(--red-bar);font-size:10px;">USD 150-300M en 10 años</div></div>
+        <span class="bar-value">Acumulado 10 años</span>
+      </div>
+    </div>
+
+    <div class="callout callout-amber">
+      <p><strong>Nota clave:</strong> Los instrumentos regulatorios (mandatos, permisos, certificación) cuestan entre USD 1 y 6 millones en setup. Los instrumentos financieros de producción cuestan entre USD 60 y 300 millones por proyecto. Esto explica por qué la ruta regulatoria es la más viable a corto plazo para México.</p>
+    </div>
+  </section>
+
+  <!-- 5. OPCIONES COMPARADAS POR ÁREA -->
+  <section class="block">
+    <div class="block-label">05 — Las opciones comparadas</div>
+    <h2>Para cada área: cuál conviene más y por qué</h2>
+    <p>En cada una de las cinco áreas, el estudio comparó tres modelos distintos. Aquí está el resultado, con la opción recomendada marcada para cada caso.</p>
+
+    <!-- AREA 1 -->
+    <h3>Área 1 — Estrategia Nacional</h3>
+    <div class="compare-grid">
+      <div class="compare-card recommended">
+        <h4>Metas de hidrógeno en ENTE/PLATEASE</h4>
+        <p>Incorporar metas cuantitativas de hidrógeno en los instrumentos de planeación que ya existen bajo LPTE.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 2.5–4.5M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--teal)">Alta</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Requiere ley nueva</span><span class="compare-stat-value">No</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Obligaciones sectoriales de descarbonización</h4>
+        <p>Topes vinculantes de emisiones por sector, como en Alemania.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 4–7.5M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--amber)">Media</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Requiere ley nueva</span><span class="compare-stat-value">Sí (reforma LGCC)</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Presupuesto plurianual dedicado</h4>
+        <p>Fondo público de largo plazo como los €9B de Alemania.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 23–68M+</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--coral)">Baja</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Requiere ley nueva</span><span class="compare-stat-value">Sí (reforma PEF)</span></div>
+      </div>
+    </div>
+
+    <!-- AREA 2 -->
+    <h3>Área 2 — Certificación</h3>
+    <div class="compare-grid">
+      <div class="compare-card recommended">
+        <h4>Reconocer certificadores internacionales</h4>
+        <p>TÜV, DNV y otros verifican bajo estándares ISO/EU. México solo necesita reconocerlos formalmente.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 1.5–3M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--teal)">Alta</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Credibilidad de exportación</span><span class="compare-stat-value">Máxima</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Esquema híbrido nacional</h4>
+        <p>Metodología propia + registro + interoperabilidad, como Australia.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 3–6M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--amber)">Media</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Credibilidad de exportación</span><span class="compare-stat-value">Alta (si interoperable)</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Verificación interna por gobierno</h4>
+        <p>Crear autoridad verificadora propia, como India (MNRE).</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 6–10M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--coral)">Baja</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Credibilidad de exportación</span><span class="compare-stat-value">Limitada</span></div>
+      </div>
+    </div>
+
+    <!-- AREA 3 -->
+    <h3>Área 3 — Permisos</h3>
+    <div class="compare-grid">
+      <div class="compare-card recommended">
+        <h4>Fast-track en sistema existente</h4>
+        <p>Dar trato prioritario al hidrógeno en SEMARNAT, CRE, CENACE y ASEA. Ya hay precedente con la VUPE.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 1.5–3M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--teal)">Alta</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Reforma legislativa</span><span class="compare-stat-value">No requerida</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Integración en planeación de redes</h4>
+        <p>Incluir hidrógeno en planes de expansión de electricidad y gas.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 3.5–6M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--amber)">Media</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Reforma legislativa</span><span class="compare-stat-value">No, pero requiere coordinación</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Sandbox regulatorio</h4>
+        <p>Flexibilidad temporal para pilotos, como en Colombia.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 1–2.5M</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--amber)">Media</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Reforma legislativa</span><span class="compare-stat-value">Clarificación necesaria</span></div>
+      </div>
+    </div>
+
+    <!-- AREA 4 -->
+    <h3>Área 4 — Apoyo a la producción</h3>
+    <div class="compare-grid">
+      <div class="compare-card recommended">
+        <h4>Desarrollo mixto (tipo CFE-SENER)</h4>
+        <p>Asociación público-privada con aportes en especie + PEMEX como comprador ancla. Ya tiene precedente en el sector eléctrico.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo público</span><span class="compare-stat-value">USD 80–150M / 100MW</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--teal)">Alta</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Moviliza capital privado</span><span class="compare-stat-value">Sí (~46%)</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Grants de CAPEX</h4>
+        <p>Subvenciones competitivas no reembolsables, como Chile (CORFO) y Australia (ARENA).</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo público</span><span class="compare-stat-value">USD 60–120M / 100MW</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--teal)">Alta</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Moviliza capital privado</span><span class="compare-stat-value">Indirectamente</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Incentivos por kg producido</h4>
+        <p>Pagos continuos por producción verificada durante 10 años, como India (SIGHT).</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo público</span><span class="compare-stat-value">USD 150–300M / 10 años</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--coral)">Baja</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Moviliza capital privado</span><span class="compare-stat-value">Sí, pero alto costo fiscal</span></div>
+      </div>
+    </div>
+
+    <!-- AREA 5 -->
+    <h3>Área 5 — Estímulo de demanda</h3>
+    <div class="compare-grid">
+      <div class="compare-card recommended">
+        <h4>Mandatos regulatorios de demanda</h4>
+        <p>Obligar a ciertos sectores (industria, refinación) a usar un porcentaje de hidrógeno renovable. Demanda vía regulación, no vía gasto público.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 1–3M setup</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--amber)">Media-Alta</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Gasto público recurrente</span><span class="compare-stat-value">Ninguno</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Compras públicas de hidrógeno</h4>
+        <p>PEMEX y CFE como compradores tempranos bajo marcos de compras existentes.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 15–30M/año</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--amber)">Media</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Gasto público recurrente</span><span class="compare-stat-value">Sí, por premium de precio</span></div>
+      </div>
+      <div class="compare-card">
+        <h4>Contratos por Diferencia (CfDs)</h4>
+        <p>Garantizar un precio a productores. Si el mercado paga menos, el gobierno cubre la diferencia.</p>
+        <div class="compare-stat"><span class="compare-stat-label">Costo</span><span class="compare-stat-value">USD 25–50M/año</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Viabilidad</span><span class="compare-stat-value" style="color:var(--coral)">Baja</span></div>
+        <div class="compare-stat"><span class="compare-stat-label">Gasto público recurrente</span><span class="compare-stat-value">Sí, multi-año</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. PLAN DE ACCIÓN -->
+  <section class="block">
+    <div class="block-label">06 — Plan de acción para SENER</div>
+    <h2>Las 5 acciones prioritarias de implementación</h2>
+    <p>Basado en el análisis, estas son las acciones más viables que SENER puede impulsar en el corto plazo, sin necesidad de reformas legislativas mayores ni compromisos presupuestales plurianuales.</p>
+
+    <div class="action-list">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-content">
+          <h4>Integrar metas de hidrógeno renovable en ENTE y PLATEASE</h4>
+          <p>La Ley de Planeación y Transición Energética (LPTE) ya mandata la actualización periódica de la ENTE y PLATEASE. Incorporar metas cuantitativas de hidrógeno aquí es la forma más directa de dar señal de dirección estratégica sin necesidad de nueva legislación. Costo estimado: USD 2.5–4.5 millones.</p>
+          <div class="action-tags">
+            <span class="action-tag">LPTE existente</span>
+            <span class="action-tag">Sin reforma legal</span>
+            <span class="action-tag">Corto plazo</span>
+          </div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-content">
+          <h4>Reconocer formalmente la certificación internacional acreditada</h4>
+          <p>En lugar de crear una autoridad verificadora propia (costaría USD 6–10M y no tiene precedente), es más eficiente reconocer a certificadores internacionales como TÜV SÜD o DNV que ya operan bajo estándares ISO y EU RFNBO. Esto da credibilidad inmediata para exportación y cuesta solo USD 1.5–3M en adaptación regulatoria.</p>
+          <div class="action-tags">
+            <span class="action-tag">Marco regulatorio existente</span>
+            <span class="action-tag">Credibilidad de exportación</span>
+            <span class="action-tag caution">No crear autoridad interna ahora</span>
+          </div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-content">
+          <h4>Dar tratamiento prioritario al hidrógeno en el sistema de permisos</h4>
+          <p>SEMARNAT, CRE, CENACE y ASEA ya procesan proyectos energéticos e industriales. El hidrógeno puede recibir trato prioritario dentro de estos procesos sin cambiar la ley. La VUPE (Ventanilla Única de Proyectos Estratégicos) de octubre 2025 ya demostró que esto es posible en el sector eléctrico. Costo: USD 1.5–3M.</p>
+          <div class="action-tags">
+            <span class="action-tag">Precedente VUPE Oct 2025</span>
+            <span class="action-tag">SEMARNAT · CRE · CENACE · ASEA</span>
+            <span class="action-tag">Sin reforma legislativa</span>
+          </div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div class="action-content">
+          <h4>Activar un esquema de desarrollo mixto para los primeros proyectos</h4>
+          <p>México ya tiene experiencia con este modelo en el sector eléctrico: los esquemas CFE-SENER combinan participación pública (54% en especie) con capital privado (46%) y responsabilidad de entrega. Este mismo esquema puede adaptarse para hidrógeno. Además, PEMEX ya consume hidrógeno en sus refinerías, lo que ofrece un comprador ancla inmediato para los primeros proyectos de hidrógeno renovable.</p>
+          <div class="action-tags">
+            <span class="action-tag">Precedente CFE-SENER</span>
+            <span class="action-tag">PEMEX como offtaker</span>
+            <span class="action-tag">Moviliza capital privado</span>
+            <span class="action-tag caution">No usar incentivos por producción aún</span>
+          </div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">5</div>
+        <div class="action-content">
+          <h4>Avanzar mandatos de demanda construyendo sobre LGCC, RETC y SCE</h4>
+          <p>La forma más barata de crear demanda es por regulación, no por gasto público. La LGCC ya establece metas de reducción sectorial. El RETC da capacidad de reporte. El SCE piloto da experiencia en instrumentos de mercado. Reforzar estos instrumentos para incluir obligaciones de consumo de hidrógeno en sectores como industria y refinación cuesta solo USD 1–3M en diseño regulatorio y no genera gasto público recurrente.</p>
+          <div class="action-tags">
+            <span class="action-tag">LGCC · RETC · SCE</span>
+            <span class="action-tag">Sin subsidio a productores</span>
+            <span class="action-tag">Compatible con PEF anual</span>
+            <span class="action-tag caution">No CfDs a corto plazo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SECUENCIAMIENTO -->
+  <section class="block">
+    <div class="block-label">07 — Secuenciamiento</div>
+    <h2>Cuándo implementar cada cosa</h2>
+    <p>No todo se puede hacer al mismo tiempo. El documento propone un enfoque por fases que va de lo más factible e inmediato hacia lo más complejo.</p>
+
+    <div class="seq-timeline">
+      <div class="seq-col">
+        <div class="seq-phase" style="color:#1E5B4F;">🟢 Corto plazo</div>
+        <div class="seq-period">Se puede hacer hoy con instrumentos existentes</div>
+        <div class="seq-item">Metas de H₂ en ENTE y PLATEASE</div>
+        <div class="seq-item">Reconocer certificadores internacionales</div>
+        <div class="seq-item">Fast-track de permisos vía VUPE</div>
+        <div class="seq-item">Esquema de desarrollo mixto con PEMEX como ancla</div>
+        <div class="seq-item">Diseño de mandatos de demanda sobre LGCC/RETC</div>
+      </div>
+      <div class="seq-col">
+        <div class="seq-phase" style="color:#A57F2C;">🟡 Mediano plazo</div>
+        <div class="seq-period">Requiere ajustes regulatorios o coordinación</div>
+        <div class="seq-item">Esquema híbrido de certificación nacional</div>
+        <div class="seq-item">Integrar H₂ en planeación de redes eléctricas/gas</div>
+        <div class="seq-item">Sandbox regulatorio para pilotos</div>
+        <div class="seq-item">Grants de CAPEX vía banca de desarrollo</div>
+        <div class="seq-item">Compras públicas de H₂ vía CFE/PEMEX</div>
+      </div>
+      <div class="seq-col">
+        <div class="seq-phase" style="color:#9B2247;">🔴 Largo plazo</div>
+        <div class="seq-period">Requiere reformas legales o fiscales</div>
+        <div class="seq-item">Topes sectoriales vinculantes (reforma LGCC)</div>
+        <div class="seq-item">Presupuesto plurianual dedicado (reforma PEF)</div>
+        <div class="seq-item">Autoridad verificadora interna</div>
+        <div class="seq-item">Incentivos por producción (MRV dedicado)</div>
+        <div class="seq-item">Contratos por Diferencia para hidrógeno</div>
+      </div>
+    </div>
+
+    <div class="callout callout-blue">
+      <p><strong>Punto clave para la toma de decisiones:</strong> La capacidad de avanzar hacia instrumentos más sofisticados (columna derecha) depende de que se ejecuten bien los instrumentos de la columna izquierda. Si hay problemas de cumplimiento y monitoreo en las fases tempranas, eso indica que la capacidad institucional para instrumentos más complejos todavía no está lista.</p>
+    </div>
+  </section>
+
+  <!-- 8. RESUMEN FINAL -->
+  <section class="block">
+    <div class="block-label">08 — Conclusión</div>
+    <h2>En resumen</h2>
+
+    <div class="callout">
+      <p><strong>Lo que el documento dice en pocas palabras:</strong> México tiene opciones reales y viables para arrancar su mercado de hidrógeno renovable <em>sin necesidad de reformas legislativas mayores</em>. La ruta más inteligente es fortalecer los instrumentos que ya existen (ENTE, PLATEASE, LGCC, RETC, marcos de permisos, esquemas de desarrollo mixto) y usar a PEMEX como ancla de demanda temprana. Los instrumentos más sofisticados — como CfDs, fondos plurianuales dedicados o topes sectoriales vinculantes — pueden ir construyéndose gradualmente conforme la capacidad institucional madure.</p>
+    </div>
+
+    <p style="margin-top:24px;"><strong>Siguiente paso:</strong> La fase 4 (final) del trabajo consolidará todo esto en un paquete de orientación estructurado para SENER, con recomendaciones formales de política y rutas de implementación.</p>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Nota informativa basada en el Analytical Options Paper (D3) del programa GCIEP.<br>
+  Green Cities, Infrastructure and Energy Programme · FCDO · PwC · Mott MacDonald<br>
+  Marzo 2026 · Documento de trabajo para SENER</p>
+</footer>
+
+<script>
+// SVG icon for download button
+const dlIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>`;
+
+// Define which sections get download buttons
+const downloadTargets = [
+  { selector: '.block:nth-of-type(2) .table-wrap', name: '5_areas_clave_SENER' },
+  { selector: '.block:nth-of-type(3) .table-wrap', name: 'comparativo_internacional' },
+  { selector: '.block:nth-of-type(4) h3:nth-of-type(1)', name: 'costos_bajo', captureNext: 'bar-chart' },
+  { selector: '.block:nth-of-type(4) h3:nth-of-type(2)', name: 'costos_moderado', captureNext: 'bar-chart' },
+  { selector: '.block:nth-of-type(4) h3:nth-of-type(3)', name: 'costos_alto', captureNext: 'bar-chart' },
+  { selector: '.block:nth-of-type(5) h3:nth-of-type(1)', name: 'area1_estrategia', captureNext: 'compare-grid' },
+  { selector: '.block:nth-of-type(5) h3:nth-of-type(2)', name: 'area2_certificacion', captureNext: 'compare-grid' },
+  { selector: '.block:nth-of-type(5) h3:nth-of-type(3)', name: 'area3_permisos', captureNext: 'compare-grid' },
+  { selector: '.block:nth-of-type(5) h3:nth-of-type(4)', name: 'area4_produccion', captureNext: 'compare-grid' },
+  { selector: '.block:nth-of-type(5) h3:nth-of-type(5)', name: 'area5_demanda', captureNext: 'compare-grid' },
+  { selector: '.block:nth-of-type(6) .action-list', name: 'plan_accion_SENER' },
+  { selector: '.block:nth-of-type(7) .seq-timeline', name: 'secuenciamiento_fases' },
+];
+
+function createDlButton(filename, targetEl) {
+  const row = document.createElement('div');
+  row.className = 'dl-row no-print';
+  const btn = document.createElement('button');
+  btn.className = 'dl-btn';
+  btn.innerHTML = dlIcon + ' Descargar PNG';
+  btn.addEventListener('click', async () => {
+    btn.classList.add('downloading');
+    btn.innerHTML = dlIcon + ' Generando...';
+    try {
+      const canvas = await html2canvas(targetEl, {
+        scale: 3,
+        backgroundColor: '#FFFFFF',
+        useCORS: true,
+        logging: false,
+        windowWidth: 1000,
+      });
+      const link = document.createElement('a');
+      link.download = filename + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch(e) {
+      console.error('Error generating PNG:', e);
+      alert('Error al generar la imagen. Intenta de nuevo.');
+    }
+    btn.classList.remove('downloading');
+    btn.innerHTML = dlIcon + ' Descargar PNG';
+  });
+  row.appendChild(btn);
+  return row;
+}
+
+// Process all targets once html2canvas is loaded
+function initDownloads() {
+  if (typeof html2canvas === 'undefined') {
+    setTimeout(initDownloads, 200);
+    return;
+  }
+
+  downloadTargets.forEach(t => {
+    const anchor = document.querySelector(t.selector);
+    if (!anchor) return;
+
+    let captureEl;
+
+    if (t.captureNext) {
+      // Capture the heading + the next sibling with that class
+      const wrapper = document.createElement('div');
+      wrapper.style.background = '#FFFFFF';
+      wrapper.style.padding = '20px 24px';
+      wrapper.style.borderRadius = '10px';
+
+      const heading = anchor.cloneNode(true);
+      let nextEl = anchor.nextElementSibling;
+      while (nextEl && !nextEl.classList.contains(t.captureNext)) {
+        nextEl = nextEl.nextElementSibling;
+      }
+
+      if (nextEl) {
+        // Wrap both heading and chart in a container for capture
+        const container = document.createElement('div');
+        container.id = 'capture-' + t.name;
+        container.style.background = '#FFFFFF';
+        anchor.parentNode.insertBefore(container, anchor);
+        container.appendChild(anchor);
+        container.appendChild(nextEl);
+        captureEl = container;
+      } else {
+        captureEl = anchor;
+      }
+    } else {
+      captureEl = anchor;
+    }
+
+    const dlBtn = createDlButton(t.name, captureEl);
+    captureEl.parentNode.insertBefore(dlBtn, captureEl);
+  });
+}
+
+// Also add a "download all charts" button at the top
+function addDownloadAllButton() {
+  if (typeof html2canvas === 'undefined') {
+    setTimeout(addDownloadAllButton, 200);
+    return;
+  }
+
+  const content = document.querySelector('.content');
+  if (!content) return;
+
+  const allRow = document.createElement('div');
+  allRow.className = 'dl-row no-print';
+  allRow.style.marginBottom = '32px';
+  allRow.style.justifyContent = 'flex-start';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'dl-btn';
+  allBtn.style.background = 'var(--guinda)';
+  allBtn.style.color = 'white';
+  allBtn.style.borderColor = 'var(--guinda)';
+  allBtn.style.padding = '10px 20px';
+  allBtn.style.fontSize = '13px';
+  allBtn.innerHTML = dlIcon + ' Descargar TODOS los gráficos como PNG';
+
+  allBtn.addEventListener('click', async () => {
+    allBtn.classList.add('downloading');
+    allBtn.innerHTML = dlIcon + ' Descargando...';
+
+    const allBtns = document.querySelectorAll('.dl-btn:not([style])');
+    for (const b of allBtns) {
+      b.click();
+      await new Promise(r => setTimeout(r, 800));
+    }
+
+    allBtn.classList.remove('downloading');
+    allBtn.innerHTML = dlIcon + ' Descargar TODOS los gráficos como PNG';
+  });
+
+  allRow.appendChild(allBtn);
+  content.insertBefore(allRow, content.firstChild);
+}
+
+initDownloads();
+addDownloadAllButton();
+</script>
+
+</body>
+</html>

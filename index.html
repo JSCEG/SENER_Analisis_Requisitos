@@ -4,33 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero de Análisis de CELs - SENER</title>
+    <title>Tablero CEL — SENER</title>
 
-    <!-- Fuentes Institucionales -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:wght@400;700&display=swap"
-        rel="stylesheet">
-    <!-- Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Estilos Compartidos -->
     <link rel="stylesheet" href="css/pages-common.css">
 
     <style>
-        /* Estilos Específicos del Dashboard (que no están en common) */
-
-        /* Ajustes al Header para el Dashboard (sin navegación) */
+        /* ── Reset del header para index (sin breadcrumb) ── */
         header {
-            /* Sobrescribe el header flex de common si es necesario, 
-               pero common.css no tiene estilos de 'header' tag globales agresivos excepto border-bottom */
-            background-color: white;
-            border-bottom: 4px solid var(--color-gobmx-dorado);
-            padding: 20px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            display: block;
-            /* Reset flex from common if any */
+            background: white;
+            border-bottom: 3px solid var(--color-gobmx-dorado);
+            padding: 18px 0;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.04);
         }
 
         .header-content {
@@ -39,168 +27,287 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
-        .header-text h1 {
+        .header-brand { display: flex; align-items: center; gap: 16px; }
+        .header-brand img { height: 52px; width: auto; }
+        .header-brand-divider {
+            width: 1px; height: 40px;
+            background: #e0d8d8;
+        }
+        .header-brand-text h1 {
             font-family: var(--font-family-headings);
             color: var(--color-gobmx-guinda);
+            font-size: 1.15rem;
             margin: 0;
-            font-size: 1.8rem;
+            line-height: 1.2;
         }
-
-        .header-text h2 {
-            font-family: var(--font-family-headings);
-            color: var(--color-gobmx-verde);
-            margin: 5px 0 0 0;
-            font-size: 1.1rem;
-        }
-
-        .header-text h3 {
-            font-family: var(--font-family-headings);
+        .header-brand-text p {
+            font-size: 0.78rem;
             color: var(--color-gobmx-gris);
-            margin: 2px 0 0 0;
-            font-size: 0.9rem;
-            font-weight: normal;
+            margin: 2px 0 0;
+            letter-spacing: 0.02em;
         }
 
-        .intro-section {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: white;
-            margin-bottom: 30px;
+        /* ── Hero ── */
+        .idx-hero {
+            background: #F7F6F3;
+            border-bottom: 1px solid rgba(107, 15, 26, 0.08);
+            padding: 56px 24px 52px;
         }
-
-        .intro-section p {
-            max-width: 800px;
-            margin: 0 auto 20px auto;
-            font-size: 1.1rem;
+        .idx-hero-inner {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .idx-hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-gobmx-verde);
+            margin-bottom: 20px;
+        }
+        .idx-hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--color-gobmx-verde);
+            border-radius: 2px;
+        }
+        .idx-hero h1 {
+            font-family: var(--font-family-headings);
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 8px;
+            line-height: 1.15;
+            font-weight: 700;
+        }
+        .idx-hero h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: #6b3a44;
+        }
+        .idx-hero-sub {
+            font-size: 1rem;
+            color: #6b5c5c;
+            margin: 0 0 28px;
             line-height: 1.6;
-            color: #555;
+            max-width: 640px;
         }
-
+        .idx-hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .btn-download {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background-color: var(--color-gobmx-guinda);
+            gap: 9px;
+            background: var(--color-gobmx-guinda);
             color: white;
             text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: background-color 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 11px 22px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            box-shadow: 0 4px 14px rgba(107, 15, 26, 0.18);
         }
-
         .btn-download:hover {
-            background-color: #7a1b38;
+            background: #850e21;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(107, 15, 26, 0.24);
+        }
+        .idx-hero-note {
+            font-size: 0.8rem;
+            color: #9a8b8b;
         }
 
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            padding-bottom: 60px;
+        /* ── Contenido principal ── */
+        .idx-main {
             max-width: 1200px;
             margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
+            padding: 52px 24px 80px;
         }
 
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-top: 5px solid var(--color-gobmx-dorado);
+        /* ── Sección ── */
+        .idx-section { margin-bottom: 56px; }
+        .idx-section:last-child { margin-bottom: 0; }
+
+        .idx-section-header {
             display: flex;
-            flex-direction: column;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 28px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(107, 15, 26, 0.1);
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-body {
-            padding: 25px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card h3 {
+        .idx-section-label {
             font-family: var(--font-family-headings);
+            font-size: 1.1rem;
             color: var(--color-gobmx-guinda);
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .idx-section-count {
+            font-size: 0.75rem;
+            color: #b5a5a5;
+            font-weight: 400;
+            letter-spacing: 0.04em;
         }
 
-        .card p {
-            color: #666;
-            line-height: 1.5;
+        /* ── Grid de cards ── */
+        .idx-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        }
+        .idx-grid-wide {
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        }
+
+        /* ── Card ── */
+        .idx-card {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(107, 15, 26, 0.07);
+            text-decoration: none;
+            color: inherit;
+            padding: 24px;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+        .idx-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(107, 15, 26, 0.1);
+            border-color: rgba(107, 15, 26, 0.16);
+        }
+
+        /* Acento de color sutil en la card */
+        .idx-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+            background: var(--card-accent, var(--color-gobmx-guinda));
+            opacity: 0.7;
+        }
+
+        .idx-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+        .idx-card-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            background: var(--card-icon-bg, rgba(107, 15, 26, 0.07));
+            color: var(--card-accent, var(--color-gobmx-guinda));
+            flex-shrink: 0;
+        }
+        .idx-card-num {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #c4b0b0;
+            font-family: var(--font-family-headings);
+        }
+
+        .idx-card-title {
+            font-family: var(--font-family-headings);
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 8px;
+            line-height: 1.3;
+        }
+        .idx-card-desc {
+            font-size: 0.85rem;
+            color: #7a6868;
+            line-height: 1.55;
+            margin: 0;
             flex: 1;
         }
-
-        .card-footer {
-            padding: 15px 25px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #eee;
-            text-align: right;
-        }
-
-        .btn-view {
-            color: var(--color-gobmx-verde);
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-flex;
+        .idx-card-cta {
+            display: flex;
             align-items: center;
             gap: 5px;
+            margin-top: 18px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--card-accent, var(--color-gobmx-guinda));
+            letter-spacing: 0.02em;
+        }
+        .idx-card-cta i { font-size: 0.95rem; transition: transform 0.15s; }
+        .idx-card:hover .idx-card-cta i { transform: translateX(3px); }
+
+        /* Variantes de color */
+        .idx-card--verde {
+            --card-accent: var(--color-gobmx-verde);
+            --card-icon-bg: rgba(0, 100, 60, 0.07);
+        }
+        .idx-card--dorado {
+            --card-accent: #9a7a1a;
+            --card-icon-bg: rgba(154, 122, 26, 0.08);
+        }
+        .idx-card--azul {
+            --card-accent: #1a5a8a;
+            --card-icon-bg: rgba(26, 90, 138, 0.07);
         }
 
-        .btn-view:hover {
-            text-decoration: underline;
+        /* ── Footer ── */
+        .idx-footer {
+            background: #F0EDE8;
+            border-top: 1px solid rgba(107, 15, 26, 0.08);
+            padding: 28px 24px;
+        }
+        .idx-footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .idx-footer p {
+            font-size: 0.8rem;
+            color: #8a7575;
+            margin: 0;
+        }
+        .idx-footer-logo {
+            opacity: 0.45;
+            height: 28px;
         }
 
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: auto;
-        }
-
-        /* Mobile Adjustments */
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-
-            .header-logos img {
-                height: 50px;
-            }
-
-            .header-text h1 {
-                font-size: 1.5rem;
-            }
+            .header-content { flex-direction: column; gap: 12px; text-align: center; }
+            .header-brand { flex-direction: column; gap: 10px; }
+            .header-brand-divider { display: none; }
+            .idx-hero { padding: 40px 20px 36px; }
+            .idx-grid { grid-template-columns: 1fr; }
+            .idx-footer-inner { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
+    <!-- Navegación -->
     <nav class="site-nav">
         <div class="nav-brand">
-            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center;">
-                <span style="font-size: 1.2rem; margin-right: 5px;"><i class="bi bi-bar-chart-fill"></i></span> SENER |
-                CELs
+            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:8px;">
+                <i class="bi bi-bar-chart-fill"></i> SENER | CELs
             </a>
         </div>
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -209,162 +316,220 @@
         <ul class="nav-menu">
             <li class="nav-item"><a href="index.html" class="nav-link active">Inicio</a></li>
             <li class="nav-item">
-                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span
-                        class="dropdown-icon">&#9662;</span></a>
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span></a>
                 <ul class="nav-dropdown-menu">
                     <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
                     <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
-                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a>
-                    </li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a></li>
                     <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
-                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación
-                            Participantes</a></li>
-                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a>
-                    </li>
-                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación
-                            Requisitos</a>
-                    </li>
-                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo
-                            Mecanismo 2026</a>
-                    </li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a></li>
+                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación Requisitos</a></li>
+                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo Mecanismo 2026</a></li>
                     <li><a href="presentacion_ejecutiva_cel.html" class="nav-dropdown-link">9. Presentación Ejecutiva CEL</a></li>
                 </ul>
             </li>
-            <!-- <li class="nav-item"><a href="sistema_cel.html" class="nav-link">Sistema CEL</a></li> -->
-            <li class="nav-item"><a href="presentacion_otorgamiento_cel.html" class="nav-link">Presentación
-                    Otorgamiento</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Otorgamiento CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="presentacion_otorgamiento_cel.html" class="nav-dropdown-link">Presentación Otorgamiento</a></li>
+                    <li><a href="sankey_otorgamiento_cel.html" class="nav-dropdown-link">Sankey Energía vs CEL otorgados</a></li>
+                    <li><a href="sankey_cel_historicos.html" class="nav-dropdown-link">Sankey CEL históricos otorgados</a></li>
+                </ul>
+            </li>
             <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
             <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
-
         </ul>
     </nav>
 
+    <!-- Header institucional -->
     <header>
-        <div class="container header-content">
-            <div class="header-text">
-                <h1>Tablero de Análisis de CELs</h1>
-                <h2>Subsecretaría de Planeación y Transición Energética</h2>
-                <h3>Dirección General de Transición Energética</h3>
-            </div>
-            <div class="header-logos">
+        <div class="header-content">
+            <div class="header-brand">
                 <img src="img/logo_sener.png" alt="SENER">
+                <div class="header-brand-divider"></div>
+                <div class="header-brand-text">
+                    <h1>Tablero de Análisis de CELs</h1>
+                    <p>Subsecretaría de Planeación y Transición Energética</p>
+                </div>
             </div>
         </div>
     </header>
 
-    <div class="intro-section">
-        <div class="container">
-            <p>
-                Visualización interactiva de la Metodología, Pronósticos, Indicadores y Obligaciones relacionados con
-                los
-                Certificados de Energías Limpias (CEL) para el periodo 2025-2039, conforme a la Ley del Sector
-                Eléctrico.
+    <!-- Hero -->
+    <section class="idx-hero">
+        <div class="idx-hero-inner">
+            <div class="idx-hero-eyebrow">Certificados de Energías Limpias</div>
+            <h1>Análisis e instrumentos<br><em>de seguimiento CEL</em></h1>
+            <p class="idx-hero-sub">
+                Visualización interactiva de la metodología, pronósticos, indicadores y obligaciones del sistema CEL
+                para el período 2025–2039, conforme a la Ley del Sector Eléctrico.
             </p>
-            <a href="Análisis Requisitos de CEL.pdf" download class="btn-download">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                    <path
-                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                    <path
-                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                </svg>
-                Descargar Análisis Completo (PDF)
-            </a>
+            <div class="idx-hero-actions">
+                <a href="Análisis Requisitos de CEL.pdf" download class="btn-download">
+                    <i class="bi bi-download"></i> Descargar Análisis (PDF)
+                </a>
+                <span class="idx-hero-note">Actualizado 2025</span>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div class="container dashboard-grid">
-        <!-- 1. Metodología -->
-        <a href="metodologia_cel.html" style="text-decoration: none; color: inherit;">
-            <div class="card" style="border-top-color: var(--color-gobmx-guinda);">
-                <div class="card-body">
-                    <h3>1. Metodología de Cálculo</h3>
-                    <p>Diagrama interactivo que explica la fórmula oficial para determinar el Requisito de CEL: (Oferta
-                        Acreditable / Demanda Obligada).</p>
-                </div>
-                <div class="card-footer">
-                    <span class="btn-view">Ver Gráfico &rarr;</span>
-                </div>
+    <!-- Contenido -->
+    <main class="idx-main">
+
+        <!-- Sección 1: Análisis de Requisito -->
+        <section class="idx-section">
+            <div class="idx-section-header">
+                <h2 class="idx-section-label">Análisis de Requisito CEL</h2>
+                <span class="idx-section-count">6 vistas</span>
             </div>
-        </a>
+            <div class="idx-grid">
 
-        <!-- 2. Pronóstico -->
-        <a href="pronostico_generacion.html" style="text-decoration: none; color: inherit;">
-            <div class="card" style="border-top-color: var(--color-gobmx-verde);">
-                <div class="card-body">
-                    <h3>2. Pronóstico de Generación</h3>
-                    <p>Proyección de la generación de energías limpias (GWh) por tecnología para el periodo 2025-2039.
-                    </p>
-                </div>
-                <div class="card-footer">
-                    <span class="btn-view">Ver Gráfico &rarr;</span>
-                </div>
+                <a href="metodologia_cel.html" class="idx-card">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-diagram-3"></i></div>
+                        <span class="idx-card-num">01</span>
+                    </div>
+                    <h3 class="idx-card-title">Metodología de Cálculo</h3>
+                    <p class="idx-card-desc">Diagrama interactivo de la fórmula oficial para determinar el Requisito CEL: Oferta Acreditable / Demanda Obligada.</p>
+                    <span class="idx-card-cta">Ver análisis <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="pronostico_generacion.html" class="idx-card idx-card--verde">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                        <span class="idx-card-num">02</span>
+                    </div>
+                    <h3 class="idx-card-title">Pronóstico de Generación</h3>
+                    <p class="idx-card-desc">Proyección de generación de energías limpias (GWh) por tecnología para el período 2025–2039.</p>
+                    <span class="idx-card-cta">Ver pronóstico <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="indicador_y_requisito_cel.html" class="idx-card idx-card--dorado">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-bar-chart-line"></i></div>
+                        <span class="idx-card-num">03</span>
+                    </div>
+                    <h3 class="idx-card-title">Indicador vs Requisito</h3>
+                    <p class="idx-card-desc">Comparativa histórica y proyectada entre el Indicador de Participación de Energías Limpias y el Requisito CEL calculado.</p>
+                    <span class="idx-card-cta">Ver comparativa <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="requisito_cel.html" class="idx-card">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-calendar-check"></i></div>
+                        <span class="idx-card-num">04</span>
+                    </div>
+                    <h3 class="idx-card-title">Requisito Anual Oficial</h3>
+                    <p class="idx-card-desc">Porcentajes de Requisito de CEL decretados para los años 2025 al 2039, con visualización oficial.</p>
+                    <span class="idx-card-cta">Ver requisito <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="obligacion_cel_participantes.html" class="idx-card idx-card--verde">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-people"></i></div>
+                        <span class="idx-card-num">05</span>
+                    </div>
+                    <h3 class="idx-card-title">Obligación por Participante</h3>
+                    <p class="idx-card-desc">Tablero para calcular y visualizar la obligación de CEL para cada tipo de suministrador o usuario del sistema.</p>
+                    <span class="idx-card-cta">Ver obligaciones <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="estrategia_transicion_cel.html" class="idx-card idx-card--dorado">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-signpost-split"></i></div>
+                        <span class="idx-card-num">06</span>
+                    </div>
+                    <h3 class="idx-card-title">Estrategia de Transición</h3>
+                    <p class="idx-card-desc">Escenarios de convergencia A, B y C para alinear el Requisito Oficial con la Disponibilidad Técnica (2025–2028).</p>
+                    <span class="idx-card-cta">Ver escenarios <i class="bi bi-arrow-right"></i></span>
+                </a>
+
             </div>
-        </a>
+        </section>
 
-        <!-- 3. Indicador -->
-        <a href="indicador_y_requisito_cel.html" style="text-decoration: none; color: inherit;">
-            <div class="card" style="border-top-color: var(--color-gobmx-dorado);">
-                <div class="card-body">
-                    <h3>3. Indicador vs Requisito</h3>
-                    <p>Comparativa histórica y proyectada entre el Indicador de Participación de Energías Limpias y el
-                        Requisito CEL calculado.</p>
-                </div>
-                <div class="card-footer">
-                    <span class="btn-view">Ver Gráfico &rarr;</span>
-                </div>
+        <!-- Sección 2: Otorgamiento -->
+        <section class="idx-section">
+            <div class="idx-section-header">
+                <h2 class="idx-section-label">Otorgamiento de CEL</h2>
+                <span class="idx-section-count">3 vistas</span>
             </div>
-        </a>
+            <div class="idx-grid idx-grid-wide">
 
-        <!-- 4. Requisito Anual -->
-        <a href="requisito_cel.html" style="text-decoration: none; color: inherit;">
-            <div class="card" style="border-top-color: var(--color-gobmx-guinda);">
-                <div class="card-body">
-                    <h3>4. Requisito Anual Oficial</h3>
-                    <p>Visualización oficial de los porcentajes de Requisito de CEL decretados para los años 2025 al
-                        2039.</p>
-                </div>
-                <div class="card-footer">
-                    <span class="btn-view">Ver Gráfico &rarr;</span>
-                </div>
+                <a href="presentacion_otorgamiento_cel.html" class="idx-card">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-file-earmark-bar-graph"></i></div>
+                        <span class="idx-card-num">I</span>
+                    </div>
+                    <h3 class="idx-card-title">Presentación de Otorgamiento</h3>
+                    <p class="idx-card-desc">Resumen ejecutivo del proceso de otorgamiento de Certificados de Energías Limpias.</p>
+                    <span class="idx-card-cta">Ver presentación <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="sankey_otorgamiento_cel.html" class="idx-card idx-card--verde">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-lightning-charge"></i></div>
+                        <span class="idx-card-num">II</span>
+                    </div>
+                    <h3 class="idx-card-title">Sankey Energía vs CEL</h3>
+                    <p class="idx-card-desc">Flujo interactivo de la energía acreditable y los certificados otorgados por tecnología y año.</p>
+                    <span class="idx-card-cta">Ver Sankey <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="sankey_cel_historicos.html" class="idx-card idx-card--azul">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-clock-history"></i></div>
+                        <span class="idx-card-num">III</span>
+                    </div>
+                    <h3 class="idx-card-title">Sankey CEL Históricos</h3>
+                    <p class="idx-card-desc">Serie histórica de certificados otorgados: distribución por tecnología, central y permisionario.</p>
+                    <span class="idx-card-cta">Ver históricos <i class="bi bi-arrow-right"></i></span>
+                </a>
+
             </div>
-        </a>
+        </section>
 
-        <!-- 5. Obligación Participantes -->
-        <a href="obligacion_cel_participantes.html" style="text-decoration: none; color: inherit;">
-            <div class="card" style="border-top-color: var(--color-gobmx-verde);">
-                <div class="card-body">
-                    <h3>5. Obligación por Participante</h3>
-                    <p>Tablero detallado para calcular y visualizar la obligación de CEL (Certificados) para cada tipo
-                        de suministrador/usuario.</p>
-                </div>
-                <div class="card-footer">
-                    <span class="btn-view">Ver Gráfico &rarr;</span>
-                </div>
+        <!-- Sección 3: Otros temas -->
+        <section class="idx-section">
+            <div class="idx-section-header">
+                <h2 class="idx-section-label">Otros temas</h2>
+                <span class="idx-section-count">2 vistas</span>
             </div>
-        </a>
+            <div class="idx-grid idx-grid-wide">
 
-        <!-- 6. Estrategia Transición -->
-        <a href="estrategia_transicion_cel.html" style="text-decoration: none; color: inherit;">
-            <div class="card" style="border-top-color: var(--color-gobmx-dorado);">
-                <div class="card-body">
-                    <h3>6. Estrategia de Transición</h3>
-                    <p>Análisis de escenarios de convergencia (A, B, C) para alinear el Requisito Oficial con la
-                        Disponibilidad Técnica (2025-2028).</p>
-                </div>
-                <div class="card-footer">
-                    <span class="btn-view">Ver Gráfico &rarr;</span>
-                </div>
+                <a href="construccion.html" class="idx-card idx-card--dorado">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-building"></i></div>
+                        <span class="idx-card-num"></span>
+                    </div>
+                    <h3 class="idx-card-title">Sistema de Comercio de Emisiones</h3>
+                    <p class="idx-card-desc">Información y seguimiento del mecanismo de comercio de emisiones de gases de efecto invernadero.</p>
+                    <span class="idx-card-cta">Ver más <i class="bi bi-arrow-right"></i></span>
+                </a>
+
+                <a href="hidrogeno_verde.html" class="idx-card idx-card--verde">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-droplet-half"></i></div>
+                        <span class="idx-card-num"></span>
+                    </div>
+                    <h3 class="idx-card-title">Hidrógeno Verde</h3>
+                    <p class="idx-card-desc">Análisis de potencial, benchmarking internacional y perspectivas del hidrógeno verde en México.</p>
+                    <span class="idx-card-cta">Ver más <i class="bi bi-arrow-right"></i></span>
+                </a>
+
             </div>
-        </a>
-    </div>
+        </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Secretaría de Energía | Subsecretaría de Planeación y Transición Energética</p>
+    </main>
+
+    <!-- Footer -->
+    <footer class="idx-footer">
+        <div class="idx-footer-inner">
+            <p>&copy; 2025 Secretaría de Energía · Subsecretaría de Planeación y Transición Energética</p>
+            <img src="img/logo_sener.png" alt="SENER" class="idx-footer-logo">
         </div>
     </footer>
 
-    <!-- Shared JS -->
     <script src="js/pages-common.js"></script>
 
 </body>
