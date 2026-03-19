@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema CEL — Informe CNE 2022–2025 | SENER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/pages-common.css">
+    <link rel="stylesheet" href="css/cel-sankey.css">
+    <link rel="stylesheet" href="css/sankey-pilot-redesign.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+    <style>
+        /* ── Layout de secciones analíticas ── */
+        .cne-main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* ── Fuente y fecha del informe ── */
+        .cne-source-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            background: rgba(107,15,26,0.04);
+            border-left: 3px solid var(--color-gobmx-guinda);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.78rem;
+            color: #7a5a5a;
+        }
+        .cne-source-bar strong { color: var(--color-gobmx-guinda); }
+
+        /* ── Balance de mercado (3 KPIs grandes) ── */
+        .cne-market-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .cne-mstat {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(107,15,26,0.08);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .cne-mstat-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .cne-mstat-value {
+            font-family: var(--font-family-headings);
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--color-gobmx-guinda);
+        }
+        .cne-mstat-label { font-size: 0.82rem; color: #7a6868; line-height: 1.3; }
+        .cne-mstat-sub { font-size: 0.72rem; color: #b5a5a5; margin-top: 2px; }
+        .cne-mstat--verde .cne-mstat-value { color: var(--color-gobmx-verde); }
+        .cne-mstat--verde .cne-mstat-icon { background: rgba(0,100,60,0.08); color: var(--color-gobmx-verde); }
+        .cne-mstat--guinda .cne-mstat-icon { background: rgba(107,15,26,0.08); color: var(--color-gobmx-guinda); }
+        .cne-mstat--dorado .cne-mstat-value { color: #8a6a10; }
+        .cne-mstat--dorado .cne-mstat-icon { background: rgba(154,122,26,0.08); color: #8a6a10; }
+
+        /* ── Sección de gráfico ── */
+        .cne-section {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid rgba(107,15,26,0.07);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+        .cne-section-head {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid rgba(107,15,26,0.07);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .cne-section-head-left {}
+        .cne-section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-gobmx-verde);
+            margin: 0 0 4px;
+        }
+        .cne-section-title {
+            font-family: var(--font-family-headings);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 4px;
+        }
+        .cne-section-desc {
+            font-size: 0.8rem;
+            color: #9a8888;
+            margin: 0;
+            max-width: 600px;
+        }
+        .cne-badge-alert {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(200,50,50,0.08);
+            color: #c02020;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .cne-badge-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(107,15,26,0.06);
+            color: var(--color-gobmx-guinda);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .cne-chart-wrap { padding: 16px 20px 20px; }
+        .cne-chart { width: 100%; height: 340px; }
+        .cne-chart-lg { width: 100%; height: 400px; }
+
+        /* ── Grid 2 columnas para gráficos más pequeños ── */
+        .cne-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* ── Tabla de datos ── */
+        .cne-table-wrap {
+            padding: 0 24px 20px;
+            overflow-x: auto;
+        }
+        .cne-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+        .cne-table thead th {
+            padding: 8px 12px;
+            text-align: right;
+            font-weight: 700;
+            color: var(--color-gobmx-guinda);
+            border-bottom: 2px solid rgba(107,15,26,0.12);
+            background: rgba(107,15,26,0.02);
+        }
+        .cne-table thead th:first-child { text-align: left; }
+        .cne-table tbody td {
+            padding: 7px 12px;
+            text-align: right;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            color: #4a4040;
+        }
+        .cne-table tbody td:first-child { text-align: left; font-weight: 600; color: var(--color-gobmx-guinda); }
+        .cne-table tbody tr:last-child td { border-bottom: none; font-weight: 700; background: rgba(107,15,26,0.02); }
+        .cne-table tfoot td { font-weight: 700; color: var(--color-gobmx-guinda); border-top: 2px solid rgba(107,15,26,0.12); padding: 8px 12px; text-align: right; }
+        .cne-table tfoot td:first-child { text-align: left; }
+
+        /* ── Nota de pie ── */
+        .cne-footnote {
+            padding: 10px 24px 16px;
+            font-size: 0.74rem;
+            color: #b5a5a5;
+            border-top: 1px dashed rgba(107,15,26,0.08);
+        }
+
+        /* ── Alerta GLD ── */
+        .cne-alert-box {
+            margin: 0 24px 16px;
+            padding: 12px 16px;
+            background: rgba(200,50,50,0.05);
+            border-left: 3px solid #c02020;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.82rem;
+            color: #7a3030;
+            line-height: 1.5;
+        }
+        .cne-alert-box strong { color: #c02020; }
+
+        @media (max-width: 768px) {
+            .cne-market-strip { grid-template-columns: 1fr; }
+            .cne-grid-2 { grid-template-columns: 1fr; }
+            .cne-chart { height: 280px; }
+        }
+    </style>
+</head>
+
+<body class="cel-pilot-body">
+
+    <!-- Navegación -->
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:8px;">
+                <i class="bi bi-bar-chart-fill"></i> SENER | DGTE
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a></li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a></li>
+                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación Requisitos</a></li>
+                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo Mecanismo 2026</a></li>
+                    <li><a href="presentacion_ejecutiva_cel.html" class="nav-dropdown-link">9. Presentación Ejecutiva CEL</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle active">Otorgamiento CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="presentacion_otorgamiento_cel.html" class="nav-dropdown-link">Presentación Otorgamiento</a></li>
+                    <li><a href="sankey_otorgamiento_cel.html" class="nav-dropdown-link">Sankey Energía vs CEL otorgados</a></li>
+                    <li><a href="sankey_cel_historicos.html" class="nav-dropdown-link">Sankey CEL históricos otorgados</a></li>
+                    <li><a href="cne_sistema_cel.html" class="nav-dropdown-link active">Informe CNE: Sistema CEL 2022–2025</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+            <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
+            <li class="nav-item"><a href="eolica_marina.html" class="nav-link">Eólica Marina</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header class="cel-pilot-header">
+        <div class="cel-pilot-header-shell">
+            <div class="cel-pilot-title">
+                <div class="cel-pilot-breadcrumb"><i class="bi bi-file-earmark-bar-graph"></i> Otorgamiento CEL / Informe CNE</div>
+                <h1>Sistema CEL <span class="cel-h1-accent">Oferta y Demanda 2022–2025</span></h1>
+                <p>Análisis de la información reportada por la Comisión Nacional de Energía (CNE) en respuesta a solicitud de la Dirección de Análisis de Esquemas Descentralizados de la SENER. Datos de CFE, participantes del MEM y balance de mercado.</p>
+                <div class="cel-pilot-meta">
+                    <span class="cel-pilot-badge"><i class="bi bi-building"></i> CFE + MEM</span>
+                    <span class="cel-pilot-badge"><i class="bi bi-calendar3"></i> 2022–2025</span>
+                    <span class="cel-pilot-badge"><i class="bi bi-file-earmark-text"></i> Oficio CNE F00.06.UE.DGME/618/2026</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="cne-main">
+
+        <!-- Fuente -->
+        <div class="cne-source-bar">
+            <i class="bi bi-info-circle"></i>
+            <span><strong>Fuente:</strong> CNE, Unidad de Electricidad — Oficio F00.06.UE.DGME/618/2026 (6 marzo 2026). Datos del S-CEL 2022–2025. Los datos de oferta corresponden exclusivamente a <strong>CFE</strong>; no incluyen generadores privados.</span>
+        </div>
+
+        <!-- Balance de mercado -->
+        <div class="cne-market-strip">
+            <div class="cne-mstat cne-mstat--guinda">
+                <div class="cne-mstat-icon"><i class="bi bi-award-fill"></i></div>
+                <div class="cne-mstat-value">47 M</div>
+                <div class="cne-mstat-label">CEL vigentes en mercado</div>
+                <div class="cne-mstat-sub">Activos en cuentas de participantes hasta 2025</div>
+            </div>
+            <div class="cne-mstat cne-mstat--dorado">
+                <div class="cne-mstat-icon"><i class="bi bi-hourglass-split"></i></div>
+                <div class="cne-mstat-value">1.13 M</div>
+                <div class="cne-mstat-label">CEL de obligaciones diferidas</div>
+                <div class="cne-mstat-sub">Pendientes de ejercicios anteriores</div>
+            </div>
+            <div class="cne-mstat cne-mstat--verde">
+                <div class="cne-mstat-icon"><i class="bi bi-bank"></i></div>
+                <div class="cne-mstat-value">435,764</div>
+                <div class="cne-mstat-label">CEL en cuenta Bolsa CNE</div>
+                <div class="cne-mstat-sub">Generación no asignada o recuperada (hasta 2024)</div>
+            </div>
+        </div>
+
+        <!-- 1. Consumo por participante -->
+        <div class="cne-section">
+            <div class="cne-section-head">
+                <div class="cne-section-head-left">
+                    <p class="cne-section-label">I · Demanda</p>
+                    <h2 class="cne-section-title">Consumo anual por tipo de participante del MEM</h2>
+                    <p class="cne-section-desc">Volumen de energía eléctrica consumida y reportada en el S-CEL por SSB, SSC, USPC, CIL y Autoabastecimiento (AA). Unidades: MWh.</p>
+                </div>
+                <span class="cne-badge-note"><i class="bi bi-people"></i> Todos los participantes</span>
+            </div>
+            <div class="cne-chart-wrap">
+                <div id="chart-consumo" class="cne-chart-lg"></div>
+            </div>
+            <div class="cne-table-wrap">
+                <table class="cne-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>2022</th><th>2023</th><th>2024</th><th>2025</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>SSB — Suministrador Básico</td><td>214,593,722</td><td>222,891,526</td><td>225,213,310</td><td>244,340,765</td></tr>
+                        <tr><td>SSC — Suministrador Calificado</td><td>22,423,419</td><td>27,197,351</td><td>35,107,209</td><td>39,872,878</td></tr>
+                        <tr><td>USPC — Usuario Calificado PM</td><td>2,373,265</td><td>2,601,601</td><td>2,442,007</td><td>2,631,197</td></tr>
+                        <tr><td>CIL — Contrato Interconexión Legado</td><td>34,818,098</td><td>31,003,530</td><td>25,342,315</td><td>24,038,539</td></tr>
+                        <tr><td>AA — Autoabastecimiento*</td><td>2,295,047</td><td>54,966,846</td><td>2,153,271</td><td>2,430,759</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="cne-footnote">* El valor de AA en 2023 (≈55 M MWh) presenta un incremento atípico respecto a otros años; posiblemente por reclasificación temporal o corrección de registros en S-CEL.</div>
+        </div>
+
+        <!-- 2. Generación limpia CFE + CEL en grid de 2 -->
+        <div class="cne-grid-2">
+
+            <!-- 2a. Generación CFE -->
+            <div class="cne-section">
+                <div class="cne-section-head">
+                    <div class="cne-section-head-left">
+                        <p class="cne-section-label">II · Oferta CFE</p>
+                        <h2 class="cne-section-title">Generación limpia neta CFE</h2>
+                        <p class="cne-section-desc">Por tecnología, 2022–2025. MWh.</p>
+                    </div>
+                    <span class="cne-badge-note"><i class="bi bi-lightning-charge"></i> Solo CFE</span>
+                </div>
+                <div class="cne-chart-wrap">
+                    <div id="chart-gen-cfe" class="cne-chart"></div>
+                </div>
+                <div class="cne-footnote">Nota: Hidro generó 27.3 M MWh en 2025 pero no recibe CEL (no acreditable bajo LSE art. 126).</div>
+            </div>
+
+            <!-- 2b. CEL otorgados CFE -->
+            <div class="cne-section">
+                <div class="cne-section-head">
+                    <div class="cne-section-head-left">
+                        <p class="cne-section-label">II · Oferta CFE</p>
+                        <h2 class="cne-section-title">CEL otorgados por tecnología CFE</h2>
+                        <p class="cne-section-desc">Certificados emitidos por tecnología, 2022–2025. CEL.</p>
+                    </div>
+                    <span class="cne-badge-note"><i class="bi bi-award"></i> Solo CFE</span>
+                </div>
+                <div class="cne-chart-wrap">
+                    <div id="chart-cel-cfe" class="cne-chart"></div>
+                </div>
+                <div class="cne-footnote">Nuclear saltó de 2.5 M a 7.6 M CEL en 2025 por inscripción retroactiva de centrales. Hidro: sin CEL.</div>
+            </div>
+
+        </div>
+
+        <!-- 3. Cogeneración + BIO -->
+        <div class="cne-grid-2">
+            <div class="cne-section">
+                <div class="cne-section-head">
+                    <div class="cne-section-head-left">
+                        <p class="cne-section-label">II · Oferta — Cogeneración y Biocombustibles</p>
+                        <h2 class="cne-section-title">Factor ELC — Cogeneración</h2>
+                        <p class="cne-section-desc">Porcentaje de Energía Libre de Combustible aplicado y generación base considerada. La variabilidad del %ELC afecta directamente los CEL acreditables.</p>
+                    </div>
+                </div>
+                <div class="cne-chart-wrap">
+                    <div id="chart-elc" class="cne-chart"></div>
+                </div>
+                <div class="cne-footnote">%ELC: 25.5% (2022) → 29.5% (2023) → 21.7% (2024) → 25.2% (2025). Variabilidad ≈ 8 pp entre años.</div>
+            </div>
+
+            <div class="cne-section">
+                <div class="cne-section-head">
+                    <div class="cne-section-head-left">
+                        <p class="cne-section-label">II · Oferta — Autoconsumo</p>
+                        <h2 class="cne-section-title">Cuentas Espejo: Otorgamiento vs. Liquidación</h2>
+                        <p class="cne-section-desc">26 permisionarios que actúan simultáneamente como Generador Limpio y Participante Obligado. Tendencia a la baja en ambos rubros.</p>
+                    </div>
+                </div>
+                <div class="cne-chart-wrap">
+                    <div id="chart-autoconsumo" class="cne-chart"></div>
+                </div>
+                <div class="cne-footnote">*Liquidación 2025 (13,400 CEL) aún parcial — vence el 15 de mayo de 2026.</div>
+            </div>
+        </div>
+
+        <!-- 4. GLD — Alerta -->
+        <div class="cne-section">
+            <div class="cne-section-head">
+                <div class="cne-section-head-left">
+                    <p class="cne-section-label">II · Oferta — Generación Limpia Distribuida</p>
+                    <h2 class="cne-section-title">GLD inscrita vs. no inscrita en S-CEL</h2>
+                    <p class="cne-section-desc">Comparativo entre la GLD registrada en el sistema CEL y la GLD total interconectada reportada por Distribución. La brecha identifica el potencial no contabilizado en la oferta de certificados.</p>
+                </div>
+                <span class="cne-badge-alert"><i class="bi bi-exclamation-triangle-fill"></i> Brecha +8× en 4 años</span>
+            </div>
+            <div class="cne-alert-box">
+                <strong>Señal de atención:</strong> La generación distribuida <em>no inscrita</em> en S-CEL creció de 6,940 MWh (2022) a <strong>55,851 MWh (2025)</strong> — un aumento de <strong>8×</strong>. Esta capacidad no genera CEL para el mercado, representando un potencial de oferta que actualmente no se contabiliza.
+            </div>
+            <div class="cne-chart-wrap">
+                <div id="chart-gld" class="cne-chart"></div>
+            </div>
+            <div class="cne-table-wrap">
+                <table class="cne-table">
+                    <thead><tr><th>Año</th><th>GLD Inscrita (MWh)</th><th>GLD No Inscrita (MWh)</th><th>CEL otorgados GLD</th><th>% no inscrita</th></tr></thead>
+                    <tbody>
+                        <tr><td>2022</td><td>9,063</td><td>6,940</td><td>35,309</td><td>43%</td></tr>
+                        <tr><td>2023</td><td>13,221</td><td>9,548</td><td>24,454</td><td>42%</td></tr>
+                        <tr><td>2024</td><td>18,537</td><td>22,348</td><td>22,249</td><td>55%</td></tr>
+                        <tr><td>2025</td><td>24,741</td><td>55,852</td><td>34,349</td><td>69%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="cne-footnote">GLD: Generadores con capacidad menor a 0.7 MW (o 0.5 MW). Datos de GLD no inscrita provienen de reportes de Distribución, no del S-CEL.</div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="background:#F0EDE8; border-top:1px solid rgba(107,15,26,0.08); padding:24px; text-align:center;">
+        <p style="font-size:0.8rem; color:#8a7575; margin:0;">&copy; 2026 Secretaría de Energía · Dirección General de Transición Energética | Fuente: CNE Oficio F00.06.UE.DGME/618/2026</p>
+    </footer>
+
+    <script src="js/pages-common.js"></script>
+    <script>
+    // ── Paleta institucional ──
+    const C = {
+        guinda:  '#6b0f1a',
+        guindaL: '#9b3040',
+        verde:   '#006633',
+        verdeL:  '#2d8a57',
+        dorado:  '#b8960c',
+        doradoL: '#d4b53a',
+        azul:    '#1a5a8a',
+        azulL:   '#3a7aaa',
+        gris:    '#8a8a8a',
+        naranja: '#c05a10',
+        morado:  '#5a2a7a',
+        teal:    '#0a7a6a',
+        bg:      '#F7F6F3',
+    };
+
+    const years = ['2022', '2023', '2024', '2025'];
+
+    const tooltip = {
+        trigger: 'axis',
+        backgroundColor: 'rgba(255,255,255,0.96)',
+        borderColor: 'rgba(107,15,26,0.15)',
+        borderWidth: 1,
+        textStyle: { color: '#333', fontSize: 12 },
+        axisPointer: { type: 'shadow' }
+    };
+
+    const legend = {
+        bottom: 0,
+        itemWidth: 12,
+        itemHeight: 12,
+        itemGap: 16,
+        textStyle: { fontSize: 11, color: '#555' }
+    };
+
+    const grid = { top: 16, right: 20, bottom: 60, left: 80, containLabel: false };
+
+    function fmt(v, unit) {
+        if (unit === 'M') return (v/1e6).toFixed(1) + ' M';
+        if (unit === 'K') return (v/1e3).toFixed(0) + ' K';
+        return v.toLocaleString('es-MX');
+    }
+
+    // ── 1. Consumo por participante ──
+    (function() {
+        const data = {
+            SSB:  [214593721.75, 222891525.90, 225213310.47, 244340765.27],
+            SSC:  [22423419.37,  27197350.94,  35107209.16,  39872877.76],
+            USPC: [2373264.65,   2601600.53,   2442007.35,   2631196.82],
+            CIL:  [34818098.21,  31003529.70,  25342315.18,  24038539.13],
+            AA:   [2295047.11,   54966845.54,  2153271.49,   2430759.13],
+        };
+
+        const series = [
+            { name: 'SSB', data: data.SSB.map(v=>v/1e6), color: C.guinda },
+            { name: 'SSC', data: data.SSC.map(v=>v/1e6), color: C.verde },
+            { name: 'CIL', data: data.CIL.map(v=>v/1e6), color: C.dorado },
+            { name: 'USPC', data: data.USPC.map(v=>v/1e6), color: C.azul },
+            { name: 'AA*', data: data.AA.map(v=>v/1e6), color: C.naranja },
+        ].map(s => ({
+            name: s.name,
+            type: 'bar',
+            stack: 'total',
+            data: s.data,
+            itemStyle: { color: s.color, borderRadius: [0,0,0,0] },
+            emphasis: { focus: 'series' },
+        }));
+
+        echarts.init(document.getElementById('chart-consumo')).setOption({
+            tooltip: { ...tooltip, formatter: p => {
+                let h = `<b>${p[0].name}</b><br>`;
+                p.forEach(i => { h += `${i.marker}${i.seriesName}: <b>${i.value.toFixed(1)} M MWh</b><br>`; });
+                return h;
+            }},
+            legend: { ...legend, data: ['SSB','SSC','CIL','USPC','AA*'] },
+            grid: { ...grid, bottom: 60 },
+            xAxis: { type: 'category', data: years, axisLabel: { fontSize: 12 } },
+            yAxis: { type: 'value', name: 'Mill. MWh', axisLabel: { formatter: v => v.toFixed(0)+' M' } },
+            series,
+        });
+    })();
+
+    // ── 2a. Generación limpia CFE ──
+    (function() {
+        const data = {
+            Nuclear: [10539513, 12043371, 11977692, 9833191],
+            Hidro:   [33870110, 19343244, 22155404, 27321444],
+            Geo:     [4265615,  4014851,  3425236,  3120951],
+            FV:      [5856,     271760,   534030,   984481],
+            Eolica:  [1824455,  1914419,  1680090,  1761357],
+        };
+        const colors = [C.azul, C.verdeL, C.teal, C.dorado, C.verde];
+        const keys = Object.keys(data);
+
+        echarts.init(document.getElementById('chart-gen-cfe')).setOption({
+            tooltip: { ...tooltip, formatter: p => {
+                let h = `<b>${p[0].name}</b><br>`;
+                p.forEach(i => { h += `${i.marker}${i.seriesName}: <b>${(i.value/1e6).toFixed(2)} M MWh</b><br>`; });
+                return h;
+            }},
+            legend: { ...legend },
+            grid: { ...grid, left: 70 },
+            xAxis: { type: 'category', data: years },
+            yAxis: { type: 'value', name: 'M MWh', axisLabel: { formatter: v => (v/1e6).toFixed(0)+'M' } },
+            series: keys.map((k, i) => ({
+                name: k === 'Eolica' ? 'Eólica' : k,
+                type: 'bar', stack: 'total',
+                data: data[k],
+                itemStyle: { color: colors[i] },
+                emphasis: { focus: 'series' },
+            })),
+        });
+    })();
+
+    // ── 2b. CEL otorgados CFE ──
+    (function() {
+        const data = {
+            Nuclear: [1642035, 2661305, 2501622, 7572145],
+            Geo:     [871116,  921964,  852453,  621661],
+            FV:      [382,     86484,   238144,  221333],
+            Eolica:  [305246,  303933,  252745,  250981],
+            Cogen:   [327858,  355202,  317368,  418149],
+            Bio:     [233364,  187898,  213602,  135276],
+        };
+        const colors = [C.azul, C.teal, C.dorado, C.verde, C.naranja, C.morado];
+        const keys = Object.keys(data);
+
+        echarts.init(document.getElementById('chart-cel-cfe')).setOption({
+            tooltip: { ...tooltip, formatter: p => {
+                let h = `<b>${p[0].name}</b><br>`;
+                p.forEach(i => { h += `${i.marker}${i.seriesName}: <b>${i.value.toLocaleString('es-MX')} CEL</b><br>`; });
+                return h;
+            }},
+            legend: { ...legend },
+            grid: { ...grid, left: 70 },
+            xAxis: { type: 'category', data: years },
+            yAxis: { type: 'value', name: 'CEL', axisLabel: { formatter: v => v>=1e6?(v/1e6).toFixed(1)+'M':(v/1e3).toFixed(0)+'K' } },
+            series: keys.map((k, i) => ({
+                name: k === 'Eolica' ? 'Eólica' : k,
+                type: 'bar', stack: 'total',
+                data: data[k],
+                itemStyle: { color: colors[i] },
+                emphasis: { focus: 'series' },
+            })),
+        });
+    })();
+
+    // ── 3a. Factor ELC ──
+    (function() {
+        const elc = [25.50, 29.49, 21.73, 25.22];
+        const gen = [2209035, 2405713, 2507944, 2598035];
+
+        const chart = echarts.init(document.getElementById('chart-elc'));
+        chart.setOption({
+            tooltip: { ...tooltip, formatter: p => {
+                let h = `<b>${p[0].name}</b><br>`;
+                p.forEach(i => {
+                    const v = i.seriesName === '%ELC' ? i.value+'%' : (i.value/1e6).toFixed(2)+' M MWh';
+                    h += `${i.marker}${i.seriesName}: <b>${v}</b><br>`;
+                });
+                return h;
+            }},
+            legend: { ...legend },
+            grid: { ...grid, left: 60 },
+            xAxis: { type: 'category', data: years },
+            yAxis: [
+                { type: 'value', name: '%ELC', min: 15, max: 35, axisLabel: { formatter: v=>v+'%' }, axisLine: { show: true, lineStyle: { color: C.guinda } } },
+                { type: 'value', name: 'Gen (MWh)', axisLabel: { formatter: v=>(v/1e6).toFixed(1)+'M' }, axisLine: { show: true, lineStyle: { color: C.verde } } },
+            ],
+            series: [
+                {
+                    name: '%ELC', type: 'line', yAxisIndex: 0, data: elc,
+                    symbol: 'circle', symbolSize: 8,
+                    lineStyle: { color: C.guinda, width: 2.5 },
+                    itemStyle: { color: C.guinda },
+                    areaStyle: { color: { type:'linear', x:0,y:0,x2:0,y2:1, colorStops:[{offset:0,color:'rgba(107,15,26,0.12)'},{offset:1,color:'rgba(107,15,26,0)'}] } },
+                    markLine: { data: [{ type:'average', name:'Promedio' }], lineStyle: { color: C.guinda, type:'dashed', opacity:0.5 }, label: { formatter: v=>'Prom: '+v.value.toFixed(1)+'%' } },
+                },
+                {
+                    name: 'Generación base', type: 'bar', yAxisIndex: 1, data: gen,
+                    itemStyle: { color: 'rgba(0,102,51,0.15)', borderColor: C.verde, borderWidth: 1.5, borderRadius: [4,4,0,0] },
+                },
+            ],
+        });
+    })();
+
+    // ── 3b. Autoconsumo ──
+    (function() {
+        const otorg = [373857, 340767, 297306, 266142];
+        const liquid = [101281, 91006, 77753, 13400];
+
+        echarts.init(document.getElementById('chart-autoconsumo')).setOption({
+            tooltip: { ...tooltip, formatter: p => {
+                let h = `<b>${p[0].name}</b><br>`;
+                p.forEach(i => { h += `${i.marker}${i.seriesName}: <b>${i.value.toLocaleString('es-MX')} CEL</b><br>`; });
+                return h;
+            }},
+            legend: { ...legend },
+            grid: { ...grid, left: 70 },
+            xAxis: { type: 'category', data: years },
+            yAxis: { type: 'value', name: 'CEL', axisLabel: { formatter: v=>(v/1e3).toFixed(0)+'K' } },
+            series: [
+                {
+                    name: 'Otorgamiento', type: 'bar', barGap: '5%',
+                    data: otorg,
+                    itemStyle: { color: C.verde, borderRadius: [4,4,0,0] },
+                },
+                {
+                    name: 'Liquidación', type: 'bar',
+                    data: liquid,
+                    itemStyle: { color: C.dorado, borderRadius: [4,4,0,0] },
+                },
+            ],
+        });
+    })();
+
+    // ── 4. GLD ──
+    (function() {
+        const inscrita   = [9063,  13221, 18537, 24741];
+        const noInscrita = [6940,  9548,  22348, 55852];
+        const celGLD     = [35309, 24454, 22249, 34349];
+
+        echarts.init(document.getElementById('chart-gld')).setOption({
+            tooltip: { ...tooltip, formatter: p => {
+                let h = `<b>${p[0].name}</b><br>`;
+                p.forEach(i => {
+                    const u = i.seriesName === 'CEL otorgados GLD' ? ' CEL' : ' MWh';
+                    h += `${i.marker}${i.seriesName}: <b>${i.value.toLocaleString('es-MX')}${u}</b><br>`;
+                });
+                return h;
+            }},
+            legend: { ...legend },
+            grid: { ...grid, left: 80 },
+            xAxis: { type: 'category', data: years },
+            yAxis: [
+                { type: 'value', name: 'MWh', axisLabel: { formatter: v=>(v/1e3).toFixed(0)+'K' }, axisLine: { show:true, lineStyle:{ color: C.verde } } },
+                { type: 'value', name: 'CEL', axisLabel: { formatter: v=>(v/1e3).toFixed(0)+'K' }, axisLine: { show:true, lineStyle:{ color: C.guinda } } },
+            ],
+            series: [
+                {
+                    name: 'GLD Inscrita', type: 'bar', yAxisIndex: 0,
+                    data: inscrita,
+                    itemStyle: { color: C.verde, borderRadius: [4,4,0,0] },
+                },
+                {
+                    name: 'GLD No Inscrita', type: 'bar', yAxisIndex: 0,
+                    data: noInscrita,
+                    itemStyle: { color: 'rgba(200,50,50,0.7)', borderRadius: [4,4,0,0] },
+                },
+                {
+                    name: 'CEL otorgados GLD', type: 'line', yAxisIndex: 1,
+                    data: celGLD,
+                    symbol: 'circle', symbolSize: 7,
+                    lineStyle: { color: C.guinda, width: 2, type: 'dashed' },
+                    itemStyle: { color: C.guinda },
+                },
+            ],
+        });
+    })();
+    </script>
+</body>
+</html>
