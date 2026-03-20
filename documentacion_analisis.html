@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación y Análisis — SENER</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/pages-common.css">
+
+    <style>
+        header {
+            background: white;
+            border-bottom: 3px solid var(--color-gobmx-dorado);
+            padding: 18px 0;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header-brand { display: flex; align-items: center; gap: 16px; }
+        .header-brand img { height: 52px; width: auto; }
+        .header-brand-divider {
+            width: 1px;
+            height: 40px;
+            background: #e0d8d8;
+        }
+        .header-brand-text h1 {
+            font-family: var(--font-family-headings);
+            color: var(--color-gobmx-guinda);
+            font-size: 1.15rem;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .header-brand-text p {
+            font-size: 0.78rem;
+            color: var(--color-gobmx-gris);
+            margin: 2px 0 0;
+            letter-spacing: 0.02em;
+        }
+
+        .docs-hero {
+            background:
+                radial-gradient(circle at top left, rgba(165, 127, 44, 0.12), transparent 28%),
+                linear-gradient(180deg, #f7f6f3 0%, #f2eee8 100%);
+            border-bottom: 1px solid rgba(107, 15, 26, 0.08);
+            padding: 58px 24px 52px;
+        }
+        .docs-hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+            gap: 30px;
+            align-items: start;
+        }
+        .docs-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-gobmx-verde);
+            margin-bottom: 18px;
+        }
+        .docs-eyebrow::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--color-gobmx-verde);
+        }
+        .docs-hero h1 {
+            margin: 0 0 12px;
+            font-family: var(--font-family-headings);
+            font-size: clamp(2rem, 4vw, 2.9rem);
+            line-height: 1.14;
+            color: var(--color-gobmx-guinda);
+        }
+        .docs-hero h1 em {
+            color: var(--color-gobmx-verde);
+            font-style: italic;
+            font-weight: 400;
+        }
+        .docs-hero p {
+            margin: 0;
+            max-width: 720px;
+            color: #665959;
+            font-size: 0.98rem;
+            line-height: 1.75;
+        }
+        .docs-highlight {
+            border-radius: 24px;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(107, 15, 26, 0.08);
+            box-shadow: 0 16px 34px rgba(107, 15, 26, 0.08);
+            padding: 22px;
+        }
+        .docs-highlight-title {
+            margin: 0 0 14px;
+            font-size: 0.9rem;
+            color: var(--color-gobmx-guinda);
+        }
+        .docs-highlight-list {
+            display: grid;
+            gap: 10px;
+        }
+        .docs-highlight-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 0.84rem;
+            color: #6d6060;
+        }
+        .docs-highlight-item i {
+            color: var(--color-gobmx-guinda);
+            margin-top: 2px;
+        }
+
+        .docs-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 52px 24px 84px;
+        }
+        .docs-section {
+            margin-bottom: 56px;
+        }
+        .docs-section:last-child {
+            margin-bottom: 0;
+        }
+        .docs-section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 26px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(107, 15, 26, 0.1);
+        }
+        .docs-section-title {
+            margin: 0;
+            font-size: 1.15rem;
+            color: var(--color-gobmx-guinda);
+        }
+        .docs-section-count {
+            font-size: 0.76rem;
+            color: #af9e9e;
+            letter-spacing: 0.04em;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 18px;
+        }
+        .doc-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(107, 15, 26, 0.08);
+            padding: 24px;
+            box-shadow: 0 8px 26px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-gobmx-guinda) 0%, var(--color-gobmx-verde) 60%, var(--color-gobmx-dorado) 100%);
+        }
+        .doc-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .doc-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(155, 34, 71, 0.08);
+            color: var(--color-gobmx-guinda);
+            font-size: 1.3rem;
+        }
+        .doc-card-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(30, 91, 79, 0.08);
+            color: var(--color-gobmx-verde);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .doc-card-title {
+            margin: 0 0 10px;
+            font-family: var(--font-family-headings);
+            font-size: 1.2rem;
+            line-height: 1.3;
+            color: var(--color-gobmx-guinda);
+        }
+        .doc-card-desc {
+            margin: 0 0 18px;
+            color: #736565;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            flex: 1;
+        }
+        .doc-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .doc-card-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: #f8f4ef;
+            border: 1px solid rgba(107, 15, 26, 0.07);
+            color: #7b6d6d;
+            font-size: 0.74rem;
+        }
+        .doc-card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn-doc-primary,
+        .btn-doc-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            border-radius: 10px;
+            padding: 11px 16px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .btn-doc-primary {
+            color: white;
+            background: var(--color-gobmx-guinda);
+            box-shadow: 0 6px 18px rgba(107, 15, 26, 0.18);
+        }
+        .btn-doc-primary:hover {
+            transform: translateY(-1px);
+            background: #850e21;
+        }
+        .btn-doc-secondary {
+            color: var(--color-gobmx-verde);
+            border: 1px solid rgba(30, 91, 79, 0.18);
+            background: white;
+        }
+        .btn-doc-secondary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(30, 91, 79, 0.08);
+        }
+
+        .docs-note {
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(155,34,71,0.05), rgba(30,91,79,0.06));
+            border: 1px solid rgba(107, 15, 26, 0.08);
+            padding: 24px;
+        }
+        .docs-note h3 {
+            margin: 0 0 10px;
+            color: var(--color-gobmx-guinda);
+            font-size: 1.05rem;
+        }
+        .docs-note p {
+            margin: 0;
+            color: #6f6262;
+            font-size: 0.9rem;
+            line-height: 1.75;
+        }
+
+        .idx-footer {
+            background: #F0EDE8;
+            border-top: 1px solid rgba(107, 15, 26, 0.08);
+            padding: 28px 24px;
+        }
+        .idx-footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .idx-footer p {
+            font-size: 0.8rem;
+            color: #8a7575;
+            margin: 0;
+        }
+        .idx-footer-logo {
+            opacity: 0.45;
+            height: 28px;
+        }
+
+        @media (max-width: 860px) {
+            .header-content {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .header-brand {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .header-brand-divider {
+                display: none;
+            }
+            .docs-hero-inner {
+                grid-template-columns: 1fr;
+            }
+            .docs-grid {
+                grid-template-columns: 1fr;
+            }
+            .idx-footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:8px;">
+                <i class="bi bi-bar-chart-fill"></i> SENER | DGTE
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a></li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a></li>
+                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación Requisitos</a></li>
+                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo Mecanismo 2026</a></li>
+                    <li><a href="presentacion_ejecutiva_cel.html" class="nav-dropdown-link">9. Presentación Ejecutiva CEL</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Otorgamiento CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="presentacion_otorgamiento_cel.html" class="nav-dropdown-link">Presentación Otorgamiento</a></li>
+                    <li><a href="sankey_otorgamiento_cel.html" class="nav-dropdown-link">Sankey Energía vs CEL otorgados</a></li>
+                    <li><a href="sankey_cel_historicos.html" class="nav-dropdown-link">Sankey CEL históricos otorgados</a></li>
+                    <li><a href="cne_sistema_cel.html" class="nav-dropdown-link">Informe CNE: Sistema CEL 2022–2025</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+            <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
+            <li class="nav-item"><a href="eolica_marina.html" class="nav-link">Eólica Marina</a></li>
+            <li class="nav-item"><a href="documentacion_analisis.html" class="nav-link active">Documentación</a></li>
+            <li class="nav-item"><a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">Buscador Jurídico</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-brand">
+                <img src="img/logo_sener.png" alt="SENER">
+                <div class="header-brand-divider"></div>
+                <div class="header-brand-text">
+                    <h1>Dirección General de Transición Energética</h1>
+                    <p>Subsecretaría de Planeación y Transición Energética · SENER</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="docs-hero">
+        <div class="docs-hero-inner">
+            <div>
+                <div class="docs-eyebrow">Repositorio documental</div>
+                <h1>Documentación y <em>análisis técnicos</em></h1>
+                <p>
+                    Espacio concentrado para consultar documentos de análisis, entregables y materiales de referencia
+                    desarrollados por la DGTE. Esta sección permite publicar PDFs con mejor orden editorial y separar
+                    la consulta documental de las herramientas interactivas del portal.
+                </p>
+            </div>
+            <aside class="docs-highlight">
+                <h2 class="docs-highlight-title">Cómo queda organizada esta capa</h2>
+                <div class="docs-highlight-list">
+                    <div class="docs-highlight-item"><i class="bi bi-folder2-open"></i><span>Documentos técnicos reunidos en una sola sección.</span></div>
+                    <div class="docs-highlight-item"><i class="bi bi-cloud-arrow-up"></i><span>Documentos enlazados desde Cloudflare para consulta pública.</span></div>
+                    <div class="docs-highlight-item"><i class="bi bi-search"></i><span>El buscador jurídico permanece separado para una navegación más clara.</span></div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <main class="docs-main">
+        <section class="docs-section">
+            <div class="docs-section-header">
+                <h2 class="docs-section-title">Análisis disponibles</h2>
+                <span class="docs-section-count">7 documentos</span>
+            </div>
+
+            <div class="docs-grid">
+                <article class="doc-card">
+                    <div class="doc-card-top">
+                        <div class="doc-card-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                        <div class="doc-card-tag">PDF técnico</div>
+                    </div>
+                    <h3 class="doc-card-title">Análisis Regulatorio CEL</h3>
+                    <p class="doc-card-desc">
+                        Documento de análisis regulatorio sobre Certificados de Energías Limpias, disponible en consulta directa y descarga.
+                    </p>
+                    <div class="doc-card-meta">
+                        <span><i class="bi bi-cloud"></i>Cloudflare CDN</span>
+                        <span><i class="bi bi-calendar3"></i>2026</span>
+                        <span><i class="bi bi-archive"></i>PDF</span>
+                    </div>
+                    <div class="doc-card-actions">
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Analisis_Regulatorio_CEL.pdf" target="_blank" rel="noopener noreferrer" class="btn-doc-primary">
+                            <i class="bi bi-eye"></i> Ver documento
+                        </a>
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Analisis_Regulatorio_CEL.pdf" download class="btn-doc-secondary">
+                            <i class="bi bi-download"></i> Descargar PDF
+                        </a>
+                    </div>
+                </article>
+
+                <article class="doc-card">
+                    <div class="doc-card-top">
+                        <div class="doc-card-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                        <div class="doc-card-tag">Proyección</div>
+                    </div>
+                    <h3 class="doc-card-title">Estimación de nuevo requisito</h3>
+                    <p class="doc-card-desc">
+                        Documento técnico para revisar escenarios y estimaciones asociados al nuevo requisito dentro del esquema CEL.
+                    </p>
+                    <div class="doc-card-meta">
+                        <span><i class="bi bi-cloud"></i>Cloudflare CDN</span>
+                        <span><i class="bi bi-bar-chart-line"></i>Estimación</span>
+                        <span><i class="bi bi-archive"></i>PDF</span>
+                    </div>
+                    <div class="doc-card-actions">
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Estimaci%C3%B3n_nuevo_requisito.pdf" target="_blank" rel="noopener noreferrer" class="btn-doc-primary">
+                            <i class="bi bi-eye"></i> Ver documento
+                        </a>
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Estimaci%C3%B3n_nuevo_requisito.pdf" download class="btn-doc-secondary">
+                            <i class="bi bi-download"></i> Descargar PDF
+                        </a>
+                    </div>
+                </article>
+
+                <article class="doc-card">
+                    <div class="doc-card-top">
+                        <div class="doc-card-icon"><i class="bi bi-file-earmark-text"></i></div>
+                        <div class="doc-card-tag">Contrato</div>
+                    </div>
+                    <h3 class="doc-card-title">Nuevo Modelo de Contrato Unificado</h3>
+                    <p class="doc-card-desc">
+                        Versión documental del modelo de contrato unificado para consulta, revisión y referencia institucional.
+                    </p>
+                    <div class="doc-card-meta">
+                        <span><i class="bi bi-cloud"></i>Cloudflare CDN</span>
+                        <span><i class="bi bi-journal-text"></i>Modelo</span>
+                        <span><i class="bi bi-archive"></i>PDF</span>
+                    </div>
+                    <div class="doc-card-actions">
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Nuevo%20Modelo%20de%20Contrato%20Unificado.pdf" target="_blank" rel="noopener noreferrer" class="btn-doc-primary">
+                            <i class="bi bi-eye"></i> Ver documento
+                        </a>
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Nuevo%20Modelo%20de%20Contrato%20Unificado.pdf" download class="btn-doc-secondary">
+                            <i class="bi bi-download"></i> Descargar PDF
+                        </a>
+                    </div>
+                </article>
+
+                <article class="doc-card">
+                    <div class="doc-card-top">
+                        <div class="doc-card-icon"><i class="bi bi-signpost-split"></i></div>
+                        <div class="doc-card-tag">Estrategia</div>
+                    </div>
+                    <h3 class="doc-card-title">Propuesta de Estrategia de Transición para Requisitos de CEL (2025-2028)</h3>
+                    <p class="doc-card-desc">
+                        Documento de trabajo sobre la estrategia de transición para requisitos de CEL durante el periodo 2025-2028.
+                    </p>
+                    <div class="doc-card-meta">
+                        <span><i class="bi bi-cloud"></i>Cloudflare CDN</span>
+                        <span><i class="bi bi-calendar-range"></i>2025-2028</span>
+                        <span><i class="bi bi-archive"></i>PDF</span>
+                    </div>
+                    <div class="doc-card-actions">
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Propuesta%20de%20Estrategia%20de%20Transici%C3%B3n%20para%20Requisitos%20de%20CEL%20(2025-2028).pdf" target="_blank" rel="noopener noreferrer" class="btn-doc-primary">
+                            <i class="bi bi-eye"></i> Ver documento
+                        </a>
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Propuesta%20de%20Estrategia%20de%20Transici%C3%B3n%20para%20Requisitos%20de%20CEL%20(2025-2028).pdf" download class="btn-doc-secondary">
+                            <i class="bi bi-download"></i> Descargar PDF
+                        </a>
+                    </div>
+                </article>
+
+                <article class="doc-card">
+                    <div class="doc-card-top">
+                        <div class="doc-card-icon"><i class="bi bi-arrow-left-right"></i></div>
+                        <div class="doc-card-tag">Transición</div>
+                    </div>
+                    <h3 class="doc-card-title">Propuesta de transición de requisito</h3>
+                    <p class="doc-card-desc">
+                        Versión complementaria sobre transición de requisito, útil para seguimiento técnico y comparación de enfoques.
+                    </p>
+                    <div class="doc-card-meta">
+                        <span><i class="bi bi-cloud"></i>Cloudflare CDN</span>
+                        <span><i class="bi bi-diagram-3"></i>Comparativo</span>
+                        <span><i class="bi bi-archive"></i>PDF</span>
+                    </div>
+                    <div class="doc-card-actions">
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Propuesta_de_transicion_requisito.pdf" target="_blank" rel="noopener noreferrer" class="btn-doc-primary">
+                            <i class="bi bi-eye"></i> Ver documento
+                        </a>
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Propuesta_de_transicion_requisito.pdf" download class="btn-doc-secondary">
+                            <i class="bi bi-download"></i> Descargar PDF
+                        </a>
+                    </div>
+                </article>
+
+                <article class="doc-card">
+                    <div class="doc-card-top">
+                        <div class="doc-card-icon"><i class="bi bi-calendar-check"></i></div>
+                        <div class="doc-card-tag">Requisitos CEL</div>
+                    </div>
+                    <h3 class="doc-card-title">Requisitos de CEL 2026-2029</h3>
+                    <p class="doc-card-desc">
+                        Documento de referencia para consulta de requisitos CEL correspondientes al horizonte 2026-2029.
+                    </p>
+                    <div class="doc-card-meta">
+                        <span><i class="bi bi-cloud"></i>Cloudflare CDN</span>
+                        <span><i class="bi bi-calendar4-week"></i>2026-2029</span>
+                        <span><i class="bi bi-archive"></i>PDF</span>
+                    </div>
+                    <div class="doc-card-actions">
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Requisitos%20de%20CEL%202026-2029.pdf" target="_blank" rel="noopener noreferrer" class="btn-doc-primary">
+                            <i class="bi bi-eye"></i> Ver documento
+                        </a>
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Requisitos%20de%20CEL%202026-2029.pdf" download class="btn-doc-secondary">
+                            <i class="bi bi-download"></i> Descargar PDF
+                        </a>
+                    </div>
+                </article>
+
+                <article class="doc-card">
+                    <div class="doc-card-top">
+                        <div class="doc-card-icon"><i class="bi bi-globe-americas"></i></div>
+                        <div class="doc-card-tag">Emisiones</div>
+                    </div>
+                    <h3 class="doc-card-title">Sistema de Comercio de Emisiones</h3>
+                    <p class="doc-card-desc">
+                        Documento asociado al sistema de comercio de emisiones para consulta institucional y descarga pública.
+                    </p>
+                    <div class="doc-card-meta">
+                        <span><i class="bi bi-cloud"></i>Cloudflare CDN</span>
+                        <span><i class="bi bi-recycle"></i>Política climática</span>
+                        <span><i class="bi bi-archive"></i>PDF</span>
+                    </div>
+                    <div class="doc-card-actions">
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Sistema%20de%20Comercio%20de%20Emisiones.pdf" target="_blank" rel="noopener noreferrer" class="btn-doc-primary">
+                            <i class="bi bi-eye"></i> Ver documento
+                        </a>
+                        <a href="https://cdn.sassoapps.com/documentos_dgpyte/Sistema%20de%20Comercio%20de%20Emisiones.pdf" download class="btn-doc-secondary">
+                            <i class="bi bi-download"></i> Descargar PDF
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="docs-section">
+            <div class="docs-section-header">
+                <h2 class="docs-section-title">Siguiente paso de publicación</h2>
+                <span class="docs-section-count">Cloudflare activo</span>
+            </div>
+
+            <div class="docs-note">
+                <h3>Catálogo conectado a tus URLs públicas</h3>
+                <p>
+                    La sección ya quedó enlazada a tu CDN. También detecté que una de las ligas venía repetida
+                    (`Propuesta de Estrategia de Transición para Requisitos de CEL (2025-2028)`), así que la dejé una sola vez
+                    para evitar duplicados en el catálogo.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="idx-footer">
+        <div class="idx-footer-inner">
+            <p>&copy; 2026 Secretaría de Energía · Subsecretaría de Planeación y Transición Energética</p>
+            <img src="img/logo_sener.png" alt="SENER" class="idx-footer-logo">
+        </div>
+    </footer>
+
+    <script src="js/pages-common.js"></script>
+</body>
+
+</html>

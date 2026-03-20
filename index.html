@@ -124,6 +124,316 @@
             color: #9a8b8b;
         }
 
+        /* ── Buscador jurídico destacado ── */
+        .idx-legal-feature {
+            position: relative;
+            margin-bottom: 56px;
+            border-radius: 28px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top left, rgba(165, 127, 44, 0.14), transparent 34%),
+                linear-gradient(135deg, #fffdf9 0%, #f7f3ee 48%, #f2eee7 100%);
+            border: 1px solid rgba(107, 15, 26, 0.08);
+            box-shadow: 0 18px 50px rgba(107, 15, 26, 0.08);
+        }
+        .idx-legal-feature::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(155, 34, 71, 0.98) 0 33.333%, rgba(30, 91, 79, 0.92) 33.333% 66.666%, rgba(165, 127, 44, 0.88) 66.666% 100%);
+            height: 4px;
+        }
+        .idx-legal-grid {
+            display: grid;
+            grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
+            gap: 22px;
+            padding: 26px;
+            align-items: start;
+        }
+        .idx-legal-copy {
+            position: relative;
+            z-index: 1;
+            padding: 18px 8px 8px 0;
+        }
+        .idx-legal-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--color-gobmx-verde);
+        }
+        .idx-legal-kicker::before {
+            content: '§';
+            font-family: var(--font-family-headings);
+            font-size: 1rem;
+            color: var(--color-gobmx-guinda);
+        }
+        .idx-legal-title {
+            font-family: var(--font-family-headings);
+            font-size: clamp(1.75rem, 3vw, 2.35rem);
+            color: var(--color-gobmx-guinda);
+            margin: 0 0 14px;
+            line-height: 1.14;
+        }
+        .idx-legal-title em {
+            color: var(--color-gobmx-verde);
+            font-style: italic;
+            font-weight: 400;
+        }
+        .idx-legal-desc {
+            margin: 0 0 18px;
+            color: #645757;
+            font-size: 0.92rem;
+            line-height: 1.75;
+            max-width: 460px;
+        }
+        .idx-legal-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .idx-legal-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.86);
+            border: 1px solid rgba(107, 15, 26, 0.08);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+            color: #5d5050;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .idx-legal-pill i {
+            color: var(--color-gobmx-guinda);
+        }
+        .idx-legal-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+        .btn-legal-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(30, 91, 79, 0.16);
+            background: rgba(255, 255, 255, 0.76);
+            color: var(--color-gobmx-verde);
+            text-decoration: none;
+            font-size: 0.87rem;
+            font-weight: 700;
+            transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+        }
+        .btn-legal-secondary:hover {
+            transform: translateY(-1px);
+            border-color: rgba(30, 91, 79, 0.28);
+            box-shadow: 0 10px 22px rgba(30, 91, 79, 0.1);
+        }
+        .idx-legal-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .idx-legal-metric {
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.62);
+            border: 1px solid rgba(107, 15, 26, 0.07);
+        }
+        .idx-legal-metric strong {
+            display: block;
+            font-family: var(--font-family-headings);
+            font-size: 1.12rem;
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 4px;
+        }
+        .idx-legal-metric span {
+            display: block;
+            font-size: 0.72rem;
+            color: #897878;
+            line-height: 1.4;
+        }
+        .idx-legal-panel {
+            position: relative;
+            border-radius: 26px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(249,246,241,0.98) 100%);
+            border: 1px solid rgba(107, 15, 26, 0.08);
+            box-shadow: 0 20px 40px rgba(107, 15, 26, 0.09);
+        }
+        .idx-legal-panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,244,239,0.98) 100%);
+            border-bottom: 1px solid rgba(107, 15, 26, 0.08);
+        }
+        .idx-legal-panel-head strong {
+            display: block;
+            color: var(--color-gobmx-guinda);
+            font-size: 0.95rem;
+        }
+        .idx-legal-panel-head span {
+            display: block;
+            margin-top: 3px;
+            color: #8d7e7e;
+            font-size: 0.75rem;
+        }
+        .idx-legal-stack {
+            display: grid;
+            gap: 16px;
+            padding: 18px;
+        }
+        .idx-legal-linkcard {
+            position: relative;
+            display: block;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(107, 15, 26, 0.08);
+            background: linear-gradient(180deg, #ffffff 0%, #fbf7f1 100%);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+            transition: transform 0.18s, box-shadow 0.2s, border-color 0.2s;
+        }
+        .idx-legal-linkcard:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 36px rgba(107, 15, 26, 0.1);
+            border-color: rgba(107, 15, 26, 0.14);
+        }
+        .idx-legal-linkcard-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px 20px 14px;
+        }
+        .idx-legal-linkcard-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--color-gobmx-guinda);
+            background: rgba(155, 34, 71, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(155, 34, 71, 0.06);
+        }
+        .idx-legal-linkcard-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(30, 91, 79, 0.08);
+            color: var(--color-gobmx-verde);
+            font-size: 0.74rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .idx-legal-linkcard-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 0 4px rgba(30, 91, 79, 0.1);
+        }
+        .idx-legal-linkcard-body {
+            padding: 0 20px 18px;
+        }
+        .idx-legal-linkcard-kicker {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #b16d7f;
+        }
+        .idx-legal-linkcard-title {
+            margin: 0 0 10px;
+            font-family: var(--font-family-headings);
+            font-size: 1.55rem;
+            line-height: 1.15;
+            color: var(--color-gobmx-guinda);
+        }
+        .idx-legal-linkcard-desc {
+            margin: 0 0 16px;
+            color: #6f6161;
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+        .idx-legal-linkcard-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .idx-legal-linkcard-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            color: #715f5f;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(107, 15, 26, 0.08);
+        }
+        .idx-legal-linkcard-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 20px 18px;
+            border-top: 1px solid rgba(107, 15, 26, 0.07);
+            background: rgba(255, 255, 255, 0.72);
+        }
+        .idx-legal-linkcard-footer p {
+            margin: 0;
+            color: #877777;
+            font-size: 0.76rem;
+            max-width: 340px;
+        }
+        .idx-legal-linkcard-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-gobmx-guinda);
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        @media (min-width: 1180px) {
+            .idx-legal-grid {
+                grid-template-columns: minmax(330px, 0.76fr) minmax(0, 1.24fr);
+            }
+        }
+
+        @media (max-width: 1080px) {
+            .idx-legal-grid {
+                grid-template-columns: 1fr;
+            }
+            .idx-legal-copy {
+                padding: 8px 4px 0;
+            }
+            .idx-legal-desc {
+                max-width: none;
+            }
+        }
+
         /* ── Contenido principal ── */
         .idx-main {
             max-width: 1200px;
@@ -296,6 +606,16 @@
             .header-brand-divider { display: none; }
             .idx-hero { padding: 40px 20px 36px; }
             .idx-grid { grid-template-columns: 1fr; }
+            .idx-legal-grid { grid-template-columns: 1fr; padding: 18px; }
+            .idx-legal-metrics { grid-template-columns: 1fr; }
+            .idx-legal-copy { padding: 6px 2px 0; }
+            .idx-legal-panel { border-radius: 22px; }
+            .idx-legal-stack { padding: 12px; }
+            .idx-legal-linkcard-top,
+            .idx-legal-linkcard-body,
+            .idx-legal-linkcard-footer { padding-left: 16px; padding-right: 16px; }
+            .idx-legal-panel-head,
+            .idx-legal-linkcard-footer { align-items: flex-start; }
             .idx-footer-inner { flex-direction: column; align-items: flex-start; }
         }
     </style>
@@ -341,6 +661,8 @@
             <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
             <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link">Hidrógeno Verde</a></li>
             <li class="nav-item"><a href="eolica_marina.html" class="nav-link">Eólica Marina</a></li>
+            <li class="nav-item"><a href="documentacion_analisis.html" class="nav-link">Documentación</a></li>
+            <li class="nav-item"><a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">Buscador Jurídico</a></li>
         </ul>
     </nav>
 
@@ -378,6 +700,102 @@
 
     <!-- Contenido -->
     <main class="idx-main">
+
+        <section id="marco-legal" class="idx-legal-feature" aria-labelledby="marco-legal-title">
+            <div class="idx-legal-grid">
+                <div class="idx-legal-copy">
+                    <div class="idx-legal-kicker">Nueva herramienta integrada</div>
+                    <h2 id="marco-legal-title" class="idx-legal-title">Buscador jurídico del <em>Marco Legal Energético</em></h2>
+                    <p class="idx-legal-desc">
+                        Integramos el buscador de leyes en la portada para consultar artículos, términos normativos y
+                        disposiciones del sector energético desde una experiencia consistente con el ecosistema visual de la DGTE.
+                    </p>
+
+                    <div class="idx-legal-pills" aria-label="Capacidades del buscador jurídico">
+                        <span class="idx-legal-pill"><i class="bi bi-search"></i>Búsqueda por artículo o término</span>
+                        <span class="idx-legal-pill"><i class="bi bi-journal-bookmark"></i>Consulta jurídica directa</span>
+                        <span class="idx-legal-pill"><i class="bi bi-stars"></i>Interfaz editorial SENER</span>
+                    </div>
+
+                    <div class="idx-legal-actions">
+                        <a href="documentacion_analisis.html" class="btn-download">
+                            <i class="bi bi-folder2-open"></i> Ver documentación y análisis
+                        </a>
+                        <a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="btn-legal-secondary">
+                            <i class="bi bi-box-arrow-up-right"></i> Abrir buscador jurídico
+                        </a>
+                    </div>
+
+                    <div class="idx-legal-metrics" aria-label="Resumen del buscador">
+                        <div class="idx-legal-metric">
+                            <strong>PDF</strong>
+                            <span>Documentos técnicos y análisis concentrados en una sección dedicada</span>
+                        </div>
+                        <div class="idx-legal-metric">
+                            <strong>Web</strong>
+                            <span>Buscador jurídico separado para no sobrecargar la portada principal</span>
+                        </div>
+                        <div class="idx-legal-metric">
+                            <strong>UI</strong>
+                            <span>Home más limpio, con rutas claras entre consulta normativa y documentación</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="idx-legal-panel">
+                    <div class="idx-legal-panel-head">
+                        <div>
+                            <strong>Accesos principales</strong>
+                            <span>Documentación técnica y consulta normativa en rutas diferenciadas</span>
+                        </div>
+                        <div class="idx-legal-linkcard-badge">Arquitectura ordenada</div>
+                    </div>
+                    <div class="idx-legal-stack">
+                        <a href="documentacion_analisis.html" class="idx-legal-linkcard">
+                            <div class="idx-legal-linkcard-top">
+                                <div class="idx-legal-linkcard-icon"><i class="bi bi-file-earmark-richtext"></i></div>
+                                <div class="idx-legal-linkcard-badge">Documentación centralizada</div>
+                            </div>
+                            <div class="idx-legal-linkcard-body">
+                                <span class="idx-legal-linkcard-kicker">Documentación y análisis</span>
+                                <h3 class="idx-legal-linkcard-title">PDFs, análisis técnicos y entregables</h3>
+                                <p class="idx-legal-linkcard-desc">Página dedicada para publicar análisis, notas técnicas y documentos de trabajo sin saturar el índice principal.</p>
+                                <div class="idx-legal-linkcard-meta">
+                                    <span><i class="bi bi-folder2-open"></i>Repositorio visual</span>
+                                    <span><i class="bi bi-download"></i>Descarga directa</span>
+                                    <span><i class="bi bi-journal-text"></i>Lectura ordenada</span>
+                                </div>
+                            </div>
+                            <div class="idx-legal-linkcard-footer">
+                                <p>Ideal para colgar los PDFs locales o después cambiar cada archivo a su liga final de Cloudflare.</p>
+                                <span class="idx-legal-linkcard-cta">Abrir sección <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                        </a>
+
+                        <a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="idx-legal-linkcard">
+                            <div class="idx-legal-linkcard-top">
+                                <div class="idx-legal-linkcard-icon"><i class="bi bi-search"></i></div>
+                                <div class="idx-legal-linkcard-badge">Consulta normativa</div>
+                            </div>
+                            <div class="idx-legal-linkcard-body">
+                                <span class="idx-legal-linkcard-kicker">Buscador jurídico</span>
+                                <h3 class="idx-legal-linkcard-title">Marco legal energético</h3>
+                                <p class="idx-legal-linkcard-desc">Herramienta externa para localizar artículos, términos y referencias jurídicas del sector energético con navegación específica.</p>
+                                <div class="idx-legal-linkcard-meta">
+                                    <span><i class="bi bi-box-arrow-up-right"></i>Herramienta externa</span>
+                                    <span><i class="bi bi-journal-bookmark"></i>Búsqueda legal</span>
+                                    <span><i class="bi bi-stars"></i>Experiencia dedicada</span>
+                                </div>
+                            </div>
+                            <div class="idx-legal-linkcard-footer">
+                                <p>Se mantiene separado para que el home conserve claridad y el buscador opere con su propia experiencia.</p>
+                                <span class="idx-legal-linkcard-cta">Ir al buscador <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Sección 1: Análisis de Requisito -->
         <section class="idx-section">
@@ -492,12 +910,22 @@
         </section>
 
         <!-- Sección 3: Otros instrumentos -->
-        <section class="idx-section">
+        <section id="otras-politicas" class="idx-section">
             <div class="idx-section-header">
                 <h2 class="idx-section-label">Otros instrumentos de política</h2>
-                <span class="idx-section-count">3 temas</span>
+                <span class="idx-section-count">4 temas</span>
             </div>
             <div class="idx-grid idx-grid-wide">
+
+                <a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="idx-card">
+                    <div class="idx-card-top">
+                        <div class="idx-card-icon"><i class="bi bi-journal-text"></i></div>
+                        <span class="idx-card-num"></span>
+                    </div>
+                    <h3 class="idx-card-title">Buscador del Marco Legal Energético</h3>
+                    <p class="idx-card-desc">Acceso al buscador jurídico para localizar leyes, reglamentos y artículos del sector energético con navegación enfocada en consulta normativa.</p>
+                    <span class="idx-card-cta">Abrir buscador <i class="bi bi-arrow-right"></i></span>
+                </a>
 
                 <a href="construccion.html" class="idx-card idx-card--dorado">
                     <div class="idx-card-top">
