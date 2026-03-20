@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notas Técnicas — Análisis de Hidrógeno Verde · Entregables D2 y D3 | SENER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --white: #FFFFFF;
+  --bg: #F8F9FA;
+  --paper: #FFFFFF;
+  --ink: #333333;
+  --ink-light: #444444;
+  --ink-muted: #6B6B6B;
+  --ink-faint: #98989A;
+  --rule: #DDDDDD;
+  --rule-dark: #C8C5BF;
+  --teal: #1E5B4F;
+  --teal-light: rgba(30, 91, 79, 0.07);
+  --teal-mid: #2A7A6A;
+  --guinda: #9B2247;
+  --guinda-light: rgba(155, 34, 71, 0.06);
+  --amber: #A57F2C;
+  --amber-light: rgba(165, 127, 44, 0.08);
+  --coral: #9B2247;
+  --coral-light: rgba(155, 34, 71, 0.06);
+  --green-bar: #1E5B4F;
+  --yellow-bar: #A57F2C;
+  --red-bar: #9B2247;
+  --serif: 'Merriweather', 'Patria', Georgia, serif;
+  --sans: 'Noto Sans', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--guinda); color: white; }
+
+@media print {
+  body { background: white; }
+  .no-print { display: none !important; }
+  .page { break-inside: avoid; box-shadow: none; border: none; }
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--paper);
+  border-bottom: 3px solid var(--guinda);
+  padding: 48px 0 40px;
+}
+
+.header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-badge-dot {
+  width: 10px; height: 10px;
+  background: var(--guinda);
+  border-radius: 50%;
+}
+
+.header-badge-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--guinda);
+}
+
+.header-date {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.header h1 {
+  font-family: var(--serif);
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--guinda);
+  margin-bottom: 12px;
+}
+
+.header-subtitle {
+  font-size: 17px;
+  color: var(--ink-muted);
+  font-weight: 400;
+  max-width: 700px;
+}
+
+.header-meta {
+  display: flex;
+  gap: 40px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+.header-meta dt {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 2px;
+}
+
+.header-meta dd {
+  font-size: 14px;
+  color: var(--ink-light);
+  font-weight: 500;
+}
+
+/* ===== CONTENT ===== */
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+.block { margin-bottom: 56px; }
+
+.block-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--guinda);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.block-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.block h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--guinda);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--guinda);
+}
+
+.block h3 {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 12px;
+  margin-top: 32px;
+}
+
+.block p {
+  font-size: 15px;
+  color: var(--ink-light);
+  margin-bottom: 14px;
+  max-width: 720px;
+}
+
+.block p strong { color: var(--ink); font-weight: 600; }
+
+/* Callout */
+.callout {
+  background: var(--teal-light);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 24px 28px;
+  margin: 24px 0;
+}
+.callout p { color: var(--ink-light); margin-bottom: 0; }
+.callout-amber { background: var(--amber-light); border-left-color: var(--amber); }
+.callout-coral { background: var(--coral-light); border-left-color: var(--coral); }
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+}
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead th {
+  background: var(--guinda);
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 14px 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+thead th:first-child { border-radius: 9px 0 0 0; }
+thead th:last-child { border-radius: 0 9px 0 0; }
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink-light);
+  line-height: 1.55;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(155, 34, 71, 0.03); }
+.td-bold { font-weight: 600; color: var(--ink); }
+
+/* Pills */
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.3px;
+}
+.pill-green { background: rgba(30, 91, 79, 0.12); color: #1E5B4F; }
+.pill-yellow { background: rgba(165, 127, 44, 0.12); color: #7A5F1A; }
+.pill-red { background: rgba(155, 34, 71, 0.1); color: #9B2247; }
+
+/* Bar charts */
+.bar-chart { margin: 24px 0; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.bar-label { font-size: 13px; font-weight: 500; color: var(--ink-light); text-align: right; }
+.bar-track {
+  height: 28px;
+  background: var(--bg);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--rule);
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  transition: width 0.8s ease;
+}
+.bar-value { font-family: var(--mono); font-size: 12px; color: var(--ink-muted); }
+
+/* Dimension cards */
+.dim-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+.dim-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 24px;
+  position: relative;
+}
+.dim-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 10px 10px 0 0;
+}
+.dim-card.c-guinda::before { background: var(--guinda); }
+.dim-card.c-teal::before { background: var(--teal); }
+.dim-card.c-amber::before { background: var(--amber); }
+.dim-card .dim-icon { font-size: 24px; margin-bottom: 12px; }
+.dim-card h4 { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.dim-card p { font-size: 13px; color: var(--ink-muted); margin-bottom: 0; line-height: 1.55; }
+
+/* Action cards */
+.action-list { margin: 24px 0; }
+.action-item {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.action-item:last-child { border-bottom: none; }
+.action-num {
+  width: 48px; height: 48px;
+  background: var(--guinda);
+  color: white;
+  font-family: var(--serif);
+  font-size: 22px; font-weight: 700;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.action-num.teal { background: var(--teal); }
+.action-num.amber { background: var(--amber); }
+.action-content h4 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.action-content p { font-size: 14px; color: var(--ink-light); margin-bottom: 8px; }
+.action-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.action-tag { font-size: 11px; font-weight: 600; background: var(--teal-light); color: var(--teal); padding: 3px 10px; border-radius: 4px; }
+.action-tag.caution { background: var(--guinda-light); color: var(--guinda); }
+.action-tag.amber-tag { background: var(--amber-light); color: var(--amber); }
+
+/* Sequencing */
+.seq-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin: 24px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+.seq-col { padding: 24px 20px; background: var(--paper); }
+.seq-col:nth-child(2) { border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+.seq-phase { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.seq-period { font-size: 12px; color: var(--ink-muted); margin-bottom: 16px; }
+.seq-item { font-size: 13px; color: var(--ink-light); padding: 8px 0; border-bottom: 1px dashed var(--rule); line-height: 1.5; }
+.seq-item:last-child { border-bottom: none; }
+
+/* Footer */
+.footer {
+  border-top: 3px solid var(--guinda);
+  background: var(--paper);
+  padding: 32px 0;
+  text-align: center;
+}
+.footer p { font-size: 12px; color: var(--ink-faint); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+/* Tabs */
+.tab-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: 40px;
+}
+.tab-btn {
+  padding: 14px 24px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--guinda); }
+.tab-btn.active { color: var(--guinda); font-weight: 700; border-bottom-color: var(--guinda); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeUp .35s ease; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Print & Download */
+.print-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--guinda);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(155, 34, 71, 0.25);
+  z-index: 100;
+  transition: transform 0.2s;
+}
+.print-btn:hover { transform: translateY(-2px); }
+
+.dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink-muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 12px;
+}
+.dl-btn:hover {
+  background: var(--guinda);
+  color: white;
+  border-color: var(--guinda);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(155, 34, 71, 0.2);
+}
+.dl-btn.downloading { opacity: 0.6; pointer-events: none; }
+.dl-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+.dl-row { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+@media print { .dl-btn, .dl-row { display: none !important; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-inner, .content { padding-left: 20px; padding-right: 20px; }
+  .header h1 { font-size: 28px; }
+  .header-meta { flex-direction: column; gap: 16px; }
+  .bar-row { grid-template-columns: 1fr; gap: 4px; }
+  .bar-label { text-align: left; }
+  .seq-timeline { grid-template-columns: 1fr; }
+  .seq-col:nth-child(2) { border-left: none; border-right: none; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .dim-grid { grid-template-columns: 1fr; }
+  .action-item { grid-template-columns: 48px 1fr; gap: 14px; }
+  .tab-nav { overflow-x: auto; }
+  .tab-btn { padding: 12px 16px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="header-badge">
+        <span class="header-badge-dot"></span>
+        <span class="header-badge-text">Notas Técnicas</span>
+      </div>
+      <span class="header-date">Marzo 2026</span>
+    </div>
+    <h1>Análisis integral de los entregables<br>de hidrógeno renovable</h1>
+    <p class="header-subtitle">Evaluación técnica de los Deliverables D2 (Benchmarking Internacional) y D3 (Opciones de Política Pública) del programa GCIEP — con observaciones y áreas de oportunidad para SENER.</p>
+    <dl class="header-meta">
+      <div>
+        <dt>Documentos base</dt>
+        <dd>D2 Benchmarking · D3 Options Paper</dd>
+      </div>
+      <div>
+        <dt>Programa</dt>
+        <dd>GCIEP (FCDO–PwC–Mott MacDonald)</dd>
+      </div>
+      <div>
+        <dt>Dirigido a</dt>
+        <dd>SENER · DG Transición Energética</dd>
+      </div>
+      <div>
+        <dt>Clasificación</dt>
+        <dd>Uso interno</dd>
+      </div>
+    </dl>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <nav class="tab-nav no-print">
+    <button class="tab-btn active" data-tab="d2">D2 — Benchmarking</button>
+    <button class="tab-btn" data-tab="d3">D3 — Opciones de Política</button>
+    <button class="tab-btn" data-tab="cruce">Análisis Cruzado</button>
+    <button class="tab-btn" data-tab="accion">Líneas de Acción</button>
+  </nav>
+
+  <!-- ═══ TAB D2 ═══ -->
+  <div class="tab-panel active" id="panel-d2">
+
+    <section class="block">
+      <div class="block-label">01 — Contexto del D2</div>
+      <h2>Benchmarking internacional de hidrógeno renovable</h2>
+      <p>El informe presenta una comparación estructurada de experiencias internacionales en materia de gobernanza, regulación y políticas públicas aplicadas al desarrollo de mercados de hidrógeno verde. El análisis incorpora <strong>once países</strong> con distintos niveles de madurez institucional y tecnológica.</p>
+      <p>El enfoque resulta consistente con los marcos de análisis utilizados por la <strong>Agencia Internacional de la Energía</strong> y el <strong>Banco Mundial</strong> para evaluar mercados de hidrógeno.</p>
+      <div class="callout">
+        <p><strong>Hallazgo principal:</strong> México se encuentra en una fase formativa del desarrollo del hidrógeno renovable, donde predominan proyectos en etapa conceptual o de factibilidad, <strong>sin decisiones finales de inversión</strong>. Los países con mayor avance han logrado coordinar instrumentos regulatorios, incentivos financieros y planificación de infraestructura de manera progresiva.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">02 — Estructura analítica</div>
+      <h2>Tres dimensiones del benchmarking</h2>
+      <p>El D2 utiliza una estructura metodológica sólida basada en tres ejes. Destaca la importancia de la <strong>secuenciación de políticas públicas</strong> como elemento central para escalar el sector.</p>
+      <div class="dim-grid">
+        <div class="dim-card c-guinda">
+          <div class="dim-icon">🏛️</div>
+          <h4>Gobernanza institucional</h4>
+          <p>Arreglos institucionales, coordinación entre dependencias y marcos de planeación estratégica que soportan el desarrollo del sector en cada país.</p>
+        </div>
+        <div class="dim-card c-teal">
+          <div class="dim-icon">⚖️</div>
+          <h4>Fundamentos regulatorios</h4>
+          <p>Definiciones legales del hidrógeno, estándares de seguridad, certificación y marcos normativos para producción, transporte y uso.</p>
+        </div>
+        <div class="dim-card c-amber">
+          <div class="dim-icon">📋</div>
+          <h4>Palancas de política pública</h4>
+          <p>Instrumentos financieros, incentivos fiscales, mandatos de uso y mecanismos de apoyo a oferta y demanda de hidrógeno verde.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">03 — Madurez comparada</div>
+      <h2>Nivel de desarrollo del marco habilitador por país</h2>
+      <p>Evaluación compuesta del nivel de avance en gobernanza, regulación y política pública. Los países europeos lideran con marcos integrales; México y otros mercados emergentes están construyendo las bases.</p>
+      <div class="bar-chart" id="chart-madurez">
+        <div class="bar-row"><span class="bar-label">🇩🇪 Alemania</span><div class="bar-track"><div class="bar-fill" style="width:92%;background:var(--green-bar)"></div></div><span class="bar-value">Avanzado</span></div>
+        <div class="bar-row"><span class="bar-label">🇳🇱 Países Bajos</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:var(--green-bar)"></div></div><span class="bar-value">Avanzado</span></div>
+        <div class="bar-row"><span class="bar-label">🇬🇧 Reino Unido</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--green-bar)"></div></div><span class="bar-value">Avanzado</span></div>
+        <div class="bar-row"><span class="bar-label">🇦🇺 Australia</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--green-bar)"></div></div><span class="bar-value">Avanzado</span></div>
+        <div class="bar-row"><span class="bar-label">🇨🇱 Chile</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:var(--yellow-bar)"></div></div><span class="bar-value">En desarrollo</span></div>
+        <div class="bar-row"><span class="bar-label">🇮🇳 India</span><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--yellow-bar)"></div></div><span class="bar-value">En desarrollo</span></div>
+        <div class="bar-row"><span class="bar-label">🇨🇴 Colombia</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--yellow-bar)"></div></div><span class="bar-value">En desarrollo</span></div>
+        <div class="bar-row"><span class="bar-label">🇿🇦 Sudáfrica</span><div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--red-bar)"></div></div><span class="bar-value">Formativo</span></div>
+        <div class="bar-row"><span class="bar-label">🇰🇪 Kenia</span><div class="bar-track"><div class="bar-fill" style="width:35%;background:var(--red-bar)"></div></div><span class="bar-value">Formativo</span></div>
+        <div class="bar-row"><span class="bar-label" style="font-weight:700;color:var(--guinda)">🇲🇽 México</span><div class="bar-track" style="border-color:var(--guinda)"><div class="bar-fill" style="width:30%;background:var(--red-bar)"></div></div><span class="bar-value" style="font-weight:700;color:var(--guinda)">Formativo</span></div>
+      </div>
+      <div class="callout callout-coral">
+        <p><strong>Lectura para SENER:</strong> México se ubica en la parte baja de la escala, consistente con otros mercados emergentes. Sin embargo, países como Chile e India han acelerado significativamente en los últimos 3 años, lo que demuestra que <strong>el avance es posible con instrumentos institucionales existentes</strong>.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">04 — Observaciones técnicas</div>
+      <h2>Áreas de oportunidad para fortalecer el D2</h2>
+      <p>El documento es sólido como insumo técnico, pero desde la perspectiva de la política energética mexicana presenta áreas que podrían fortalecer su utilidad para SENER.</p>
+      <div class="table-wrap" id="tabla-areas-d2">
+        <table>
+          <thead><tr><th style="width:30px">#</th><th>Área de oportunidad</th><th>Impacto para SENER</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bold">1</td><td class="td-bold">Incluir metodología del estudio</td><td>Permite evaluar la robustez de las conclusiones y replicar el análisis.</td></tr>
+            <tr><td class="td-bold">2</td><td class="td-bold">Comparación directa del marco institucional de México</td><td>Identifica brechas concretas frente a los países analizados.</td></tr>
+            <tr><td class="td-bold">3</td><td class="td-bold">Matriz de brechas regulatorias y de gobernanza</td><td>Permite priorizar acciones regulatorias con justificación técnica.</td></tr>
+            <tr><td class="td-bold">4</td><td class="td-bold">Integración con el sistema eléctrico nacional</td><td>Vincula hidrógeno con la planeación de generación y transmisión.</td></tr>
+            <tr><td class="td-bold">5</td><td class="td-bold">Certificación del hidrógeno y garantías de origen</td><td>Habilita acceso a mercados de exportación premium.</td></tr>
+            <tr><td class="td-bold">6</td><td class="td-bold">Análisis económico: costos y competitividad</td><td>Permite evaluar la viabilidad financiera de proyectos en México.</td></tr>
+            <tr><td class="td-bold">7</td><td class="td-bold">Corredores industriales y hubs de hidrógeno</td><td>Orienta la planificación territorial y logística.</td></tr>
+            <tr><td class="td-bold">8</td><td class="td-bold">Cadena de valor completa</td><td>Identifica cuellos de botella en producción, transporte, almacenamiento y uso.</td></tr>
+            <tr><td class="td-bold">9</td><td class="td-bold">Escenarios de desarrollo del mercado</td><td>Da visión de largo plazo para la planeación institucional.</td></tr>
+            <tr><td class="td-bold">10</td><td class="td-bold">Mecanismos de coordinación interinstitucional</td><td>Estructura la gobernanza multisectorial del hidrógeno.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══ TAB D3 ═══ -->
+  <div class="tab-panel" id="panel-d3">
+
+    <section class="block">
+      <div class="block-label">01 — Contexto del D3</div>
+      <h2>Opciones de política para hidrógeno renovable</h2>
+      <p>El documento identifica que México se encuentra en un <strong>punto de decisión</strong> respecto a la arquitectura institucional y regulatoria del hidrógeno renovable. La discusión central no es replicar modelos internacionales, sino identificar <strong>qué instrumentos pueden implementarse dentro del marco jurídico y presupuestario vigente</strong>.</p>
+      <div class="callout">
+        <p><strong>Hallazgo principal:</strong> Las opciones más viables para México no son las más sofisticadas, sino las que pueden montarse sobre instrumentos que <strong>ya existen</strong>. El análisis se estructura en torno a cinco principios habilitadores derivados del benchmarking internacional.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">02 — Los cinco principios habilitadores</div>
+      <h2>Estructura analítica del D3</h2>
+      <p>El D3 organiza las opciones de política en torno a cinco ejes que la experiencia internacional señala como necesarios para que un mercado de hidrógeno funcione.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:30px">#</th><th>Principio habilitador</th><th>¿Qué resuelve?</th><th>Actores clave</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bold">1</td><td class="td-bold">Estrategia nacional vinculante</td><td>Da dirección, rendición de cuentas y señal de largo plazo a inversionistas.</td><td>SENER · ENTE · PLATEASE</td></tr>
+            <tr><td class="td-bold">2</td><td class="td-bold">Certificación del hidrógeno</td><td>Define qué cuenta como "renovable" y cómo se verifica. Clave para exportar.</td><td>SENER · CRE · EMA · SEMARNAT</td></tr>
+            <tr><td class="td-bold">3</td><td class="td-bold">Simplificación de permisos</td><td>Reduce tiempos de trámite y da certidumbre a proyectos.</td><td>SEMARNAT · CRE · CENACE</td></tr>
+            <tr><td class="td-bold">4</td><td class="td-bold">Apoyo a producción temprana</td><td>Cierra la brecha de costos y hace bancables los primeros proyectos.</td><td>SENER · NAFIN · PEMEX</td></tr>
+            <tr><td class="td-bold">5</td><td class="td-bold">Estimulación de demanda</td><td>Crea mercado para el hidrógeno. Sin demanda, no hay proyecto que cierre.</td><td>LGCC · RETC · SCE</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">03 — Observaciones técnicas</div>
+      <h2>Áreas de oportunidad para fortalecer el D3</h2>
+      <p>Si bien el documento representa un ejercicio analítico valioso, su utilidad estratégica puede fortalecerse en las siguientes dimensiones:</p>
+      <div class="action-list" id="brechas-d3">
+        <div class="action-item">
+          <div class="action-num">1</div>
+          <div class="action-content">
+            <h4>Integración técnico-energética insuficiente</h4>
+            <p>No incorpora análisis detallado sobre expansión de generación renovable, capacidad de electrólisis ni requerimientos de infraestructura eléctrica y de transporte de hidrógeno.</p>
+            <div class="action-tags"><span class="action-tag caution">Brecha crítica</span><span class="action-tag">Limita vinculación con escenarios técnicos</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num teal">2</div>
+          <div class="action-content">
+            <h4>Evaluación económica limitada</h4>
+            <p>Requiere estimaciones más robustas de costos de producción, competitividad frente a hidrógeno convencional y potencial de movilización de inversión privada.</p>
+            <div class="action-tags"><span class="action-tag caution">Brecha importante</span><span class="action-tag">Necesaria para toma de decisiones</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num amber">3</div>
+          <div class="action-content">
+            <h4>Gobernanza interinstitucional superficial</h4>
+            <p>Reconoce la necesidad de coordinación entre dependencias pero no profundiza en mecanismos concretos de gobernanza para la implementación.</p>
+            <div class="action-tags"><span class="action-tag amber-tag">Requiere desarrollo</span><span class="action-tag">Coordinación SENER-CRE-SEMARNAT-SHCP</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num">4</div>
+          <div class="action-content">
+            <h4>Falta de análisis territorial y sectorial</h4>
+            <p>Se necesita evaluación detallada de la demanda potencial de hidrógeno en refinación, fertilizantes, acero, transporte pesado y combustibles sintéticos.</p>
+            <div class="action-tags"><span class="action-tag caution">Brecha importante</span><span class="action-tag">Clave para priorizar instrumentos</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num teal">5</div>
+          <div class="action-content">
+            <h4>Ausencia de secuencia temporal con metas indicativas</h4>
+            <p>Faltan metas de capacidad instalada, producción y desarrollo de infraestructura que permitan traducir las opciones en una estrategia operativa de mediano y largo plazo.</p>
+            <div class="action-tags"><span class="action-tag amber-tag">Requiere desarrollo</span><span class="action-tag">Horizonte 2026-2035</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══ TAB CRUCE ═══ -->
+  <div class="tab-panel" id="panel-cruce">
+
+    <section class="block">
+      <div class="block-label">05 — Análisis cruzado</div>
+      <h2>Cobertura temática: D2 vs D3</h2>
+      <p>Ambos documentos son <strong>complementarios</strong>: el D2 establece el diagnóstico comparativo internacional y el D3 traduce ese diagnóstico en opciones concretas de política pública. Sin embargo, comparten brechas comunes.</p>
+      <div class="table-wrap" id="tabla-cruce">
+        <table>
+          <thead><tr><th>Dimensión</th><th style="text-align:center">D2</th><th style="text-align:center">D3</th><th>Observación</th></tr></thead>
+          <tbody>
+            <tr><td class="td-bold">Gobernanza institucional</td><td style="text-align:center"><span class="pill pill-green">Fuerte</span></td><td style="text-align:center"><span class="pill pill-yellow">Parcial</span></td><td>D2 más robusto en comparación internacional</td></tr>
+            <tr><td class="td-bold">Marco regulatorio</td><td style="text-align:center"><span class="pill pill-green">Fuerte</span></td><td style="text-align:center"><span class="pill pill-green">Fuerte</span></td><td>Complementarios; D3 más aplicado a México</td></tr>
+            <tr><td class="td-bold">Instrumentos de política</td><td style="text-align:center"><span class="pill pill-yellow">Parcial</span></td><td style="text-align:center"><span class="pill pill-green">Fuerte</span></td><td>Fortaleza principal del D3</td></tr>
+            <tr><td class="td-bold">Análisis económico</td><td style="text-align:center"><span class="pill pill-red">Débil</span></td><td style="text-align:center"><span class="pill pill-yellow">Parcial</span></td><td>Brecha compartida — requiere desarrollo</td></tr>
+            <tr><td class="td-bold">Integración energética</td><td style="text-align:center"><span class="pill pill-red">Débil</span></td><td style="text-align:center"><span class="pill pill-red">Débil</span></td><td>Brecha crítica en ambos documentos</td></tr>
+            <tr><td class="td-bold">Análisis territorial</td><td style="text-align:center"><span class="pill pill-red">Débil</span></td><td style="text-align:center"><span class="pill pill-red">Débil</span></td><td>Ausencia de corredores y hubs estratégicos</td></tr>
+            <tr><td class="td-bold">Secuencia temporal</td><td style="text-align:center"><span class="pill pill-yellow">Parcial</span></td><td style="text-align:center"><span class="pill pill-red">Débil</span></td><td>Falta de metas indicativas y horizonte operativo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>Lectura para SENER:</strong> Las brechas más significativas — análisis económico, integración con el sistema eléctrico, análisis territorial y secuencia temporal — son <strong>compartidas por ambos documentos</strong>. Deben solicitarse como complementos al equipo consultor o desarrollarse internamente.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">06 — Valoración general</div>
+      <h2>Fortalezas y limitaciones del paquete D2+D3</h2>
+      <h3>Lo que sí hacen bien los entregables</h3>
+      <div class="callout">
+        <p><strong>Marco analítico sólido:</strong> La estructura de tres dimensiones del D2 y los cinco principios habilitadores del D3 son consistentes con la práctica internacional. La comparación de once países proporciona una base empírica amplia, y el enfoque del D3 en instrumentos existentes hace las recomendaciones <strong>directamente implementables</strong>.</p>
+      </div>
+      <h3>Lo que falta para que SENER pueda actuar</h3>
+      <div class="callout callout-coral">
+        <p><strong>Cuatro brechas críticas:</strong> (1) No hay análisis de cómo integrar el hidrógeno con el sistema eléctrico nacional. (2) No hay evaluación económica para el contexto mexicano. (3) No hay mapeo territorial de demanda potencial. (4) No hay metas indicativas de capacidad, producción e infraestructura. Sin estos elementos, las opciones de política flotan en un vacío técnico.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══ TAB ACCIÓN ═══ -->
+  <div class="tab-panel" id="panel-accion">
+
+    <section class="block">
+      <div class="block-label">07 — Líneas de acción para SENER</div>
+      <h2>Qué hacer con estos entregables</h2>
+      <p>A partir del análisis conjunto de D2 y D3, se proponen cinco líneas de acción prioritarias para avanzar en el diseño del Plan Nacional de Hidrógeno Renovable.</p>
+      <div class="action-list" id="acciones-sener">
+        <div class="action-item">
+          <div class="action-num">1</div>
+          <div class="action-content">
+            <h4>Solicitar complementos analíticos al equipo consultor</h4>
+            <p>Requerir a PwC y Mott MacDonald la incorporación de análisis económico detallado, evaluación territorial y mecanismos de gobernanza interinstitucional como complemento a los entregables D2 y D3.</p>
+            <div class="action-tags"><span class="action-tag">Corto plazo</span><span class="action-tag">Sin costo adicional significativo</span><span class="action-tag">Aprovecha contrato existente</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num teal">2</div>
+          <div class="action-content">
+            <h4>Desarrollar la hoja de ruta regulatoria</h4>
+            <p>Utilizar el marco del D3 para construir una secuencia temporal de acciones regulatorias. Priorizar certificación (SENER, CRE, EMA, SEMARNAT) y simplificación de permisos como acciones de corto plazo sin reforma legislativa.</p>
+            <div class="action-tags"><span class="action-tag">Marco D3 como base</span><span class="action-tag">Sin reforma legal</span><span class="action-tag">Corto-mediano plazo</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num amber">3</div>
+          <div class="action-content">
+            <h4>Integrar análisis del sistema eléctrico</h4>
+            <p>Complementar ambos documentos con un estudio técnico sobre la integración del hidrógeno con el sistema eléctrico nacional: generación renovable adicional, infraestructura de transmisión y requerimientos de electrólisis.</p>
+            <div class="action-tags"><span class="action-tag amber-tag">Requiere estudio dedicado</span><span class="action-tag">Coordinación con CENACE</span><span class="action-tag">Mediano plazo</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num">4</div>
+          <div class="action-content">
+            <h4>Mapear demanda potencial sectorial y territorial</h4>
+            <p>Evaluación de la demanda de hidrógeno por sector: refinación, fertilizantes, acero, transporte pesado y combustibles sintéticos. Identificar corredores industriales y puertos estratégicos.</p>
+            <div class="action-tags"><span class="action-tag">PEMEX como ancla</span><span class="action-tag">Corredor del Golfo · Corredor del Pacífico</span><span class="action-tag caution">No cubierto en D2 ni D3</span></div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-num teal">5</div>
+          <div class="action-content">
+            <h4>Establecer mecanismo de coordinación interinstitucional</h4>
+            <p>Diseñar una estructura de gobernanza que articule a SENER, CRE, SEMARNAT, SHCP, Economía y entidades subnacionales. Definir roles, responsabilidades y mecanismos de seguimiento.</p>
+            <div class="action-tags"><span class="action-tag">Gobernanza multisectorial</span><span class="action-tag">Precedente: Comité de Transición Energética</span><span class="action-tag amber-tag">Requiere voluntad política</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">08 — Secuenciamiento</div>
+      <h2>Cuándo actuar sobre cada línea</h2>
+      <p>No todo se puede hacer al mismo tiempo. Se propone un enfoque por fases que va de lo más factible hacia lo más complejo.</p>
+      <div class="seq-timeline" id="secuencia-sener">
+        <div class="seq-col">
+          <div class="seq-phase" style="color:#1E5B4F">🟢 Inmediato</div>
+          <div class="seq-period">Se puede hacer hoy con instrumentos existentes</div>
+          <div class="seq-item">Solicitar complementos analíticos a PwC/MM</div>
+          <div class="seq-item">Iniciar hoja de ruta regulatoria interna</div>
+          <div class="seq-item">Reconocer certificadores internacionales</div>
+          <div class="seq-item">Dar trato prioritario al H₂ en permisos</div>
+          <div class="seq-item">Identificar quick wins del D3</div>
+        </div>
+        <div class="seq-col">
+          <div class="seq-phase" style="color:#A57F2C">🟡 Mediano plazo</div>
+          <div class="seq-period">Requiere estudios adicionales o coordinación</div>
+          <div class="seq-item">Estudio de integración eléctrica con CENACE</div>
+          <div class="seq-item">Mapeo territorial de demanda sectorial</div>
+          <div class="seq-item">Esquema de desarrollo mixto con PEMEX</div>
+          <div class="seq-item">Esquema híbrido de certificación</div>
+          <div class="seq-item">Diseñar estructura de coordinación interinstitucional</div>
+        </div>
+        <div class="seq-col">
+          <div class="seq-phase" style="color:#9B2247">🔴 Largo plazo</div>
+          <div class="seq-period">Requiere decisiones de alto nivel o reformas</div>
+          <div class="seq-item">Publicación del Plan Nacional de H₂</div>
+          <div class="seq-item">Mandatos sectoriales de consumo de H₂</div>
+          <div class="seq-item">Presupuesto plurianual dedicado</div>
+          <div class="seq-item">Autoridad verificadora propia</div>
+          <div class="seq-item">Contratos por Diferencia para H₂</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-label">09 — Conclusión</div>
+      <h2>En resumen</h2>
+      <div class="callout">
+        <p><strong>Valoración general:</strong> Los entregables D2 y D3 representan un ejercicio analítico valioso para el diseño del Plan Nacional de Hidrógeno Renovable. Su utilidad estratégica puede fortalecerse sustancialmente mediante la integración de <strong>análisis técnico-energético, evaluación económica detallada, mecanismos de gobernanza institucional, análisis territorial y escenarios de desarrollo</strong> con metas indicativas de mediano y largo plazo.</p>
+      </div>
+      <p style="margin-top:24px"><strong>Siguiente paso:</strong> La fase 4 (final) del trabajo consolidará estos insumos en un paquete de orientación estructurado para SENER, con recomendaciones formales de política y rutas de implementación.</p>
+    </section>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <p>Notas técnicas basadas en los entregables D2 (Benchmarking) y D3 (Analytical Options Paper) del programa GCIEP.<br>
+  Green Cities, Infrastructure and Energy Programme · FCDO · PwC · Mott MacDonald<br>
+  Marzo 2026 · Documento de trabajo para SENER — Dirección General de Transición Energética</p>
+</footer>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: document.querySelector('.tab-nav').offsetTop - 20, behavior: 'smooth' });
+  });
+});
+
+const dlIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>`;
+
+const downloadTargets = [
+  { selector: '#chart-madurez', name: 'madurez_hidrogeno_paises' },
+  { selector: '#tabla-areas-d2', name: 'areas_oportunidad_D2' },
+  { selector: '#brechas-d3', name: 'brechas_D3' },
+  { selector: '#tabla-cruce', name: 'comparativo_D2_vs_D3' },
+  { selector: '#acciones-sener', name: 'lineas_accion_SENER' },
+  { selector: '#secuencia-sener', name: 'secuenciamiento_SENER' },
+];
+
+function createDlButton(filename, targetEl) {
+  const row = document.createElement('div');
+  row.className = 'dl-row no-print';
+  const btn = document.createElement('button');
+  btn.className = 'dl-btn';
+  btn.innerHTML = dlIcon + ' Descargar PNG';
+  btn.addEventListener('click', async () => {
+    btn.classList.add('downloading');
+    btn.innerHTML = dlIcon + ' Generando...';
+    try {
+      const canvas = await html2canvas(targetEl, { scale: 3, backgroundColor: '#FFFFFF', useCORS: true, logging: false, windowWidth: 1000 });
+      const link = document.createElement('a');
+      link.download = filename + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch(e) { console.error('Error generating PNG:', e); }
+    btn.classList.remove('downloading');
+    btn.innerHTML = dlIcon + ' Descargar PNG';
+  });
+  row.appendChild(btn);
+  return row;
+}
+
+function initDownloads() {
+  if (typeof html2canvas === 'undefined') { setTimeout(initDownloads, 200); return; }
+  downloadTargets.forEach(t => {
+    const el = document.querySelector(t.selector);
+    if (!el) return;
+    el.parentNode.insertBefore(createDlButton(t.name, el), el);
+  });
+}
+
+function addDownloadAllButton() {
+  if (typeof html2canvas === 'undefined') { setTimeout(addDownloadAllButton, 200); return; }
+  const content = document.querySelector('.content');
+  if (!content) return;
+  const allRow = document.createElement('div');
+  allRow.className = 'dl-row no-print';
+  allRow.style.marginBottom = '32px';
+  allRow.style.justifyContent = 'flex-start';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'dl-btn';
+  allBtn.style.background = 'var(--guinda)';
+  allBtn.style.color = 'white';
+  allBtn.style.borderColor = 'var(--guinda)';
+  allBtn.style.padding = '10px 20px';
+  allBtn.style.fontSize = '13px';
+  allBtn.innerHTML = dlIcon + ' Descargar TODOS los gráficos como PNG';
+  allBtn.addEventListener('click', async () => {
+    allBtn.classList.add('downloading');
+    allBtn.innerHTML = dlIcon + ' Descargando...';
+    const panels = document.querySelectorAll('.tab-panel');
+    panels.forEach(p => { p.dataset.was = p.classList.contains('active'); p.style.display = 'block'; });
+    const allBtns = document.querySelectorAll('.dl-btn:not([style])');
+    for (const b of allBtns) { b.click(); await new Promise(r => setTimeout(r, 800)); }
+    panels.forEach(p => { if (p.dataset.was !== 'true') p.style.display = ''; delete p.dataset.was; });
+    allBtn.classList.remove('downloading');
+    allBtn.innerHTML = dlIcon + ' Descargar TODOS los gráficos como PNG';
+  });
+  allRow.appendChild(allBtn);
+  content.insertBefore(allRow, content.querySelector('.tab-nav'));
+}
+
+initDownloads();
+addDownloadAllButton();
+</script>
+</body>
+</html>
