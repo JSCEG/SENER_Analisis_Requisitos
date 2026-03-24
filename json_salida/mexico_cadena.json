@@ -1,0 +1,669 @@
+{
+  "meta": {
+    "pais": "Mexico",
+    "total_emitido_mwh": 41241144.99,
+    "total_redimido_como_emisor_mwh": 3170353.05,
+    "total_consumido_como_beneficiario_mwh": 30096159.52,
+    "pct_redimido": 7.69,
+    "stock_sin_redimir_mwh": 38070791.95
+  },
+  "issuances": [
+    {
+      "vintage": "2017",
+      "technology": "Solar",
+      "volume_issued": 69479.0
+    },
+    {
+      "vintage": "2018",
+      "technology": "Solar",
+      "volume_issued": 70716.0
+    },
+    {
+      "vintage": "2018",
+      "technology": "Wind",
+      "volume_issued": 40000.0
+    },
+    {
+      "vintage": "2019",
+      "technology": "Solar",
+      "volume_issued": 121460.0
+    },
+    {
+      "vintage": "2019",
+      "technology": "Wind",
+      "volume_issued": 1164774.0
+    },
+    {
+      "vintage": "2020",
+      "technology": "Solar",
+      "volume_issued": 130462.0
+    },
+    {
+      "vintage": "2020",
+      "technology": "Wind",
+      "volume_issued": 1836192.0
+    },
+    {
+      "vintage": "2021",
+      "technology": "Geothermal",
+      "volume_issued": 99119.0
+    },
+    {
+      "vintage": "2021",
+      "technology": "Hydroelectric",
+      "volume_issued": 286887.0
+    },
+    {
+      "vintage": "2021",
+      "technology": "Solar",
+      "volume_issued": 480063.05
+    },
+    {
+      "vintage": "2021",
+      "technology": "Wind",
+      "volume_issued": 4873768.0
+    },
+    {
+      "vintage": "2022",
+      "technology": "Bioenergy",
+      "volume_issued": 20311.48
+    },
+    {
+      "vintage": "2022",
+      "technology": "Geothermal",
+      "volume_issued": 103629.0
+    },
+    {
+      "vintage": "2022",
+      "technology": "Hydroelectric",
+      "volume_issued": 378837.0
+    },
+    {
+      "vintage": "2022",
+      "technology": "Solar",
+      "volume_issued": 1030597.2
+    },
+    {
+      "vintage": "2022",
+      "technology": "Wind",
+      "volume_issued": 5864857.47
+    },
+    {
+      "vintage": "2023",
+      "technology": "Bioenergy",
+      "volume_issued": 257598.0
+    },
+    {
+      "vintage": "2023",
+      "technology": "Geothermal",
+      "volume_issued": 98456.0
+    },
+    {
+      "vintage": "2023",
+      "technology": "Hydroelectric",
+      "volume_issued": 457009.3
+    },
+    {
+      "vintage": "2023",
+      "technology": "Solar",
+      "volume_issued": 1480672.03
+    },
+    {
+      "vintage": "2023",
+      "technology": "Wind",
+      "volume_issued": 7068909.06
+    },
+    {
+      "vintage": "2024",
+      "technology": "Bioenergy",
+      "volume_issued": 285281.84
+    },
+    {
+      "vintage": "2024",
+      "technology": "Geothermal",
+      "volume_issued": 103643.23
+    },
+    {
+      "vintage": "2024",
+      "technology": "Hydroelectric",
+      "volume_issued": 859736.73
+    },
+    {
+      "vintage": "2024",
+      "technology": "Solar",
+      "volume_issued": 1567553.53
+    },
+    {
+      "vintage": "2024",
+      "technology": "Wind",
+      "volume_issued": 7187409.09
+    },
+    {
+      "vintage": "2025",
+      "technology": "Bioenergy",
+      "volume_issued": 109066.54
+    },
+    {
+      "vintage": "2025",
+      "technology": "Geothermal",
+      "volume_issued": 47994.12
+    },
+    {
+      "vintage": "2025",
+      "technology": "Hydroelectric",
+      "volume_issued": 529526.49
+    },
+    {
+      "vintage": "2025",
+      "technology": "Solar",
+      "volume_issued": 989587.7
+    },
+    {
+      "vintage": "2025",
+      "technology": "Wind",
+      "volume_issued": 3627549.12
+    }
+  ],
+  "redemptions_como_emisor": [
+    {
+      "vintage": "2024",
+      "technology": "Wind",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 960306.63
+    },
+    {
+      "vintage": "2025",
+      "technology": "Wind",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 824290.37
+    },
+    {
+      "vintage": "2023",
+      "technology": "Wind",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 230799.89
+    },
+    {
+      "vintage": "2025",
+      "technology": "Hydroelectric",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 224576.42
+    },
+    {
+      "vintage": "2024",
+      "technology": "Hydroelectric",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 219884.13
+    },
+    {
+      "vintage": "2025",
+      "technology": "Solar",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 197359.84
+    },
+    {
+      "vintage": "2024",
+      "technology": "Solar",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 180163.37
+    },
+    {
+      "vintage": "2022",
+      "technology": "Wind",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 140823.62
+    },
+    {
+      "vintage": "2025",
+      "technology": "Bioenergy",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 77799.03
+    },
+    {
+      "vintage": "2023",
+      "technology": "Bioenergy",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 27111.0
+    },
+    {
+      "vintage": "2024",
+      "technology": "Bioenergy",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 25788.75
+    },
+    {
+      "vintage": "2023",
+      "technology": "Hydroelectric",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 24671.01
+    },
+    {
+      "vintage": "2020",
+      "technology": "Wind",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 18633.0
+    },
+    {
+      "vintage": "2025",
+      "technology": "Geothermal",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 11767.0
+    },
+    {
+      "vintage": "2024",
+      "technology": "Wind",
+      "beneficiary_country": "Ireland",
+      "volume_redeemed": 2993.0
+    },
+    {
+      "vintage": "2021",
+      "technology": "Solar",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 1122.14
+    },
+    {
+      "vintage": "2024",
+      "technology": "Wind",
+      "beneficiary_country": "Canada",
+      "volume_redeemed": 989.0
+    },
+    {
+      "vintage": "2023",
+      "technology": "Solar",
+      "beneficiary_country": "Mexico",
+      "volume_redeemed": 436.64
+    },
+    {
+      "vintage": "2023",
+      "technology": "Wind",
+      "beneficiary_country": "Belize",
+      "volume_redeemed": 369.0
+    },
+    {
+      "vintage": "2023",
+      "technology": "Solar",
+      "beneficiary_country": "UK",
+      "volume_redeemed": 268.0
+    },
+    {
+      "vintage": "2021",
+      "technology": "Wind",
+      "beneficiary_country": "Australia",
+      "volume_redeemed": 118.0
+    },
+    {
+      "vintage": "2025",
+      "technology": "Wind",
+      "beneficiary_country": "Switzerland",
+      "volume_redeemed": 70.58
+    },
+    {
+      "vintage": "2025",
+      "technology": "Solar",
+      "beneficiary_country": "Switzerland",
+      "volume_redeemed": 7.42
+    },
+    {
+      "vintage": "2023",
+      "technology": "Wind",
+      "beneficiary_country": "UK",
+      "volume_redeemed": 5.0
+    },
+    {
+      "vintage": "2021",
+      "technology": "Solar",
+      "beneficiary_country": "UK",
+      "volume_redeemed": 0.2
+    }
+  ],
+  "redemptions_como_beneficiario": [
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2023",
+      "volume_redeemed": 5092567.51
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2022",
+      "volume_redeemed": 4709306.95
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2024",
+      "volume_redeemed": 3997920.98
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2021",
+      "volume_redeemed": 3734903.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2020",
+      "volume_redeemed": 1658675.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2023",
+      "volume_redeemed": 1411645.57
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2022",
+      "volume_redeemed": 989116.13
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Wind",
+      "vintage": "2024",
+      "volume_redeemed": 960306.63
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2024",
+      "volume_redeemed": 913174.4
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Wind",
+      "vintage": "2025",
+      "volume_redeemed": 824290.37
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2024",
+      "volume_redeemed": 728001.42
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2019",
+      "volume_redeemed": 587606.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2023",
+      "volume_redeemed": 431069.45
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2022",
+      "volume_redeemed": 404512.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2021",
+      "volume_redeemed": 398859.99
+    },
+    {
+      "issue_country": "Guatemala",
+      "technology": "Hydroelectric",
+      "vintage": "2025",
+      "volume_redeemed": 259542.03
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2021",
+      "volume_redeemed": 249229.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Bioenergy",
+      "vintage": "2024",
+      "volume_redeemed": 244613.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Wind",
+      "vintage": "2023",
+      "volume_redeemed": 230799.89
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Hydroelectric",
+      "vintage": "2025",
+      "volume_redeemed": 224576.42
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Hydroelectric",
+      "vintage": "2024",
+      "volume_redeemed": 219884.13
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Bioenergy",
+      "vintage": "2023",
+      "volume_redeemed": 218761.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Solar",
+      "vintage": "2025",
+      "volume_redeemed": 197359.84
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Solar",
+      "vintage": "2024",
+      "volume_redeemed": 180163.37
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Wind",
+      "vintage": "2022",
+      "volume_redeemed": 140823.62
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2020",
+      "volume_redeemed": 116696.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2019",
+      "volume_redeemed": 104616.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Geothermal",
+      "vintage": "2024",
+      "volume_redeemed": 103643.23
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2020",
+      "volume_redeemed": 100605.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Geothermal",
+      "vintage": "2022",
+      "volume_redeemed": 100001.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Geothermal",
+      "vintage": "2023",
+      "volume_redeemed": 79013.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Bioenergy",
+      "vintage": "2025",
+      "volume_redeemed": 77799.03
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2018",
+      "volume_redeemed": 64134.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2017",
+      "volume_redeemed": 55124.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2025",
+      "volume_redeemed": 39960.0
+    },
+    {
+      "issue_country": "Guatemala",
+      "technology": "Bioenergy",
+      "vintage": "2024",
+      "volume_redeemed": 37647.0
+    },
+    {
+      "issue_country": "Guatemala",
+      "technology": "Solar",
+      "vintage": "2025",
+      "volume_redeemed": 28443.0
+    },
+    {
+      "issue_country": "Guatemala",
+      "technology": "Hydroelectric",
+      "vintage": "2024",
+      "volume_redeemed": 27335.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Bioenergy",
+      "vintage": "2023",
+      "volume_redeemed": 27111.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Bioenergy",
+      "vintage": "2024",
+      "volume_redeemed": 25788.75
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Hydroelectric",
+      "vintage": "2023",
+      "volume_redeemed": 24671.01
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Bioenergy",
+      "vintage": "2022",
+      "volume_redeemed": 18944.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Wind",
+      "vintage": "2020",
+      "volume_redeemed": 18633.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Geothermal",
+      "vintage": "2025",
+      "volume_redeemed": 11767.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2025",
+      "volume_redeemed": 7901.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Wind",
+      "vintage": "2018",
+      "volume_redeemed": 7110.0
+    },
+    {
+      "issue_country": "Guatemala",
+      "technology": "Solar",
+      "vintage": "2024",
+      "volume_redeemed": 5112.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2025",
+      "volume_redeemed": 3659.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Solar",
+      "vintage": "2021",
+      "volume_redeemed": 1122.14
+    },
+    {
+      "issue_country": "Brazil",
+      "technology": "Wind",
+      "vintage": "2025",
+      "volume_redeemed": 600.0
+    },
+    {
+      "issue_country": "Mexico",
+      "technology": "Solar",
+      "vintage": "2023",
+      "volume_redeemed": 436.64
+    },
+    {
+      "issue_country": "Brazil",
+      "technology": "Hydroelectric",
+      "vintage": "2024",
+      "volume_redeemed": 322.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2019",
+      "volume_redeemed": 248.0
+    },
+    {
+      "issue_country": "India",
+      "technology": "Wind",
+      "vintage": "2024",
+      "volume_redeemed": 3.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2015",
+      "volume_redeemed": 3.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Solar",
+      "vintage": "2016",
+      "volume_redeemed": 2.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Geothermal",
+      "vintage": "2021",
+      "volume_redeemed": 1.0
+    },
+    {
+      "issue_country": "(sin dato)",
+      "technology": "Hydroelectric",
+      "vintage": "2016",
+      "volume_redeemed": 1.0
+    }
+  ]
+}

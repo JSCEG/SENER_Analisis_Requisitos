@@ -21,6 +21,7 @@ FILES_WITH_NAV = [
     "presentacion_requisito_cel.html",
     "pronostico_generacion.html",
     "requisito_cel.html",
+    "mexico.html",
     "sankey_cel_historicos.html",
     "sankey_otorgamiento_cel.html",
 ]
@@ -42,6 +43,7 @@ OTORGAMIENTO_FILES = {
     "sankey_otorgamiento_cel.html",
     "sankey_cel_historicos.html",
     "cne_sistema_cel.html",
+    "mexico.html",
 }
 
 ANALISIS_ITEMS = [
@@ -60,6 +62,7 @@ OTORGAMIENTO_ITEMS = [
     ("presentacion_otorgamiento_cel.html", "Presentación Otorgamiento"),
     ("sankey_otorgamiento_cel.html", "Sankey Energía vs CEL otorgados"),
     ("sankey_cel_historicos.html", "Sankey CEL históricos otorgados"),
+    ("mexico.html", "Cadena México I-REC"),
     ("cne_sistema_cel.html", "Informe CNE: Sistema CEL 2022–2025"),
 ]
 
@@ -109,7 +112,13 @@ def build_nav(current_file: str) -> str:
         build_dropdown("Análisis Requisito de CEL", ANALISIS_ITEMS, current_file, ANALISIS_FILES),
         build_dropdown("Otorgamiento CEL", OTORGAMIENTO_ITEMS, current_file, OTORGAMIENTO_FILES),
         f'            <li class="nav-item"><a href="construccion.html" class="nav-link{active_class(comercio_active)}">Sistema de Comercio de Emisiones</a></li>',
-        f'            <li class="nav-item"><a href="hidrogeno_verde.html" class="nav-link{active_class(hidrogeno_active)}">Hidrógeno Verde</a></li>',
+        '            <li class="nav-item">',
+        f'                <a href="#" class="nav-link nav-dropdown-toggle{active_class(hidrogeno_active)}">Hidrógeno Verde <span class="dropdown-icon">&#9662;</span></a>',
+        '                <ul class="nav-dropdown-menu">',
+        '                    <li><a href="hidrogeno_verde.html" class="nav-dropdown-link">Vista general</a></li>',
+        '                    <li><a href="Notas_Tecnicas_Hidrogeno_Verde_SENER.html" class="nav-dropdown-link">Notas técnicas</a></li>',
+        '                </ul>',
+        '            </li>',
         f'            <li class="nav-item"><a href="eolica_marina.html" class="nav-link{active_class(eolica_active)}">Eólica Marina</a></li>',
         f'            <li class="nav-item"><a href="documentacion_analisis.html" class="nav-link{active_class(docs_active)}">Documentación</a></li>',
         '            <li class="nav-item"><a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">Buscador Jurídico</a></li>',

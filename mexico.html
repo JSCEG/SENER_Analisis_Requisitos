@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>México — Cadena I-REC · SENER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@400;600;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="css/pages-common.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+  /* ── Design tokens institucionales ── */
+  :root {
+    --guinda:        #9B2247;
+    --guinda-dark:   #7a1b38;
+    --guinda-light:  rgba(155, 34, 71, 0.07);
+    --verde:         #1E5B4F;
+    --verde-light:   rgba(30, 91, 79, 0.07);
+    --dorado:        #A57F2C;
+    --dorado-light:  rgba(165, 127, 44, 0.07);
+    --gris-texto:    #374151;
+    --gris-suave:    #6B7280;
+    --gris-borde:    #E5E7EB;
+    --gris-fondo:    #F9FAFB;
+    --blanco:        #FFFFFF;
+    --sombra:        0 4px 12px rgba(0,0,0,0.08);
+    --sombra-card:   0 1px 4px rgba(0,0,0,0.06);
+    --radio:         10px;
+    --font-body:     'Noto Sans', 'Montserrat', sans-serif;
+    --font-head:     'Montserrat', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--gris-fondo);
+    color: var(--gris-texto);
+    min-height: 100vh;
+    padding-top: 0;
+  }
+
+  /* ── Hero / Header ── */
+  header {
+    background: var(--blanco);
+    padding: 1.4rem 1.5rem 1.2rem;
+    border-bottom: 3px solid var(--dorado);
+    box-shadow: 0 8px 26px rgba(0,0,0,0.06);
+  }
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .header-logo { height: 58px; max-width: 200px; object-fit: contain; }
+  .header-text  { flex: 1; text-align: center; }
+  .header-text h1 {
+    font-family: 'Merriweather', serif;
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--guinda);
+    margin: 0;
+  }
+  .header-text p {
+    font-size: 0.86rem;
+    color: var(--gris-suave);
+    margin: 6px 0 0;
+    line-height: 1.55;
+  }
+  .header-text .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.8rem;
+    color: var(--verde);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .header-text .eyebrow::before {
+    content: '';
+    width: 26px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--verde);
+  }
+  .header-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .page-hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+    transition: all .2s;
+  }
+  .page-hero-btn.primary {
+    background: var(--guinda);
+    color: var(--blanco);
+    box-shadow: 0 10px 24px rgba(155, 34, 71, 0.18);
+  }
+  .page-hero-btn.primary:hover {
+    background: var(--guinda-dark);
+    transform: translateY(-1px);
+  }
+  .page-hero-btn.secondary {
+    background: rgba(30, 91, 79, 0.08);
+    color: var(--verde);
+    border-color: rgba(30, 91, 79, 0.15);
+  }
+  .page-hero-btn.secondary:hover {
+    background: rgba(30, 91, 79, 0.12);
+    transform: translateY(-1px);
+  }
+
+  /* ── Contenedor principal ── */
+  .main-wrap { max-width: 1440px; margin: 0 auto; padding: 1.5rem; }
+
+  /* ── KPI Cards ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 0;
+  }
+  .kpi {
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: var(--radio);
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--sombra-card);
+  }
+  .kpi::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .kpi.emitido::before  { background: var(--guinda); }
+  .kpi.redimido::before { background: var(--verde); }
+  .kpi.stock::before    { background: var(--dorado); }
+  .kpi.consumido::before{ background: #7C3AED; }
+  .kpi-label  { font-size: 0.68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gris-suave); font-weight: 700; font-family: var(--font-head); }
+  .kpi-value  { font-size: 1.7rem; font-weight: 800; margin-top: 5px; line-height: 1; font-family: var(--font-head); }
+  .kpi-unit   { font-size: 0.72rem; color: var(--gris-suave); margin-top: 4px; }
+  .kpi.emitido   .kpi-value { color: var(--guinda); }
+  .kpi.redimido  .kpi-value { color: var(--verde); }
+  .kpi.stock     .kpi-value { color: var(--dorado); }
+  .kpi.consumido .kpi-value { color: #7C3AED; }
+  .kpi-pct {
+    position: absolute;
+    top: 12px; right: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .kpi.stock    .kpi-pct { background: var(--dorado-light); color: var(--dorado); }
+  .kpi.redimido .kpi-pct { background: var(--verde-light);  color: var(--verde); }
+
+  /* ── Filtro de años ── */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: var(--radio);
+    flex-wrap: wrap;
+    margin-top: 14px;
+    box-shadow: var(--sombra-card);
+  }
+  .filter-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gris-suave);
+    font-weight: 700;
+    white-space: nowrap;
+    font-family: var(--font-head);
+  }
+  .filter-pills { display: flex; gap: 5px; flex-wrap: wrap; flex: 1; }
+  .yr-pill {
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--gris-borde);
+    background: var(--gris-fondo);
+    color: var(--gris-suave);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+    font-family: var(--font-head);
+  }
+  .yr-pill:hover { border-color: var(--guinda); color: var(--guinda); }
+  .yr-pill.active { background: var(--guinda); border-color: var(--guinda); color: var(--blanco); }
+  .yr-pill.incomplete { border-style: dashed; }
+  .yr-pill .yr-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--dorado);
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+  .filter-actions { display: flex; gap: 5px; }
+  .filter-actions.export-actions {
+    margin-left: auto;
+  }
+  .filter-action-btn {
+    padding: 4px 11px;
+    border-radius: 6px;
+    border: 1px solid var(--gris-borde);
+    background: transparent;
+    color: var(--gris-suave);
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    font-family: var(--font-head);
+  }
+  .filter-action-btn:hover { border-color: var(--guinda); color: var(--guinda); }
+  .filter-action-btn.primary {
+    background: var(--guinda);
+    border-color: var(--guinda);
+    color: var(--blanco);
+  }
+  .filter-action-btn.primary:hover {
+    background: var(--guinda-dark);
+    border-color: var(--guinda-dark);
+    color: var(--blanco);
+  }
+  .filter-summary {
+    font-size: 0.72rem;
+    color: var(--gris-suave);
+    white-space: nowrap;
+    font-style: italic;
+  }
+
+  /* ── Tabs ── */
+  .tabs-bar {
+    display: flex;
+    gap: 6px;
+    margin-top: 16px;
+    border-bottom: 2px solid var(--gris-borde);
+    padding-bottom: 0;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    color: var(--gris-suave);
+    padding: 9px 20px;
+    cursor: pointer;
+    font-size: 0.83rem;
+    font-weight: 600;
+    font-family: var(--font-head);
+    transition: all .2s;
+    border-radius: 6px 6px 0 0;
+  }
+  .tab-btn:hover { color: var(--guinda); background: var(--guinda-light); }
+  .tab-btn.active { color: var(--guinda); border-bottom-color: var(--guinda); background: var(--guinda-light); }
+
+  /* ── Panels ── */
+  .panel { display: none; padding: 18px 0 32px; }
+  .panel.active { display: block; }
+
+  /* ── Cards de contenido ── */
+  .sankey-box {
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: var(--radio);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--sombra-card);
+  }
+  .sankey-box h3 {
+    font-size: 0.88rem;
+    color: var(--guinda);
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-family: var(--font-head);
+  }
+  .sankey-box p.desc {
+    font-size: 0.75rem;
+    color: var(--gris-suave);
+    margin-bottom: 14px;
+  }
+
+  /* ── Charts ── */
+  .chart-wide { width: 100%; height: 460px; }
+  .chart-bar  { width: 100%; height: 340px; }
+  .export-target {
+    background: var(--blanco);
+  }
+
+  /* ── Alerta datos ── */
+  .alert {
+    background: var(--dorado-light);
+    border: 1px solid rgba(165,127,44,0.3);
+    border-left: 4px solid var(--dorado);
+    border-radius: var(--radio);
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    color: #78580a;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .alert .icon { font-size: 1rem; flex-shrink: 0; color: var(--dorado); }
+
+  /* ── Breakdowns ── */
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .breakdown-box {
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: var(--sombra-card);
+  }
+  .breakdown-box h4 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gris-suave);
+    font-weight: 700;
+    padding: 12px 16px 10px;
+    border-bottom: 1px solid var(--gris-borde);
+    font-family: var(--font-head);
+    background: var(--gris-fondo);
+  }
+  .breakdown-row {
+    display: flex;
+    align-items: center;
+    padding: 9px 16px;
+    border-bottom: 1px solid #F3F4F6;
+    gap: 10px;
+    transition: background .12s;
+  }
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-row:hover { background: var(--gris-fondo); }
+  .br-label { flex: 1; font-size: 0.8rem; color: var(--gris-texto); }
+  .br-bar-wrap { width: 90px; background: var(--gris-borde); border-radius: 4px; height: 5px; overflow: hidden; }
+  .br-bar      { height: 100%; border-radius: 4px; }
+  .br-val { font-size: 0.78rem; font-weight: 700; color: var(--gris-texto); min-width: 68px; text-align: right; }
+  .br-pct { font-size: 0.7rem; color: var(--gris-suave); min-width: 40px; text-align: right; }
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+    border: 1px solid var(--gris-borde);
+    border-radius: var(--radio);
+  }
+  .balance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanco);
+    font-size: 0.82rem;
+  }
+  .balance-table thead {
+    background: #f5f3ef;
+  }
+  .balance-table th,
+  .balance-table td {
+    padding: 0.8rem 0.9rem;
+    border-bottom: 1px solid #eef0f2;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .balance-table th:first-child,
+  .balance-table td:first-child {
+    text-align: left;
+  }
+  .balance-table tbody tr:hover {
+    background: #faf8f5;
+  }
+  .balance-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .balance-value-issued {
+    color: var(--guinda);
+    font-weight: 700;
+  }
+  .balance-value-redeemed {
+    color: var(--verde);
+    font-weight: 700;
+  }
+  .balance-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  .balance-chip.positive {
+    background: rgba(30, 91, 79, 0.12);
+    color: var(--verde);
+  }
+  .balance-chip.warning {
+    background: rgba(165, 127, 44, 0.14);
+    color: #8a671d;
+  }
+  .balance-chip.empty {
+    background: rgba(107, 114, 128, 0.12);
+    color: #6b7280;
+  }
+
+  footer {
+    margin-top: auto;
+    background: #f1eee8;
+    border-top: 1px solid rgba(155, 34, 71, 0.08);
+    padding: 1rem 1.5rem;
+    color: #6b5f5f;
+    font-size: 0.8rem;
+  }
+  footer .container {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+    .breakdown-grid { grid-template-columns: 1fr; }
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+    .header-logo { height: 52px; }
+    .tabs-bar {
+      flex-wrap: wrap;
+      border-bottom: none;
+      gap: 0.5rem;
+    }
+    .tab-btn {
+      border: 1px solid var(--gris-borde);
+      border-radius: 999px;
+      margin-bottom: 0;
+    }
+    .tab-btn.active {
+      border-color: var(--guinda);
+    }
+    .filter-actions.export-actions {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .main-wrap {
+      padding: 1rem;
+    }
+    .kpi-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:8px;">
+                <i class="bi bi-bar-chart-fill"></i> SENER | DGTE
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
+                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
+                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a></li>
+                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
+                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación Participantes</a></li>
+                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a></li>
+                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación Requisitos</a></li>
+                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo Mecanismo 2026</a></li>
+                    <li><a href="presentacion_ejecutiva_cel.html" class="nav-dropdown-link">9. Presentación Ejecutiva CEL</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle active">Otorgamiento CEL <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="presentacion_otorgamiento_cel.html" class="nav-dropdown-link">Presentación Otorgamiento</a></li>
+                    <li><a href="sankey_otorgamiento_cel.html" class="nav-dropdown-link">Sankey Energía vs CEL otorgados</a></li>
+                    <li><a href="sankey_cel_historicos.html" class="nav-dropdown-link">Sankey CEL históricos otorgados</a></li>
+                    <li><a href="mexico.html" class="nav-dropdown-link active">Cadena México I-REC</a></li>
+                    <li><a href="cne_sistema_cel.html" class="nav-dropdown-link">Informe CNE: Sistema CEL 2022–2025</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-dropdown-toggle">Hidrógeno Verde <span class="dropdown-icon">&#9662;</span></a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="hidrogeno_verde.html" class="nav-dropdown-link">Vista general</a></li>
+                    <li><a href="Notas_Tecnicas_Hidrogeno_Verde_SENER.html" class="nav-dropdown-link">Notas técnicas</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="eolica_marina.html" class="nav-link">Eólica Marina</a></li>
+            <li class="nav-item"><a href="documentacion_analisis.html" class="nav-link">Documentación</a></li>
+            <li class="nav-item"><a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">Buscador Jurídico</a></li>
+        </ul>
+    </nav>
+
+<header>
+  <div class="header-content">
+    <img src="img/logo_gob.png" alt="Gobierno de México" class="header-logo">
+    <div class="header-text">
+      <span class="eyebrow">Otorgamiento CEL / Cadena internacional</span>
+      <h1>México — Cadena Completa I-REC</h1>
+      <p>Tablero institucional para seguir emisiones, redenciones y balance del registro Evident en el periodo 2014–2025.</p>
+      <div class="header-actions">
+        <a class="page-hero-btn primary" href="#kpi-row"><i class="bi bi-diagram-3"></i> Ver tablero</a>
+        <a class="page-hero-btn secondary" href="index.html#otras-politicas"><i class="bi bi-arrow-left"></i> Volver al índice</a>
+      </div>
+    </div>
+    <img src="img/logo_sener.png" alt="SENER" class="header-logo">
+  </div>
+</header>
+
+<div class="main-wrap">
+
+<!-- KPI Cards -->
+<div class="kpi-row" id="kpi-row">
+  <div class="kpi emitido">
+    <div class="kpi-label">Total Emitido</div>
+    <div class="kpi-value" id="kv-emitido">—</div>
+    <div class="kpi-unit">MWh generados y certificados</div>
+  </div>
+  <div class="kpi redimido">
+    <div class="kpi-pct" id="kp-redimido">—%</div>
+    <div class="kpi-label">Redimido como Emisor</div>
+    <div class="kpi-value" id="kv-redimido">—</div>
+    <div class="kpi-unit">Certificados liquidados de energía MX</div>
+  </div>
+  <div class="kpi stock">
+    <div class="kpi-pct" id="kp-stock">—%</div>
+    <div class="kpi-label">Stock sin Redimir</div>
+    <div class="kpi-value" id="kv-stock">—</div>
+    <div class="kpi-unit">Certificados aún circulando</div>
+  </div>
+  <div class="kpi consumido">
+    <div class="kpi-label">Consumido como Beneficiario</div>
+    <div class="kpi-value" id="kv-consumido">—</div>
+    <div class="kpi-unit">I-RECs redimidos A FAVOR de México</div>
+  </div>
+</div>
+
+<!-- Filtro de años (dentro de main-wrap) -->
+<div class="filter-bar">
+  <span class="filter-label">Vintage</span>
+  <div class="filter-pills" id="filter-pills"></div>
+  <div class="filter-actions">
+    <button class="filter-action-btn" onclick="selectAllYears()">Todos</button>
+    <button class="filter-action-btn" onclick="clearYear2025()">Sin 2025</button>
+    <button class="filter-action-btn" onclick="clearAllYears()">Limpiar</button>
+  </div>
+  <span class="filter-summary" id="filter-summary"></span>
+  <div class="filter-actions export-actions">
+    <button class="filter-action-btn primary" id="export-png-btn" type="button"><i class="bi bi-download"></i> PNG</button>
+    <button class="filter-action-btn" id="export-csv-btn" type="button"><i class="bi bi-file-earmark-spreadsheet"></i> CSV</button>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('emisor', this)">⚡ México como Emisor</button>
+  <button class="tab-btn"        onclick="switchTab('benef',  this)">🏭 México como Beneficiario</button>
+  <button class="tab-btn"        onclick="switchTab('balance',this)">📊 Balance por Año</button>
+</div>
+
+<!-- PANEL: EMISOR -->
+<div id="panel-emisor" class="panel active">
+
+  <div class="sankey-box export-target" data-export-name="mexico_como_emisor">
+    <h3>Flujo: Año Vintage → Tecnología → País Beneficiario</h3>
+    <p class="desc">Certificados generados en México, ya redimidos. Muestra qué año y tecnología se liquidó y en qué país se acreditó la energía.</p>
+    <div id="chart-sankey-emisor" class="chart-wide"></div>
+  </div>
+
+  <div class="breakdown-grid">
+    <div class="breakdown-box" id="bd-tech-emisor"></div>
+    <div class="breakdown-box" id="bd-destino"></div>
+  </div>
+
+</div>
+
+<!-- PANEL: BENEFICIARIO -->
+<div id="panel-benef" class="panel">
+
+  <div class="alert">
+    <span class="icon">⚠️</span>
+    <span>El <strong>88.3%</strong> del volumen que México consume como beneficiario tiene <em>Issue Country = (sin dato)</em> en el registro original. Esto es un problema de calidad en los datos fuente de Evident, no un error de procesamiento.</span>
+  </div>
+
+  <div class="sankey-box export-target" data-export-name="mexico_como_beneficiario">
+    <h3>Flujo: País Origen → Tecnología → Vintage</h3>
+    <p class="desc">I-RECs redimidos en los cuales México es el beneficiario. De qué país y tecnología vino cada certificado y a qué año vintage corresponde.</p>
+    <div id="chart-sankey-benef" class="chart-wide"></div>
+  </div>
+
+  <div class="breakdown-grid">
+    <div class="breakdown-box" id="bd-origen"></div>
+    <div class="breakdown-box" id="bd-tech-benef"></div>
+  </div>
+
+</div>
+
+<!-- PANEL: BALANCE -->
+<div id="panel-balance" class="panel">
+
+  <div class="sankey-box export-target" data-export-name="balance_mexico_irec">
+    <h3>Emitido vs Redimido por Año Vintage</h3>
+    <p class="desc">Comparativo entre los MWh certificados (issuances) y los efectivamente liquidados (redemptions) por año de generación.</p>
+    <div id="chart-bar-balance" class="chart-bar"></div>
+    <div class="table-wrap">
+      <table class="balance-table">
+        <thead>
+          <tr>
+            <th>Año</th>
+            <th>Emitido</th>
+            <th>Redimido</th>
+            <th>Stock</th>
+            <th>% redimido</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody id="balance-table-body">
+          <tr>
+            <td colspan="6">Cargando datos...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sankey-box export-target" data-export-name="tecnologia_issuances_mexico">
+    <h3>Distribución por Tecnología — Issuances</h3>
+    <p class="desc">Composición tecnológica del total emitido por México (2014–2025).</p>
+    <div id="chart-pie-tech" style="width:100%;height:360px;"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Paletas ──────────────────────────────────────────────────────
+// Paleta visible en fondo blanco — inspirada en el design system institucional
+const TECH_COLOR = {
+  'Wind':          '#1E5B4F', // verde SENER
+  'Solar':         '#A57F2C', // dorado
+  'Hydroelectric': '#1E40AF', // azul
+  'Bioenergy':     '#C2410C', // naranja oscuro
+  'Geothermal':    '#9B2247', // guinda
+  'Other':         '#6B7280',
+};
+const VINTAGE_COLORS = {
+  '2014':'#1e3a5f','2015':'#1e40af','2016':'#1d4ed8','2017':'#2563eb',
+  '2018':'#3b82f6','2019':'#6366f1','2020':'#7c3aed','2021':'#9B2247',
+  '2022':'#c2410c','2023':'#A57F2C','2024':'#1E5B4F','2025':'#0f766e',
+};
+const COUNTRY_COLOR = {
+  'Mexico':        '#9B2247', // guinda
+  'Canada':        '#1E40AF',
+  'Switzerland':   '#A57F2C',
+  'Australia':     '#C2410C',
+  'UK':            '#6366f1',
+  'Ireland':       '#1E5B4F',
+  'Belize':        '#0891b2',
+  'Guatemala':     '#7c3aed',
+  'Brazil':        '#15803d',
+  'India':         '#b45309',
+  '(sin dato)':    '#9CA3AF',
+};
+
+// ── Estado global ─────────────────────────────────────────────────
+let RAW_DATA   = null;
+let activeYears = new Set();
+const CHARTS   = {};
+
+// ── Formato ───────────────────────────────────────────────────────
+function fmtMWh(v) {
+  if (v >= 1e9) return (v/1e9).toLocaleString('es-MX',{maximumFractionDigits:2})+'G';
+  if (v >= 1e6) return (v/1e6).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})+'M';
+  return v.toLocaleString('es-MX',{maximumFractionDigits:0});
+}
+function colorNode(name) {
+  return TECH_COLOR[name] || VINTAGE_COLORS[name] || COUNTRY_COLOR[name] || '#64748b';
+}
+
+// ── Tab switcher ──────────────────────────────────────────────────
+function normalizeTabId(id) {
+  const value = String(id || '').toLowerCase().trim();
+  if (value === 'emisor' || value === 'benef' || value === 'balance') return value;
+  if (value === 'beneficiario') return 'benef';
+  return 'emisor';
+}
+
+function updateTabUrl(id) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('tab', id);
+  url.hash = `tab-${id}`;
+  window.history.replaceState({}, '', url);
+}
+
+function switchTab(id, btn, updateUrl = true) {
+  const normalizedId = normalizeTabId(id);
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-'+normalizedId).classList.add('active');
+
+  const targetButton = btn || document.querySelector(`.tab-btn[onclick*="'${normalizedId}'"]`);
+  if (targetButton) targetButton.classList.add('active');
+
+  if (updateUrl) updateTabUrl(normalizedId);
+  requestAnimationFrame(() => Object.values(CHARTS).forEach(c => c.resize()));
+}
+
+function activateTabFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const fromQuery = params.get('tab');
+  const fromHash = window.location.hash.startsWith('#tab-')
+    ? window.location.hash.replace('#tab-', '')
+    : '';
+  const tabId = normalizeTabId(fromQuery || fromHash || 'emisor');
+  switchTab(tabId, null, false);
+}
+
+// ── Filtro de años ────────────────────────────────────────────────
+function buildFilterUI(allYears) {
+  const container = document.getElementById('filter-pills');
+  container.innerHTML = '';
+  allYears.forEach(y => {
+    const btn = document.createElement('button');
+    btn.className = 'yr-pill active' + (y === '2025' ? ' incomplete' : '');
+    btn.dataset.year = y;
+    btn.innerHTML = y + (y === '2025' ? ' <span class="yr-dot" title="Año incompleto"></span>' : '');
+    btn.addEventListener('click', () => toggleYear(y));
+    container.appendChild(btn);
+  });
+  updateFilterSummary();
+}
+
+function toggleYear(y) {
+  if (activeYears.has(y)) {
+    if (activeYears.size === 1) return; // dejar al menos 1
+    activeYears.delete(y);
+  } else {
+    activeYears.add(y);
+  }
+  document.querySelectorAll('.yr-pill').forEach(btn => {
+    btn.classList.toggle('active', activeYears.has(btn.dataset.year));
+  });
+  updateFilterSummary();
+  renderAll();
+}
+
+function selectAllYears() {
+  document.querySelectorAll('.yr-pill').forEach(btn => {
+    activeYears.add(btn.dataset.year);
+    btn.classList.add('active');
+  });
+  updateFilterSummary();
+  renderAll();
+}
+
+function clearYear2025() {
+  if (activeYears.size === 1 && activeYears.has('2025')) return;
+  activeYears.delete('2025');
+  document.querySelectorAll('.yr-pill').forEach(btn => {
+    if (btn.dataset.year === '2025') btn.classList.remove('active');
+  });
+  updateFilterSummary();
+  renderAll();
+}
+
+function clearAllYears() {
+  // Deja solo el primer año para no dejar vacío
+  const first = [...activeYears].sort()[0];
+  activeYears.clear();
+  activeYears.add(first);
+  document.querySelectorAll('.yr-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.year === first);
+  });
+  updateFilterSummary();
+  renderAll();
+}
+
+function updateFilterSummary() {
+  if (!RAW_DATA) return;
+  const f = getFiltered();
+  const totalIss = f.issuances.reduce((s,r) => s+r.volume_issued, 0);
+  document.getElementById('filter-summary').textContent =
+    `${activeYears.size} año${activeYears.size>1?'s':''} · ${fmtMWh(totalIss)} MWh emitidos`;
+}
+
+// ── Datos filtrados ───────────────────────────────────────────────
+function getFiltered() {
+  return {
+    issuances: RAW_DATA.issuances.filter(r => activeYears.has(r.vintage)),
+    redemptions_como_emisor: RAW_DATA.redemptions_como_emisor.filter(r => activeYears.has(r.vintage)),
+    redemptions_como_beneficiario: RAW_DATA.redemptions_como_beneficiario.filter(r => activeYears.has(r.vintage)),
+  };
+}
+
+// ── KPI Cards ─────────────────────────────────────────────────────
+function renderKPIs(f) {
+  const totalIss = f.issuances.reduce((s,r)=>s+r.volume_issued,0);
+  const totalRed = f.redemptions_como_emisor.reduce((s,r)=>s+r.volume_redeemed,0);
+  const totalCon = f.redemptions_como_beneficiario.reduce((s,r)=>s+r.volume_redeemed,0);
+  const stock    = totalIss - totalRed;
+  const pctRed   = totalIss ? (totalRed/totalIss*100) : 0;
+  const pctStock = totalIss ? (stock/totalIss*100) : 0;
+
+  document.getElementById('kv-emitido').textContent   = fmtMWh(totalIss);
+  document.getElementById('kv-redimido').textContent  = fmtMWh(totalRed);
+  document.getElementById('kv-stock').textContent     = fmtMWh(Math.max(0, stock));
+  document.getElementById('kv-consumido').textContent = fmtMWh(totalCon);
+  document.getElementById('kp-redimido').textContent  = pctRed.toLocaleString('es-MX',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+  document.getElementById('kp-stock').textContent     = pctStock.toLocaleString('es-MX',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+}
+
+// ── Breakdown ─────────────────────────────────────────────────────
+function buildBreakdown(containerId, title, rows, colorFn) {
+  const total = rows.reduce((s,r)=>s+r.v,0);
+  const el = document.getElementById(containerId);
+  if (!rows.length || total <= 0) {
+    el.innerHTML = `<h4>${title}</h4><div class="breakdown-row"><span class="br-label">Sin datos para los filtros actuales.</span></div>`;
+    return;
+  }
+  let html = `<h4>${title}</h4>`;
+  rows.sort((a,b)=>b.v-a.v).forEach(r => {
+    const pct = total ? r.v/total*100 : 0;
+    html += `<div class="breakdown-row">
+      <span class="br-label">${r.k}</span>
+      <div class="br-bar-wrap"><div class="br-bar" style="width:${pct}%;background:${colorFn(r.k)}"></div></div>
+      <span class="br-val">${fmtMWh(r.v)}</span>
+      <span class="br-pct">${pct.toFixed(1)}%</span>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ── Sankey (init una vez, luego setOption) ────────────────────────
+function sankeyOption(nodes, links) {
+  return {
+    backgroundColor: 'transparent',
+    tooltip: {
+      trigger: 'item',
+      confine: true,
+      formatter: p => p.dataType==='edge'
+        ? `<b>${p.data.source}</b> → <b>${p.data.target}</b><br/>${fmtMWh(p.data.value)} MWh`
+        : `<b>${p.name}</b>`,
+    },
+    series: [{
+      type: 'sankey', layout: 'none',
+      emphasis: { focus: 'adjacency' },
+      nodeGap: 12, nodeWidth: 16,
+      top: 10, bottom: 10, left: '14%', right: '14%',
+      data: nodes, links,
+      lineStyle: { color:'gradient', opacity:0.35, curveness:0.5 },
+      label: { color:'#374151', fontSize:11, fontWeight:700 },
+      itemStyle: { borderWidth:0 },
+    }]
+  };
+}
+
+function initOrUpdate(domId, option) {
+  if (!CHARTS[domId]) {
+    // Tema claro institucional — sin dark
+    CHARTS[domId] = echarts.init(document.getElementById(domId));
+    window.addEventListener('resize', () => CHARTS[domId].resize());
+  }
+  CHARTS[domId].setOption(option, true);
+}
+
+function slugify(value) {
+  return String(value || 'grafico')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .toLowerCase();
+}
+
+function getActivePanel() {
+  return document.querySelector('.panel.active');
+}
+
+async function exportElementToPng(element, fileName) {
+  if (!element) return;
+
+  if (typeof html2canvas === 'function') {
+    const canvas = await html2canvas(element, {
+      backgroundColor: '#ffffff',
+      scale: 2,
+      useCORS: true
+    });
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = fileName;
+    link.click();
+    return;
+  }
+
+  const chartNode = element.querySelector('[id^="chart-"]');
+  if (chartNode) {
+    const chart = CHARTS[chartNode.id];
+    if (chart) {
+      const link = document.createElement('a');
+      link.href = chart.getDataURL({ pixelRatio: 2, backgroundColor: '#ffffff' });
+      link.download = fileName;
+      link.click();
+    }
+  }
+}
+
+async function exportActivePanelPng() {
+  const panel = getActivePanel();
+  const target = panel?.querySelector('.export-target');
+  if (!target) return;
+
+  const exportName = target.dataset.exportName || panel.id || 'mexico_irec';
+  const years = [...activeYears].sort().join('_');
+  await exportElementToPng(target, `${slugify(exportName)}_${slugify(years || 'todos')}.png`);
+}
+
+function exportFilteredCsv() {
+  if (!RAW_DATA) return;
+
+  const filtered = getFiltered();
+  const rows = [];
+
+  filtered.issuances.forEach(row => {
+    rows.push({
+      dataset: 'issuances',
+      vintage: row.vintage,
+      technology: row.technology,
+      issue_country: 'Mexico',
+      beneficiary_country: '',
+      volume: row.volume_issued
+    });
+  });
+
+  filtered.redemptions_como_emisor.forEach(row => {
+    rows.push({
+      dataset: 'redemptions_como_emisor',
+      vintage: row.vintage,
+      technology: row.technology,
+      issue_country: 'Mexico',
+      beneficiary_country: row.beneficiary_country,
+      volume: row.volume_redeemed
+    });
+  });
+
+  filtered.redemptions_como_beneficiario.forEach(row => {
+    rows.push({
+      dataset: 'redemptions_como_beneficiario',
+      vintage: row.vintage,
+      technology: row.technology,
+      issue_country: row.issue_country,
+      beneficiary_country: 'Mexico',
+      volume: row.volume_redeemed
+    });
+  });
+
+  const header = ['dataset', 'vintage', 'technology', 'issue_country', 'beneficiary_country', 'volume'];
+  const csv = [
+    header.join(','),
+    ...rows.map(row => header.map(key => `"${String(row[key] ?? '').replace(/"/g, '""')}"`).join(','))
+  ].join('\n');
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `mexico_irec_filtrado_${slugify([...activeYears].sort().join('_') || 'todos')}.csv`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+// ── Panel Emisor ──────────────────────────────────────────────────
+function renderEmisor(f) {
+  const rows = f.redemptions_como_emisor;
+  const nodeSet = new Set();
+  rows.forEach(r => { nodeSet.add(r.vintage); nodeSet.add(r.technology); nodeSet.add(r.beneficiary_country); });
+  const nodes = [...nodeSet].map(name => ({ name, itemStyle:{ color:colorNode(name) } }));
+
+  const agg1={}, agg2={};
+  rows.forEach(r => {
+    const k1=r.vintage+'||'+r.technology; agg1[k1]=(agg1[k1]||0)+r.volume_redeemed;
+    const k2=r.technology+'||'+r.beneficiary_country; agg2[k2]=(agg2[k2]||0)+r.volume_redeemed;
+  });
+  const links=[
+    ...Object.entries(agg1).map(([k,v])=>{ const [s,t]=k.split('||'); return {source:s,target:t,value:v}; }),
+    ...Object.entries(agg2).map(([k,v])=>{ const [s,t]=k.split('||'); return {source:s,target:t,value:v}; }),
+  ];
+  initOrUpdate('chart-sankey-emisor', sankeyOption(nodes, links));
+
+  const byTech={}, byDest={};
+  rows.forEach(r => {
+    byTech[r.technology]=(byTech[r.technology]||0)+r.volume_redeemed;
+    byDest[r.beneficiary_country]=(byDest[r.beneficiary_country]||0)+r.volume_redeemed;
+  });
+  buildBreakdown('bd-tech-emisor','Por Tecnología',
+    Object.entries(byTech).map(([k,v])=>({k,v})), k=>TECH_COLOR[k]||'#64748b');
+  buildBreakdown('bd-destino','Por País Beneficiario',
+    Object.entries(byDest).map(([k,v])=>({k,v})), k=>COUNTRY_COLOR[k]||'#64748b');
+}
+
+// ── Panel Beneficiario ────────────────────────────────────────────
+function renderBenef(f) {
+  const rows = f.redemptions_como_beneficiario;
+  const nodeSet = new Set();
+  rows.forEach(r => { nodeSet.add(r.issue_country); nodeSet.add(r.technology); nodeSet.add('V'+r.vintage); });
+  const nodes = [...nodeSet].map(name => ({
+    name, itemStyle:{ color:colorNode(name.startsWith('V')?name.slice(1):name) }
+  }));
+
+  const agg1={}, agg2={};
+  rows.forEach(r => {
+    const vn='V'+r.vintage;
+    const k1=r.issue_country+'||'+r.technology; agg1[k1]=(agg1[k1]||0)+r.volume_redeemed;
+    const k2=r.technology+'||'+vn; agg2[k2]=(agg2[k2]||0)+r.volume_redeemed;
+  });
+  const links=[
+    ...Object.entries(agg1).map(([k,v])=>{ const [s,t]=k.split('||'); return {source:s,target:t,value:v}; }),
+    ...Object.entries(agg2).map(([k,v])=>{ const [s,t]=k.split('||'); return {source:s,target:t,value:v}; }),
+  ];
+  initOrUpdate('chart-sankey-benef', sankeyOption(nodes, links));
+
+  const byOrigen={}, byTech={};
+  rows.forEach(r => {
+    byOrigen[r.issue_country]=(byOrigen[r.issue_country]||0)+r.volume_redeemed;
+    byTech[r.technology]=(byTech[r.technology]||0)+r.volume_redeemed;
+  });
+  buildBreakdown('bd-origen','Por País de Origen',
+    Object.entries(byOrigen).map(([k,v])=>({k,v})), k=>COUNTRY_COLOR[k]||'#64748b');
+  buildBreakdown('bd-tech-benef','Por Tecnología',
+    Object.entries(byTech).map(([k,v])=>({k,v})), k=>TECH_COLOR[k]||'#64748b');
+}
+
+// ── Panel Balance ─────────────────────────────────────────────────
+function renderBalance(f) {
+  const issData={}, redData={};
+  f.issuances.forEach(r => { issData[r.vintage]=(issData[r.vintage]||0)+r.volume_issued; });
+  f.redemptions_como_emisor.forEach(r => { redData[r.vintage]=(redData[r.vintage]||0)+r.volume_redeemed; });
+  const vintages=[...new Set([...Object.keys(issData),...Object.keys(redData)])].sort();
+
+  initOrUpdate('chart-bar-balance', {
+    backgroundColor:'transparent',
+    tooltip:{
+      trigger:'axis',
+      formatter: params => {
+        const y=params[0].name;
+        const iss=issData[y]||0, red=redData[y]||0;
+        const pct=iss?((red/iss)*100).toFixed(1):0;
+        let s=`<b>${y}</b><br/>`;
+        params.forEach(p=>{ s+=`${p.marker} ${p.seriesName}: <b>${fmtMWh(p.value)}</b> MWh<br/>`; });
+        if(iss>0) s+=`<span style="color:#64748b;font-size:.75rem">% redimido: ${pct}%</span>`;
+        return s;
+      }
+    },
+    legend:{top:8,textStyle:{color:'#374151'}},
+    grid:{top:50,bottom:40,left:60,right:20},
+    xAxis:{type:'category',data:vintages,axisLabel:{color:'#374151'},axisLine:{lineStyle:{color:'#E5E7EB'}}},
+    yAxis:{type:'value',axisLabel:{color:'#374151',formatter:v=>fmtMWh(v)},splitLine:{lineStyle:{color:'#F3F4F6'}}},
+    series:[
+      { name:'Emitido', type:'bar', data:vintages.map(y=>issData[y]||0), itemStyle:{color:'#9B2247',borderRadius:[4,4,0,0]} },
+      { name:'Redimido',type:'bar', data:vintages.map(y=>redData[y]||0), itemStyle:{color:'#1E5B4F',borderRadius:[4,4,0,0]} },
+    ]
+  });
+
+  // Pie tecnología
+  const techTotals={};
+  f.issuances.forEach(r => { techTotals[r.technology]=(techTotals[r.technology]||0)+r.volume_issued; });
+  initOrUpdate('chart-pie-tech', {
+    backgroundColor:'transparent',
+    tooltip:{ formatter:p=>`<b>${p.name}</b><br/>${fmtMWh(p.value)} MWh (${p.percent.toFixed(1)}%)` },
+    legend:{ orient:'vertical',right:20,top:'center',textStyle:{color:'#374151'} },
+    series:[{
+      type:'pie', radius:['38%','68%'], center:['38%','50%'],
+      data: Object.entries(techTotals).sort((a,b)=>b[1]-a[1])
+            .map(([k,v])=>({ name:k, value:v, itemStyle:{color:TECH_COLOR[k]||'#64748b'} })),
+      label:{ color:'#374151', fontSize:11 },
+      emphasis:{ scale:true, scaleSize:6 },
+    }]
+  });
+
+  renderBalanceTable(vintages, issData, redData);
+}
+
+function renderBalanceTable(vintages, issData, redData) {
+  const tbody = document.getElementById('balance-table-body');
+  if (!tbody) return;
+
+  if (!vintages.length) {
+    tbody.innerHTML = '<tr><td colspan="6">Sin datos para los filtros actuales.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = vintages.map(year => {
+    const issued = issData[year] || 0;
+    const redeemed = redData[year] || 0;
+    const stock = Math.max(0, issued - redeemed);
+    const pct = issued ? (redeemed / issued) * 100 : 0;
+
+    let statusClass = 'empty';
+    let statusLabel = 'Sin emisión';
+
+    if (issued > 0 && pct >= 50) {
+      statusClass = 'positive';
+      statusLabel = 'Alta redención';
+    } else if (issued > 0) {
+      statusClass = 'warning';
+      statusLabel = 'Stock dominante';
+    }
+
+    return `
+      <tr>
+        <td><strong>${year}</strong></td>
+        <td><span class="balance-value-issued">${fmtMWh(issued)}</span></td>
+        <td><span class="balance-value-redeemed">${fmtMWh(redeemed)}</span></td>
+        <td>${fmtMWh(stock)}</td>
+        <td>${pct.toLocaleString('es-MX',{minimumFractionDigits:1,maximumFractionDigits:1})}%</td>
+        <td><span class="balance-chip ${statusClass}">${statusLabel}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ── Render all ────────────────────────────────────────────────────
+function renderAll() {
+  const f = getFiltered();
+  renderKPIs(f);
+  renderEmisor(f);
+  renderBenef(f);
+  renderBalance(f);
+  updateFilterSummary();
+}
+
+// ════════════════════════════════════════════════════════════════
+// MAIN — cargar datos
+// ════════════════════════════════════════════════════════════════
+fetch('json_salida/mexico_cadena.json')
+  .then(r => r.json())
+  .then(data => {
+    RAW_DATA = data;
+
+    // Detectar todos los años únicos en los 3 datasets
+    const allYears = [...new Set([
+      ...data.issuances.map(r=>r.vintage),
+      ...data.redemptions_como_emisor.map(r=>r.vintage),
+      ...data.redemptions_como_beneficiario.map(r=>r.vintage),
+    ])].sort();
+
+    allYears.forEach(y => activeYears.add(y));
+    buildFilterUI(allYears);
+    renderAll();
+  })
+  .catch(err => {
+    document.querySelector('.main-wrap').innerHTML +=
+      `<div class="alert" style="margin-top:16px;"><span class="icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+       Error cargando datos: ${err.message}</div>`;
+  });
+</script>
+</div><!-- /main-wrap -->
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Secretaría de Energía | Subsecretaría de Planeación y Transición Energética</p>
+  </div>
+</footer>
+
+<script src="js/pages-common.js"></script>
+<script>
+document.getElementById('export-png-btn')?.addEventListener('click', () => {
+  exportActivePanelPng();
+});
+
+document.getElementById('export-csv-btn')?.addEventListener('click', () => {
+  exportFilteredCsv();
+});
+
+activateTabFromUrl();
+</script>
+</body>
+</html>
