@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
         'hidrogeno_entregable.html',
         'Notas_Tecnicas_Hidrogeno_Verde_SENER.html'
     ]);
+    const HERRAMIENTAS_FILES = new Set([
+        'calculadora_conversiones_energeticas.html'
+    ]);
     const ANALISIS_ITEMS = [
         ['metodologia_cel.html', '1. Metodología'],
         ['pronostico_generacion.html', '2. Pronóstico'],
@@ -40,6 +43,18 @@ document.addEventListener('DOMContentLoaded', function () {
         ['sankey_cel_historicos.html', 'Sankey CEL históricos otorgados'],
         ['mexico.html', 'Cadena México I-REC'],
         ['cne_sistema_cel.html', 'Informe CNE: Sistema CEL 2022–2025']
+    ];
+    const HERRAMIENTAS_ITEMS = [
+        {
+            href: 'calculadora_conversiones_energeticas.html',
+            label: 'Calculadora energética'
+        },
+        {
+            href: 'https://notas-inteligentes.pages.dev/',
+            label: 'Notas inteligentes',
+            target: '_blank',
+            rel: 'noopener noreferrer'
+        }
     ];
     const CURRENT_FILE = getCurrentFileName();
 
@@ -64,8 +79,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function buildDropdown(title, items, activeGroup) {
-        const links = items.map(([href, label]) => {
-            return `<li><a href="${href}" class="nav-dropdown-link${activeClass(isActive(href))}"${isActive(href) ? ' aria-current="page"' : ''}>${label}</a></li>`;
+        const links = items.map((item) => {
+            const href = Array.isArray(item) ? item[0] : item.href;
+            const label = Array.isArray(item) ? item[1] : item.label;
+            const isInternalActive = !Array.isArray(item) && item.external ? false : isActive(href);
+            const target = !Array.isArray(item) && item.target ? ` target="${item.target}"` : '';
+            const rel = !Array.isArray(item) && item.rel ? ` rel="${item.rel}"` : '';
+
+            return `<li><a href="${href}" class="nav-dropdown-link${activeClass(isInternalActive)}"${isInternalActive ? ' aria-current="page"' : ''}${target}${rel}>${label}</a></li>`;
         }).join('');
 
         return `
@@ -80,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function buildNavigationMarkup() {
         const hidrogenoActive = HIDROGENO_FILES.has(CURRENT_FILE);
+        const herramientasActive = HERRAMIENTAS_FILES.has(CURRENT_FILE);
 
         return `
             <div class="nav-brand">
@@ -103,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </ul>
                 </li>
                 <li class="nav-item"><a href="eolica_marina.html" class="nav-link${activeClass(isActive('eolica_marina.html'))}"${isActive('eolica_marina.html') ? ' aria-current="page"' : ''}>Eólica Marina</a></li>
-                <li class="nav-item"><a href="calculadora_conversiones_energeticas.html" class="nav-link${activeClass(isActive('calculadora_conversiones_energeticas.html'))}"${isActive('calculadora_conversiones_energeticas.html') ? ' aria-current="page"' : ''}>Calculadora Energética</a></li>
+                ${buildDropdown('Herramientas', HERRAMIENTAS_ITEMS, herramientasActive)}
                 <li class="nav-item"><a href="documentacion_analisis.html" class="nav-link${activeClass(isActive('documentacion_analisis.html'))}"${isActive('documentacion_analisis.html') ? ' aria-current="page"' : ''}>Documentación</a></li>
                 <li class="nav-item"><a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">Buscador Jurídico</a></li>
             </ul>
