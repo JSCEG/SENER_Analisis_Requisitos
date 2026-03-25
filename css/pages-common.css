@@ -127,6 +127,54 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.site-header {
+    background: white;
+    border-bottom: 3px solid var(--color-gobmx-dorado);
+    padding: 18px 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+.site-header__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.site-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.site-header__brand img {
+    height: 52px;
+    width: auto;
+}
+
+.site-header__divider {
+    width: 1px;
+    height: 40px;
+    background: #e0d8d8;
+}
+
+.site-header__text h1 {
+    font-family: var(--font-family-headings);
+    color: var(--color-gobmx-guinda);
+    font-size: 1.15rem;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.site-header__text p {
+    font-size: 0.78rem;
+    color: var(--color-gobmx-gris);
+    margin: 2px 0 0;
+    letter-spacing: 0.02em;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family-headings);
     font-weight: 700;
@@ -357,9 +405,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ----------------------------------------------------------------
-   Desktop nav (≥992px)
+   Desktop nav (≥1200px)
    ---------------------------------------------------------------- */
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
     .site-nav {
         height: 60px;
         padding: 0 var(--space-6);
@@ -932,6 +980,35 @@ footer .footer-sep {
     border-radius: 2px;
 }
 
+.site-footer {
+    background: #F0EDE8;
+    border-top: 1px solid rgba(107, 15, 26, 0.08);
+    padding: 28px 24px;
+    color: inherit;
+    text-align: initial;
+}
+
+.site-footer__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.site-footer__inner p {
+    font-size: 0.8rem;
+    color: #8a7575;
+    margin: 0;
+}
+
+.site-footer__logo {
+    opacity: 0.45;
+    height: 28px;
+}
+
 
 /* ================================================================
    REDESIGN GLOBAL — Editorial + Glass (2025)
@@ -1006,4 +1083,21 @@ body {
 .btn-download,
 .btn-nav {
     border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .site-header__content {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .site-header__brand {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .site-header__divider {
+        display: none;
+    }
 }

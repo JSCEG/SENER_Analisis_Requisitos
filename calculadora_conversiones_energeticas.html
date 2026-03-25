@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Conversiones Energéticas - SENER</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/pages-common.css?v=20260324b">
+    <link rel="stylesheet" href="css/shared-breadcrumbs.css">
+
+    <style>
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(30, 91, 79, 0.07), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(165, 127, 44, 0.08), transparent 24%),
+                #f4f1ec;
+        }
+
+        .ecu-hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(155, 34, 71, 0.96) 0%, rgba(103, 22, 48, 0.96) 48%, rgba(30, 91, 79, 0.94) 100%);
+            color: white;
+            padding: 58px 0 54px;
+            border-bottom: 4px solid rgba(165, 127, 44, 0.85);
+        }
+
+        .ecu-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.45;
+        }
+
+        .ecu-hero-inner,
+        .ecu-shell,
+        .site-breadcrumb__container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .ecu-hero-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .ecu-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .ecu-eyebrow::before {
+            content: "";
+            width: 28px;
+            height: 2px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .ecu-hero h1 {
+            color: white;
+            margin: 0 0 12px;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            line-height: 1.06;
+        }
+
+        .ecu-hero p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.75;
+            max-width: 760px;
+            color: rgba(255, 255, 255, 0.86);
+        }
+
+        .ecu-hero-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .ecu-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 0.84rem;
+            font-weight: 600;
+        }
+
+        .ecu-hero-aside {
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 22px;
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.14);
+            backdrop-filter: blur(10px);
+        }
+
+        .ecu-hero-aside strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .ecu-hero-aside p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .ecu-shell {
+            padding-top: 30px;
+            padding-bottom: 72px;
+        }
+
+        .ecu-toolbar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: start;
+            margin-bottom: 22px;
+        }
+
+        .ecu-chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .ecu-chip {
+            border: 1px solid rgba(155, 34, 71, 0.12);
+            background: white;
+            color: var(--color-gobmx-guinda);
+            border-radius: 999px;
+            padding: 10px 16px;
+            font: inherit;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .ecu-chip:hover,
+        .ecu-chip.is-active {
+            transform: translateY(-1px);
+            border-color: rgba(30, 91, 79, 0.28);
+            background: rgba(30, 91, 79, 0.08);
+            color: var(--color-gobmx-verde);
+            box-shadow: 0 10px 24px rgba(30, 91, 79, 0.08);
+        }
+
+        .ecu-visibility {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .ecu-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(155, 34, 71, 0.08);
+            color: #5c4e4e;
+            font-size: 0.82rem;
+            font-weight: 600;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.04);
+        }
+
+        .ecu-toggle input {
+            accent-color: var(--color-gobmx-verde);
+        }
+
+        .ecu-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+            gap: 22px;
+        }
+
+        .ecu-card {
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 24px;
+            border: 1px solid rgba(155, 34, 71, 0.08);
+            box-shadow: 0 18px 44px rgba(107, 15, 26, 0.07);
+            overflow: hidden;
+        }
+
+        .ecu-card-head {
+            padding: 22px 24px 0;
+        }
+
+        .ecu-card-head h2,
+        .ecu-card-head h3 {
+            margin: 0 0 8px;
+            color: var(--color-gobmx-guinda);
+        }
+
+        .ecu-card-head p {
+            margin: 0;
+            color: #6c5f5f;
+            font-size: 0.92rem;
+        }
+
+        .ecu-card-body {
+            padding: 24px;
+        }
+
+        .ecu-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .ecu-field {
+            display: grid;
+            gap: 7px;
+        }
+
+        .ecu-field.is-span-2 {
+            grid-column: span 2;
+        }
+
+        .ecu-field label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #7c6868;
+        }
+
+        .ecu-field input,
+        .ecu-field select {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(155, 34, 71, 0.14);
+            padding: 14px 16px;
+            font: inherit;
+            color: #3f3333;
+            background: white;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .ecu-result {
+            display: grid;
+            gap: 16px;
+        }
+
+        .ecu-result-panel {
+            border-radius: 22px;
+            padding: 24px;
+            background: linear-gradient(160deg, rgba(155, 34, 71, 0.96) 0%, rgba(94, 20, 43, 0.96) 100%);
+            color: white;
+            box-shadow: 0 20px 40px rgba(107, 15, 26, 0.16);
+        }
+
+        .ecu-result-panel span {
+            display: block;
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.72);
+            margin-bottom: 10px;
+        }
+
+        .ecu-result-panel strong {
+            display: block;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            line-height: 1.05;
+            margin-bottom: 10px;
+        }
+
+        .ecu-result-panel p,
+        .ecu-result-panel small {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.86);
+            line-height: 1.6;
+        }
+
+        .ecu-side-stack {
+            display: grid;
+            gap: 16px;
+        }
+
+        .ecu-equivalence-grid,
+        .ecu-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .ecu-equivalence-card,
+        .ecu-tool-card,
+        .ecu-reference-box {
+            border-radius: 18px;
+            background: #fbfaf8;
+            border: 1px solid rgba(155, 34, 71, 0.08);
+            padding: 18px;
+        }
+
+        .ecu-equivalence-card span,
+        .ecu-tool-card .ecu-mini-label {
+            display: block;
+            font-size: 0.76rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #8a7474;
+            margin-bottom: 8px;
+        }
+
+        .ecu-equivalence-card strong,
+        .ecu-tool-card strong {
+            display: block;
+            font-size: 1.35rem;
+            color: var(--color-gobmx-guinda);
+            margin-bottom: 6px;
+        }
+
+        .ecu-equivalence-card small,
+        .ecu-tool-card p {
+            color: #6d5f5d;
+            line-height: 1.55;
+        }
+
+        .ecu-reference-box ul {
+            list-style: disc;
+            padding-left: 18px;
+            margin: 14px 0 0;
+            color: #5a4d4d;
+        }
+
+        .ecu-reference-box li + li {
+            margin-top: 10px;
+        }
+
+        .ecu-reference-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            color: var(--color-gobmx-guinda);
+        }
+
+        .ecu-reference-head strong {
+            font-size: 1rem;
+        }
+
+        .ecu-reference-head span {
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #8c7b7b;
+        }
+
+        .ecu-helper {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(165, 127, 44, 0.10);
+            color: #6a5726;
+            font-size: 0.84rem;
+            line-height: 1.65;
+        }
+
+        .is-guinda .ecu-result-panel {
+            background: linear-gradient(160deg, rgba(155, 34, 71, 0.96) 0%, rgba(94, 20, 43, 0.96) 100%);
+        }
+
+        .is-verde .ecu-result-panel {
+            background: linear-gradient(160deg, rgba(30, 91, 79, 0.96) 0%, rgba(21, 68, 59, 0.96) 100%);
+        }
+
+        .is-dorado .ecu-result-panel {
+            background: linear-gradient(160deg, rgba(165, 127, 44, 0.98) 0%, rgba(129, 92, 14, 0.98) 100%);
+        }
+
+        .is-azul .ecu-result-panel {
+            background: linear-gradient(160deg, rgba(28, 85, 132, 0.96) 0%, rgba(21, 59, 94, 0.96) 100%);
+        }
+
+        @media (max-width: 980px) {
+            .ecu-hero-inner,
+            .ecu-grid,
+            .ecu-toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .ecu-visibility {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .ecu-shell,
+            .ecu-hero-inner,
+            .site-breadcrumb__container {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .ecu-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ecu-field.is-span-2 {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="site-nav"></nav>
+
+    <nav class="site-breadcrumb" aria-label="Migas de pan">
+        <div class="site-breadcrumb__container">
+            <ol class="site-breadcrumb__list">
+                <li class="site-breadcrumb__item"><a class="site-breadcrumb__link" href="index.html">Inicio</a></li>
+                <li class="site-breadcrumb__item"><span class="site-breadcrumb__current">Calculadora de conversiones energéticas</span></li>
+            </ol>
+        </div>
+    </nav>
+
+    <section class="ecu-hero">
+        <div class="ecu-hero-inner">
+            <div>
+                <div class="ecu-eyebrow">Herramienta técnica integrada</div>
+                <h1>Calculadora de conversiones energéticas y factores técnicos</h1>
+                <p>
+                    Un módulo interactivo para convertir MWh a TWh, revisar equivalencias energéticas, estimar emisiones,
+                    calcular horas pico, traducir barriles y gas natural, revisar gas LP, hidrógeno, eficiencia térmica y
+                    magnitudes eléctricas. El usuario puede elegir la familia que quiere ver y ocultar bloques secundarios.
+                </p>
+                <div class="ecu-hero-pills">
+                    <span class="ecu-pill"><i class="bi bi-lightning-charge"></i>Energía y potencia</span>
+                    <span class="ecu-pill"><i class="bi bi-droplet"></i>Gas natural, GLP e hidrógeno</span>
+                    <span class="ecu-pill"><i class="bi bi-cloud-haze2"></i>Factores de emisión</span>
+                    <span class="ecu-pill"><i class="bi bi-cpu"></i>Eficiencia y tensión</span>
+                </div>
+            </div>
+
+            <aside class="ecu-hero-aside">
+                <strong>Lectura rápida</strong>
+                <p>
+                    Las equivalencias incluidas son valores de referencia para análisis preliminar. Cuando un trámite,
+                    contrato o inventario requiera precisión normativa, sustituye aquí el valor base por el factor oficial
+                    vigente o el poder calorífico del combustible real.
+                </p>
+            </aside>
+        </div>
+    </section>
+
+    <main class="ecu-shell">
+        <section class="ecu-toolbar" aria-label="Controles de visualización">
+            <div class="ecu-chip-row" id="familyChips"></div>
+            <div class="ecu-visibility">
+                <label class="ecu-toggle">
+                    <input type="checkbox" data-panel-toggle="equivalences" checked>
+                    Mostrar equivalencias
+                </label>
+                <label class="ecu-toggle">
+                    <input type="checkbox" data-panel-toggle="references" checked>
+                    Mostrar referencias
+                </label>
+                <label class="ecu-toggle">
+                    <input type="checkbox" data-panel-toggle="tools" checked>
+                    Mostrar calculadoras auxiliares
+                </label>
+            </div>
+        </section>
+
+        <section class="ecu-grid">
+            <article class="ecu-card">
+                <div class="ecu-card-head">
+                    <h2>Conversión principal</h2>
+                    <p>Selecciona la familia, captura una cantidad y cambia de unidad según la vista que necesites.</p>
+                </div>
+                <div class="ecu-card-body">
+                    <div class="ecu-form-grid">
+                        <div class="ecu-field is-span-2">
+                            <label for="familySelect">Familia técnica</label>
+                            <select id="familySelect"></select>
+                        </div>
+                        <div class="ecu-field">
+                            <label for="amountInput">Valor</label>
+                            <input id="amountInput" type="number" min="0" step="any" value="1">
+                        </div>
+                        <div class="ecu-field">
+                            <label for="fromUnit">Unidad origen</label>
+                            <select id="fromUnit"></select>
+                        </div>
+                        <div class="ecu-field is-span-2">
+                            <label for="toUnit">Unidad destino</label>
+                            <select id="toUnit"></select>
+                        </div>
+                    </div>
+
+                    <div class="ecu-helper">
+                        La vista combina conversión lineal, intensidades de emisión y relaciones térmicas no lineales. En eficiencia,
+                        el sistema convierte entre porcentaje y heat rate usando 3,600 kJ/kWh o 3,412.142 Btu/kWh.
+                    </div>
+                </div>
+            </article>
+
+            <aside class="ecu-side-stack" data-accent-surface>
+                <article class="ecu-result">
+                    <div class="ecu-result-panel">
+                        <span>Resultado</span>
+                        <strong id="resultValue">—</strong>
+                        <p id="resultMeta">Selecciona una familia para empezar.</p>
+                        <small id="resultNote">Conversión técnica interactiva.</small>
+                    </div>
+                </article>
+
+                <article class="ecu-card" data-panel="references">
+                    <div class="ecu-card-head">
+                        <h3>Supuestos y notas</h3>
+                        <p>Resumen rápido de los factores de referencia usados en la familia seleccionada.</p>
+                    </div>
+                    <div class="ecu-card-body">
+                        <div id="referencesList" class="ecu-reference-box"></div>
+                    </div>
+                </article>
+            </aside>
+        </section>
+
+        <section class="ecu-card" data-panel="equivalences" data-accent-surface style="margin-top: 22px;">
+            <div class="ecu-card-head">
+                <h3>Equivalencias inmediatas</h3>
+                <p>La misma cantidad desplegada en varias unidades de la familia activa.</p>
+            </div>
+            <div class="ecu-card-body">
+                <div id="equivalenceGrid" class="ecu-equivalence-grid"></div>
+            </div>
+        </section>
+
+        <section class="ecu-card" data-panel="tools" style="margin-top: 22px;">
+            <div class="ecu-card-head">
+                <h3>Calculadoras auxiliares</h3>
+                <p>Herramientas complementarias para emisiones, horas pico y potencia eléctrica.</p>
+            </div>
+            <div class="ecu-card-body">
+                <div class="ecu-tools-grid">
+                    <article class="ecu-tool-card">
+                        <span class="ecu-mini-label">Emisiones por combustible</span>
+                        <div class="ecu-field">
+                            <label for="emissionPreset">Factor de emisión</label>
+                            <select id="emissionPreset"></select>
+                        </div>
+                        <div class="ecu-field">
+                            <label for="emissionAmount">Cantidad</label>
+                            <input id="emissionAmount" type="number" min="0" step="any" value="100">
+                        </div>
+                        <div class="ecu-field">
+                            <label for="emissionUnit">Unidad de energía</label>
+                            <select id="emissionUnit"></select>
+                        </div>
+                        <strong id="emissionKg">—</strong>
+                        <p id="emissionTon">—</p>
+                        <p id="emissionDetail">Estimación de emisiones.</p>
+                    </article>
+
+                    <article class="ecu-tool-card">
+                        <span class="ecu-mini-label">Horas pico y energía</span>
+                        <div class="ecu-field">
+                            <label for="peakPower">Potencia instalada</label>
+                            <input id="peakPower" type="number" min="0" step="any" value="100">
+                        </div>
+                        <div class="ecu-field">
+                            <label for="peakUnit">Unidad</label>
+                            <select id="peakUnit">
+                                <option value="kW">kW</option>
+                                <option value="MW" selected>MW</option>
+                                <option value="GW">GW</option>
+                            </select>
+                        </div>
+                        <div class="ecu-field">
+                            <label for="peakHours">Horas equivalentes</label>
+                            <input id="peakHours" type="number" min="0" step="any" value="1800">
+                        </div>
+                        <div class="ecu-field">
+                            <label for="peakFactor">Factor de carga (%)</label>
+                            <input id="peakFactor" type="number" min="0" max="100" step="any" value="100">
+                        </div>
+                        <strong id="peakResult">—</strong>
+                        <p id="peakDetail">Cálculo de energía por horas pico.</p>
+                    </article>
+
+                    <article class="ecu-tool-card">
+                        <span class="ecu-mini-label">Tensión, corriente y potencia</span>
+                        <div class="ecu-field">
+                            <label for="electricalPhase">Sistema</label>
+                            <select id="electricalPhase">
+                                <option value="three" selected>Trifásico</option>
+                                <option value="single">Monofásico</option>
+                            </select>
+                        </div>
+                        <div class="ecu-field">
+                            <label for="electricalVoltage">Tensión (V)</label>
+                            <input id="electricalVoltage" type="number" min="0" step="any" value="23000">
+                        </div>
+                        <div class="ecu-field">
+                            <label for="electricalCurrent">Corriente (A)</label>
+                            <input id="electricalCurrent" type="number" min="0" step="any" value="120">
+                        </div>
+                        <div class="ecu-field">
+                            <label for="electricalFactor">Factor de potencia</label>
+                            <input id="electricalFactor" type="number" min="0" max="1" step="any" value="0.92">
+                        </div>
+                        <strong id="electricalKw">—</strong>
+                        <p id="electricalKva">—</p>
+                        <p id="electricalDetail">Cálculo de demanda eléctrica.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/pages-common.js?v=20260325b"></script>
+    <script src="js/energy-unit-converter.js?v=20260325a"></script>
+</body>
+
+</html>
+

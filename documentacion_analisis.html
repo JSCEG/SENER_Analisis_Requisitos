@@ -10,46 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/pages-common.css">
+    <link rel="stylesheet" href="css/pages-common.css?v=20260324b">
 
     <style>
-        header {
-            background: white;
-            border-bottom: 3px solid var(--color-gobmx-dorado);
-            padding: 18px 0;
-            box-shadow: 0 1px 0 rgba(0,0,0,0.04);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .header-brand { display: flex; align-items: center; gap: 16px; }
-        .header-brand img { height: 52px; width: auto; }
-        .header-brand-divider {
-            width: 1px;
-            height: 40px;
-            background: #e0d8d8;
-        }
-        .header-brand-text h1 {
-            font-family: var(--font-family-headings);
-            color: var(--color-gobmx-guinda);
-            font-size: 1.15rem;
-            margin: 0;
-            line-height: 1.2;
-        }
-        .header-brand-text p {
-            font-size: 0.78rem;
-            color: var(--color-gobmx-gris);
-            margin: 2px 0 0;
-            letter-spacing: 0.02em;
-        }
-
         .docs-hero {
             background:
                 radial-gradient(circle at top left, rgba(165, 127, 44, 0.12), transparent 28%),
@@ -103,34 +66,6 @@
             font-size: 0.98rem;
             line-height: 1.75;
         }
-        .docs-highlight {
-            border-radius: 24px;
-            background: rgba(255,255,255,0.8);
-            border: 1px solid rgba(107, 15, 26, 0.08);
-            box-shadow: 0 16px 34px rgba(107, 15, 26, 0.08);
-            padding: 22px;
-        }
-        .docs-highlight-title {
-            margin: 0 0 14px;
-            font-size: 0.9rem;
-            color: var(--color-gobmx-guinda);
-        }
-        .docs-highlight-list {
-            display: grid;
-            gap: 10px;
-        }
-        .docs-highlight-item {
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            font-size: 0.84rem;
-            color: #6d6060;
-        }
-        .docs-highlight-item i {
-            color: var(--color-gobmx-guinda);
-            margin-top: 2px;
-        }
-
         .docs-main {
             max-width: 1200px;
             margin: 0 auto;
@@ -284,70 +219,12 @@
             box-shadow: 0 8px 20px rgba(30, 91, 79, 0.08);
         }
 
-        .docs-note {
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(155,34,71,0.05), rgba(30,91,79,0.06));
-            border: 1px solid rgba(107, 15, 26, 0.08);
-            padding: 24px;
-        }
-        .docs-note h3 {
-            margin: 0 0 10px;
-            color: var(--color-gobmx-guinda);
-            font-size: 1.05rem;
-        }
-        .docs-note p {
-            margin: 0;
-            color: #6f6262;
-            font-size: 0.9rem;
-            line-height: 1.75;
-        }
-
-        .idx-footer {
-            background: #F0EDE8;
-            border-top: 1px solid rgba(107, 15, 26, 0.08);
-            padding: 28px 24px;
-        }
-        .idx-footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .idx-footer p {
-            font-size: 0.8rem;
-            color: #8a7575;
-            margin: 0;
-        }
-        .idx-footer-logo {
-            opacity: 0.45;
-            height: 28px;
-        }
-
         @media (max-width: 860px) {
-            .header-content {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
-            }
-            .header-brand {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .header-brand-divider {
-                display: none;
-            }
             .docs-hero-inner {
                 grid-template-columns: 1fr;
             }
             .docs-grid {
                 grid-template-columns: 1fr;
-            }
-            .idx-footer-inner {
-                flex-direction: column;
-                align-items: flex-start;
             }
         }
     </style>
@@ -355,67 +232,9 @@
 
 <body>
 
-    <nav class="site-nav">
-        <div class="nav-brand">
-            <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:8px;">
-                <i class="bi bi-bar-chart-fill"></i> SENER | DGTE
-            </a>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
-            <li class="nav-item">
-                <a href="#" class="nav-link nav-dropdown-toggle">Análisis Requisito de CEL <span class="dropdown-icon">&#9662;</span></a>
-                <ul class="nav-dropdown-menu">
-                    <li><a href="metodologia_cel.html" class="nav-dropdown-link">1. Metodología</a></li>
-                    <li><a href="pronostico_generacion.html" class="nav-dropdown-link">2. Pronóstico</a></li>
-                    <li><a href="indicador_y_requisito_cel.html" class="nav-dropdown-link">3. Indicador vs Requisito</a></li>
-                    <li><a href="requisito_cel.html" class="nav-dropdown-link">4. Requisito Anual</a></li>
-                    <li><a href="obligacion_cel_participantes.html" class="nav-dropdown-link">5. Obligación Participantes</a></li>
-                    <li><a href="estrategia_transicion_cel.html" class="nav-dropdown-link">6. Estrategia Transición</a></li>
-                    <li><a href="presentacion_requisito_cel.html" class="nav-dropdown-link">7. Presentación Requisitos</a></li>
-                    <li><a href="presentacion_nuevo_mecanismo_cel.html" class="nav-dropdown-link">8. Presentación Nuevo Mecanismo 2026</a></li>
-                    <li><a href="presentacion_ejecutiva_cel.html" class="nav-dropdown-link">9. Presentación Ejecutiva CEL</a></li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link nav-dropdown-toggle">Otorgamiento CEL <span class="dropdown-icon">&#9662;</span></a>
-                <ul class="nav-dropdown-menu">
-                    <li><a href="presentacion_otorgamiento_cel.html" class="nav-dropdown-link">Presentación Otorgamiento</a></li>
-                    <li><a href="sankey_otorgamiento_cel.html" class="nav-dropdown-link">Sankey Energía vs CEL otorgados</a></li>
-                    <li><a href="sankey_cel_historicos.html" class="nav-dropdown-link">Sankey CEL históricos otorgados</a></li>
-                    <li><a href="mexico.html" class="nav-dropdown-link">Cadena México I-REC</a></li>
-                    <li><a href="cne_sistema_cel.html" class="nav-dropdown-link">Informe CNE: Sistema CEL 2022–2025</a></li>
-                </ul>
-            </li>
-            <li class="nav-item"><a href="construccion.html" class="nav-link">Sistema de Comercio de Emisiones</a></li>
-            <li class="nav-item">
-                <a href="#" class="nav-link nav-dropdown-toggle">Hidrógeno Verde <span class="dropdown-icon">&#9662;</span></a>
-                <ul class="nav-dropdown-menu">
-                    <li><a href="hidrogeno_verde.html" class="nav-dropdown-link">Vista general</a></li>
-                    <li><a href="Notas_Tecnicas_Hidrogeno_Verde_SENER.html" class="nav-dropdown-link">Notas técnicas</a></li>
-                </ul>
-            </li>
-            <li class="nav-item"><a href="eolica_marina.html" class="nav-link">Eólica Marina</a></li>
-            <li class="nav-item"><a href="documentacion_analisis.html" class="nav-link active">Documentación</a></li>
-            <li class="nav-item"><a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">Buscador Jurídico</a></li>
-        </ul>
-    </nav>
+    <nav class="site-nav"></nav>
 
-    <header>
-        <div class="header-content">
-            <div class="header-brand">
-                <img src="img/logo_sener.png" alt="SENER">
-                <div class="header-brand-divider"></div>
-                <div class="header-brand-text">
-                    <h1>Dirección General de Transición Energética</h1>
-                    <p>Subsecretaría de Planeación y Transición Energética · SENER</p>
-                </div>
-            </div>
-        </div>
-    </header>
+    <header data-shared-header></header>
 
     <section class="docs-hero">
         <div class="docs-hero-inner">
@@ -428,14 +247,6 @@
                     la consulta documental de las herramientas interactivas del portal.
                 </p>
             </div>
-            <aside class="docs-highlight">
-                <h2 class="docs-highlight-title">Cómo queda organizada esta capa</h2>
-                <div class="docs-highlight-list">
-                    <div class="docs-highlight-item"><i class="bi bi-folder2-open"></i><span>Documentos técnicos reunidos en una sola sección.</span></div>
-                    <div class="docs-highlight-item"><i class="bi bi-cloud-arrow-up"></i><span>Documentos enlazados desde Cloudflare para consulta pública.</span></div>
-                    <div class="docs-highlight-item"><i class="bi bi-search"></i><span>El buscador jurídico permanece separado para una navegación más clara.</span></div>
-                </div>
-            </aside>
         </div>
     </section>
 
@@ -674,31 +485,12 @@
             </div>
         </section>
 
-        <section class="docs-section">
-            <div class="docs-section-header">
-                <h2 class="docs-section-title">Siguiente paso de publicación</h2>
-                <span class="docs-section-count">Cloudflare activo</span>
-            </div>
-
-            <div class="docs-note">
-                <h3>Catálogo conectado a tus URLs públicas</h3>
-                <p>
-                    La sección ya quedó enlazada a tu CDN. También detecté que una de las ligas venía repetida
-                    (`Propuesta de Estrategia de Transición para Requisitos de CEL (2025-2028)`), así que la dejé una sola vez
-                    para evitar duplicados en el catálogo.
-                </p>
-            </div>
-        </section>
     </main>
 
-    <footer class="idx-footer">
-        <div class="idx-footer-inner">
-            <p>&copy; 2026 Secretaría de Energía · Subsecretaría de Planeación y Transición Energética</p>
-            <img src="img/logo_sener.png" alt="SENER" class="idx-footer-logo">
-        </div>
-    </footer>
+    <footer data-shared-footer></footer>
 
-    <script src="js/pages-common.js"></script>
+    <script src="js/pages-common.js?v=20260325b"></script>
 </body>
 
 </html>
+
