@@ -16,35 +16,60 @@ document.addEventListener('DOMContentLoaded', function () {
         'sankey_otorgamiento_cel.html',
         'sankey_cel_historicos.html',
         'mexico.html',
-        'cne_sistema_cel.html'
+        'cne_sistema_cel.html',
+        'construccion.html'
     ]);
     const HIDROGENO_FILES = new Set([
         'hidrogeno_verde.html',
         'hidrogeno_entregable.html',
-        'Notas_Tecnicas_Hidrogeno_Verde_SENER.html'
+        'Notas_Tecnicas_Hidrogeno_Verde_SENER.html',
+        'eolica_marina.html'
     ]);
     const HERRAMIENTAS_FILES = new Set([
-        'calculadora_conversiones_energeticas.html'
+        'calculadora_conversiones_energeticas.html',
+        'documentacion_analisis.html'
     ]);
     const ANALISIS_ITEMS = [
-        ['metodologia_cel.html', '1. Metodología'],
-        ['pronostico_generacion.html', '2. Pronóstico'],
-        ['indicador_y_requisito_cel.html', '3. Indicador vs Requisito'],
-        ['requisito_cel.html', '4. Requisito Anual'],
-        ['obligacion_cel_participantes.html', '5. Obligación Participantes'],
-        ['estrategia_transicion_cel.html', '6. Estrategia Transición'],
-        ['presentacion_requisito_cel.html', '7. Presentación Requisitos'],
-        ['presentacion_nuevo_mecanismo_cel.html', '8. Presentación Nuevo Mecanismo 2026'],
-        ['presentacion_ejecutiva_cel.html', '9. Presentación Ejecutiva CEL']
+        ['metodologia_cel.html', 'Metodología'],
+        ['pronostico_generacion.html', 'Pronóstico'],
+        ['indicador_y_requisito_cel.html', 'Indicador vs requisito'],
+        ['requisito_cel.html', 'Requisito anual'],
+        ['obligacion_cel_participantes.html', 'Obligación de participantes'],
+        ['estrategia_transicion_cel.html', 'Estrategia de transición'],
+        ['presentacion_requisito_cel.html', 'Presentación de requisitos'],
+        ['presentacion_nuevo_mecanismo_cel.html', 'Nuevo mecanismo 2026'],
+        ['presentacion_ejecutiva_cel.html', 'Presentación ejecutiva']
     ];
     const OTORGAMIENTO_ITEMS = [
-        ['presentacion_otorgamiento_cel.html', 'Presentación Otorgamiento'],
-        ['sankey_otorgamiento_cel.html', 'Sankey Energía vs CEL otorgados'],
-        ['sankey_cel_historicos.html', 'Sankey CEL históricos otorgados'],
+        ['presentacion_otorgamiento_cel.html', 'Otorgamiento CEL'],
+        ['sankey_otorgamiento_cel.html', 'Sankey energía vs CEL'],
+        ['sankey_cel_historicos.html', 'CEL históricos'],
         ['mexico.html', 'Cadena México I-REC'],
-        ['cne_sistema_cel.html', 'Informe CNE: Sistema CEL 2022–2025']
+        ['cne_sistema_cel.html', 'Informe CNE 2022-2025'],
+        ['construccion.html', 'Sistema de Comercio de Emisiones'],
+        {
+            href: 'https://buscador-leyes.pages.dev/',
+            label: 'Marco legal energético',
+            target: '_blank',
+            rel: 'noopener noreferrer'
+        }
+    ];
+    const TRANSICION_ITEMS = [
+        ['hidrogeno_verde.html', 'Hidrógeno verde'],
+        ['Notas_Tecnicas_Hidrogeno_Verde_SENER.html', 'Notas técnicas de hidrógeno'],
+        ['eolica_marina.html', 'Eólica marina']
     ];
     const HERRAMIENTAS_ITEMS = [
+        {
+            href: 'documentacion_analisis.html',
+            label: 'Documentación'
+        },
+        {
+            href: 'https://buscador-leyes.pages.dev/',
+            label: 'Buscador jurídico',
+            target: '_blank',
+            rel: 'noopener noreferrer'
+        },
         {
             href: 'calculadora_conversiones_energeticas.html',
             label: 'Calculadora energética'
@@ -100,13 +125,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function buildNavigationMarkup() {
-        const hidrogenoActive = HIDROGENO_FILES.has(CURRENT_FILE);
+        const transicionActive = HIDROGENO_FILES.has(CURRENT_FILE);
         const herramientasActive = HERRAMIENTAS_FILES.has(CURRENT_FILE);
 
         return `
             <div class="nav-brand">
-                <a href="index.html" style="color:white; text-decoration:none; display:flex; align-items:center; gap:8px;">
-                    <i class="bi bi-bar-chart-fill"></i> SENER | DGTE
+                <a href="index.html" class="nav-brand__link">
+                    <span class="nav-brand__mark" aria-hidden="true">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                    </span>
+                    <span class="nav-brand__copy">
+                        <span class="nav-brand__eyebrow">Plataforma de análisis</span>
+                        <span class="nav-brand__label">DGTE · SENER</span>
+                    </span>
                 </a>
             </div>
             <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -114,20 +145,10 @@ document.addEventListener('DOMContentLoaded', function () {
             </button>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="index.html" class="nav-link${activeClass(isActive('index.html'))}"${isActive('index.html') ? ' aria-current="page"' : ''}>Inicio</a></li>
-                ${buildDropdown('Análisis Requisito de CEL', ANALISIS_ITEMS, ANALISIS_FILES.has(CURRENT_FILE))}
-                ${buildDropdown('Otorgamiento CEL', OTORGAMIENTO_ITEMS, OTORGAMIENTO_FILES.has(CURRENT_FILE))}
-                <li class="nav-item"><a href="construccion.html" class="nav-link${activeClass(isActive('construccion.html'))}"${isActive('construccion.html') ? ' aria-current="page"' : ''}>Sistema de Comercio de Emisiones</a></li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link nav-dropdown-toggle${activeClass(hidrogenoActive)}">Hidrógeno Verde <span class="dropdown-icon">&#9662;</span></a>
-                    <ul class="nav-dropdown-menu">
-                        <li><a href="hidrogeno_verde.html" class="nav-dropdown-link${activeClass(isActive('hidrogeno_verde.html'))}"${isActive('hidrogeno_verde.html') ? ' aria-current="page"' : ''}>Vista general</a></li>
-                        <li><a href="Notas_Tecnicas_Hidrogeno_Verde_SENER.html" class="nav-dropdown-link${activeClass(isActive('Notas_Tecnicas_Hidrogeno_Verde_SENER.html'))}"${isActive('Notas_Tecnicas_Hidrogeno_Verde_SENER.html') ? ' aria-current="page"' : ''}>Notas técnicas</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="eolica_marina.html" class="nav-link${activeClass(isActive('eolica_marina.html'))}"${isActive('eolica_marina.html') ? ' aria-current="page"' : ''}>Eólica Marina</a></li>
+                ${buildDropdown('CEL', ANALISIS_ITEMS, ANALISIS_FILES.has(CURRENT_FILE))}
+                ${buildDropdown('Mercados', OTORGAMIENTO_ITEMS, OTORGAMIENTO_FILES.has(CURRENT_FILE))}
+                ${buildDropdown('Transición', TRANSICION_ITEMS, transicionActive)}
                 ${buildDropdown('Herramientas', HERRAMIENTAS_ITEMS, herramientasActive)}
-                <li class="nav-item"><a href="documentacion_analisis.html" class="nav-link${activeClass(isActive('documentacion_analisis.html'))}"${isActive('documentacion_analisis.html') ? ' aria-current="page"' : ''}>Documentación</a></li>
-                <li class="nav-item"><a href="https://buscador-leyes.pages.dev/" target="_blank" rel="noopener noreferrer" class="nav-link">Buscador Jurídico</a></li>
             </ul>
         `;
     }
@@ -150,9 +171,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         <img src="img/logo_sener.png" alt="SENER">
                         <div class="site-header__divider"></div>
                         <div class="site-header__text">
+                            <span class="site-header__eyebrow">Subsecretaría de Planeación y Transición Energética</span>
                             <h1>Dirección General de Transición Energética</h1>
-                            <p>Subsecretaría de Planeación y Transición Energética · SENER</p>
+                            <p>Instrumentos editoriales, visualizaciones y herramientas de consulta para política energética.</p>
                         </div>
+                    </div>
+                    <div class="site-header__meta">
+                        <span class="site-header__pill">SENER</span>
+                        <span class="site-header__pill">Actualización 2026</span>
                     </div>
                 </div>
             `;
