@@ -1259,6 +1259,30 @@ body {
     border-radius: 10px;
 }
 
+/* Highcharts fullscreen */
+.chart-container:fullscreen,
+.chart-container:-webkit-full-screen,
+.highcharts-container:fullscreen,
+.highcharts-container:-webkit-full-screen {
+    background: #f7f4ee;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.chart-container:fullscreen .highcharts-background,
+.chart-container:-webkit-full-screen .highcharts-background,
+.highcharts-container:fullscreen .highcharts-background,
+.highcharts-container:-webkit-full-screen .highcharts-background {
+    fill: #f7f4ee;
+}
+
+.chart-container:fullscreen .highcharts-root,
+.chart-container:-webkit-full-screen .highcharts-root,
+.highcharts-container:fullscreen .highcharts-root,
+.highcharts-container:-webkit-full-screen .highcharts-root {
+    background-color: #f7f4ee;
+}
+
 @media (max-width: 768px) {
     .site-header__content {
         flex-direction: column;

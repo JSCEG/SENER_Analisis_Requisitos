@@ -303,12 +303,46 @@
     margin-bottom: 16px;
     box-shadow: var(--sombra-card);
     min-width: 0;
+    position: relative;
+  }
+  .sankey-box__actions {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+  }
+  .chart-fullscreen-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(155, 34, 71, 0.16);
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--guinda);
+    border-radius: 999px;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 24px -18px rgba(107, 15, 26, 0.45);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .chart-fullscreen-btn:hover {
+    background: #fff7f9;
+    box-shadow: 0 12px 28px -18px rgba(107, 15, 26, 0.55);
+    transform: translateY(-1px);
+  }
+  .chart-fullscreen-btn i {
+    font-size: 0.88rem;
+    line-height: 1;
   }
   .sankey-box h3 {
     font-size: 0.88rem;
     color: var(--guinda);
     font-weight: 700;
     margin-bottom: 4px;
+    padding-right: 150px;
     font-family: var(--font-head);
   }
   .sankey-box p.desc {
@@ -322,6 +356,30 @@
   .chart-bar  { width: 100%; height: 340px; }
   .export-target {
     background: var(--blanco);
+  }
+  .export-target:fullscreen,
+  .export-target:-webkit-full-screen {
+    background: #f7f4ee;
+    padding: 24px;
+    border-radius: 0;
+    overflow: auto;
+  }
+  .export-target:fullscreen .chart-wide,
+  .export-target:-webkit-full-screen .chart-wide {
+    height: calc(100vh - 210px);
+    min-height: 480px;
+  }
+  .export-target:fullscreen .chart-bar,
+  .export-target:-webkit-full-screen .chart-bar {
+    height: min(60vh, 560px);
+  }
+  .export-target:fullscreen #chart-pie-tech,
+  .export-target:-webkit-full-screen #chart-pie-tech {
+    height: min(60vh, 560px) !important;
+  }
+  .export-target:fullscreen .chart-fullscreen-btn,
+  .export-target:-webkit-full-screen .chart-fullscreen-btn {
+    background: rgba(255, 255, 255, 0.98);
   }
 
   /* ── Alerta datos ── */
@@ -644,6 +702,12 @@
 <div id="panel-emisor" class="panel active">
 
   <div class="sankey-box export-target" data-export-name="mexico_como_emisor">
+    <div class="sankey-box__actions">
+      <button class="chart-fullscreen-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa">
+        <i class="bi bi-arrows-fullscreen"></i>
+        <span>Pantalla completa</span>
+      </button>
+    </div>
     <h3>Flujo: Año Vintage → Tecnología → País Beneficiario</h3>
     <p class="desc">Certificados generados en México, ya redimidos. Muestra qué año y tecnología se liquidó y en qué país se acreditó la energía.</p>
     <div id="chart-sankey-emisor" class="chart-wide"></div>
@@ -665,6 +729,12 @@
   </div>
 
   <div class="sankey-box export-target" data-export-name="mexico_como_beneficiario">
+    <div class="sankey-box__actions">
+      <button class="chart-fullscreen-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa">
+        <i class="bi bi-arrows-fullscreen"></i>
+        <span>Pantalla completa</span>
+      </button>
+    </div>
     <h3>Flujo: País Origen → Tecnología → Vintage</h3>
     <p class="desc">I-RECs redimidos en los cuales México es el beneficiario. De qué país y tecnología vino cada certificado y a qué año vintage corresponde.</p>
     <div id="chart-sankey-benef" class="chart-wide"></div>
@@ -681,6 +751,12 @@
 <div id="panel-balance" class="panel">
 
   <div class="sankey-box export-target" data-export-name="balance_mexico_irec">
+    <div class="sankey-box__actions">
+      <button class="chart-fullscreen-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa">
+        <i class="bi bi-arrows-fullscreen"></i>
+        <span>Pantalla completa</span>
+      </button>
+    </div>
     <h3>Emitido vs Redimido por Año Vintage</h3>
     <p class="desc">Comparativo entre los MWh certificados (issuances) y los efectivamente liquidados (redemptions) por año de generación.</p>
     <div id="chart-bar-balance" class="chart-bar"></div>
@@ -706,6 +782,12 @@
   </div>
 
   <div class="sankey-box export-target" data-export-name="tecnologia_issuances_mexico">
+    <div class="sankey-box__actions">
+      <button class="chart-fullscreen-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa">
+        <i class="bi bi-arrows-fullscreen"></i>
+        <span>Pantalla completa</span>
+      </button>
+    </div>
     <h3>Distribución por Tecnología — Issuances</h3>
     <p class="desc">Composición tecnológica del total emitido por México (2014–2025).</p>
     <div id="chart-pie-tech" style="width:100%;height:360px;"></div>
@@ -942,6 +1024,63 @@ function initOrUpdate(domId, option) {
     window.addEventListener('resize', () => CHARTS[domId].resize());
   }
   CHARTS[domId].setOption(option, true);
+}
+
+function resizeChartInside(container) {
+  const chartNode = container?.querySelector('[id^="chart-"]');
+  if (!chartNode) return;
+  const chart = CHARTS[chartNode.id];
+  if (chart) {
+    requestAnimationFrame(() => chart.resize());
+  }
+}
+
+function syncFullscreenButtons() {
+  const fullscreenElement = document.fullscreenElement;
+  document.querySelectorAll('.chart-fullscreen-btn').forEach(button => {
+    const container = button.closest('.export-target');
+    const isActive = fullscreenElement === container;
+    const icon = button.querySelector('i');
+    const label = button.querySelector('span');
+
+    if (icon) icon.className = isActive ? 'bi bi-fullscreen-exit' : 'bi bi-arrows-fullscreen';
+    if (label) label.textContent = isActive ? 'Salir de pantalla completa' : 'Pantalla completa';
+    button.title = isActive ? 'Salir de pantalla completa' : 'Pantalla completa';
+    button.setAttribute('aria-label', button.title);
+  });
+}
+
+function setupChartFullscreen() {
+  document.querySelectorAll('.chart-fullscreen-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+      const container = button.closest('.export-target');
+      if (!container) return;
+
+      try {
+        if (document.fullscreenElement === container) {
+          await document.exitFullscreen();
+        } else {
+          await container.requestFullscreen();
+        }
+      } catch (error) {
+        console.error('No se pudo cambiar a pantalla completa:', error);
+      }
+    });
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    syncFullscreenButtons();
+
+    const fullscreenElement = document.fullscreenElement;
+    if (fullscreenElement?.classList.contains('export-target')) {
+      resizeChartInside(fullscreenElement);
+      return;
+    }
+
+    document.querySelectorAll('.export-target').forEach(container => resizeChartInside(container));
+  });
+
+  syncFullscreenButtons();
 }
 
 function slugify(value) {
@@ -1251,6 +1390,7 @@ document.getElementById('export-csv-btn')?.addEventListener('click', () => {
   exportFilteredCsv();
 });
 
+setupChartFullscreen();
 activateTabFromUrl();
 </script>
 </body>
