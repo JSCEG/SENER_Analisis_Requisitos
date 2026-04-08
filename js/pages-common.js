@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
         'Notas_Tecnicas_Hidrogeno_Verde_SENER.html',
         'eolica_marina.html'
     ]);
+    const NOTAS_FILES = new Set([
+        'mapa-energia-nl-institucional.html'
+    ]);
     const HERRAMIENTAS_FILES = new Set([
         'calculadora_conversiones_energeticas.html',
         'documentacion_analisis.html'
@@ -58,6 +61,9 @@ document.addEventListener('DOMContentLoaded', function () {
         ['hidrogeno_verde.html', 'Hidrógeno verde'],
         ['Notas_Tecnicas_Hidrogeno_Verde_SENER.html', 'Notas técnicas de hidrógeno'],
         ['eolica_marina.html', 'Eólica marina']
+    ];
+    const NOTAS_ITEMS = [
+        ['mapa-energia-nl-institucional.html', 'Mapa de proyectos energéticos en NL']
     ];
     const HERRAMIENTAS_ITEMS = [
         {
@@ -126,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function buildNavigationMarkup() {
         const transicionActive = HIDROGENO_FILES.has(CURRENT_FILE);
+        const notasActive = NOTAS_FILES.has(CURRENT_FILE);
         const herramientasActive = HERRAMIENTAS_FILES.has(CURRENT_FILE);
 
         return `
@@ -148,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 ${buildDropdown('CEL', ANALISIS_ITEMS, ANALISIS_FILES.has(CURRENT_FILE))}
                 ${buildDropdown('Mercados', OTORGAMIENTO_ITEMS, OTORGAMIENTO_FILES.has(CURRENT_FILE))}
                 ${buildDropdown('Transición', TRANSICION_ITEMS, transicionActive)}
+                ${buildDropdown('Notas', NOTAS_ITEMS, notasActive)}
                 ${buildDropdown('Herramientas', HERRAMIENTAS_ITEMS, herramientasActive)}
             </ul>
         `;
