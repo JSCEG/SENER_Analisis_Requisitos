@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Tecnologías Emergentes de Energía | DGTE · SENER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/pages-common.css?v=20260408b">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #2f0f1d;
+            --color-bg-deep: #1e0d15;
+            --color-surface: #4b172b;
+            --color-text: #f7f1ea;
+            --color-text-secondary: #ddc8c2;
+            --color-text-muted: #c7ada5;
+            --color-accent-1: #1E5B4F;
+            --color-accent-2: #A57F2C;
+            --color-accent-3: #d7c2b8;
+            --color-glass-bg: rgba(255,255,255,0.06);
+            --color-glass-border: rgba(255,255,255,0.12);
+            --color-vignette: rgba(23,8,14,0.42);
+            --font-display: "Merriweather", serif;
+            --font-body: "Noto Sans", sans-serif;
+        }
+    </style>
+    <style>
+        :root { --color-bg:#2f0f1d; --color-text:#f7f1ea; --glow-color-rgb:30,91,79; }
+        *,*::before,*::after{box-sizing:border-box;}
+        html,body{background:var(--color-bg);margin:0;}
+        body{font-family:"Noto Sans",sans-serif;color:var(--color-text);overflow:hidden;height:100vh;width:100vw;padding-top:var(--site-nav-total-space);background-image:radial-gradient(circle at top left,rgba(165,127,44,.08),transparent 22%),linear-gradient(180deg,rgba(255,255,255,.02) 0%,rgba(0,0,0,0) 220px);}
+        .site-nav{z-index:1000;}
+        .deck{width:100vw;height:calc(100vh - var(--site-nav-total-space));position:relative;}
+        .slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.95);transition:opacity 0.7s ease,transform 0.7s ease;pointer-events:none;overflow:hidden;}
+        .slide.active{opacity:1;transform:scale(1);pointer-events:all;}
+        .slide>.content{position:relative;z-index:2;width:100%;max-width:1100px;padding:clamp(1.2rem,3vw,3.5rem);}
+        .deck-brand{position:absolute;top:18px;left:24px;z-index:120;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(14px);}
+        .deck-brand__icon{width:34px;height:34px;border-radius:999px;background:linear-gradient(135deg,rgba(165,127,44,.26),rgba(30,91,79,.26));display:flex;align-items:center;justify-content:center;color:#f7f1ea;font-size:.95rem}
+        .deck-brand__copy{display:flex;flex-direction:column;gap:2px}
+        .deck-brand__copy strong{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#f1ded1}
+        .deck-brand__copy span{font-size:.78rem;color:#d7c2b8}
+        .nav-controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);padding:8px 20px;border-radius:40px;border:1px solid rgba(255,255,255,0.12);}
+        .nav-btn{width:34px;height:34px;border:none;background:rgba(255,255,255,0.07);color:var(--color-accent-1);border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.3s;}
+        .nav-btn:hover{background:rgba(255,255,255,0.14);}
+        .slide-dots{display:flex;gap:6px;}
+        .slide-dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:background 0.3s,transform 0.3s;}
+        .slide-dots .dot.active{background:var(--color-accent-1);transform:scale(1.4);}
+        .slide-counter{font-size:0.72rem;color:#d7c2b8;min-width:36px;text-align:center;}
+        .reveal{opacity:0;transform:translateY(18px);}
+        .text-glow{text-shadow:0 0 20px rgba(30,91,79,0.42),0 0 40px rgba(30,91,79,0.18);}
+        .stat-glow{text-shadow:0 0 28px rgba(30,91,79,0.55),0 0 55px rgba(30,91,79,0.2);}
+        @keyframes glow-pulse{0%,100%{text-shadow:0 0 20px rgba(30,91,79,0.45);}50%{text-shadow:0 0 35px rgba(30,91,79,0.72),0 0 60px rgba(165,127,44,0.22);}}
+        .glow-pulse{animation:glow-pulse 3s ease-in-out infinite;}
+        @keyframes float-slow{0%{transform:translate(0,0) scale(1);}25%{transform:translate(55px,-45px) scale(1.1);}50%{transform:translate(-35px,38px) scale(0.9);}75%{transform:translate(45px,18px) scale(1.07);}100%{transform:translate(0,0) scale(1);}}
+        @keyframes float-drift{0%{transform:translate(0,0) scale(1);}33%{transform:translate(-48px,-55px) scale(1.13);}66%{transform:translate(38px,28px) scale(0.87);}100%{transform:translate(0,0) scale(1);}}
+        @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+        .gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+        .blob{position:absolute;border-radius:50%;filter:blur(80px);animation:float-slow 10s ease-in-out infinite;}
+        .blob:nth-child(2){animation:float-drift 14s ease-in-out infinite;}
+        .blob:nth-child(3){animation:float-slow 18s ease-in-out infinite reverse;}
+        .slide::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;opacity:0.03;mix-blend-mode:overlay;}
+        .slide::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,var(--color-vignette) 100%);}
+        .tag-h2{background:rgba(30,91,79,0.16);color:#8fd0c1;border:1px solid rgba(30,91,79,0.32);}
+        .tag-wind{background:rgba(165,127,44,0.16);color:#f0d68c;border:1px solid rgba(165,127,44,0.32);}
+        .tag-csp{background:rgba(215,194,184,0.12);color:#f1ded1;border:1px solid rgba(215,194,184,0.28);}
+        .tag-bess{background:rgba(109,144,132,0.18);color:#cde4dd;border:1px solid rgba(109,144,132,0.34);}
+        .tag-tidal{background:rgba(123,160,151,0.16);color:#d6ece6;border:1px solid rgba(123,160,151,0.3);}
+        .hbar-track{height:9px;border-radius:5px;background:rgba(255,255,255,0.08);overflow:hidden;flex:1;}
+        .hbar-fill{height:100%;border-radius:5px;width:0%;transition:width 1s ease;}
+        .pro-card{border-left:3px solid #1E5B4F;}
+        .con-card{border-left:3px solid #9B2247;}
+        @media (max-width: 900px){.deck-brand{left:18px;right:18px;justify-content:center}.nav-controls{bottom:16px;max-width:calc(100vw - 36px)}}
+    </style>
+</head>
+<body>
+<nav class="site-nav"></nav>
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+<div class="deck">
+<div class="deck-brand">
+    <div class="deck-brand__icon"><i class="bi bi-easel2"></i></div>
+    <div class="deck-brand__copy">
+        <strong>Presentaciones</strong>
+        <span>DGTE · SENER</span>
+    </div>
+</div>
+<!-- ===== SLIDE 1: TÍTULO ===== -->
+<div class="slide active" data-slide="1">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:520px;height:520px;top:-120px;right:-120px;background:#00d4aa;opacity:0.12;"></div>
+        <div class="blob" style="width:350px;height:350px;bottom:-100px;left:-80px;background:#4fc3f7;opacity:0.1;"></div>
+        <div class="blob" style="width:250px;height:250px;top:40%;left:10%;background:#ffd54f;opacity:0.07;"></div>
+    </div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+    <div class="content text-center">
+        <div style="font-size:85px;margin-bottom:0.9rem;animation:float 3.5s ease-in-out infinite;" class="reveal">⚡</div>
+        <div class="reveal" style="display:inline-block;padding:0.3rem 1rem;border-radius:20px;border:1px solid rgba(30,91,79,0.35);background:rgba(30,91,79,0.14);font-size:0.76rem;letter-spacing:0.14em;text-transform:uppercase;color:#8fd0c1;margin-bottom:1.1rem;">Dirección General de Transición Energética</div>
+        <h1 class="font-display reveal" style="font-size:clamp(2rem,5.5vw,4.2rem);font-weight:900;background:linear-gradient(135deg,#00d4aa,#4fc3f7,#ffd54f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.12;margin-bottom:1rem;">Tecnologías Emergentes<br>de Energía Renovable</h1>
+        <p class="reveal" style="font-size:clamp(0.8rem,1.4vw,1.1rem);color:#5c7a96;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.8rem;">Hidrógeno · Eólica Marina · Solar Concentrada · Almacenamiento · Maremotriz</p>
+        <div class="reveal" style="display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:0.78rem;color:#a8c0d6;">📅 Abril 2026</span>
+            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:0.78rem;color:#a8c0d6;">🌎 México &amp; Contexto Global</span>
+            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:0.78rem;color:#a8c0d6;">📊 Datos 2024–2026</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 2: AGENDA ===== -->
+<div class="slide" data-slide="2">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:400px;height:400px;top:-80px;right:-80px;background:#00d4aa;opacity:0.07;"></div>
+        <div class="blob" style="width:300px;height:300px;bottom:-60px;left:-50px;background:#4fc3f7;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <p class="reveal" style="font-size:0.73rem;letter-spacing:0.15em;text-transform:uppercase;color:#00d4aa;margin-bottom:0.4rem;">Contenido de la Presentación</p>
+        <h2 class="font-display reveal" style="font-size:clamp(1.7rem,3.8vw,2.6rem);font-weight:700;margin-bottom:1.5rem;">5 Tecnologías, 5 Oportunidades</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;">
+            <div class="reveal" style="background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.2);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:0.9rem;">
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,212,170,0.18);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🟢</div>
+                <div><div style="font-weight:700;color:#00d4aa;font-size:0.9rem;margin-bottom:0.15rem;">01 Hidrógeno Renovable</div><div style="font-size:0.76rem;color:#5c7a96;">Producción, electrólisis, potencial MX, LCOH</div></div>
+            </div>
+            <div class="reveal" style="background:rgba(79,195,247,0.07);border:1px solid rgba(79,195,247,0.2);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:0.9rem;">
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(79,195,247,0.18);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">💨</div>
+                <div><div style="font-weight:700;color:#4fc3f7;font-size:0.9rem;margin-bottom:0.15rem;">02 Eólica Marina (Offshore)</div><div style="font-size:0.76rem;color:#5c7a96;">1,609 GW potencial ZEE, casos Hornsea</div></div>
+            </div>
+            <div class="reveal" style="background:rgba(255,213,79,0.07);border:1px solid rgba(255,213,79,0.2);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:0.9rem;">
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,213,79,0.18);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">☀️</div>
+                <div><div style="font-weight:700;color:#ffd54f;font-size:0.9rem;margin-bottom:0.15rem;">03 Concentración Solar (CSP)</div><div style="font-size:0.76rem;color:#5c7a96;">Almacenamiento térmico, despacho 24/7, Noor</div></div>
+            </div>
+            <div class="reveal" style="background:rgba(206,147,216,0.07);border:1px solid rgba(206,147,216,0.2);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:0.9rem;">
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(206,147,216,0.18);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🔋</div>
+                <div><div style="font-weight:700;color:#ce93d8;font-size:0.9rem;margin-bottom:0.15rem;">04 Almacenamiento (BESS)</div><div style="font-size:0.76rem;color:#5c7a96;">Baterías grid-scale, meta 5,551 MW para 2030</div></div>
+            </div>
+            <div class="reveal" style="background:rgba(38,198,218,0.07);border:1px solid rgba(38,198,218,0.2);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:0.9rem;grid-column:1/-1;max-width:50%;width:100%;margin:0 auto;">
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(38,198,218,0.18);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🌊</div>
+                <div><div style="font-weight:700;color:#26c6da;font-size:0.9rem;margin-bottom:0.15rem;">05 Energía Maremotriz</div><div style="font-size:0.76rem;color:#5c7a96;">Mareas y olas, Golfo de California, MeyGen</div></div>
+            </div>
+        </div>
+        <p class="reveal" style="text-align:center;margin-top:1rem;font-size:0.76rem;color:#5c7a96;">Cada tecnología incluye: Descripción · Potencial MX · CAPEX/OPEX/LCOE · Estadísticas internacionales · Ventajas y Desventajas · Impacto ambiental · Casos de éxito</p>
+    </div>
+</div>
+
+<!-- ===== SLIDE 3: H2 DIVIDER ===== -->
+<div class="slide" data-slide="3">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:500px;height:500px;top:-100px;right:-100px;background:#00d4aa;opacity:0.15;"></div>
+        <div class="blob" style="width:350px;height:350px;bottom:-80px;left:-60px;background:#4fc3f7;opacity:0.1;"></div>
+        <div class="blob" style="width:200px;height:200px;top:30%;left:20%;background:#ffd54f;opacity:0.08;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+    <div class="content text-center">
+        <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3s ease-in-out infinite;">🟢</div>
+        <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(0,212,170,0.4);background:rgba(0,212,170,0.12);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#00d4aa;margin-bottom:0.9rem;">Tecnología 01 de 05</div>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#00d4aa,#4fc3f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Hidrógeno Renovable</h2>
+        <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:580px;margin:0 auto 1.5rem;">El vector energético del futuro — almacenamiento de largo plazo, descarbonización industrial y exportación estratégica desde México</p>
+        <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(0,212,170,0.12);border:1px solid rgba(0,212,170,0.25);font-size:0.76rem;color:#00d4aa;">USD 60,000M para 2050 (H2MEX)</span>
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.25);font-size:0.76rem;color:#4fc3f7;">CAGR 47.1% mercado MX 2025-2033</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 4: H2 DESCRIPCIÓN + POTENCIAL ===== -->
+<div class="slide" data-slide="4">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:320px;height:320px;top:-65px;right:-65px;background:#00d4aa;opacity:0.07;"></div>
+        <div class="blob" style="width:230px;height:230px;bottom:-50px;left:-40px;background:#4fc3f7;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem;">
+            <span class="tag-h2 reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Hidrógeno Verde</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Descripción &amp; Potencial en México</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:700;margin-bottom:1rem;">¿Qué es y por qué importa para México?</h2>
+        <div style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:1.3rem;align-items:start;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1.1rem;margin-bottom:0.9rem;">
+                    <div style="font-weight:600;color:#00d4aa;margin-bottom:0.5rem;font-size:0.86rem;">⚗️ Proceso de producción</div>
+                    <p style="font-size:0.81rem;color:#a8c0d6;line-height:1.65;margin:0;">El <strong style="color:#e2eaf5;">hidrógeno verde</strong> se obtiene por <strong style="color:#e2eaf5;">electrólisis del agua</strong> (H₂O → H₂ + O₂) usando electricidad 100% renovable. Tecnologías: <strong style="color:#e2eaf5;">Electrólisis Alcalina (ALK)</strong> — más madura y económica — y <strong style="color:#e2eaf5;">PEM</strong> — más flexible y compacta. La electricidad representa el <strong style="color:#ffd54f;">55-70%</strong> del costo total de producción.</p>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1.1rem;">
+                    <div style="font-weight:600;color:#4fc3f7;margin-bottom:0.5rem;font-size:0.86rem;">🇲🇽 Potencial estratégico México</div>
+                    <ul style="font-size:0.8rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1.1rem;">
+                        <li>Consumo actual: <strong style="color:#e2eaf5;">220,000 ton H₂/año</strong> — 98% de origen fósil (PEMEX)</li>
+                        <li>16 proyectos identificados en desarrollo o anunciados (2024)</li>
+                        <li>Zonas clave: <strong style="color:#e2eaf5;">Sonora, Oaxaca, Istmo Tehuantepec</strong></li>
+                        <li>Meta H2MEX 2050: <strong style="color:#00d4aa;">USD 60,000M</strong> inversión + <strong style="color:#00d4aa;">3M empleos</strong></li>
+                        <li>Corredor exportación → EE.UU. y Europa vía Istmo/GNL</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="reveal" style="background:linear-gradient(135deg,rgba(0,212,170,0.09),rgba(79,195,247,0.07));border:1px solid rgba(0,212,170,0.22);border-radius:12px;padding:1rem;margin-bottom:0.8rem;text-align:center;">
+                    <div style="font-size:2.4rem;font-weight:900;color:#00d4aa;text-shadow:0 0 28px rgba(0,212,170,0.6);" data-count="47" data-suffix="%">0%</div>
+                    <div style="font-size:0.72rem;color:#5c7a96;text-transform:uppercase;letter-spacing:0.08em;">CAGR mercado H₂ verde MX<br>2025–2033 (IMARC Group)</div>
+                </div>
+                <div class="reveal" style="background:linear-gradient(135deg,rgba(79,195,247,0.09),rgba(0,212,170,0.07));border:1px solid rgba(79,195,247,0.22);border-radius:12px;padding:1rem;margin-bottom:0.8rem;text-align:center;">
+                    <div style="font-size:1.8rem;font-weight:900;color:#4fc3f7;">USD 960M</div>
+                    <div style="font-size:0.72rem;color:#5c7a96;text-transform:uppercase;letter-spacing:0.08em;">Proyección mercado MX 2033</div>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#ffd54f;margin-bottom:0.5rem;font-size:0.83rem;">🔗 Servicios conexos</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:0.35rem;">
+                        <span style="padding:0.18rem 0.55rem;border-radius:10px;background:rgba(255,255,255,0.07);font-size:0.7rem;color:#a8c0d6;">Electrólisis</span>
+                        <span style="padding:0.18rem 0.55rem;border-radius:10px;background:rgba(255,255,255,0.07);font-size:0.7rem;color:#a8c0d6;">Compresión H₂</span>
+                        <span style="padding:0.18rem 0.55rem;border-radius:10px;background:rgba(255,255,255,0.07);font-size:0.7rem;color:#a8c0d6;">Amoníaco verde</span>
+                        <span style="padding:0.18rem 0.55rem;border-radius:10px;background:rgba(255,255,255,0.07);font-size:0.7rem;color:#a8c0d6;">Pilas combustible</span>
+                        <span style="padding:0.18rem 0.55rem;border-radius:10px;background:rgba(255,255,255,0.07);font-size:0.7rem;color:#a8c0d6;">Desalinización</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 5: H2 INVERSIÓN + ESTADÍSTICAS ===== -->
+<div class="slide" data-slide="5">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#00d4aa;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#ffd54f;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem;">
+            <span class="tag-h2 reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Hidrógeno Verde</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Inversión (CAPEX/OPEX/LCOH) &amp; Estadísticas Internacionales</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3vw,2.1rem);font-weight:700;margin-bottom:1rem;">Datos Financieros &amp; Parámetros Globales</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:0.9rem;">
+            <div class="reveal" style="background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.22);border-radius:11px;padding:0.9rem;text-align:center;">
+                <div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.09em;color:#5c7a96;margin-bottom:0.3rem;">CAPEX Electrolizador (2026)</div>
+                <div style="font-size:1.4rem;font-weight:800;color:#00d4aa;">$500–1,000</div>
+                <div style="font-size:0.7rem;color:#a8c0d6;">USD/kW (ALK–PEM)</div>
+            </div>
+            <div class="reveal" style="background:rgba(79,195,247,0.07);border:1px solid rgba(79,195,247,0.22);border-radius:11px;padding:0.9rem;text-align:center;">
+                <div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.09em;color:#5c7a96;margin-bottom:0.3rem;">OPEX anual</div>
+                <div style="font-size:1.4rem;font-weight:800;color:#4fc3f7;">~3%</div>
+                <div style="font-size:0.7rem;color:#a8c0d6;">del CAPEX total</div>
+            </div>
+            <div class="reveal" style="background:rgba(255,213,79,0.07);border:1px solid rgba(255,213,79,0.22);border-radius:11px;padding:0.9rem;text-align:center;">
+                <div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.09em;color:#5c7a96;margin-bottom:0.3rem;">LCOH 2026</div>
+                <div style="font-size:1.4rem;font-weight:800;color:#ffd54f;">$2.5–5.0</div>
+                <div style="font-size:0.7rem;color:#a8c0d6;">USD/kg H₂ (promedio global)</div>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;">
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.95rem;">
+                <div style="font-weight:600;color:#00d4aa;margin-bottom:0.65rem;font-size:0.85rem;">📊 Estadísticas Internacionales</div>
+                <div style="display:flex;flex-direction:column;gap:0.55rem;">
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.76rem;margin-bottom:0.22rem;"><span style="color:#a8c0d6;">Factor de capacidad óptimo</span><span style="color:#00d4aa;font-weight:700;">60–70%</span></div>
+                        <div class="hbar-track"><div class="hbar-fill" data-width="65" style="background:linear-gradient(90deg,#00d4aa,#4fc3f7);"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.76rem;margin-bottom:0.22rem;"><span style="color:#a8c0d6;">Reducción costos 2020–2026</span><span style="color:#ffd54f;font-weight:700;">–45%</span></div>
+                        <div class="hbar-track"><div class="hbar-fill" data-width="45" style="background:linear-gradient(90deg,#ffd54f,#ff9800);"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.76rem;margin-bottom:0.22rem;"><span style="color:#a8c0d6;">Electricidad en costo H₂</span><span style="color:#4fc3f7;font-weight:700;">55–70%</span></div>
+                        <div class="hbar-track"><div class="hbar-fill" data-width="62" style="background:linear-gradient(90deg,#4fc3f7,#00d4aa);"></div></div>
+                    </div>
+                    <div style="font-size:0.74rem;color:#5c7a96;margin-top:0.3rem;">🚰 Consumo agua: 17.5 L/kg (PEM) | 22.3 L/kg (ALK)</div>
+                    <div style="font-size:0.74rem;color:#5c7a96;">🎯 Meta 2030: $1.50–2.00/kg en LATAM zonas óptimas</div>
+                </div>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.95rem;">
+                <div style="font-weight:600;color:#ce93d8;margin-bottom:0.65rem;font-size:0.85rem;">⚖️ Ventajas y Desventajas</div>
+                <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                    <div class="pro-card" style="padding:0.38rem 0.65rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);font-size:0.76rem;color:#a8c0d6;">✅ Almacenamiento estacional de energía (meses)</div>
+                    <div class="pro-card" style="padding:0.38rem 0.65rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);font-size:0.76rem;color:#a8c0d6;">✅ Cero emisiones en uso; vector exportable vía barco/ducto</div>
+                    <div class="pro-card" style="padding:0.38rem 0.65rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);font-size:0.76rem;color:#a8c0d6;">✅ Descarboniza industria pesada: acero, fertilizantes, refinación</div>
+                    <div class="con-card" style="padding:0.38rem 0.65rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);font-size:0.76rem;color:#a8c0d6;">❌ Costo aún 2–3× superior al H₂ gris (sin subsidios)</div>
+                    <div class="con-card" style="padding:0.38rem 0.65rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);font-size:0.76rem;color:#a8c0d6;">❌ Almacenamiento/transporte complejo; infraestructura nueva</div>
+                    <div class="con-card" style="padding:0.38rem 0.65rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);font-size:0.76rem;color:#a8c0d6;">❌ Brecha regulatoria MX; equipos 100% importados</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 6: H2 AMBIENTAL + CASOS ===== -->
+<div class="slide" data-slide="6">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#00d4aa;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#4fc3f7;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem;">
+            <span class="tag-h2 reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Hidrógeno Verde</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Impacto Ambiental &amp; Casos de Éxito</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3vw,2.1rem);font-weight:700;margin-bottom:1rem;">Sustentabilidad &amp; Proyectos de Referencia</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.95rem;">
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;">
+                <div style="font-weight:600;color:#00d4aa;margin-bottom:0.6rem;font-size:0.85rem;">🌱 Impacto Ambiental</div>
+                <ul style="font-size:0.79rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1.05rem;">
+                    <li><strong style="color:#e2eaf5;">Positivo:</strong> Cero CO₂ en uso; H₂ produce solo vapor al combustionarse</li>
+                    <li><strong style="color:#e2eaf5;">Positivo:</strong> Consume 7× menos agua dulce que producción de gasolina</li>
+                    <li><strong style="color:#e2eaf5;">Positivo:</strong> Electrólisis: 0 NOx, 0 CO, 0 partículas; proceso limpio</li>
+                    <li><strong style="color:#ffd54f;">Cuidado:</strong> ~30% agua utilizada retorna como salmuera → tratamiento</li>
+                    <li><strong style="color:#ffd54f;">Cuidado:</strong> Impacto indirecto de parques renovables asociados</li>
+                    <li><strong style="color:#ffd54f;">Cuidado:</strong> Riesgo de emisiones fugitivas de H₂ en transporte</li>
+                    <li><strong style="color:#4fc3f7;">Mitigación:</strong> Desalinización solar + reciclaje agua en planta</li>
+                </ul>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;">
+                <div style="font-weight:600;color:#ffd54f;margin-bottom:0.65rem;font-size:0.85rem;">🏆 Casos de Éxito</div>
+                <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                    <div style="border-left:3px solid #00d4aa;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#00d4aa;">CFE-PEMEX · Salina Cruz, México</div>
+                        <div style="font-size:0.75rem;color:#a8c0d6;">Alianza para producir H₂ verde en refinería; sustituye 220,000 ton H₂ gris/año de PEMEX. Potencial USD 4,000M para 2050</div>
+                    </div>
+                    <div style="border-left:3px solid #4fc3f7;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#4fc3f7;">NEOM Green H₂ · Arabia Saudita</div>
+                        <div style="font-size:0.75rem;color:#a8c0d6;">1.2 GW electrólisis · 600 t H₂/día → amoníaco verde · USD 8,400M inversión · Mayor planta del mundo</div>
+                    </div>
+                    <div style="border-left:3px solid #ffd54f;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ffd54f;">H₂ Istmo Tehuantepec · México (FIDESUR)</div>
+                        <div style="font-size:0.75rem;color:#a8c0d6;">H₂ verde + amoníaco verde; aprovecha recurso eólico de Oaxaca (clase mundial &gt;10 m/s)</div>
+                    </div>
+                    <div style="border-left:3px solid #ce93d8;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ce93d8;">Sonora H₂ Verde · Plan México 2026</div>
+                        <div style="font-size:0.75rem;color:#a8c0d6;">Incluido en paquete Plan México; inversión estimada vinculada a 30 proyectos energéticos por USD 200,000M</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ===== SLIDE 7: EÓLICA DIVIDER ===== -->
+<div class="slide" data-slide="7">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:500px;height:500px;top:-100px;right:-100px;background:#4fc3f7;opacity:0.14;"></div>
+        <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-60px;background:#00d4aa;opacity:0.09;"></div>
+        <div class="blob" style="width:200px;height:200px;top:35%;left:15%;background:#ce93d8;opacity:0.07;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+    <div class="content text-center">
+        <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;">💨</div>
+        <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(79,195,247,0.4);background:rgba(79,195,247,0.1);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#4fc3f7;margin-bottom:0.9rem;">Tecnología 02 de 05</div>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#4fc3f7,#ce93d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Eólica Marina (Offshore)</h2>
+        <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:600px;margin:0 auto 1.5rem;">Vientos más fuertes y constantes que en tierra, turbinas de 15+ MW, y el potencial técnico de la Zona Económica Exclusiva de México</p>
+        <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(79,195,247,0.12);border:1px solid rgba(79,195,247,0.25);font-size:0.76rem;color:#4fc3f7;">1,609 GW potencial ZEE México</span>
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(206,147,216,0.1);border:1px solid rgba(206,147,216,0.25);font-size:0.76rem;color:#ce93d8;">Factor de capacidad 40–55%</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 8: EÓLICA DESC + POTENCIAL ===== -->
+<div class="slide" data-slide="8">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#4fc3f7;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#00d4aa;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-wind reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Eólica Offshore</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Descripción &amp; Potencial en México</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3.2vw,2.2rem);font-weight:700;margin-bottom:0.9rem;">Tecnología &amp; Panorama Nacional</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.85rem;">
+                    <div style="font-weight:600;color:#4fc3f7;margin-bottom:0.5rem;font-size:0.85rem;">🌊 ¿Cómo funciona?</div>
+                    <p style="font-size:0.79rem;color:#a8c0d6;line-height:1.65;margin:0;">Aerogeneradores anclados al fondo marino (fijos en &lt;60m) o flotantes (100–1,000m). Turbinas actuales: <strong style="color:#e2eaf5;">GE Haliade-X 18 MW</strong> y <strong style="color:#e2eaf5;">Vestas V236-15 MW</strong>. Cables submarinos HVDC transportan energía a tierra. Flotan sobre plataformas tipo <strong style="color:#e2eaf5;">SEMI, SPAR o TLP</strong>.</p>
+                </div>
+                <div class="reveal" style="background:rgba(79,195,247,0.07);border:1px solid rgba(79,195,247,0.2);border-radius:12px;padding:1rem;">
+                    <div style="font-weight:600;color:#00d4aa;margin-bottom:0.5rem;font-size:0.85rem;">🇲🇽 Potencial México (IRENA 2022)</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>ZEE: <strong style="color:#e2eaf5;">1,609 GW potencial</strong> técnico (fijo+flotante)</li>
+                        <li>Regiones prioritarias: <strong style="color:#4fc3f7;">Golfo de Tehuantepec</strong> (vientos 10-12 m/s), <strong style="color:#4fc3f7;">Golfo de México</strong> (plataforma continental extensa), <strong style="color:#4fc3f7;">Baja California</strong></li>
+                        <li>Sin proyectos instalados a 2026; marco reg. en construcción (SENER-CRE)</li>
+                        <li>Plan México contempla primeros contratos offshore</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.85rem;">
+                    <div style="font-weight:600;color:#ffd54f;margin-bottom:0.5rem;font-size:0.85rem;">💰 Datos de Inversión (CAPEX/OPEX/LCOE)</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+                        <div style="text-align:center;padding:0.5rem;background:rgba(79,195,247,0.07);border-radius:8px;">
+                            <div style="font-size:1.05rem;font-weight:800;color:#4fc3f7;">$1,700–2,800</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/kW CAPEX fijo</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(206,147,216,0.07);border-radius:8px;">
+                            <div style="font-size:1.05rem;font-weight:800;color:#ce93d8;">$3,500–5,500</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/kW CAPEX flotante</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(0,212,170,0.07);border-radius:8px;">
+                            <div style="font-size:1.05rem;font-weight:800;color:#00d4aa;">2.5–3.5%</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">CAPEX/año OPEX</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(255,213,79,0.07);border-radius:8px;">
+                            <div style="font-size:1.05rem;font-weight:800;color:#ffd54f;">$50–100</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/MWh LCOE</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#ce93d8;margin-bottom:0.5rem;font-size:0.85rem;">📊 Estadísticas Globales 2024</div>
+                    <ul style="font-size:0.77rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>Capacidad instalada global: <strong style="color:#e2eaf5;">79 GW</strong> (GWEC 2024)</li>
+                        <li>Líder: <strong style="color:#4fc3f7;">China</strong> con 45 GW, seguida de <strong style="color:#4fc3f7;">Reino Unido</strong> (15 GW)</li>
+                        <li>Factor de capacidad: <strong style="color:#e2eaf5;">40–55%</strong> (vs 25–35% onshore)</li>
+                        <li>Impacto visual: mínimo desde tierra &gt;15 km</li>
+                        <li>Serv. conexos: buceo, logística marina, cable HVDC</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 9: EÓLICA AMBIENTAL + CASOS ===== -->
+<div class="slide" data-slide="9">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:310px;height:310px;top:-60px;right:-60px;background:#4fc3f7;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#ce93d8;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-wind reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Eólica Offshore</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Impacto Ambiental &amp; Proyectos Globales de Referencia</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3vw,2.1rem);font-weight:700;margin-bottom:1rem;">Sostenibilidad &amp; Casos de Éxito</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.95rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#4fc3f7;margin-bottom:0.55rem;font-size:0.85rem;">🌱 Impacto Ambiental</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>✅ <strong style="color:#e2eaf5;">Cero emisiones</strong> en operación; sin consumo de agua</li>
+                        <li>✅ Instalaciones actúan como <strong style="color:#e2eaf5;">arrecifes artificiales</strong> — aumentan biodiversidad marina</li>
+                        <li>✅ Ciclo vida: 97% inferior en emisiones vs carbón</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">Ruido subacuático</strong> en construcción; afecta cetáceos</li>
+                        <li>⚠️ Impacto en <strong style="color:#ffd54f;">aves migratorias</strong> y murciélagos</li>
+                        <li>⚠️ Disposición de palas: FRP composites difíciles de reciclar</li>
+                    </ul>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#ce93d8;margin-bottom:0.5rem;font-size:0.85rem;">⚖️ Ventajas / Desventajas</div>
+                    <div style="font-size:0.77rem;color:#a8c0d6;line-height:1.6;">
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ FC 40–55% — casi el doble que solar PV</div>
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ Sin conflicto uso de suelo agrícola</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);margin-bottom:0.3rem;">❌ CAPEX flotante 3× mayor que terrestre</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);">❌ Mantenimiento en alta mar: costo logístico elevado</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;height:fit-content;">
+                <div style="font-weight:600;color:#ffd54f;margin-bottom:0.65rem;font-size:0.85rem;">🏆 Proyectos de Referencia</div>
+                <div style="display:flex;flex-direction:column;gap:0.65rem;">
+                    <div style="border-left:3px solid #4fc3f7;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#4fc3f7;">Hornsea 3 · Reino Unido (2027)</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">2,400 MW · 300 turbinas · 6,000M GBP inversión · Mayor parque eólico offshore del mundo</div>
+                    </div>
+                    <div style="border-left:3px solid #ce93d8;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ce93d8;">Hywind Tampen · Noruega</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">88 MW flotante · Alimenta plataformas petrolíferas · Primer offshore flotante a escala comercial</div>
+                    </div>
+                    <div style="border-left:3px solid #00d4aa;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#00d4aa;">China Offshore 2024</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">45 GW instalados · Adicionó 11.3 GW solo en 2023 · Liderazgo global absoluto en nueva capacidad</div>
+                    </div>
+                    <div style="border-left:3px solid #ffd54f;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ffd54f;">Tehuantepec Offshore (proyectado)</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">Viento sostenido 10-12 m/s en ZEE · Potencial 200+ GW solo en zona sur · Bajo estudio SENER 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 10: CSP DIVIDER ===== -->
+<div class="slide" data-slide="10">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:500px;height:500px;top:-100px;right:-100px;background:#ffd54f;opacity:0.14;"></div>
+        <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-60px;background:#ff9800;opacity:0.09;"></div>
+        <div class="blob" style="width:200px;height:200px;top:35%;left:15%;background:#ef5350;opacity:0.06;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+    <div class="content text-center">
+        <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;">☀️</div>
+        <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(255,213,79,0.4);background:rgba(255,213,79,0.1);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#ffd54f;margin-bottom:0.9rem;">Tecnología 03 de 05</div>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#ffd54f,#ff9800,#ef5350);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Concentración Solar (CSP)</h2>
+        <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:600px;margin:0 auto 1.5rem;">La única tecnología solar con almacenamiento térmico de hasta 17 horas — despacho nocturno, estabilidad de red y alta temperatura para industria</p>
+        <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(255,213,79,0.12);border:1px solid rgba(255,213,79,0.25);font-size:0.76rem;color:#ffd54f;">7.6 GW capacidad global 2024</span>
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(255,152,0,0.1);border:1px solid rgba(255,152,0,0.25);font-size:0.76rem;color:#ff9800;">DNI &gt;2,000 kWh/m²/año MX</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 11: CSP DESC + INVERSIÓN ===== -->
+<div class="slide" data-slide="11">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#ffd54f;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#ff9800;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-csp reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Solar Concentrada</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Descripción · Potencial MX · CAPEX/OPEX/LCOE</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3.2vw,2.2rem);font-weight:700;margin-bottom:0.9rem;">Tecnología &amp; Economía</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#ffd54f;margin-bottom:0.5rem;font-size:0.85rem;">🔭 ¿Cómo funciona el CSP?</div>
+                    <p style="font-size:0.79rem;color:#a8c0d6;line-height:1.65;margin:0;">Concentra la <strong style="color:#e2eaf5;">Radiación Directa Normal (DNI)</strong> con espejos/heliostatos hacia un receptor o torre central. El calor genera vapor que mueve turbinas. Tipos: <strong style="color:#ffd54f;">Torre Central (más moderna), Cilindro-Parabólico (más maduro), Disco Stirling</strong>. Almacena energía en <strong style="color:#ffd54f;">sales fundidas</strong> a 565 °C → hasta 17 h de despacho nocturno.</p>
+                </div>
+                <div class="reveal" style="background:rgba(255,213,79,0.07);border:1px solid rgba(255,213,79,0.2);border-radius:12px;padding:1rem;">
+                    <div style="font-weight:600;color:#ff9800;margin-bottom:0.5rem;font-size:0.85rem;">🇲🇽 Potencial México</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>DNI promedio norte MX: <strong style="color:#e2eaf5;">2,400–2,600 kWh/m²/año</strong> — entre los mejores del mundo</li>
+                        <li>Zonas óptimas: <strong style="color:#ffd54f;">Sonora, Chihuahua, Baja California</strong></li>
+                        <li>Sin plantas CSP operativas a 2026; potencial estimado: <strong style="color:#e2eaf5;">50+ GW</strong></li>
+                        <li>Sinergias con zonas áridas sin conflicto hídrico severo</li>
+                        <li>Servicios conexos: calor de proceso industrial 250–600 °C</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.95rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#ffd54f;margin-bottom:0.7rem;font-size:0.85rem;">💰 Datos Económicos (2024–2025)</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;">
+                        <div style="text-align:center;padding:0.55rem;background:rgba(255,213,79,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#ffd54f;">$3,500–5,000</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/kW CAPEX (Torre+TES)</div>
+                        </div>
+                        <div style="text-align:center;padding:0.55rem;background:rgba(255,152,0,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#ff9800;">$2,200–3,500</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/kW CAPEX (Parabólico)</div>
+                        </div>
+                        <div style="text-align:center;padding:0.55rem;background:rgba(0,212,170,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#00d4aa;">2–3%</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">del CAPEX/año OPEX</div>
+                        </div>
+                        <div style="text-align:center;padding:0.55rem;background:rgba(239,83,80,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#ef5350;">$80–150</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/MWh LCOE global</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#00d4aa;margin-bottom:0.5rem;font-size:0.85rem;">📊 Estadísticas Globales</div>
+                    <ul style="font-size:0.77rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>Capacidad global: <strong style="color:#e2eaf5;">7.6 GW</strong> (IRENA 2024)</li>
+                        <li>Líder: <strong style="color:#ffd54f;">España</strong> 2.3 GW, <strong style="color:#ffd54f;">EE.UU.</strong> 1.8 GW, <strong style="color:#ffd54f;">Marruecos</strong> 0.6 GW</li>
+                        <li>Factor de capacidad: <strong style="color:#e2eaf5;">25–50%</strong> (con TES hasta 17h)</li>
+                        <li>Agua: <strong style="color:#ef5350;">~2.5–3.0 m³/MWh</strong> (refrigeración seca: 0.3 m³/MWh)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 12: CSP AMBIENTAL + CASOS ===== -->
+<div class="slide" data-slide="12">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#ffd54f;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#ff9800;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-csp reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Solar Concentrada</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Impacto Ambiental &amp; Proyectos Exitosos</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3vw,2.1rem);font-weight:700;margin-bottom:0.9rem;">Sustentabilidad &amp; Casos Globales</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.95rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#ffd54f;margin-bottom:0.55rem;font-size:0.85rem;">🌱 Impacto Ambiental</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>✅ Sin emisiones operativas de CO₂; ciclo vida ~20 g CO₂/kWh</li>
+                        <li>✅ Calor residual para <strong style="color:#e2eaf5;">desalinización</strong> en zonas áridas</li>
+                        <li>✅ Almacenamiento térmico sin impacto electroquímico</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">Uso intensivo de suelo:</strong> 4–10 ha/MW (zonas áridas)</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">Consumo hídrico</strong> relevante si no es refrigeración seca</li>
+                        <li>⚠️ Impacto en fauna local (aves) en grandes heliostatos</li>
+                    </ul>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#ce93d8;margin-bottom:0.5rem;font-size:0.85rem;">⚖️ Ventajas / Desventajas</div>
+                    <div style="font-size:0.77rem;color:#a8c0d6;">
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ Único solar con despacho nocturno sin baterías</div>
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ Calor industrial hasta 600 °C (fertilizantes, minería)</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);margin-bottom:0.3rem;">❌ CAPEX 4× mayor que solar PV por MW</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);">❌ Requiere DNI alto: no viable en zonas nubladas</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;height:fit-content;">
+                <div style="font-weight:600;color:#ff9800;margin-bottom:0.65rem;font-size:0.85rem;">🏆 Proyectos de Referencia</div>
+                <div style="display:flex;flex-direction:column;gap:0.65rem;">
+                    <div style="border-left:3px solid #ffd54f;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ffd54f;">Noor Ouarzazate · Marruecos</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">580 MW CSP parabólico + torre · 9 h TES · USD 2,600M · Ilumina 2M hogares marroquíes sin carbón</div>
+                    </div>
+                    <div style="border-left:3px solid #ff9800;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ff9800;">Ivanpah · California, EE.UU.</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">392 MW · 3 torres + 300,000 heliostatos · Alimenta 140,000 hogares · NRG + BrightSource</div>
+                    </div>
+                    <div style="border-left:3px solid #00d4aa;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#00d4aa;">Cerro Dominador · Chile</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">110 MW torre CSP + 17.5 h TES · Primer CSP operativo de Latinoamérica (2023) · LCOE récord en región</div>
+                    </div>
+                    <div style="border-left:3px solid #ef5350;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ef5350;">Sonora Solar (propuesto)</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">SENER/CFE: estudio técnico-económico para 200 MW CSP-Torre en Hermosillo · DNI 2,500 kWh/m²/año</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ===== SLIDE 13: BESS DIVIDER ===== -->
+<div class="slide" data-slide="13">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:500px;height:500px;top:-100px;right:-100px;background:#ce93d8;opacity:0.14;"></div>
+        <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-60px;background:#7e57c2;opacity:0.09;"></div>
+        <div class="blob" style="width:200px;height:200px;top:35%;left:15%;background:#4fc3f7;opacity:0.07;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+    <div class="content text-center">
+        <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;">🔋</div>
+        <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(206,147,216,0.4);background:rgba(206,147,216,0.1);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#ce93d8;margin-bottom:0.9rem;">Tecnología 04 de 05</div>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#ce93d8,#7e57c2,#4fc3f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Almacenamiento de Energía (BESS)</h2>
+        <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:600px;margin:0 auto 1.5rem;">Battery Energy Storage Systems — la columna vertebral de las redes renovables: arbitraje, regulación de frecuencia y respaldo ante variabilidad solar/eólica</p>
+        <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(206,147,216,0.12);border:1px solid rgba(206,147,216,0.25);font-size:0.76rem;color:#ce93d8;">297 GWh instalados en 2024 (IEA)</span>
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.25);font-size:0.76rem;color:#4fc3f7;">–90% costo baterías LFP desde 2010</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 14: BESS DESC + DATOS ===== -->
+<div class="slide" data-slide="14">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#ce93d8;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#7e57c2;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-bess reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Almacenamiento BESS</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Descripción · Potencial MX · CAPEX/OPEX/LCOE</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3.2vw,2.2rem);font-weight:700;margin-bottom:0.9rem;">Tecnología Grid-Scale &amp; México</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#ce93d8;margin-bottom:0.5rem;font-size:0.85rem;">⚡ ¿Qué es BESS?</div>
+                    <p style="font-size:0.79rem;color:#a8c0d6;line-height:1.65;margin:0;">Sistemas de <strong style="color:#e2eaf5;">baterías a escala de red</strong> que cargan en horas de excedente renovable y descargan en horas pico. Tecnologías: <strong style="color:#ce93d8;">LFP (LiFePO₄)</strong> — la más usada a escala grid por vida útil y seguridad — y <strong style="color:#ce93d8;">NMC, Flow Batteries (VRF)</strong>. Duración: <strong style="color:#ce93d8;">2–8 horas</strong> típico. Respuesta instantánea en milisegundos para regulación de frecuencia.</p>
+                </div>
+                <div class="reveal" style="background:rgba(206,147,216,0.07);border:1px solid rgba(206,147,216,0.2);border-radius:12px;padding:1rem;">
+                    <div style="font-weight:600;color:#4fc3f7;margin-bottom:0.5rem;font-size:0.85rem;">🇲🇽 Potencial México (PRODESEN 2025–2039)</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>Meta SENER 2030: <strong style="color:#e2eaf5;">5,551 MW</strong> almacenamiento instalado</li>
+                        <li>CFE anunció <strong style="color:#ce93d8;">10 proyectos BESS 2024-2027</strong>: Sonora, Oaxaca, Yucatán</li>
+                        <li>Proyecto Rodeo (Durango): <strong style="color:#e2eaf5;">250 MW / 1,000 MWh</strong> — en desarrollo 2025</li>
+                        <li>CENACE necesita 3,000 MW flexibles para <strong style="color:#ce93d8;">2028</strong> (ductos vencimiento)</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.95rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#ffd54f;margin-bottom:0.7rem;font-size:0.85rem;">💰 Datos Económicos (BESS LFP 4h 2025)</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;">
+                        <div style="text-align:center;padding:0.5rem;background:rgba(206,147,216,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#ce93d8;">$200–280</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/kWh CAPEX</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(126,87,194,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#7e57c2;">1.5–2%</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">CAPEX/año OPEX</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(0,212,170,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#00d4aa;">$80–130</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/MWh LCOS (2h)</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(255,152,0,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#ff9800;">–90%</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">Caída costo 2010-2025</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#00d4aa;margin-bottom:0.5rem;font-size:0.85rem;">📊 Estadísticas Globales 2024</div>
+                    <ul style="font-size:0.77rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>IEA 2024: <strong style="color:#e2eaf5;">297 GWh</strong> instalados globalmente (récord anual)</li>
+                        <li>China: líder con 54% del mercado global</li>
+                        <li>Factor de utilización típico: <strong style="color:#e2eaf5;">200–350 ciclos/año</strong></li>
+                        <li>Vida útil: <strong style="color:#e2eaf5;">10–20 años</strong> con degradación &lt;20%</li>
+                        <li>Zero agua operativa · Sin emisiones en operación</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 15: BESS AMBIENTAL + CASOS ===== -->
+<div class="slide" data-slide="15">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#ce93d8;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#4fc3f7;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-bess reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Almacenamiento BESS</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Impacto Ambiental &amp; Proyectos Exitosos</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3vw,2.1rem);font-weight:700;margin-bottom:0.9rem;">Ciclo de Vida &amp; Casos de Referencia</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.95rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#ce93d8;margin-bottom:0.55rem;font-size:0.85rem;">🌱 Impacto Ambiental</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>✅ Operación: <strong style="color:#e2eaf5;">cero emisiones</strong>, cero agua, silencioso</li>
+                        <li>✅ Desplaza centrales de gas pico (alto emisor → 900 gCO₂/kWh)</li>
+                        <li>✅ LFP no usa cobalto ni níquel (menores impactos mineros)</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">Minería litio</strong>: intensiva en agua en salares (Argentina, Bolivia)</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">Reciclaje baterías</strong> al fin de vida — cadena aún emergente en MX</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">Riesgo térmico</strong>: incendios en celdas LFP si gestión fallida</li>
+                    </ul>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#4fc3f7;margin-bottom:0.5rem;font-size:0.85rem;">⚖️ Ventajas / Desventajas</div>
+                    <div style="font-size:0.77rem;color:#a8c0d6;">
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ Respuesta en milisegundos — servicios ancilares primarios</div>
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ Modulares: escalan de 1 MW a 10+ GWh</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);margin-bottom:0.3rem;">❌ Limitados a almacenamiento &lt;12h (no estacional)</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);">❌ Cadena de valor minera con alto impacto global</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;height:fit-content;">
+                <div style="font-weight:600;color:#ffd54f;margin-bottom:0.65rem;font-size:0.85rem;">🏆 Proyectos de Referencia</div>
+                <div style="display:flex;flex-direction:column;gap:0.65rem;">
+                    <div style="border-left:3px solid #ce93d8;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ce93d8;">Moss Landing · California, EE.UU.</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">1,200 MW / 4,800 MWh · Vistra Corp · El BESS grid-scale más grande del mundo · Despacha a red de California</div>
+                    </div>
+                    <div style="border-left:3px solid #4fc3f7;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#4fc3f7;">Hornsdale (Tesla) · Australia</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">150 MW / 193.5 MWh · Primer BESS grid-scale comercial de Tesla (2017) · Redujo 90% costos frecuencia en AEMO</div>
+                    </div>
+                    <div style="border-left:3px solid #00d4aa;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#00d4aa;">CFE · Proyecto Rodeo, Durango (en construcción)</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">250 MW / 1,000 MWh · Primer BESS grid-scale de CFE · Opera como planta virtual de pico + regulación frecuencia</div>
+                    </div>
+                    <div style="border-left:3px solid #ffd54f;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ffd54f;">BESS Monterrey Industrial (privado)</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">20+ MW proyectos B2B · Empresas industriales + PPA solar → reducción 25-35% costo energía industrial</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 16: MAREMOTRIZ DIVIDER ===== -->
+<div class="slide" data-slide="16">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:500px;height:500px;top:-100px;right:-100px;background:#26c6da;opacity:0.14;"></div>
+        <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-60px;background:#00bcd4;opacity:0.09;"></div>
+        <div class="blob" style="width:200px;height:200px;top:35%;left:15%;background:#4fc3f7;opacity:0.07;"></div>
+    </div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+    <div class="content text-center">
+        <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;">🌊</div>
+        <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(38,198,218,0.4);background:rgba(38,198,218,0.1);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#26c6da;margin-bottom:0.9rem;">Tecnología 05 de 05</div>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#26c6da,#00bcd4,#4fc3f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Energía Maremotriz</h2>
+        <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:600px;margin:0 auto 1.5rem;">Corrientes de mareas, olas y gradiente salino — la más predecible de todas las renovables; Golfo de California con rango de mareas de 6-9 metros</p>
+        <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(38,198,218,0.12);border:1px solid rgba(38,198,218,0.25);font-size:0.76rem;color:#26c6da;">520 MW globales instalados</span>
+            <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.25);font-size:0.76rem;color:#4fc3f7;">FC 80% (mareas predecibles)</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 17: MAREMOTRIZ DESC + DATOS ===== -->
+<div class="slide" data-slide="17">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#26c6da;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#4fc3f7;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-tidal reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Energía Maremotriz</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Descripción · Potencial MX · CAPEX/OPEX/LCOE</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3.2vw,2.2rem);font-weight:700;margin-bottom:0.9rem;">Tecnología &amp; Oportunidades Marítimas</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#26c6da;margin-bottom:0.5rem;font-size:0.85rem;">🌊 Tipos de Tecnología</div>
+                    <ul style="font-size:0.79rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li><strong style="color:#e2eaf5;">Barrera mareal (Tidal Barrage):</strong> Presa marina en estuarios; turbinas operan en flujo/reflujo. Madura pero invasiva (Rance, Francia)</li>
+                        <li><strong style="color:#e2eaf5;">Turbinas de corriente (TEC):</strong> Helicópteros submarinos sumergidos; corrientes 2+ m/s. MeyGen (Escocia)</li>
+                        <li><strong style="color:#e2eaf5;">Convertidores de olas (WEC):</strong> Boyas/articulados que oscilan con las olas</li>
+                        <li><strong style="color:#e2eaf5;">OTEC:</strong> Gradiente térmico oceánico (trópicos &gt;1,000m)</li>
+                    </ul>
+                </div>
+                <div class="reveal" style="background:rgba(38,198,218,0.07);border:1px solid rgba(38,198,218,0.2);border-radius:12px;padding:1rem;">
+                    <div style="font-weight:600;color:#00bcd4;margin-bottom:0.5rem;font-size:0.85rem;">🇲🇽 Potencial México</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li><strong style="color:#26c6da;">Golfo de California:</strong> Mareas 6–9 m en zona norte → Laguna Salada, San Felipe</li>
+                        <li><strong style="color:#26c6da;">Corriente costera pacífico:</strong> 1.5–2.5 m/s en Baja California</li>
+                        <li>CONACYT estimó <strong style="color:#e2eaf5;">5+ GW potencial</strong> costero en estudios previos</li>
+                        <li>Sin proyectos comerciales aún; UNAM estudia olas Oaxaca</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.95rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#ffd54f;margin-bottom:0.7rem;font-size:0.85rem;">💰 Datos Económicos 2024–2025</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.55rem;">
+                        <div style="text-align:center;padding:0.5rem;background:rgba(38,198,218,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#26c6da;">$4,000–7,000</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/kW CAPEX (TEC)</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(0,188,212,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#00bcd4;">3–5%</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">CAPEX/año OPEX</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(79,195,247,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#4fc3f7;">$180–350</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/MWh LCOE actual</div>
+                        </div>
+                        <div style="text-align:center;padding:0.5rem;background:rgba(255,213,79,0.07);border-radius:8px;">
+                            <div style="font-size:1.1rem;font-weight:800;color:#ffd54f;">&lt;$100</div>
+                            <div style="font-size:0.67rem;color:#5c7a96;">USD/MWh meta 2040</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#00d4aa;margin-bottom:0.5rem;font-size:0.85rem;">📊 Estadísticas Globales</div>
+                    <ul style="font-size:0.77rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>Capacidad global: <strong style="color:#e2eaf5;">~520 MW</strong> (IRENA 2024)</li>
+                        <li>Líder: <strong style="color:#26c6da;">La Rance, Francia</strong> 240 MW (operando desde 1966)</li>
+                        <li>Factor de capacidad: <strong style="color:#e2eaf5;">75–85%</strong> mareal · 25–40% olas</li>
+                        <li>Consumo agua: <strong style="color:#e2eaf5;">Ninguno</strong> en operación</li>
+                        <li>Serv. conexos: acuicultura, H₂ marino, cable HVDC</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 18: MAREMOTRIZ AMBIENTAL + CASOS ===== -->
+<div class="slide" data-slide="18">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:300px;height:300px;top:-60px;right:-60px;background:#26c6da;opacity:0.07;"></div>
+        <div class="blob" style="width:220px;height:220px;bottom:-50px;left:-40px;background:#4fc3f7;opacity:0.05;"></div>
+    </div>
+    <div class="content">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;">
+            <span class="tag-tidal reveal" style="padding:0.22rem 0.75rem;border-radius:20px;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Energía Maremotriz</span>
+            <span class="reveal" style="font-size:0.7rem;color:#5c7a96;">Impacto Ambiental &amp; Proyectos de Referencia</span>
+        </div>
+        <h2 class="font-display reveal" style="font-size:clamp(1.4rem,3vw,2.1rem);font-weight:700;margin-bottom:0.9rem;">Impacto &amp; Casos de Éxito</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.95rem;">
+            <div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;margin-bottom:0.8rem;">
+                    <div style="font-weight:600;color:#26c6da;margin-bottom:0.55rem;font-size:0.85rem;">🌱 Impacto Ambiental</div>
+                    <ul style="font-size:0.78rem;color:#a8c0d6;line-height:1.65;margin:0;padding-left:1rem;">
+                        <li>✅ Cero emisiones operativas; mínimo ruido submarino (vs offshore)</li>
+                        <li>✅ <strong style="color:#e2eaf5;">TEC sumergidas:</strong> estructuras crean hábitat marino</li>
+                        <li>✅ Predecible para las próximas décadas (tablas de marea exactas)</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">Barrera mareal:</strong> altera sedimentos y migración de peces</li>
+                        <li>⚠️ <strong style="color:#ffd54f;">WEC:</strong> riesgo de enredo de mamíferos marinos</li>
+                        <li>⚠️ Cambio hidrodinámico local en bahías restringidas</li>
+                    </ul>
+                </div>
+                <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:0.9rem;">
+                    <div style="font-weight:600;color:#ce93d8;margin-bottom:0.5rem;font-size:0.85rem;">⚖️ Ventajas / Desventajas</div>
+                    <div style="font-size:0.77rem;color:#a8c0d6;">
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ FC 80% — más alta de todas las renovables</div>
+                        <div class="pro-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(0,212,170,0.07);margin-bottom:0.3rem;">✅ Predecibilidad perfecta (astronomía) — planificación exacta</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);margin-bottom:0.3rem;">❌ LCOE aún $180–350/MWh — el más alto del grupo</div>
+                        <div class="con-card" style="padding:0.3rem 0.6rem;border-radius:0 7px 7px 0;background:rgba(239,83,80,0.07);">❌ Geografía limitada: no todos los litorales son viables</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:1rem;height:fit-content;">
+                <div style="font-weight:600;color:#ffd54f;margin-bottom:0.65rem;font-size:0.85rem;">🏆 Proyectos de Referencia</div>
+                <div style="display:flex;flex-direction:column;gap:0.65rem;">
+                    <div style="border-left:3px solid #26c6da;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#26c6da;">La Rance · Francia (1966)</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">240 MW barrera mareal · 60 años en operación continua · EDF · Factor de capacidad 68% · Modelo de durabilidad global</div>
+                    </div>
+                    <div style="border-left:3px solid #4fc3f7;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#4fc3f7;">MeyGen · Escocia, UK</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">6 MW fase 1 · Turbinas de fondo (Atlantis AR1500) · Mayor parque TEC del mundo · 398 MW proyectados</div>
+                    </div>
+                    <div style="border-left:3px solid #00d4aa;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#00d4aa;">Sihwa Lake · Corea del Sur</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">254 MW barrera mareal · Rango mareal 5.6 m · En operación desde 2011 · USD 530M inversión</div>
+                    </div>
+                    <div style="border-left:3px solid #ffd54f;padding-left:0.7rem;">
+                        <div style="font-size:0.8rem;font-weight:700;color:#ffd54f;">Proyecto Piloto Golfo California (propuesto)</div>
+                        <div style="font-size:0.74rem;color:#a8c0d6;">UNAM/SENER exploratorio: mareas 7 m en delta Río Colorado; estudio de factibilidad 2025–2027 en curso</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 19: COMPARATIVA ===== -->
+<div class="slide" data-slide="19">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:320px;height:320px;top:-65px;right:-65px;background:#00d4aa;opacity:0.07;"></div>
+        <div class="blob" style="width:240px;height:240px;bottom:-55px;left:-45px;background:#ce93d8;opacity:0.06;"></div>
+    </div>
+    <div class="content">
+        <p class="reveal" style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:#00d4aa;margin-bottom:0.35rem;">Resumen Comparativo</p>
+        <h2 class="font-display reveal" style="font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:700;margin-bottom:1rem;">Las 5 Tecnologías de un Vistazo</h2>
+        <div class="reveal" style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:0.74rem;">
+                <thead>
+                    <tr style="background:rgba(255,255,255,0.06);">
+                        <th style="padding:0.5rem 0.6rem;text-align:left;color:#5c7a96;font-weight:600;font-size:0.67rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.07);">Tecnología</th>
+                        <th style="padding:0.5rem 0.6rem;text-align:center;color:#5c7a96;font-weight:600;font-size:0.67rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.07);">CAPEX (USD/kW)</th>
+                        <th style="padding:0.5rem 0.6rem;text-align:center;color:#5c7a96;font-weight:600;font-size:0.67rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.07);">LCOE (USD/MWh)</th>
+                        <th style="padding:0.5rem 0.6rem;text-align:center;color:#5c7a96;font-weight:600;font-size:0.67rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.07);">FC Típico</th>
+                        <th style="padding:0.5rem 0.6rem;text-align:center;color:#5c7a96;font-weight:600;font-size:0.67rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.07);">Madurez</th>
+                        <th style="padding:0.5rem 0.6rem;text-align:center;color:#5c7a96;font-weight:600;font-size:0.67rem;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.07);">Potencial MX</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:0.5rem 0.6rem;"><span style="color:#00d4aa;font-weight:600;">🟢 H₂ Verde</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">500–1,000 (electrolizador)</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">$2.5–5/kg H₂</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">60–70% (operación)</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(255,213,79,0.18);color:#ffd54f;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">Media</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(0,212,170,0.18);color:#00d4aa;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">★★★★★</span></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:0.5rem 0.6rem;"><span style="color:#4fc3f7;font-weight:600;">💨 Eólica Offshore</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">1,700–5,500</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">50–100</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">40–55%</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(0,212,170,0.18);color:#00d4aa;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">Alta</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(0,212,170,0.18);color:#00d4aa;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">★★★★★</span></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:0.5rem 0.6rem;"><span style="color:#ffd54f;font-weight:600;">☀️ CSP</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">2,200–5,000</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">80–150</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">25–50%</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(0,212,170,0.18);color:#00d4aa;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">Alta</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(0,212,170,0.18);color:#00d4aa;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">★★★★★</span></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:0.5rem 0.6rem;"><span style="color:#ce93d8;font-weight:600;">🔋 BESS</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">200–280 USD/kWh</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">80–130 LCOS</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">N/A (demanda)</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(0,212,170,0.18);color:#00d4aa;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">Alta</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(0,212,170,0.18);color:#00d4aa;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">★★★★★</span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0.5rem 0.6rem;"><span style="color:#26c6da;font-weight:600;">🌊 Maremotriz</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">4,000–7,000</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">180–350</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;color:#a8c0d6;">75–85%</td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(255,213,79,0.18);color:#ffd54f;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">Emergente</span></td>
+                        <td style="padding:0.5rem 0.6rem;text-align:center;"><span style="background:rgba(79,195,247,0.18);color:#4fc3f7;padding:0.18rem 0.55rem;border-radius:8px;font-size:0.7rem;">★★★☆☆</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.65rem;margin-top:0.85rem;">
+            <div class="reveal" style="background:rgba(0,212,170,0.07);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:0.65rem;text-align:center;font-size:0.74rem;color:#a8c0d6;"><span style="color:#00d4aa;font-weight:700;">Más económica:</span><br>Eólica Offshore</div>
+            <div class="reveal" style="background:rgba(255,213,79,0.07);border:1px solid rgba(255,213,79,0.2);border-radius:10px;padding:0.65rem;text-align:center;font-size:0.74rem;color:#a8c0d6;"><span style="color:#ffd54f;font-weight:700;">Mayor FC:</span><br>Maremotriz 80%</div>
+            <div class="reveal" style="background:rgba(206,147,216,0.07);border:1px solid rgba(206,147,216,0.2);border-radius:10px;padding:0.65rem;text-align:center;font-size:0.74rem;color:#a8c0d6;"><span style="color:#ce93d8;font-weight:700;">Mayor potencial MX:</span><br>H₂ + Eólica + CSP</div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 20: CIERRE ===== -->
+<div class="slide" data-slide="20">
+    <div class="gradient-mesh">
+        <div class="blob" style="width:520px;height:520px;top:-120px;right:-120px;background:#00d4aa;opacity:0.14;"></div>
+        <div class="blob" style="width:360px;height:360px;bottom:-90px;left:-70px;background:#4fc3f7;opacity:0.1;"></div>
+        <div class="blob" style="width:250px;height:250px;top:40%;left:10%;background:#ffd54f;opacity:0.08;"></div>
+    </div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
+    <div class="content text-center">
+        <div class="reveal" style="font-size:65px;margin-bottom:0.7rem;animation:float 3.5s ease-in-out infinite;">🌎</div>
+        <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(30,91,79,0.35);background:rgba(30,91,79,0.14);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#8fd0c1;margin-bottom:0.9rem;">Dirección General de Transición Energética</div>
+        <h2 class="font-display reveal" style="font-size:clamp(2rem,5vw,3.6rem);font-weight:900;background:linear-gradient(135deg,#00d4aa,#4fc3f7,#ffd54f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.9rem;">México: Plataforma Global<br>de Energía Limpia</h2>
+        <div class="reveal" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.7rem;margin:1.2rem auto;max-width:800px;">
+            <div style="background:rgba(0,212,170,0.09);border:1px solid rgba(0,212,170,0.22);border-radius:10px;padding:0.6rem;text-align:center;"><div style="font-size:1.2rem;margin-bottom:0.25rem;">🟢</div><div style="font-size:0.67rem;color:#00d4aa;font-weight:700;">H₂ Verde</div><div style="font-size:0.63rem;color:#5c7a96;">CAGR 47%</div></div>
+            <div style="background:rgba(79,195,247,0.09);border:1px solid rgba(79,195,247,0.22);border-radius:10px;padding:0.6rem;text-align:center;"><div style="font-size:1.2rem;margin-bottom:0.25rem;">💨</div><div style="font-size:0.67rem;color:#4fc3f7;font-weight:700;">Eólica Off.</div><div style="font-size:0.63rem;color:#5c7a96;">1,609 GW</div></div>
+            <div style="background:rgba(255,213,79,0.09);border:1px solid rgba(255,213,79,0.22);border-radius:10px;padding:0.6rem;text-align:center;"><div style="font-size:1.2rem;margin-bottom:0.25rem;">☀️</div><div style="font-size:0.67rem;color:#ffd54f;font-weight:700;">CSP Solar</div><div style="font-size:0.63rem;color:#5c7a96;">50+ GW</div></div>
+            <div style="background:rgba(206,147,216,0.09);border:1px solid rgba(206,147,216,0.22);border-radius:10px;padding:0.6rem;text-align:center;"><div style="font-size:1.2rem;margin-bottom:0.25rem;">🔋</div><div style="font-size:0.67rem;color:#ce93d8;font-weight:700;">BESS</div><div style="font-size:0.63rem;color:#5c7a96;">5,551 MW</div></div>
+            <div style="background:rgba(38,198,218,0.09);border:1px solid rgba(38,198,218,0.22);border-radius:10px;padding:0.6rem;text-align:center;"><div style="font-size:1.2rem;margin-bottom:0.25rem;">🌊</div><div style="font-size:0.67rem;color:#26c6da;font-weight:700;">Maremotriz</div><div style="font-size:0.63rem;color:#5c7a96;">5+ GW</div></div>
+        </div>
+        <p class="reveal" style="font-size:0.88rem;color:#a8c0d6;max-width:620px;margin:0 auto 1.2rem;line-height:1.7;">La convergencia de recursos naturales excepcionales, Plan México (USD 200,000M inversión), T-MEC y nearshoring posiciona a México para liderar la transición energética en América Latina.</p>
+        <div class="reveal" style="display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.4rem 1rem;border-radius:20px;background:rgba(30,91,79,0.14);border:1px solid rgba(30,91,79,0.3);font-size:0.78rem;color:#8fd0c1;font-weight:600;">💼 DGTE: lectura estratégica sectorial</span>
+            <span style="padding:0.4rem 1rem;border-radius:20px;background:rgba(165,127,44,0.12);border:1px solid rgba(165,127,44,0.3);font-size:0.78rem;color:#f0d68c;font-weight:600;">🤝 Política · regulación · inversión</span>
+        </div>
+    </div>
+</div>
+
+</div><!-- end .deck -->
+<!-- NAVIGATION -->
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 20</span>
+</div>
+
+<script>
+    let current = 1;
+    const total = document.querySelectorAll('.slide').length;
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    for (let i = 1; i <= total; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i === 1 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+    }
+    function goToSlide(n) {
+        const prev = document.querySelector('.slide.active');
+        const next = document.querySelector(`.slide[data-slide="${n}"]`);
+        if (prev) prev.classList.remove('active');
+        if (next) { next.classList.add('active'); animateSlide(next); }
+        current = n; updateNav();
+    }
+    function changeSlide(dir) { let next = current + dir; if (next < 1) next = total; if (next > total) next = 1; goToSlide(next); }
+    function updateNav() {
+        document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i + 1 === current); });
+        counter.textContent = current + ' / ' + total;
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+    });
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', (e) => { const diff = touchStartX - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); });
+
+    function animateSlide(slide) {
+        slide.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transition = 'none';
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(18px)';
+            el.offsetHeight;
+            const delay = i * 0.08;
+            el.style.transition = `opacity 0.35s ease ${delay}s, transform 0.35s ease ${delay}s`;
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0px)';
+        });
+        animateSlideEffects(slide);
+    }
+
+    function animateSlideEffects(slide) {
+        // Counters
+        slide.querySelectorAll('[data-count]:not(.counted)').forEach(el => {
+            el.classList.add('counted');
+            const target = parseInt(el.dataset.count);
+            const suffix = el.dataset.suffix || '', prefix = el.dataset.prefix || '';
+            let cur = 0; const step = target / 40;
+            const timer = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(timer); } el.textContent = prefix + Math.round(cur).toLocaleString() + suffix; }, 30);
+        });
+        // Horizontal bar fills
+        slide.querySelectorAll('.hbar-fill:not(.fill-init)').forEach((bar, i) => {
+            bar.classList.add('fill-init');
+            bar.style.width = '0%';
+            bar.style.transition = `width 0.7s ease ${i * 0.12}s`;
+            bar.offsetHeight;
+            bar.style.width = bar.dataset.width + '%';
+        });
+    }
+
+    // Mouse Spotlight
+    document.addEventListener('mousemove', (e) => {
+        const sp = document.querySelector('.mouse-spotlight');
+        if (sp) sp.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(0,212,170,0.055), transparent 40%)`;
+    });
+
+    // Parallax
+    (function() {
+        let mx = window.innerWidth/2, my = window.innerHeight/2;
+        const cx = window.innerWidth/2, cy = window.innerHeight/2;
+        document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+        (function tick() {
+            const ox = (mx - cx) / cx, oy = (my - cy) / cy;
+            document.querySelectorAll('.deco-shape').forEach(s => {
+                const sp = parseFloat(s.dataset.speed) || 0.03;
+                s.style.transform = `translate(${ox*sp*100}px, ${oy*sp*100}px)`;
+            });
+            requestAnimationFrame(tick);
+        })();
+    })();
+
+    // Particle Canvas
+    window.initParticles = function(canvas, opts) {
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth || window.innerWidth;
+        canvas.height = canvas.offsetHeight || window.innerHeight;
+        const interactive = opts.interactive !== false;
+        const count = opts.count || (interactive ? 55 : 18);
+        let pmx = -1000, pmy = -1000;
+        const particles = Array.from({length: count}, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            vx: (Math.random()-.5)*.3, vy: (Math.random()-.5)*.3,
+            size: Math.random()*2.2+0.7, alpha: Math.random()*0.32+0.08
+        }));
+        if (interactive) {
+            canvas.addEventListener('mousemove', e => { const r = canvas.getBoundingClientRect(); pmx = e.clientX-r.left; pmy = e.clientY-r.top; });
+            canvas.addEventListener('mouseleave', () => { pmx = -1000; pmy = -1000; });
+        }
+        (function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                if (interactive) { const dx=p.x-pmx, dy=p.y-pmy, d=Math.sqrt(dx*dx+dy*dy); if(d<110){const f=(110-d)/110*2; p.vx+=(dx/d)*f*.1; p.vy+=(dy/d)*f*.1;} }
+                p.vx*=.98; p.vy*=.98; p.x+=p.vx; p.y+=p.vy;
+                if(p.x<0) p.x=canvas.width; if(p.x>canvas.width) p.x=0;
+                if(p.y<0) p.y=canvas.height; if(p.y>canvas.height) p.y=0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(0,212,170,${p.alpha})`; ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        })();
+    };
+    document.querySelectorAll('.particle-canvas').forEach(c => window.initParticles(c, {interactive:true, count:55}));
+    document.querySelectorAll('.particle-canvas-ambient').forEach(c => window.initParticles(c, {interactive:false, count:18}));
+
+    try { animateSlide(document.querySelector('.slide.active')); } catch(e) { console.warn(e); }
+</script>
+<script src="js/pages-common.js?v=20260408b"></script>
+</body>
+</html>
