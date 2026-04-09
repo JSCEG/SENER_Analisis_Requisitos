@@ -13,48 +13,49 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
-            --color-bg: #2f0f1d;
-            --color-bg-deep: #1e0d15;
-            --color-surface: #4b172b;
-            --color-text: #f7f1ea;
-            --color-text-secondary: #ddc8c2;
-            --color-text-muted: #c7ada5;
-            --color-accent-1: #1E5B4F;
+            --color-bg: #f3ece6;
+            --color-bg-deep: #e8ddd5;
+            --color-surface: #fffaf5;
+            --color-text: #4a3e3e;
+            --color-text-secondary: #534646;
+            --color-text-muted: #665555;
+            --color-accent-1: #9B2247;
             --color-accent-2: #A57F2C;
-            --color-accent-3: #d7c2b8;
-            --color-glass-bg: rgba(255,255,255,0.06);
-            --color-glass-border: rgba(255,255,255,0.12);
-            --color-vignette: rgba(23,8,14,0.42);
+            --color-accent-3: #9B2247;
+            --color-glass-bg: rgba(255,255,255,0.72);
+            --color-glass-border: rgba(107,15,26,0.12);
+            --color-vignette: rgba(107,15,26,0.10);
             --font-display: "Merriweather", serif;
             --font-body: "Noto Sans", sans-serif;
         }
     </style>
     <style>
-        :root { --color-bg:#2f0f1d; --color-text:#f7f1ea; --glow-color-rgb:30,91,79; }
+        :root { --color-bg:#f3ece6; --color-text:#4a3e3e; --glow-color-rgb:155,34,71; }
         *,*::before,*::after{box-sizing:border-box;}
         html,body{background:var(--color-bg);margin:0;}
-        body{font-family:"Noto Sans",sans-serif;color:var(--color-text);overflow:hidden;height:100vh;width:100vw;padding-top:var(--site-nav-total-space);background-image:radial-gradient(circle at top left,rgba(165,127,44,.08),transparent 22%),linear-gradient(180deg,rgba(255,255,255,.02) 0%,rgba(0,0,0,0) 220px);}
+        body{font-family:"Noto Sans",sans-serif;color:var(--color-text);overflow:hidden;height:100vh;width:100vw;padding-top:var(--site-nav-total-space);background-image:radial-gradient(circle at top left,rgba(155,34,71,.08),transparent 22%),radial-gradient(circle at bottom right,rgba(165,127,44,.09),transparent 24%),linear-gradient(180deg,#f7f2ec 0%,#efe6de 100%);}
         .site-nav{z-index:1000;}
         .deck{width:100vw;height:calc(100vh - var(--site-nav-total-space));position:relative;}
-        .slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.95);transition:opacity 0.7s ease,transform 0.7s ease;pointer-events:none;overflow:hidden;}
+        .slide{position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:scale(0.95);transition:opacity 0.7s ease,transform 0.7s ease;pointer-events:none;overflow:hidden;}
         .slide.active{opacity:1;transform:scale(1);pointer-events:all;}
         .slide>.content{position:relative;z-index:2;width:100%;max-width:1100px;padding:clamp(1.2rem,3vw,3.5rem);}
-        .deck-brand{position:absolute;top:18px;left:24px;z-index:120;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(14px);}
-        .deck-brand__icon{width:34px;height:34px;border-radius:999px;background:linear-gradient(135deg,rgba(165,127,44,.26),rgba(30,91,79,.26));display:flex;align-items:center;justify-content:center;color:#f7f1ea;font-size:.95rem}
+        .deck-brand{position:absolute;top:18px;left:24px;z-index:120;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,0.76);border:1px solid rgba(107,15,26,.12);backdrop-filter:blur(14px);box-shadow:0 18px 32px -26px rgba(67,12,31,.24);}
+        .deck-brand__icon{width:34px;height:34px;border-radius:999px;background:linear-gradient(135deg,rgba(165,127,44,.18),rgba(30,91,79,.14));display:flex;align-items:center;justify-content:center;color:#6b0f1a;font-size:.95rem}
         .deck-brand__copy{display:flex;flex-direction:column;gap:2px}
-        .deck-brand__copy strong{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#f1ded1}
-        .deck-brand__copy span{font-size:.78rem;color:#d7c2b8}
-        .nav-controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);padding:8px 20px;border-radius:40px;border:1px solid rgba(255,255,255,0.12);}
-        .nav-btn{width:34px;height:34px;border:none;background:rgba(255,255,255,0.07);color:var(--color-accent-1);border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.3s;}
-        .nav-btn:hover{background:rgba(255,255,255,0.14);}
+        .deck-brand__copy strong{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#6b0f1a}
+        .deck-brand__copy span{font-size:.78rem;color:#756565}
+        .nav-controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;z-index:100;background:rgba(255,255,255,0.76);backdrop-filter:blur(12px);padding:8px 20px;border-radius:40px;border:1px solid rgba(107,15,26,.12);box-shadow:0 18px 32px -26px rgba(67,12,31,.24);}
+        .nav-btn{width:34px;height:34px;border:none;background:rgba(155,34,71,0.06);color:var(--color-accent-1);border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.3s;}
+        .nav-btn:hover{background:rgba(155,34,71,0.12);}
         .slide-dots{display:flex;gap:6px;}
-        .slide-dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:background 0.3s,transform 0.3s;}
+        .slide-dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(107,15,26,0.18);cursor:pointer;transition:background 0.3s,transform 0.3s;}
         .slide-dots .dot.active{background:var(--color-accent-1);transform:scale(1.4);}
-        .slide-counter{font-size:0.72rem;color:#d7c2b8;min-width:36px;text-align:center;}
+        .slide-counter{font-size:0.72rem;color:#5f4f4f;min-width:36px;text-align:center;}
         .reveal{opacity:0;transform:translateY(18px);}
-        .text-glow{text-shadow:0 0 20px rgba(30,91,79,0.42),0 0 40px rgba(30,91,79,0.18);}
-        .stat-glow{text-shadow:0 0 28px rgba(30,91,79,0.55),0 0 55px rgba(30,91,79,0.2);}
-        @keyframes glow-pulse{0%,100%{text-shadow:0 0 20px rgba(30,91,79,0.45);}50%{text-shadow:0 0 35px rgba(30,91,79,0.72),0 0 60px rgba(165,127,44,0.22);}}
+        .slide h1,.slide h2{color:#9B2247!important;background:none!important;-webkit-text-fill-color:#9B2247!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;text-shadow:none!important;}
+        .text-glow{text-shadow:0 0 20px rgba(155,34,71,0.28),0 0 40px rgba(155,34,71,0.12);}
+        .stat-glow{text-shadow:0 0 28px rgba(155,34,71,0.34),0 0 55px rgba(165,127,44,0.12);}
+        @keyframes glow-pulse{0%,100%{text-shadow:0 0 20px rgba(155,34,71,0.3);}50%{text-shadow:0 0 35px rgba(155,34,71,0.45),0 0 60px rgba(165,127,44,0.16);}}
         .glow-pulse{animation:glow-pulse 3s ease-in-out infinite;}
         @keyframes float-slow{0%{transform:translate(0,0) scale(1);}25%{transform:translate(55px,-45px) scale(1.1);}50%{transform:translate(-35px,38px) scale(0.9);}75%{transform:translate(45px,18px) scale(1.07);}100%{transform:translate(0,0) scale(1);}}
         @keyframes float-drift{0%{transform:translate(0,0) scale(1);}33%{transform:translate(-48px,-55px) scale(1.13);}66%{transform:translate(38px,28px) scale(0.87);}100%{transform:translate(0,0) scale(1);}}
@@ -64,9 +65,9 @@
         .blob:nth-child(2){animation:float-drift 14s ease-in-out infinite;}
         .blob:nth-child(3){animation:float-slow 18s ease-in-out infinite reverse;}
         .slide::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;opacity:0.03;mix-blend-mode:overlay;}
-        .slide::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,var(--color-vignette) 100%);}
-        .tag-h2{background:rgba(30,91,79,0.16);color:#8fd0c1;border:1px solid rgba(30,91,79,0.32);}
-        .tag-wind{background:rgba(165,127,44,0.16);color:#f0d68c;border:1px solid rgba(165,127,44,0.32);}
+        .slide::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 56%,var(--color-vignette) 100%);}
+        .tag-h2{background:rgba(155,34,71,0.12);color:#7a2844;border:1px solid rgba(155,34,71,0.24);}
+        .tag-wind{background:rgba(165,127,44,0.16);color:#7a5608;border:1px solid rgba(165,127,44,0.32);}
         .tag-csp{background:rgba(215,194,184,0.12);color:#f1ded1;border:1px solid rgba(215,194,184,0.28);}
         .tag-bess{background:rgba(109,144,132,0.18);color:#cde4dd;border:1px solid rgba(109,144,132,0.34);}
         .tag-tidal{background:rgba(123,160,151,0.16);color:#d6ece6;border:1px solid rgba(123,160,151,0.3);}
@@ -74,6 +75,61 @@
         .hbar-fill{height:100%;border-radius:5px;width:0%;transition:width 1s ease;}
         .pro-card{border-left:3px solid #1E5B4F;}
         .con-card{border-left:3px solid #9B2247;}
+        [style*="color:#00d4aa"]{color:#1E5B4F!important;}
+        [style*="color:#4fc3f7"]{color:#1a5a8a!important;}
+        [style*="color:#f0d68c"]{color:#7a5608!important;}
+        [style*="color:#ffd54f"]{color:#7a5608!important;}
+        [style*="color:#ff9800"]{color:#7a5608!important;}
+        [style*="color:rgb(255, 213, 79)"]{color:#7a5608!important;}
+        [style*="color:rgb(168, 192, 214)"]{color:#000000!important;}
+        [style*="color:#ce93d8"]{color:#8b4f9f!important;}
+        [style*="color:#26c6da"]{color:#2b7c88!important;}
+        [style*="background:rgba(0,212,170,0.07)"]{background:rgba(30,91,79,0.14)!important;}
+        [style*="background:rgba(0,212,170,0.09)"]{background:rgba(30,91,79,0.16)!important;}
+        [style*="background:rgba(0,212,170,0.1)"]{background:rgba(30,91,79,0.18)!important;}
+        [style*="background:rgba(0,212,170,0.12)"]{background:rgba(30,91,79,0.20)!important;}
+        [style*="background:rgba(0,212,170,0.18)"]{background:rgba(30,91,79,0.22)!important;}
+        [style*="background:rgba(79,195,247,0.07)"]{background:rgba(26,90,138,0.14)!important;}
+        [style*="background:rgba(79,195,247,0.09)"]{background:rgba(26,90,138,0.16)!important;}
+        [style*="background:rgba(79,195,247,0.1)"]{background:rgba(26,90,138,0.18)!important;}
+        [style*="background:rgba(79,195,247,0.12)"]{background:rgba(26,90,138,0.20)!important;}
+        [style*="background:rgba(79,195,247,0.18)"]{background:rgba(26,90,138,0.22)!important;}
+        [style*="background:rgba(255,213,79,0.07)"]{background:rgba(165,127,44,0.16)!important;}
+        [style*="background:rgba(255,213,79,0.09)"]{background:rgba(165,127,44,0.18)!important;}
+        [style*="background:rgba(255,213,79,0.12)"]{background:rgba(165,127,44,0.20)!important;}
+        [style*="background:rgba(255,213,79,0.18)"]{background:rgba(165,127,44,0.24)!important;}
+        [style*="background:rgba(255,152,0,0.07)"]{background:rgba(165,127,44,0.16)!important;}
+        [style*="background:rgba(255,152,0,0.1)"]{background:rgba(165,127,44,0.18)!important;}
+        [style*="background:rgba(206,147,216,0.07)"]{background:rgba(139,79,159,0.14)!important;}
+        [style*="background:rgba(206,147,216,0.09)"]{background:rgba(139,79,159,0.16)!important;}
+        [style*="background:rgba(206,147,216,0.1)"]{background:rgba(139,79,159,0.18)!important;}
+        [style*="background:rgba(206,147,216,0.12)"]{background:rgba(139,79,159,0.20)!important;}
+        [style*="background:rgba(206,147,216,0.18)"]{background:rgba(139,79,159,0.22)!important;}
+        [style*="border:1px solid rgba(0,212,170,0.2)"]{border-color:rgba(30,91,79,0.34)!important;}
+        [style*="border:1px solid rgba(0,212,170,0.22)"]{border-color:rgba(30,91,79,0.36)!important;}
+        [style*="border:1px solid rgba(0,212,170,0.25)"]{border-color:rgba(30,91,79,0.38)!important;}
+        [style*="border:1px solid rgba(0,212,170,0.3)"]{border-color:rgba(30,91,79,0.42)!important;}
+        [style*="border:1px solid rgba(79,195,247,0.2)"]{border-color:rgba(26,90,138,0.34)!important;}
+        [style*="border:1px solid rgba(79,195,247,0.22)"]{border-color:rgba(26,90,138,0.36)!important;}
+        [style*="border:1px solid rgba(79,195,247,0.25)"]{border-color:rgba(26,90,138,0.38)!important;}
+        [style*="border:1px solid rgba(79,195,247,0.3)"]{border-color:rgba(26,90,138,0.42)!important;}
+        [style*="border:1px solid rgba(255,213,79,0.2)"]{border-color:rgba(165,127,44,0.34)!important;}
+        [style*="border:1px solid rgba(255,213,79,0.22)"]{border-color:rgba(165,127,44,0.36)!important;}
+        [style*="border:1px solid rgba(255,213,79,0.25)"]{border-color:rgba(165,127,44,0.38)!important;}
+        [style*="border:1px solid rgba(255,213,79,0.3)"]{border-color:rgba(165,127,44,0.42)!important;}
+        [style*="border:1px solid rgba(255,152,0,0.25)"]{border-color:rgba(165,127,44,0.38)!important;}
+        [style*="border:1px solid rgba(206,147,216,0.2)"]{border-color:rgba(139,79,159,0.34)!important;}
+        [style*="border:1px solid rgba(206,147,216,0.22)"]{border-color:rgba(139,79,159,0.36)!important;}
+        [style*="border:1px solid rgba(206,147,216,0.25)"]{border-color:rgba(139,79,159,0.38)!important;}
+        [style*="border:1px solid rgba(206,147,216,0.3)"]{border-color:rgba(139,79,159,0.42)!important;}
+        [style*="border-left:3px solid #00d4aa"]{border-left-color:#1E5B4F!important;}
+        [style*="border-left:3px solid #4fc3f7"]{border-left-color:#1a5a8a!important;}
+        [style*="border-left:3px solid #ffd54f"]{border-left-color:#7a5608!important;}
+        [style*="border-left:3px solid #ff9800"]{border-left-color:#7a5608!important;}
+        [style*="border-left:3px solid #ce93d8"]{border-left-color:#8b4f9f!important;}
+        [style*="color:#e2eaf5"]{color:#5b4646!important;}
+        [style*="color:#a8c0d6"]{color:#433737!important;}
+        [style*="color:#5c7a96"]{color:#4a3b3b!important;}
         @media (max-width: 900px){.deck-brand{left:18px;right:18px;justify-content:center}.nav-controls{bottom:16px;max-width:calc(100vw - 36px)}}
     </style>
 </head>
@@ -91,20 +147,20 @@
 <!-- ===== SLIDE 1: TÍTULO ===== -->
 <div class="slide active" data-slide="1">
     <div class="gradient-mesh">
-        <div class="blob" style="width:520px;height:520px;top:-120px;right:-120px;background:#00d4aa;opacity:0.12;"></div>
-        <div class="blob" style="width:350px;height:350px;bottom:-100px;left:-80px;background:#4fc3f7;opacity:0.1;"></div>
-        <div class="blob" style="width:250px;height:250px;top:40%;left:10%;background:#ffd54f;opacity:0.07;"></div>
+        <div class="blob" style="width:520px;height:520px;top:-120px;right:-120px;background:#9B2247;opacity:0.06;"></div>
+        <div class="blob" style="width:350px;height:350px;bottom:-100px;left:-80px;background:#1E5B4F;opacity:0.05;"></div>
+        <div class="blob" style="width:250px;height:250px;top:40%;left:10%;background:#A57F2C;opacity:0.04;"></div>
     </div>
     <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;"></canvas>
     <div class="content text-center">
         <div style="font-size:85px;margin-bottom:0.9rem;animation:float 3.5s ease-in-out infinite;" class="reveal">⚡</div>
-        <div class="reveal" style="display:inline-block;padding:0.3rem 1rem;border-radius:20px;border:1px solid rgba(30,91,79,0.35);background:rgba(30,91,79,0.14);font-size:0.76rem;letter-spacing:0.14em;text-transform:uppercase;color:#8fd0c1;margin-bottom:1.1rem;">Dirección General de Transición Energética</div>
-        <h1 class="font-display reveal" style="font-size:clamp(2rem,5.5vw,4.2rem);font-weight:900;background:linear-gradient(135deg,#00d4aa,#4fc3f7,#ffd54f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.12;margin-bottom:1rem;">Tecnologías Emergentes<br>de Energía Renovable</h1>
-        <p class="reveal" style="font-size:clamp(0.8rem,1.4vw,1.1rem);color:#5c7a96;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.8rem;">Hidrógeno · Eólica Marina · Solar Concentrada · Almacenamiento · Maremotriz</p>
+        <div class="reveal" style="display:inline-block;padding:0.3rem 1rem;border-radius:20px;border:1px solid rgba(107,15,26,0.14);background:rgba(255,255,255,0.7);font-size:0.76rem;letter-spacing:0.14em;text-transform:uppercase;color:#6b0f1a;margin-bottom:1.1rem;box-shadow:0 16px 24px -20px rgba(67,12,31,0.22);">Dirección General de Transición Energética</div>
+        <h1 class="font-display reveal" style="font-size:clamp(2rem,5.5vw,4.2rem);font-weight:900;color:#9B2247;line-height:1.12;margin-bottom:1rem;text-shadow:0 10px 24px rgba(255,255,255,0.35);">Tecnologías Emergentes<br>de Energía Renovable</h1>
+        <p class="reveal" style="font-size:clamp(0.8rem,1.4vw,1.1rem);color:#7a4c57;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.8rem;">Hidrógeno · Eólica Marina · Solar Concentrada · Almacenamiento · Maremotriz</p>
         <div class="reveal" style="display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;">
-            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:0.78rem;color:#a8c0d6;">📅 Abril 2026</span>
-            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:0.78rem;color:#a8c0d6;">🌎 México &amp; Contexto Global</span>
-            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);font-size:0.78rem;color:#a8c0d6;">📊 Datos 2024–2026</span>
+            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(107,15,26,0.12);font-size:0.78rem;color:#6c5b5b;">📅 Abril 2026</span>
+            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(107,15,26,0.12);font-size:0.78rem;color:#6c5b5b;">🌎 México &amp; Contexto Global</span>
+            <span style="padding:0.35rem 0.9rem;border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(107,15,26,0.12);font-size:0.78rem;color:#6c5b5b;">📊 Datos 2024–2026</span>
         </div>
     </div>
 </div>
@@ -155,7 +211,7 @@
     <div class="content text-center">
         <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3s ease-in-out infinite;">🟢</div>
         <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(0,212,170,0.4);background:rgba(0,212,170,0.12);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#00d4aa;margin-bottom:0.9rem;">Tecnología 01 de 05</div>
-        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#00d4aa,#4fc3f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Hidrógeno Renovable</h2>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#e4edf6,#7fb0d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Hidrógeno Renovable</h2>
         <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:580px;margin:0 auto 1.5rem;">El vector energético del futuro — almacenamiento de largo plazo, descarbonización industrial y exportación estratégica desde México</p>
         <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
             <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(0,212,170,0.12);border:1px solid rgba(0,212,170,0.25);font-size:0.76rem;color:#00d4aa;">USD 60,000M para 2050 (H2MEX)</span>
@@ -341,7 +397,7 @@
     <div class="content text-center">
         <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;">💨</div>
         <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(79,195,247,0.4);background:rgba(79,195,247,0.1);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#4fc3f7;margin-bottom:0.9rem;">Tecnología 02 de 05</div>
-        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#4fc3f7,#ce93d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Eólica Marina (Offshore)</h2>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#e4edf6,#7fb0d8,#b7cadc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Eólica Marina (Offshore)</h2>
         <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:600px;margin:0 auto 1.5rem;">Vientos más fuertes y constantes que en tierra, turbinas de 15+ MW, y el potencial técnico de la Zona Económica Exclusiva de México</p>
         <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
             <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(79,195,247,0.12);border:1px solid rgba(79,195,247,0.25);font-size:0.76rem;color:#4fc3f7;">1,609 GW potencial ZEE México</span>
@@ -630,7 +686,7 @@
     <div class="content text-center">
         <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;">🔋</div>
         <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(206,147,216,0.4);background:rgba(206,147,216,0.1);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#ce93d8;margin-bottom:0.9rem;">Tecnología 04 de 05</div>
-        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#ce93d8,#7e57c2,#4fc3f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Almacenamiento de Energía (BESS)</h2>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#e9e2f2,#8eaed0,#d7c2b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Almacenamiento de Energía (BESS)</h2>
         <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:600px;margin:0 auto 1.5rem;">Battery Energy Storage Systems — la columna vertebral de las redes renovables: arbitraje, regulación de frecuencia y respaldo ante variabilidad solar/eólica</p>
         <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
             <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(206,147,216,0.12);border:1px solid rgba(206,147,216,0.25);font-size:0.76rem;color:#ce93d8;">297 GWh instalados en 2024 (IEA)</span>
@@ -775,7 +831,7 @@
     <div class="content text-center">
         <div class="reveal" style="font-size:75px;margin-bottom:0.8rem;animation:float 3.5s ease-in-out infinite;">🌊</div>
         <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(38,198,218,0.4);background:rgba(38,198,218,0.1);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#26c6da;margin-bottom:0.9rem;">Tecnología 05 de 05</div>
-        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#26c6da,#00bcd4,#4fc3f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Energía Maremotriz</h2>
+        <h2 class="font-display reveal" style="font-size:clamp(2.3rem,6vw,4.3rem);font-weight:900;background:linear-gradient(135deg,#e4edf6,#8ab7d6,#d6ece6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem;">Energía Maremotriz</h2>
         <p class="reveal" style="font-size:1rem;color:#a8c0d6;max-width:600px;margin:0 auto 1.5rem;">Corrientes de mareas, olas y gradiente salino — la más predecible de todas las renovables; Golfo de California con rango de mareas de 6-9 metros</p>
         <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
             <span style="padding:0.3rem 0.9rem;border-radius:20px;background:rgba(38,198,218,0.12);border:1px solid rgba(38,198,218,0.25);font-size:0.76rem;color:#26c6da;">520 MW globales instalados</span>
@@ -998,7 +1054,7 @@
     <div class="content text-center">
         <div class="reveal" style="font-size:65px;margin-bottom:0.7rem;animation:float 3.5s ease-in-out infinite;">🌎</div>
         <div class="reveal" style="display:inline-block;padding:0.28rem 0.9rem;border-radius:20px;border:1px solid rgba(30,91,79,0.35);background:rgba(30,91,79,0.14);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#8fd0c1;margin-bottom:0.9rem;">Dirección General de Transición Energética</div>
-        <h2 class="font-display reveal" style="font-size:clamp(2rem,5vw,3.6rem);font-weight:900;background:linear-gradient(135deg,#00d4aa,#4fc3f7,#ffd54f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.9rem;">México: Plataforma Global<br>de Energía Limpia</h2>
+        <h2 class="font-display reveal" style="font-size:clamp(2rem,5vw,3.6rem);font-weight:900;background:linear-gradient(135deg,#e4edf6,#7fb0d8,#ffd54f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.9rem;">México: Plataforma Global<br>de Energía Limpia</h2>
         <div class="reveal" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.7rem;margin:1.2rem auto;max-width:800px;">
             <div style="background:rgba(0,212,170,0.09);border:1px solid rgba(0,212,170,0.22);border-radius:10px;padding:0.6rem;text-align:center;"><div style="font-size:1.2rem;margin-bottom:0.25rem;">🟢</div><div style="font-size:0.67rem;color:#00d4aa;font-weight:700;">H₂ Verde</div><div style="font-size:0.63rem;color:#5c7a96;">CAGR 47%</div></div>
             <div style="background:rgba(79,195,247,0.09);border:1px solid rgba(79,195,247,0.22);border-radius:10px;padding:0.6rem;text-align:center;"><div style="font-size:1.2rem;margin-bottom:0.25rem;">💨</div><div style="font-size:0.67rem;color:#4fc3f7;font-weight:700;">Eólica Off.</div><div style="font-size:0.63rem;color:#5c7a96;">1,609 GW</div></div>
