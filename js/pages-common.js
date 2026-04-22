@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const DESKTOP_NAV_BREAKPOINT = 1200;
+    const MOBILE_NAV_BREAKPOINT = 860;
     const ANALISIS_FILES = new Set([
         'metodologia_cel.html',
         'pronostico_generacion.html',
@@ -95,7 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     const CURRENT_FILE = getCurrentFileName();
 
+    renderTopBar();
     renderSharedNavigation();
+    renderMobileDrawer();
+    renderBottomNav();
     renderSharedHeader();
     renderSharedFooter();
     bindNavigationInteractions();
@@ -115,6 +118,52 @@ document.addEventListener('DOMContentLoaded', function () {
         return condition ? ' active' : '';
     }
 
+    function currentGroup() {
+        if (ANALISIS_FILES.has(CURRENT_FILE)) {
+            return 'cel';
+        }
+
+        if (OTORGAMIENTO_FILES.has(CURRENT_FILE)) {
+            return 'mercados';
+        }
+
+        if (HIDROGENO_FILES.has(CURRENT_FILE)) {
+            return 'transicion';
+        }
+
+        if (HERRAMIENTAS_FILES.has(CURRENT_FILE)) {
+            return 'herramientas';
+        }
+
+        if (NOTAS_FILES.has(CURRENT_FILE)) {
+            return 'notas';
+        }
+
+        return 'inicio';
+    }
+
+    function renderTopBar() {
+        const nav = document.querySelector('.site-nav');
+        if (!nav || document.querySelector('.site-topbar')) {
+            return;
+        }
+
+        const topBar = document.createElement('div');
+        topBar.className = 'site-topbar';
+        topBar.innerHTML = `
+            <div class="site-topbar__inner">
+                <strong>SENER</strong>
+                <span>Secretaría de Energía</span>
+                <span>|</span>
+                <span>Subsecretaría de Planeación y Transición Energética</span>
+                <span>|</span>
+                <span>Actualización 2026</span>
+            </div>
+        `;
+
+        nav.parentNode.insertBefore(topBar, nav);
+    }
+
     function buildDropdown(title, items, activeGroup) {
         const links = items.map((item) => {
             const href = Array.isArray(item) ? item[0] : item.href;
@@ -127,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }).join('');
 
         return `
-            <li class="nav-item">
+            <li class="nav-item nav-dropdown">
                 <a href="#" class="nav-link nav-dropdown-toggle${activeClass(activeGroup)}">${title} <span class="dropdown-icon">&#9662;</span></a>
                 <ul class="nav-dropdown-menu">
                     ${links}
@@ -143,30 +192,115 @@ document.addEventListener('DOMContentLoaded', function () {
         const herramientasActive = HERRAMIENTAS_FILES.has(CURRENT_FILE);
 
         return `
-            <div class="nav-brand">
-                <a href="index.html" class="nav-brand__link">
-                    <span class="nav-brand__mark" aria-hidden="true">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                    </span>
-                    <span class="nav-brand__copy">
-                        <span class="nav-brand__eyebrow">Plataforma de análisis</span>
-                        <span class="nav-brand__label">DGTE · SENER</span>
-                    </span>
-                </a>
+            <div class="nav-inner">
+                <div class="nav-brand">
+                    <a href="index.html" class="nav-brand__link">
+                        <span class="nav-brand__mark" aria-hidden="true">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                        </span>
+                        <span class="nav-brand__copy">
+                            <span class="nav-brand__label">DGTE · SENER</span>
+                            <span class="nav-brand__eyebrow">Plataforma de análisis</span>
+                        </span>
+                    </a>
+                </div>
+                <ul class="nav-links nav-menu">
+                    <li class="nav-item"><a href="index.html" class="nav-link${activeClass(isActive('index.html'))}"${isActive('index.html') ? ' aria-current="page"' : ''}>Inicio</a></li>
+                    ${buildDropdown('CEL', ANALISIS_ITEMS, ANALISIS_FILES.has(CURRENT_FILE))}
+                    ${buildDropdown('Mercados', OTORGAMIENTO_ITEMS, OTORGAMIENTO_FILES.has(CURRENT_FILE))}
+                    ${buildDropdown('Transición', TRANSICION_ITEMS, transicionActive)}
+                    ${buildDropdown('Notas', NOTAS_ITEMS, notasActive)}
+                    ${buildDropdown('Presentaciones', PRESENTACIONES_ITEMS, presentacionesActive)}
+                    ${buildDropdown('Herramientas', HERRAMIENTAS_ITEMS, herramientasActive)}
+                </ul>
+                <div class="nav-end">
+                    <span class="nav-pill">2026</span>
+                    <button class="nav-toggle nav-hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-nav-drawer">
+                        <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                    </button>
+                </div>
             </div>
-            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link${activeClass(isActive('index.html'))}"${isActive('index.html') ? ' aria-current="page"' : ''}>Inicio</a></li>
-                ${buildDropdown('CEL', ANALISIS_ITEMS, ANALISIS_FILES.has(CURRENT_FILE))}
-                ${buildDropdown('Mercados', OTORGAMIENTO_ITEMS, OTORGAMIENTO_FILES.has(CURRENT_FILE))}
-                ${buildDropdown('Transición', TRANSICION_ITEMS, transicionActive)}
-                ${buildDropdown('Notas', NOTAS_ITEMS, notasActive)}
-                ${buildDropdown('Presentaciones', PRESENTACIONES_ITEMS, presentacionesActive)}
-                ${buildDropdown('Herramientas', HERRAMIENTAS_ITEMS, herramientasActive)}
-            </ul>
         `;
+    }
+
+    function buildDrawerSection(title, items, icon) {
+        const links = items.map((item) => {
+            const href = Array.isArray(item) ? item[0] : item.href;
+            const label = Array.isArray(item) ? item[1] : item.label;
+            const target = !Array.isArray(item) && item.target ? ` target="${item.target}"` : '';
+            const rel = !Array.isArray(item) && item.rel ? ` rel="${item.rel}"` : '';
+            const externalMark = target ? ' ↗' : '';
+            const active = href === CURRENT_FILE;
+
+            return `<a href="${href}" class="nav-drawer-link${activeClass(active)}"${active ? ' aria-current="page"' : ''}${target}${rel}><i class="bi ${icon}"></i>${label}${externalMark}</a>`;
+        }).join('');
+
+        return `
+            <div class="nav-drawer-section">${title}</div>
+            ${links}
+        `;
+    }
+
+    function renderMobileDrawer() {
+        if (document.getElementById('site-nav-overlay') || document.getElementById('site-nav-drawer')) {
+            return;
+        }
+
+        const overlay = document.createElement('div');
+        overlay.id = 'site-nav-overlay';
+        overlay.className = 'nav-overlay';
+
+        const drawer = document.createElement('nav');
+        drawer.id = 'site-nav-drawer';
+        drawer.className = 'nav-drawer';
+        drawer.setAttribute('aria-label', 'Menú principal');
+        drawer.innerHTML = `
+            <div class="nav-drawer-head">
+                <div class="nav-drawer-brand">
+                    <span class="nav-brand__mark" aria-hidden="true"><i class="bi bi-grid-1x2-fill"></i></span>
+                    <span class="nav-brand__copy">
+                        <span class="nav-brand__label">DGTE · SENER</span>
+                        <span class="nav-brand__eyebrow">Plataforma de análisis</span>
+                    </span>
+                </div>
+                <button class="nav-drawer-close" type="button" aria-label="Cerrar menú"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="nav-drawer-body">
+                <div class="nav-drawer-section">General</div>
+                <a href="index.html" class="nav-drawer-link${activeClass(isActive('index.html'))}"${isActive('index.html') ? ' aria-current="page"' : ''}><i class="bi bi-house"></i>Inicio</a>
+                ${buildDrawerSection('CEL — Análisis de Requisito', ANALISIS_ITEMS, 'bi-bar-chart-line')}
+                ${buildDrawerSection('Mercados', OTORGAMIENTO_ITEMS, 'bi-diagram-3')}
+                ${buildDrawerSection('Transición energética', TRANSICION_ITEMS, 'bi-lightning-charge')}
+                ${buildDrawerSection('Notas', NOTAS_ITEMS, 'bi-map')}
+                ${buildDrawerSection('Presentaciones', PRESENTACIONES_ITEMS, 'bi-file-earmark-slides')}
+                ${buildDrawerSection('Herramientas', HERRAMIENTAS_ITEMS, 'bi-grid')}
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(drawer);
+    }
+
+    function renderBottomNav() {
+        if (document.querySelector('.bottom-nav')) {
+            return;
+        }
+
+        const section = currentGroup();
+        const bottomNav = document.createElement('nav');
+        bottomNav.className = 'bottom-nav';
+        bottomNav.setAttribute('aria-label', 'Navegación principal');
+        bottomNav.innerHTML = `
+            <div class="bottom-nav-inner">
+                <a href="index.html" class="bottom-nav-item${activeClass(section === 'inicio')}"${section === 'inicio' ? ' aria-current="page"' : ''}><i class="bi bi-house-fill"></i>Inicio</a>
+                <a href="metodologia_cel.html" class="bottom-nav-item${activeClass(section === 'cel')}"${section === 'cel' ? ' aria-current="page"' : ''}><i class="bi bi-bar-chart-line-fill"></i>CEL</a>
+                <a href="presentacion_otorgamiento_cel.html" class="bottom-nav-item${activeClass(section === 'mercados')}"${section === 'mercados' ? ' aria-current="page"' : ''}><i class="bi bi-lightning-charge-fill"></i>Mercados</a>
+                <a href="calculadora_conversiones_energeticas.html" class="bottom-nav-item${activeClass(section === 'herramientas')}"${section === 'herramientas' ? ' aria-current="page"' : ''}><i class="bi bi-calculator-fill"></i>Calc</a>
+                <button class="bottom-nav-item" type="button" data-bottom-nav-menu><i class="bi bi-grid-fill"></i>Más</button>
+            </div>
+        `;
+
+        document.body.appendChild(bottomNav);
     }
 
     function renderSharedNavigation() {
@@ -189,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="site-header__text">
                             <span class="site-header__eyebrow">Subsecretaría de Planeación y Transición Energética</span>
                             <h1>Dirección General de Transición Energética</h1>
-                            <p>Instrumentos editoriales, visualizaciones y herramientas de consulta para política energética.</p>
+                            <p>Instrumentos de análisis, visualizaciones y herramientas de consulta para política energética.</p>
                         </div>
                     </div>
                     <div class="site-header__meta">
@@ -215,59 +349,65 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function bindNavigationInteractions() {
         const navToggle = document.querySelector('.nav-toggle');
-        const navMenu = document.querySelector('.nav-menu');
+        const navDrawer = document.getElementById('site-nav-drawer');
+        const navOverlay = document.getElementById('site-nav-overlay');
+        const navClose = document.querySelector('.nav-drawer-close');
+        const bottomNavMenu = document.querySelector('[data-bottom-nav-menu]');
 
-        if (navToggle && navMenu) {
+        function setDrawerState(isOpen) {
+            if (!navDrawer || !navOverlay || !navToggle) {
+                return;
+            }
+
+            navDrawer.classList.toggle('open', isOpen);
+            navOverlay.classList.toggle('open', isOpen);
+            navToggle.classList.toggle('active', isOpen);
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+            document.body.classList.toggle('nav-drawer-open', isOpen);
+        }
+
+        if (navToggle && navDrawer && navOverlay) {
             navToggle.addEventListener('click', function (event) {
                 event.stopPropagation();
-                const isOpen = navMenu.classList.toggle('active');
-                navToggle.classList.toggle('active', isOpen);
-                navToggle.setAttribute('aria-expanded', String(isOpen));
+                const isOpen = !navDrawer.classList.contains('open');
+                setDrawerState(isOpen);
             });
 
-            document.addEventListener('click', function (event) {
-                if (!navMenu.contains(event.target) && !navToggle.contains(event.target)) {
-                    navMenu.classList.remove('active');
-                    navToggle.classList.remove('active');
-                    navToggle.setAttribute('aria-expanded', 'false');
-                }
+            navOverlay.addEventListener('click', function () {
+                setDrawerState(false);
+            });
+
+            navClose?.addEventListener('click', function () {
+                setDrawerState(false);
+            });
+
+            bottomNavMenu?.addEventListener('click', function () {
+                setDrawerState(true);
             });
 
             document.addEventListener('keydown', function (event) {
                 if (event.key === 'Escape') {
-                    navMenu.classList.remove('active');
-                    navToggle.classList.remove('active');
-                    navToggle.setAttribute('aria-expanded', 'false');
+                    setDrawerState(false);
                 }
             });
         }
 
         document.querySelectorAll('.nav-dropdown-toggle').forEach((toggle) => {
             toggle.addEventListener('click', function (event) {
-                if (window.innerWidth < DESKTOP_NAV_BREAKPOINT) {
+                if (window.innerWidth < MOBILE_NAV_BREAKPOINT) {
                     event.preventDefault();
-                    const parent = this.parentElement;
-                    parent.classList.toggle('open');
-                    const dropdownMenu = parent.querySelector('.nav-dropdown-menu');
-
-                    if (dropdownMenu) {
-                        dropdownMenu.classList.toggle('active');
-                    }
+                    setDrawerState(true);
                 }
             });
         });
 
         window.addEventListener('resize', function () {
-            if (!navMenu || !navToggle) {
+            if (!navToggle || !navDrawer) {
                 return;
             }
 
-            if (window.innerWidth >= DESKTOP_NAV_BREAKPOINT) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-                navToggle.setAttribute('aria-expanded', 'false');
-                document.querySelectorAll('.nav-item.open').forEach((item) => item.classList.remove('open'));
-                document.querySelectorAll('.nav-dropdown-menu.active').forEach((menu) => menu.classList.remove('active'));
+            if (window.innerWidth >= MOBILE_NAV_BREAKPOINT) {
+                setDrawerState(false);
             }
         });
     }
